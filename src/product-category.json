@@ -1,0 +1,2245 @@
+{
+  "items": [
+    {
+      "id": "de624b6f-7fe2-491c-84ea-fdf2ccf74562",
+      "dataCollectionId": "Import1",
+      "data": {
+        "image": "wix:image://v1/nsplsh_ec99d493c1be45a5a5b244c890788b24~mv2.jpg/Image%20by%20Jacqueline%20O'Gara.jpg#originWidth=4192&originHeight=2789",
+        "_id": "de624b6f-7fe2-491c-84ea-fdf2ccf74562",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Nuts & Seeds",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.027Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T15:33:25.549Z"
+        },
+        "slug": "nuts-and-seeds",
+        "categoryDescription": "Natural, high-quality nuts and seeds known for their nutritional benefits and wide culinary applications.",
+        "title": "Nuts & Seeds",
+        "allProducts": [
+          {
+            "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+            "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+            "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.755Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Dried Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+            "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+            "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.754Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Fresh Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+            "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+            "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.753Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Dried Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+            "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+            "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.752Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Fresh Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+            "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+            "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.751Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Hibiscus Flowers"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+            "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+            "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.750Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Cocoa Pods"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+            "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+            "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.749Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Locust Beans"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+            "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+            "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.748Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Charcoal"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+            "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+            "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.747Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Cashew Nuts"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+            "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+            "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.746Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Sesame Seeds"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+            "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+            "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.745Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Oils & Butters",
+            "title": "Shea Butter"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+            "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+            "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.744Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Turmeric"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+            "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+            "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.743Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Cloves"
+          }
+        ]
+      }
+    },
+    {
+      "id": "644dc6d4-48b8-41f9-918e-0d6889bab630",
+      "dataCollectionId": "Import1",
+      "data": {
+        "image": "wix:image://v1/nsplsh_e7f00a09d37b42af88b1e0856e1288ce~mv2.jpg/Image%20by%20Golam%20Kibria.jpg#originWidth=4032&originHeight=3024",
+        "_id": "644dc6d4-48b8-41f9-918e-0d6889bab630",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Roots & Spices",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.026Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T16:18:30.278Z"
+        },
+        "slug": "roots-and-spices",
+        "categoryDescription": "Fresh and dried roots and spices with rich flavor and medicinal properties.",
+        "title": "Roots & Spices",
+        "allProducts": [
+          {
+            "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+            "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+            "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.755Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Dried Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+            "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+            "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.754Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Fresh Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+            "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+            "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.753Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Dried Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+            "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+            "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.752Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Fresh Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+            "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+            "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.751Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Hibiscus Flowers"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+            "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+            "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.750Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Cocoa Pods"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+            "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+            "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.749Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Locust Beans"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+            "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+            "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.748Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Charcoal"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+            "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+            "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.747Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Cashew Nuts"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+            "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+            "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.746Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Sesame Seeds"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+            "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+            "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.745Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Oils & Butters",
+            "title": "Shea Butter"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+            "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+            "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.744Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Turmeric"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+            "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+            "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.743Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Cloves"
+          }
+        ]
+      }
+    },
+    {
+      "id": "61e50bbc-ee29-4be7-af15-302fd94217f8",
+      "dataCollectionId": "Import1",
+      "data": {
+        "image": "wix:image://v1/nsplsh_38ebbddea79b469eb895ba57f1c9224c~mv2.jpg/Image%20by%20novila%20misastra.jpg#originWidth=6016&originHeight=4016",
+        "_id": "61e50bbc-ee29-4be7-af15-302fd94217f8",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Agricultural Beverages & Extracts",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.025Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T16:19:00.934Z"
+        },
+        "slug": "beverages-and-extracts",
+        "categoryDescription": "Natural plants and flowers ideal for teas, cultural beverages, and natural extracts.",
+        "title": "Agricultural Beverages & Extracts",
+        "allProducts": [
+          {
+            "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+            "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+            "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.755Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Dried Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+            "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+            "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.754Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Fresh Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+            "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+            "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.753Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Dried Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+            "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+            "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.752Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Fresh Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+            "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+            "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.751Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Hibiscus Flowers"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+            "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+            "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.750Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Cocoa Pods"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+            "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+            "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.749Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Locust Beans"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+            "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+            "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.748Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Charcoal"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+            "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+            "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.747Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Cashew Nuts"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+            "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+            "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.746Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Sesame Seeds"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+            "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+            "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.745Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Oils & Butters",
+            "title": "Shea Butter"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+            "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+            "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.744Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Turmeric"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+            "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+            "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.743Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Cloves"
+          }
+        ]
+      }
+    },
+    {
+      "id": "86508c5f-8ff6-4c4b-ba20-1526e69009c3",
+      "dataCollectionId": "Import1",
+      "data": {
+        "image": "wix:image://v1/nsplsh_603c7cfc70b0473dbefb368e2a8ab06f~mv2.jpg/Image%20by%20Quin%20Engle.jpg#originWidth=3702&originHeight=2626",
+        "_id": "86508c5f-8ff6-4c4b-ba20-1526e69009c3",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Oils & Butters",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.024Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T16:19:31.558Z"
+        },
+        "slug": "oils-and-butters",
+        "categoryDescription": "100% natural oils and butters used in skincare, cosmetics, and culinary applications.",
+        "title": "Oils & Butters",
+        "allProducts": [
+          {
+            "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+            "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+            "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.755Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Dried Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+            "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+            "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.754Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Fresh Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+            "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+            "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.753Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Dried Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+            "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+            "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.752Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Fresh Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+            "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+            "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.751Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Hibiscus Flowers"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+            "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+            "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.750Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Cocoa Pods"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+            "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+            "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.749Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Locust Beans"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+            "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+            "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.748Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Charcoal"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+            "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+            "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.747Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Cashew Nuts"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+            "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+            "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.746Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Sesame Seeds"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+            "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+            "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.745Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Oils & Butters",
+            "title": "Shea Butter"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+            "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+            "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.744Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Turmeric"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+            "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+            "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.743Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Cloves"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e472d9cb-006c-4ebb-a8f0-87659244054b",
+      "dataCollectionId": "Import1",
+      "data": {
+        "image": "wix:image://v1/nsplsh_59704be56d44474ab7221825d6cb1be2~mv2.jpg/Image%20by%20Geio%20Tischler.jpg#originWidth=3394&originHeight=2149",
+        "_id": "e472d9cb-006c-4ebb-a8f0-87659244054b",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Agricultural & Industrial Products",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.023Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T16:20:04.992Z"
+        },
+        "slug": "agricultural-and-industrial-products",
+        "categoryDescription": "Sustainably sourced raw materials for culinary, industrial, and artisanal uses.",
+        "title": "Agricultural & Industrial Products",
+        "allProducts": [
+          {
+            "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+            "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+            "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.755Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Dried Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+            "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+            "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.754Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Fresh Kolanut"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+            "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+            "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.753Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Dried Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+            "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+            "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.752Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Fresh Ginger"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+            "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+            "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.751Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural Beverages & Extracts",
+            "title": "Hibiscus Flowers"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+            "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+            "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.750Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Cocoa Pods"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+            "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+            "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.749Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Locust Beans"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+            "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+            "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.748Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Agricultural & Industrial Products",
+            "title": "Charcoal"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+            "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+            "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.747Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Cashew Nuts"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+            "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+            "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.746Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Nuts & Seeds",
+            "title": "Sesame Seeds"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+            "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+            "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.745Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Oils & Butters",
+            "title": "Shea Butter"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+            "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+            "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.744Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Turmeric"
+          },
+          {
+            "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+            "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+            "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-22T15:44:46.743Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T22:04:22.326Z"
+            },
+            "category": "Roots & Spices",
+            "title": "Cloves"
+          }
+        ]
+      }
+    }
+  ],
+  "totalCount": 5,
+  "count": 5,
+  "hasNext": false,
+  "pagingMetadata": {
+    "count": 5,
+    "total": 5,
+    "tooManyToCount": false,
+    "cursors": {},
+    "hasNext": false
+  },
+  "_rawWixData": {
+    "dataItems": [
+      {
+        "id": "de624b6f-7fe2-491c-84ea-fdf2ccf74562",
+        "dataCollectionId": "Import1",
+        "data": {
+          "image": "wix:image://v1/nsplsh_ec99d493c1be45a5a5b244c890788b24~mv2.jpg/Image%20by%20Jacqueline%20O'Gara.jpg#originWidth=4192&originHeight=2789",
+          "_id": "de624b6f-7fe2-491c-84ea-fdf2ccf74562",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "categoryName": "Nuts & Seeds",
+          "_createdDate": {
+            "$date": "2025-08-22T14:15:43.027Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T15:33:25.549Z"
+          },
+          "slug": "nuts-and-seeds",
+          "categoryDescription": "Natural, high-quality nuts and seeds known for their nutritional benefits and wide culinary applications.",
+          "title": "Nuts & Seeds",
+          "allProducts": [
+            {
+              "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+              "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+              "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.755Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Dried Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+              "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+              "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.754Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Fresh Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+              "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+              "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.753Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Dried Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+              "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+              "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.752Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Fresh Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+              "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+              "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.751Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Hibiscus Flowers"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+              "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+              "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.750Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Cocoa Pods"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+              "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+              "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.749Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Locust Beans"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+              "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+              "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.748Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Charcoal"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+              "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+              "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.747Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Cashew Nuts"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+              "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+              "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.746Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Sesame Seeds"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+              "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+              "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.745Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Oils & Butters",
+              "title": "Shea Butter"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+              "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+              "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.744Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Turmeric"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+              "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+              "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.743Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Cloves"
+            }
+          ]
+        }
+      },
+      {
+        "id": "644dc6d4-48b8-41f9-918e-0d6889bab630",
+        "dataCollectionId": "Import1",
+        "data": {
+          "image": "wix:image://v1/nsplsh_e7f00a09d37b42af88b1e0856e1288ce~mv2.jpg/Image%20by%20Golam%20Kibria.jpg#originWidth=4032&originHeight=3024",
+          "_id": "644dc6d4-48b8-41f9-918e-0d6889bab630",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "categoryName": "Roots & Spices",
+          "_createdDate": {
+            "$date": "2025-08-22T14:15:43.026Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T16:18:30.278Z"
+          },
+          "slug": "roots-and-spices",
+          "categoryDescription": "Fresh and dried roots and spices with rich flavor and medicinal properties.",
+          "title": "Roots & Spices",
+          "allProducts": [
+            {
+              "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+              "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+              "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.755Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Dried Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+              "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+              "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.754Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Fresh Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+              "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+              "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.753Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Dried Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+              "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+              "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.752Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Fresh Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+              "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+              "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.751Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Hibiscus Flowers"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+              "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+              "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.750Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Cocoa Pods"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+              "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+              "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.749Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Locust Beans"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+              "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+              "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.748Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Charcoal"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+              "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+              "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.747Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Cashew Nuts"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+              "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+              "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.746Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Sesame Seeds"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+              "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+              "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.745Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Oils & Butters",
+              "title": "Shea Butter"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+              "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+              "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.744Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Turmeric"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+              "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+              "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.743Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Cloves"
+            }
+          ]
+        }
+      },
+      {
+        "id": "61e50bbc-ee29-4be7-af15-302fd94217f8",
+        "dataCollectionId": "Import1",
+        "data": {
+          "image": "wix:image://v1/nsplsh_38ebbddea79b469eb895ba57f1c9224c~mv2.jpg/Image%20by%20novila%20misastra.jpg#originWidth=6016&originHeight=4016",
+          "_id": "61e50bbc-ee29-4be7-af15-302fd94217f8",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "categoryName": "Agricultural Beverages & Extracts",
+          "_createdDate": {
+            "$date": "2025-08-22T14:15:43.025Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T16:19:00.934Z"
+          },
+          "slug": "beverages-and-extracts",
+          "categoryDescription": "Natural plants and flowers ideal for teas, cultural beverages, and natural extracts.",
+          "title": "Agricultural Beverages & Extracts",
+          "allProducts": [
+            {
+              "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+              "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+              "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.755Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Dried Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+              "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+              "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.754Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Fresh Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+              "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+              "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.753Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Dried Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+              "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+              "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.752Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Fresh Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+              "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+              "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.751Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Hibiscus Flowers"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+              "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+              "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.750Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Cocoa Pods"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+              "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+              "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.749Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Locust Beans"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+              "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+              "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.748Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Charcoal"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+              "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+              "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.747Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Cashew Nuts"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+              "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+              "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.746Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Sesame Seeds"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+              "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+              "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.745Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Oils & Butters",
+              "title": "Shea Butter"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+              "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+              "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.744Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Turmeric"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+              "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+              "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.743Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Cloves"
+            }
+          ]
+        }
+      },
+      {
+        "id": "86508c5f-8ff6-4c4b-ba20-1526e69009c3",
+        "dataCollectionId": "Import1",
+        "data": {
+          "image": "wix:image://v1/nsplsh_603c7cfc70b0473dbefb368e2a8ab06f~mv2.jpg/Image%20by%20Quin%20Engle.jpg#originWidth=3702&originHeight=2626",
+          "_id": "86508c5f-8ff6-4c4b-ba20-1526e69009c3",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "categoryName": "Oils & Butters",
+          "_createdDate": {
+            "$date": "2025-08-22T14:15:43.024Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T16:19:31.558Z"
+          },
+          "slug": "oils-and-butters",
+          "categoryDescription": "100% natural oils and butters used in skincare, cosmetics, and culinary applications.",
+          "title": "Oils & Butters",
+          "allProducts": [
+            {
+              "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+              "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+              "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.755Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Dried Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+              "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+              "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.754Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Fresh Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+              "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+              "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.753Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Dried Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+              "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+              "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.752Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Fresh Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+              "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+              "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.751Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Hibiscus Flowers"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+              "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+              "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.750Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Cocoa Pods"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+              "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+              "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.749Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Locust Beans"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+              "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+              "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.748Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Charcoal"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+              "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+              "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.747Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Cashew Nuts"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+              "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+              "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.746Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Sesame Seeds"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+              "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+              "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.745Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Oils & Butters",
+              "title": "Shea Butter"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+              "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+              "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.744Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Turmeric"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+              "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+              "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.743Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Cloves"
+            }
+          ]
+        }
+      },
+      {
+        "id": "e472d9cb-006c-4ebb-a8f0-87659244054b",
+        "dataCollectionId": "Import1",
+        "data": {
+          "image": "wix:image://v1/nsplsh_59704be56d44474ab7221825d6cb1be2~mv2.jpg/Image%20by%20Geio%20Tischler.jpg#originWidth=3394&originHeight=2149",
+          "_id": "e472d9cb-006c-4ebb-a8f0-87659244054b",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "categoryName": "Agricultural & Industrial Products",
+          "_createdDate": {
+            "$date": "2025-08-22T14:15:43.023Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T16:20:04.992Z"
+          },
+          "slug": "agricultural-and-industrial-products",
+          "categoryDescription": "Sustainably sourced raw materials for culinary, industrial, and artisanal uses.",
+          "title": "Agricultural & Industrial Products",
+          "allProducts": [
+            {
+              "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+              "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+              "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.755Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Dried Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+              "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+              "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.754Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Fresh Kolanut"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+              "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+              "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.753Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Dried Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+              "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+              "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.752Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Fresh Ginger"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+              "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+              "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.751Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural Beverages & Extracts",
+              "title": "Hibiscus Flowers"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+              "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+              "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.750Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Cocoa Pods"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+              "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+              "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.749Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Locust Beans"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+              "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+              "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.748Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Agricultural & Industrial Products",
+              "title": "Charcoal"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+              "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+              "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.747Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Cashew Nuts"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+              "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+              "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.746Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Nuts & Seeds",
+              "title": "Sesame Seeds"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+              "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+              "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.745Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Oils & Butters",
+              "title": "Shea Butter"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+              "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+              "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.744Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Turmeric"
+            },
+            {
+              "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+              "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+              "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-22T15:44:46.743Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T22:04:22.326Z"
+              },
+              "category": "Roots & Spices",
+              "title": "Cloves"
+            }
+          ]
+        }
+      }
+    ],
+    "pagingMetadata": {
+      "count": 5,
+      "total": 5,
+      "tooManyToCount": false,
+      "cursors": {},
+      "hasNext": false
+    }
+  },
+  "allProducts": [
+    {
+      "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+      "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+      "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.755Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Agricultural Beverages & Extracts",
+      "title": "Dried Kolanut"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+      "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+      "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.754Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Agricultural Beverages & Extracts",
+      "title": "Fresh Kolanut"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+      "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+      "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.753Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Roots & Spices",
+      "title": "Dried Ginger"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+      "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+      "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.752Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Roots & Spices",
+      "title": "Fresh Ginger"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+      "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+      "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.751Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Agricultural Beverages & Extracts",
+      "title": "Hibiscus Flowers"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+      "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+      "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.750Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Agricultural & Industrial Products",
+      "title": "Cocoa Pods"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+      "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+      "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.749Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Agricultural & Industrial Products",
+      "title": "Locust Beans"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+      "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+      "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.748Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Agricultural & Industrial Products",
+      "title": "Charcoal"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+      "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+      "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.747Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Nuts & Seeds",
+      "title": "Cashew Nuts"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+      "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+      "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.746Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Nuts & Seeds",
+      "title": "Sesame Seeds"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+      "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+      "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.745Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Oils & Butters",
+      "title": "Shea Butter"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+      "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+      "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.744Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Roots & Spices",
+      "title": "Turmeric"
+    },
+    {
+      "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+      "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+      "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+      "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+      "_createdDate": {
+        "$date": "2025-08-22T15:44:46.743Z"
+      },
+      "_updatedDate": {
+        "$date": "2025-08-25T22:04:22.326Z"
+      },
+      "category": "Roots & Spices",
+      "title": "Cloves"
+    }
+  ],
+  "productSummary": {
+    "totalProducts": 13,
+    "productsSource": "Complete Import2 collection",
+    "fetchedAt": "2025-08-30T17:17:17.969Z",
+    "note": "All products from Import2 are embedded in each catalog item and at collection level"
+  }
+}

@@ -1,0 +1,888 @@
+{
+  "HeroContent": [
+    {
+      "id": "113d7e91-1b4e-4dfd-97a7-679c42f40118",
+      "dataCollectionId": "HeroContent",
+      "data": {
+        "subtitle": "Connecting Global Markets with Quality Agricultural Products",
+        "companyLogo": "wix:image://v1/a3b8a8_425766322d194e70817446fa58efb113~mv2.jpg/agroventia-logo.jpg#originWidth=1536&originHeight=1024",
+        "backgroundImage": "wix:image://v1/nsplsh_559a94c786044333bcfc26ccb4be438b~mv2.jpg/Image%20by%20James%20Baltz.jpg#originWidth=5464&originHeight=3070",
+        "description": "AgroVentia Inc. specializes in importing high-quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources.",
+        "_id": "113d7e91-1b4e-4dfd-97a7-679c42f40118",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T13:19:21.561Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T14:18:55.254Z"
+        },
+        "isActive": true,
+        "ctaPrimary": "Explore Products",
+        "title": "Premium Agricultural Imports from West Africa",
+        "ctaSecondary": "Contact Us"
+      }
+    }
+  ],
+  "totalCount": 1,
+  "count": 1,
+  "hasNext": false,
+  "pagingMetadata": {
+    "count": 1,
+    "total": 1,
+    "tooManyToCount": false,
+    "cursors": {},
+    "hasNext": false
+  },
+  "_rawWixData": {
+    "dataItems": [
+      {
+        "id": "113d7e91-1b4e-4dfd-97a7-679c42f40118",
+        "dataCollectionId": "HeroContent",
+        "data": {
+          "subtitle": "Connecting Global Markets with Quality Agricultural Products",
+          "companyLogo": "wix:image://v1/a3b8a8_425766322d194e70817446fa58efb113~mv2.jpg/agroventia-logo.jpg#originWidth=1536&originHeight=1024",
+          "backgroundImage": "wix:image://v1/nsplsh_559a94c786044333bcfc26ccb4be438b~mv2.jpg/Image%20by%20James%20Baltz.jpg#originWidth=5464&originHeight=3070",
+          "description": "AgroVentia Inc. specializes in importing high-quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources.",
+          "_id": "113d7e91-1b4e-4dfd-97a7-679c42f40118",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-21T13:19:21.561Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T14:18:55.254Z"
+          },
+          "isActive": true,
+          "ctaPrimary": "Explore Products",
+          "title": "Premium Agricultural Imports from West Africa",
+          "ctaSecondary": "Contact Us"
+        }
+      }
+    ],
+    "pagingMetadata": {
+      "count": 1,
+      "total": 1,
+      "tooManyToCount": false,
+      "cursors": {},
+      "hasNext": false
+    }
+  },
+
+  "AboutContent": [
+    {
+      "id": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+      "dataCollectionId": "AboutContent",
+      "data": {
+        "mission": "To deliver premium, ethically sourced agricultural products worldwide, ensuring quality, reliability, and sustainability in every transaction.",
+        "_id": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T14:40:20.146Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-26T23:43:18.102Z"
+        },
+        "certifications": "ISO 14001, LEED Gold",
+        "sectionTitle": "About AgroVentia Inc.",
+        "vision": "To become the leading global gateway to Africa's finest agricultural products by removing barriers, fostering trust, and driving sustainable growth for international buyers and African producers alike. ",
+        "headquarters": "Toronto, CA",
+        "story": "AgroVentia Inc. is a Canadian company with deep African roots, established to connect global markets with high-quality agricultural products. Our leadership team combines extensive expertise in business management, consulting, and global trade, with over a decade of direct experience in the import and export of agricultural produce.  AgroVentia was created with one goal: to give international buyers a reliable, straightforward way to access Africa's finest agricultural products. Every shipment carries our commitment to quality, transparency, and on-time delivery, so you can source with confidence and focus on growing your business. At AgroVentia, we prioritize quality, ethical sourcing, customer trust, and long-term value over short-term gains. Every transaction, regardless of scale, is handled with the highest professional and ethical standards. Through strong partnerships and a sustainable supply chain across Africa, we deliver consistency and trust. Our goal is not just to be a supplier, but a long-term partner in helping you achieve your sourcing objectives and deliver excellence to your customers through seamless, dependable trade.",
+        "foundingYear": "2025",
+        "isActive": true,
+        "aboutImage": "wix:image://v1/nsplsh_727008106eb04e258eb94d797b68341b~mv2.jpg/Image%20by%20imsogabriel%20stock.jpg#originWidth=4501&originHeight=3376",
+        "coreValues": [
+          {
+            "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+            "description": "Delivering premium, consistent agricultural products every time.",
+            "_id": "85b1197b-d538-43e7-879b-21003ec8aaab",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-21T16:49:51.374Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T15:17:51.269Z"
+            },
+            "isActive": true,
+            "title": "Quality First"
+          },
+          {
+            "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+            "description": "Partnering with vetted African farmers to ensure sustainability and fairness.",
+            "_id": "4ab83339-fd43-4466-b0d4-e45a88bb49db",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-21T16:49:51.373Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-22T16:04:49.828Z"
+            },
+            "isActive": true,
+            "title": "Ethical Sourcing"
+          },
+          {
+            "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+            "description": "Clear communication and accountability in every transaction.",
+            "_id": "4da26982-fc4c-45c3-b0bb-10084b7273f0",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-21T16:49:51.372Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-22T16:04:53.161Z"
+            },
+            "isActive": true,
+            "title": "Trust & Transparency"
+          },
+          {
+            "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+            "description": "Seamless, timely, and dependable service, every scale, every shipment.",
+            "_id": "226a834a-7dc8-408d-8a48-9d32a043813e",
+            "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+            "_createdDate": {
+              "$date": "2025-08-21T16:49:51.371Z"
+            },
+            "_updatedDate": {
+              "$date": "2025-08-25T15:17:56.704Z"
+            },
+            "isActive": true,
+            "title": "Reliability"
+          }
+        ]
+      }
+    }
+  ],
+  "totalCount": 1,
+  "count": 1,
+  "hasNext": false,
+  "pagingMetadata": {
+    "count": 1,
+    "total": 1,
+    "tooManyToCount": false,
+    "cursors": {},
+    "hasNext": false
+  },
+  "_rawWixData": {
+    "dataItems": [
+      {
+        "id": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+        "dataCollectionId": "AboutContent",
+        "data": {
+          "mission": "To deliver premium, ethically sourced agricultural products worldwide, ensuring quality, reliability, and sustainability in every transaction.",
+          "_id": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-21T14:40:20.146Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-26T23:43:18.102Z"
+          },
+          "certifications": "ISO 14001, LEED Gold",
+          "sectionTitle": "About AgroVentia Inc.",
+          "vision": "To become the leading global gateway to Africa's finest agricultural products by removing barriers, fostering trust, and driving sustainable growth for international buyers and African producers alike. ",
+          "headquarters": "Toronto, CA",
+          "story": "AgroVentia Inc. is a Canadian company with deep African roots, established to connect global markets with high-quality agricultural products. Our leadership team combines extensive expertise in business management, consulting, and global trade, with over a decade of direct experience in the import and export of agricultural produce.  AgroVentia was created with one goal: to give international buyers a reliable, straightforward way to access Africa's finest agricultural products. Every shipment carries our commitment to quality, transparency, and on-time delivery, so you can source with confidence and focus on growing your business. At AgroVentia, we prioritize quality, ethical sourcing, customer trust, and long-term value over short-term gains. Every transaction, regardless of scale, is handled with the highest professional and ethical standards. Through strong partnerships and a sustainable supply chain across Africa, we deliver consistency and trust. Our goal is not just to be a supplier, but a long-term partner in helping you achieve your sourcing objectives and deliver excellence to your customers through seamless, dependable trade.",
+          "foundingYear": "2025",
+          "isActive": true,
+          "aboutImage": "wix:image://v1/nsplsh_727008106eb04e258eb94d797b68341b~mv2.jpg/Image%20by%20imsogabriel%20stock.jpg#originWidth=4501&originHeight=3376",
+          "coreValues": [
+            {
+              "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+              "description": "Delivering premium, consistent agricultural products every time.",
+              "_id": "85b1197b-d538-43e7-879b-21003ec8aaab",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-21T16:49:51.374Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T15:17:51.269Z"
+              },
+              "isActive": true,
+              "title": "Quality First"
+            },
+            {
+              "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+              "description": "Partnering with vetted African farmers to ensure sustainability and fairness.",
+              "_id": "4ab83339-fd43-4466-b0d4-e45a88bb49db",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-21T16:49:51.373Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-22T16:04:49.828Z"
+              },
+              "isActive": true,
+              "title": "Ethical Sourcing"
+            },
+            {
+              "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+              "description": "Clear communication and accountability in every transaction.",
+              "_id": "4da26982-fc4c-45c3-b0bb-10084b7273f0",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-21T16:49:51.372Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-22T16:04:53.161Z"
+              },
+              "isActive": true,
+              "title": "Trust & Transparency"
+            },
+            {
+              "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+              "description": "Seamless, timely, and dependable service, every scale, every shipment.",
+              "_id": "226a834a-7dc8-408d-8a48-9d32a043813e",
+              "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+              "_createdDate": {
+                "$date": "2025-08-21T16:49:51.371Z"
+              },
+              "_updatedDate": {
+                "$date": "2025-08-25T15:17:56.704Z"
+              },
+              "isActive": true,
+              "title": "Reliability"
+            }
+          ]
+        }
+      }
+    ],
+    "pagingMetadata": {
+      "count": 1,
+      "total": 1,
+      "tooManyToCount": false,
+      "cursors": {},
+      "hasNext": false
+    }
+  },
+
+  "ServicesContent": [
+    {
+      "id": "e9f4cafe-e0c3-4763-8de5-8c442a28f654",
+      "dataCollectionId": "ServicesContent",
+      "data": {
+        "servicesImage": "wix:image://v1/a3b8a8_425766322d194e70817446fa58efb113~mv2.jpg/agroventia-logo.jpg#originWidth=1536&originHeight=1024",
+        "_id": "e9f4cafe-e0c3-4763-8de5-8c442a28f654",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T18:38:22.040Z"
+        },
+        "documentation": "Complete compliance documentation, certificates of origin, health certificates, customs declarations",
+        "_updatedDate": {
+          "$date": "2025-08-28T11:06:25.477Z"
+        },
+        "sectionTitle": "Our Services",
+        "importServices": "Direct sourcing from verified West African suppliers, bulk and container shipping, customs clearance assistance",
+        "logistics": "Temperature-controlled shipping, flexible delivery schedules, tracking and monitoring, inventory management",
+        "sectionDescription": "Comprehensive agricultural import services connecting West African producers with global markets through reliable supply chain management.",
+        "isActive": true,
+        "customSourcing": "Specialized product sourcing, volume-based pricing, seasonal availability planning, custom packaging options",
+        "qualityAssurance": "Rigorous quality testing, organic certification verification, contamination screening, freshness guarantees"
+      }
+    }
+  ],
+  "totalCount": 1,
+  "count": 1,
+  "hasNext": false,
+  "pagingMetadata": {
+    "count": 1,
+    "total": 1,
+    "tooManyToCount": false,
+    "cursors": {},
+    "hasNext": false
+  },
+  "_rawWixData": {
+    "dataItems": [
+      {
+        "id": "e9f4cafe-e0c3-4763-8de5-8c442a28f654",
+        "dataCollectionId": "ServicesContent",
+        "data": {
+          "servicesImage": "wix:image://v1/a3b8a8_425766322d194e70817446fa58efb113~mv2.jpg/agroventia-logo.jpg#originWidth=1536&originHeight=1024",
+          "_id": "e9f4cafe-e0c3-4763-8de5-8c442a28f654",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T18:38:22.040Z"
+          },
+          "documentation": "Complete compliance documentation, certificates of origin, health certificates, customs declarations",
+          "_updatedDate": {
+            "$date": "2025-08-28T11:06:25.477Z"
+          },
+          "sectionTitle": "Our Services",
+          "importServices": "Direct sourcing from verified West African suppliers, bulk and container shipping, customs clearance assistance",
+          "logistics": "Temperature-controlled shipping, flexible delivery schedules, tracking and monitoring, inventory management",
+          "sectionDescription": "Comprehensive agricultural import services connecting West African producers with global markets through reliable supply chain management.",
+          "isActive": true,
+          "customSourcing": "Specialized product sourcing, volume-based pricing, seasonal availability planning, custom packaging options",
+          "qualityAssurance": "Rigorous quality testing, organic certification verification, contamination screening, freshness guarantees"
+        }
+      }
+    ],
+    "pagingMetadata": {
+      "count": 1,
+      "total": 1,
+      "tooManyToCount": false,
+      "cursors": {},
+      "hasNext": false
+    }
+  },
+
+  "ProductsContent": [
+    {
+      "id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+        "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+        "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.755Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Agricultural Beverages & Extracts",
+        "title": "Dried Kolanut"
+      }
+    },
+    {
+      "id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+        "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+        "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.754Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Agricultural Beverages & Extracts",
+        "title": "Fresh Kolanut"
+      }
+    },
+    {
+      "id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+        "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+        "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.753Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Roots & Spices",
+        "title": "Dried Ginger"
+      }
+    },
+    {
+      "id": "be688e3b-905f-4849-afe1-7822326cf491",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+        "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+        "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.752Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Roots & Spices",
+        "title": "Fresh Ginger"
+      }
+    },
+    {
+      "id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+        "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+        "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.751Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Agricultural Beverages & Extracts",
+        "title": "Hibiscus Flowers"
+      }
+    },
+    {
+      "id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+        "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+        "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.750Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Agricultural & Industrial Products",
+        "title": "Cocoa Pods"
+      }
+    },
+    {
+      "id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+        "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+        "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.749Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Agricultural & Industrial Products",
+        "title": "Locust Beans"
+      }
+    },
+    {
+      "id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+        "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+        "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.748Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Agricultural & Industrial Products",
+        "title": "Charcoal"
+      }
+    },
+    {
+      "id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+        "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+        "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.747Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Nuts & Seeds",
+        "title": "Cashew Nuts"
+      }
+    },
+    {
+      "id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+        "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+        "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.746Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Nuts & Seeds",
+        "title": "Sesame Seeds"
+      }
+    },
+    {
+      "id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+        "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+        "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.745Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Oils & Butters",
+        "title": "Shea Butter"
+      }
+    },
+    {
+      "id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+        "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+        "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.744Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Roots & Spices",
+        "title": "Turmeric"
+      }
+    },
+    {
+      "id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+      "dataCollectionId": "Import2",
+      "data": {
+        "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+        "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+        "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T15:44:46.743Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T22:04:22.326Z"
+        },
+        "category": "Roots & Spices",
+        "title": "Cloves"
+      }
+    }
+  ],
+  "totalCount": 13,
+  "count": 13,
+  "hasNext": false,
+  "pagingMetadata": {
+    "count": 13,
+    "total": 13,
+    "tooManyToCount": false,
+    "cursors": {},
+    "hasNext": false
+  },
+  "_rawWixData": {
+    "dataItems": [
+      {
+        "id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_378c0b5c023448ff85735ec9a661676f~mv2.jpg/Image%20by%20Haberdoedas.jpg#originWidth=10498&originHeight=7453",
+          "description": "Premium dried kolanut, carefully harvested and sun-dried to preserve its natural flavor and caffeine-rich properties. Ideal for beverages, nutraceuticals, and cultural uses.",
+          "_id": "98abb64d-29c3-48bf-8ae3-3f1b78320bec",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.755Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Agricultural Beverages & Extracts",
+          "title": "Dried Kolanut"
+        }
+      },
+      {
+        "id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_8c970a30dcf5449c88a6f2dbdff92708~mv2.jpg/Image%20by%20Katharina.jpg#originWidth=6000&originHeight=4000",
+          "description": "Fresh, handpicked kolanut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.",
+          "_id": "ead87c49-3761-4eb1-ba61-076dddcafc92",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.754Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Agricultural Beverages & Extracts",
+          "title": "Fresh Kolanut"
+        }
+      },
+      {
+        "id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_96ca78c323434a119c0f9b153fd64609~mv2.jpg/Image%20by%20Dmytro%20Glazunov.jpg#originWidth=6000&originHeight=3376",
+          "description": "Aromatic, sun-dried ginger with rich flavor and natural pungency. Perfect for culinary, medicinal, and beverage uses.",
+          "_id": "8d761993-db3f-4ea6-aedd-be09106242cb",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.753Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Roots & Spices",
+          "title": "Dried Ginger"
+        }
+      },
+      {
+        "id": "be688e3b-905f-4849-afe1-7822326cf491",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_e92fb966c34b4303b8dde48cde4a1fe8~mv2.jpg/Image%20by%20Jaz.%20Mine#originWidth=6000&originHeight=4000",
+          "description": "Fresh, high-quality ginger with vibrant aroma and natural spiciness, ideal for cooking, juicing, and herbal remedies.",
+          "_id": "be688e3b-905f-4849-afe1-7822326cf491",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.752Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Roots & Spices",
+          "title": "Fresh Ginger"
+        }
+      },
+      {
+        "id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_b8d19815f6294f27852af224cd89b0b3~mv2.jpg/Image%20by%20Kien%20Nguyen.jpg#originWidth=4928&originHeight=3264",
+          "description": "Premium dried hibiscus flowers with deep red color and tart flavor. Perfect for teas, beverages, and natural extracts.",
+          "_id": "717cbd3c-22ef-4425-830d-e3c35c5ea314",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.751Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Agricultural Beverages & Extracts",
+          "title": "Hibiscus Flowers"
+        }
+      },
+      {
+        "id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_83bebd7f8d514befa16e648eae662b36~mv2.jpg/Image%20by%20Perry%20Stevens.jpg#originWidth=2268&originHeight=4032",
+          "description": "Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.",
+          "_id": "9da1a9d7-a741-43cc-95d4-fe4ad927349d",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.750Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Agricultural & Industrial Products",
+          "title": "Cocoa Pods"
+        }
+      },
+      {
+        "id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_53cb042d487245f683f089308f02ed7e~mv2.jpg/Image%20by%20Bruce%20Warrington.jpg#originWidth=4896&originHeight=3264",
+          "description": "High-quality fermented and dried locust beans. Traditional West African seasoning with rich umami flavor for culinary and industrial use.",
+          "_id": "006cb5c1-5f3f-43a1-a432-92d042ea4245",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.749Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Agricultural & Industrial Products",
+          "title": "Locust Beans"
+        }
+      },
+      {
+        "id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_92724fb9fc9e4273be864816daa1bd02~mv2.jpg/Image%20by%20Archer%20Allstars.jpg#originWidth=4608&originHeight=3456",
+          "description": "Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.",
+          "_id": "6f67080e-da9f-40ad-aa36-c3559f4fdb2a",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.748Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Agricultural & Industrial Products",
+          "title": "Charcoal"
+        }
+      },
+      {
+        "id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_ec778846f8724f6c97b8af6a21342adc~mv2.jpg/Image%20by%20Emma%20Miller.jpg#originWidth=3888&originHeight=2592",
+          "description": "Premium raw cashew nuts, naturally crunchy and delicious. Ideal for snacking, cooking, and commercial processing.",
+          "_id": "0da923d6-89b6-414e-87ed-540f20e8526b",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.747Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Nuts & Seeds",
+          "title": "Cashew Nuts"
+        }
+      },
+      {
+        "id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_bdf2c30918024398a5bf2e6d25c51ac9~mv2.jpg/Image%20by%20engin%20akyurt.jpg#originWidth=5991&originHeight=4493",
+          "description": "Clean, high-quality sesame seeds with natural nutty flavor. Suitable for culinary, baking, and oil extraction.",
+          "_id": "e8f8322a-32e2-47a6-a5be-a18b33d07bad",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.746Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Nuts & Seeds",
+          "title": "Sesame Seeds"
+        }
+      },
+      {
+        "id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_f138969b0d334bf192ce48059d46f424~mv2.jpg/Image%20by%20Owen%20Bruce.jpg#originWidth=4356&originHeight=4888",
+          "description": "100% natural, unrefined shea butter with moisturizing properties. Perfect for cosmetic, skincare, and personal care products.",
+          "_id": "cfe4d305-a548-4d5c-a270-5f51c96be88b",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.745Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Oils & Butters",
+          "title": "Shea Butter"
+        }
+      },
+      {
+        "id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_9e39a20b0b7d4937b8aace7959dc8850~mv2.jpg/Image%20by%20Md%20Shakil%20Photography.jpg#originWidth=4624&originHeight=3468",
+          "description": "Premium turmeric roots, fresh and dried, rich in curcumin. Ideal for culinary, health, and nutraceutical uses.",
+          "_id": "6b3e851f-5b7d-4271-8c91-9b08ad36c9a4",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.744Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Roots & Spices",
+          "title": "Turmeric"
+        }
+      },
+      {
+        "id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+        "dataCollectionId": "Import2",
+        "data": {
+          "image1": "wix:image://v1/nsplsh_29aa8227d3d742ae998069cda65a70dd~mv2.jpg/Image%20by%20Kristijan%20Arsov.jpg#originWidth=6000&originHeight=4000",
+          "description": "Whole, aromatic cloves with strong flavor and fragrance. Perfect for culinary, medicinal, and essential oil production.",
+          "_id": "dff8a8b2-7cef-43c3-8298-4032a31997d5",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-22T15:44:46.743Z"
+          },
+          "_updatedDate": {
+            "$date": "2025-08-25T22:04:22.326Z"
+          },
+          "category": "Roots & Spices",
+          "title": "Cloves"
+        }
+      }
+    ],
+    "pagingMetadata": {
+      "count": 13,
+      "total": 13,
+      "tooManyToCount": false,
+      "cursors": {},
+      "hasNext": false
+    }
+  },
+  "ContactContent": [
+    {
+      "id": "8db43fe2-adac-40cd-b90e-41909fd6beb4",
+      "dataCollectionId": "ContactContent",
+      "data": {
+        "businessPhone": "+1 (403) 477-6059",
+        "socialLinks": "LinkedIn: /company/agroventia Twitter: @agroventia Facebook: /agroventiainc",
+        "businessAddress": "403 - 65 Mutual Street, Toronto, M5B 0E5",
+        "_id": "8db43fe2-adac-40cd-b90e-41909fd6beb4",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-23T07:20:09.970Z"
+        },
+        "contactImage": "wix:image://v1/nsplsh_af43421e30ce4856a7bc199e4f3cbab1~mv2.jpg/Image%20by%20Mathyas%20Kurmann.jpg#originWidth=5847&originHeight=3898",
+        "_updatedDate": {
+          "$date": "2025-08-26T23:44:10.634Z"
+        },
+        "sectionTitle": "Get In Touch",
+        "responseTime": "24 hours for all inquiries",
+        "sectionDescription": "Ready to discuss your product needs? Contact our team for personalized service and competitive pricing.",
+        "isActive": true,
+        "businessHours": "Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed",
+        "businessEmail": "info@agroventia.ca"
+      }
+    }
+  ],
+  "totalCount": 1,
+  "count": 1,
+  "hasNext": false,
+  "pagingMetadata": {
+    "count": 1,
+    "total": 1,
+    "tooManyToCount": false,
+    "cursors": {},
+    "hasNext": false
+  },
+  "_rawWixData": {
+    "dataItems": [
+      {
+        "id": "8db43fe2-adac-40cd-b90e-41909fd6beb4",
+        "dataCollectionId": "ContactContent",
+        "data": {
+          "businessPhone": "+1 (403) 477-6059",
+          "socialLinks": "LinkedIn: /company/agroventia Twitter: @agroventia Facebook: /agroventiainc",
+          "businessAddress": "403 - 65 Mutual Street, Toronto, M5B 0E5",
+          "_id": "8db43fe2-adac-40cd-b90e-41909fd6beb4",
+          "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+          "_createdDate": {
+            "$date": "2025-08-23T07:20:09.970Z"
+          },
+          "contactImage": "wix:image://v1/nsplsh_af43421e30ce4856a7bc199e4f3cbab1~mv2.jpg/Image%20by%20Mathyas%20Kurmann.jpg#originWidth=5847&originHeight=3898",
+          "_updatedDate": {
+            "$date": "2025-08-26T23:44:10.634Z"
+          },
+          "sectionTitle": "Get In Touch",
+          "responseTime": "24 hours for all inquiries",
+          "sectionDescription": "Ready to discuss your product needs? Contact our team for personalized service and competitive pricing.",
+          "isActive": true,
+          "businessHours": "Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed",
+          "businessEmail": "info@agroventia.ca"
+        }
+      }
+    ],
+    "pagingMetadata": {
+      "count": 1,
+      "total": 1,
+      "tooManyToCount": false,
+      "cursors": {},
+      "hasNext": false
+    }
+  }
+}
