@@ -444,7 +444,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               value={selectedCategory}
               onValueChange={setSelectedCategory}
             >
-              <SelectTrigger className="w-full btn-agro-outline">
+              <SelectTrigger className="w-full btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50">
                 <Filter size={14} className="mr-2" />
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
@@ -453,7 +453,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                 {categories
                   .filter(cat => cat !== 'all')
                   .map(category => (
-                    <SelectItem key={category} value={category}>
+                    <SelectItem
+                      key={category}
+                      value={category}
+                      className="text-agro-primary-900 dark:text-agro-neutral-50"
+                    >
                       {category.charAt(0).toUpperCase() + category.slice(1)}
                     </SelectItem>
                   ))}
@@ -464,13 +468,23 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
           {/* Sort Controls */}
           <div className="flex gap-2">
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-32 btn-agro-outline">
+              <SelectTrigger className="w-32 btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50">
                 <SortDesc size={14} className="mr-2" />
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="name">Name</SelectItem>
-                <SelectItem value="category">Category</SelectItem>
+                <SelectItem
+                  value="name"
+                  className="text-agro-primary-900 dark:text-agro-neutral-50"
+                >
+                  Name
+                </SelectItem>
+                <SelectItem
+                  value="category"
+                  className="text-agro-primary-900 dark:text-agro-neutral-50"
+                >
+                  Category
+                </SelectItem>
               </SelectContent>
             </Select>
             <Button
@@ -486,7 +500,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
         {/* Results Count */}
         <div className="px-4 mb-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-agro-neutral-200">
             Showing {sortedProducts.length} of {mappedProducts.length} products
           </p>
         </div>
@@ -501,7 +515,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                   product._id && (
                     <Card
                       key={product._id}
-                      className="flex cursor-pointer flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                      className="flex cursor-pointer flex-col overflow-hidden gap-3 hover:shadow-lg transition-shadow duration-300"
                     >
                       <div
                         className="overflow-hidden rounded-t-lg relative wix-image-container"
@@ -528,7 +542,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="pb-3 flex-grow">
-                        <p className="text-gray-600 line-clamp-3">
+                        <p className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3">
                           {product.description || 'Product description'}
                         </p>
                       </CardContent>
@@ -552,7 +566,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-lg text-gray-500">
+              <p className="text-lg text-gray-500 dark:text-agro-neutral-400">
                 No products found matching your criteria.
               </p>
             </div>
