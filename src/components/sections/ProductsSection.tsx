@@ -24,6 +24,7 @@ import WixImage from '@/components/WixImage';
 import useScrollToSection from '@/hooks/useScrollToSection';
 import { useQuoteRequest } from '@/contexts/QuoteRequestContext';
 import ProductSkeleton from '@/components/common/ProductSkeleton';
+import { ProductCategory } from '@/services/wix-data.service';
 
 interface Product {
   _id: string;
@@ -50,7 +51,7 @@ interface CategoryWithProducts {
 }
 
 interface ProductsSectionProps {
-  data?: CategoryWithProducts[];
+  data?: CategoryWithProducts[] | ProductCategory[];
   isLoading: boolean;
 }
 
@@ -67,6 +68,47 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
   // Ensure we have a consistent data structure to prevent conditional hook issues
   const safeData = data || [];
+
+  // Type guard to check if data is ProductCategory[]
+  const isProductCategoryArray = (
+    data: CategoryWithProducts[] | ProductCategory[]
+  ): data is ProductCategory[] => {
+    return (
+      data.length > 0 &&
+      (data as ProductCategory[])[0] &&
+      'categoryImage' in (data as ProductCategory[])[0]
+    );
+  };
+
+  // Transform ProductCategory[] to CategoryWithProducts[] if needed
+  const transformedData = Array.isArray(safeData)
+    ? isProductCategoryArray(safeData)
+      ? safeData.map(category => ({
+          _id: category._id,
+          title: category.title,
+          categoryName: category.title,
+          description: category.description,
+          image: category.categoryImage,
+          categoryImage: category.categoryImage,
+          allProducts: category.allProducts,
+          productReferences_data: category.productReferences_data,
+          // Add index signature properties
+          ...Object.fromEntries(
+            Object.entries(category).filter(
+              ([key]) =>
+                ![
+                  '_id',
+                  'title',
+                  'description',
+                  'categoryImage',
+                  'allProducts',
+                  'productReferences_data',
+                ].includes(key)
+            )
+          ),
+        }))
+      : safeData
+    : [];
 
   // Check for category filter from sessionStorage on component mount
   useEffect(() => {
@@ -165,19 +207,30 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
   // Check if data has allProducts at the collection level (as per the JSON structure)
   if (
-    safeData &&
-    (safeData as unknown as { allProducts?: Product[] }).allProducts
+    transformedData &&
+    (transformedData as unknown as { allProducts?: Product[] }).allProducts
   ) {
-    individualProducts = (safeData as unknown as { allProducts: Product[] })
-      .allProducts;
+    individualProducts = (
+      transformedData as unknown as { allProducts: Product[] }
+    ).allProducts;
   }
   // Check if any category has allProducts
-  else if (safeData && safeData.length > 0) {
-    const categoryWithProducts = safeData.find(
-      cat => cat.allProducts && cat.allProducts.length > 0
-    );
+  else if (transformedData && transformedData.length > 0) {
+    const categoryWithProducts = transformedData.find(cat => {
+      // Type guard to check if cat has allProducts property
+      if ('allProducts' in cat && Array.isArray(cat.allProducts)) {
+        return cat.allProducts.length > 0;
+      }
+      return false;
+    });
     if (categoryWithProducts) {
-      individualProducts = categoryWithProducts.allProducts || [];
+      // Type guard to ensure categoryWithProducts has allProducts
+      if (
+        'allProducts' in categoryWithProducts &&
+        Array.isArray(categoryWithProducts.allProducts)
+      ) {
+        individualProducts = categoryWithProducts.allProducts || [];
+      }
     }
   }
 
@@ -185,8 +238,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const products =
     individualProducts && individualProducts.length > 0
       ? individualProducts
-      : Array.isArray(safeData)
-        ? safeData
+      : Array.isArray(transformedData)
+        ? transformedData
         : defaultProducts;
 
   // Check if we're displaying individual products or categories
@@ -207,6 +260,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         return null;
       }
 
+      // Type guard to check if product is ProductCategory
+      const isProductCategory = (p: unknown): p is ProductCategory => {
+        return p !== null && typeof p === 'object' && 'categoryImage' in p;
+      };
+
       const wixProduct = product as unknown as {
         name?: string;
         image1?: string;
@@ -215,30 +273,63 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       }; // Type assertion for Wix data structure
       const productWithName = product as Product; // Type assertion for Product with productName
 
-      const imageSource =
-        product.image ||
-        wixProduct.image1 ||
-        wixProduct.categoryImage ||
+      // Handle image source based on product type
+      let imageSource =
         'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop&crop=center&auto=format';
+      if ('image' in product && typeof product.image === 'string') {
+        imageSource = product.image;
+      } else if (wixProduct.image1) {
+        imageSource = wixProduct.image1;
+      } else if (wixProduct.categoryImage) {
+        imageSource = wixProduct.categoryImage;
+      } else if (isProductCategory(product) && product.categoryImage) {
+        imageSource = product.categoryImage;
+      }
+
+      // Handle title based on product type
+      let title = 'Agricultural Product';
+      if ('name' in product && typeof product.name === 'string') {
+        title = product.name;
+      } else if (wixProduct.name) {
+        title = wixProduct.name;
+      } else if ('title' in product && typeof product.title === 'string') {
+        title = product.title;
+      } else if (productWithName.productName) {
+        title = productWithName.productName;
+      } else if (productWithName.title) {
+        title = productWithName.title;
+      } else if (isProductCategory(product)) {
+        title = product.title;
+      }
+
+      // Handle product count based on product type
+      let productCount = 1;
+      if (
+        'productCount' in product &&
+        typeof product.productCount === 'number'
+      ) {
+        productCount = product.productCount;
+      }
+
+      // Handle category based on product type
+      let category = 'Not categorized';
+      if ('category' in product && typeof product.category === 'string') {
+        category = product.category;
+      } else if (wixProduct.category) {
+        category = wixProduct.category;
+      } else if (isProductCategory(product)) {
+        category = product.title;
+      }
 
       return {
         _id: product._id || `product-${index}`, // Fallback to index if no _id
-        title:
-          (product as unknown as { name?: string }).name || // Check product.name first (Wix data structure)
-          wixProduct.name ||
-          product.title ||
-          productWithName.productName ||
-          productWithName.title ||
-          'Agricultural Product',
+        title,
         description:
           product.description ||
           'Premium agricultural product sourced from trusted suppliers.',
         image: imageSource,
-        productCount: product.productCount || 1,
-        category:
-          (product as unknown as { category?: string }).category ||
-          wixProduct.category ||
-          'Not categorized',
+        productCount,
+        category,
       };
     })
     .filter(product => product !== null) as {

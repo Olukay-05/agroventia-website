@@ -59,6 +59,7 @@ In the `ProductsSection` component:
    ```
 
 3. The "Request Quote" button click handler:
+
    ```typescript
    const handleRequestQuote = (productTitle: string) => {
      // Set the requested product in context
@@ -86,6 +87,7 @@ In the `ContactSection` component:
    ```
 
 3. A useEffect hook listens for changes to the requested product:
+
    ```typescript
    useEffect(() => {
      if (requestedProduct) {
