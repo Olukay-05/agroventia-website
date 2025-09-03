@@ -360,11 +360,11 @@ export const getFallbackContent = async <T>(
 /**
  * Emergency content when all else fails
  */
-export const getEmergencyContent = (): any => {
+export const getEmergencyContent = <T>(): T => {
   return {
     title: 'AgroVentia - Agricultural Solutions',
     description:
       'We are currently experiencing technical difficulties. Please try again later or contact us directly.',
     fallbackMessage: 'Content temporarily unavailable',
-  };
+  } as T;
 };

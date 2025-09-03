@@ -122,7 +122,7 @@ const BlobCursor: React.FC<BlobCursorProps> = ({
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
 
-      blobsRef.current.forEach((el, i) => {
+      blobsRef.current.forEach(el => {
         if (!el) return;
         gsap.set(el, {
           x: centerX,

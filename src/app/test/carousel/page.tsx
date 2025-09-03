@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { wixApiService } from '@/services/wix-api.service';
+import WixImage from '@/components/WixImage';
 
 interface CarouselItem {
   image: string;
@@ -133,14 +134,14 @@ export default function CarouselTestPage() {
                           Item {index + 1}
                         </h3>
                         {item.image ? (
-                          <img
+                          <WixImage
                             src={item.image}
                             alt={`Carousel item ${index + 1}`}
+                            width={400}
+                            height={200}
                             className="w-full h-32 object-cover rounded"
-                            onError={e => {
-                              const target = e.target as HTMLImageElement;
-                              target.src =
-                                'https://placehold.co/400x200/cccccc/999999?text=Image+Error';
+                            onLoadError={e => {
+                              console.warn('Image failed to load:', e);
                             }}
                           />
                         ) : (

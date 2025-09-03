@@ -13,7 +13,8 @@ const noEmptyInterface = {
     },
     schema: [],
     messages: {
-      noEmptyInterface: 'Interfaces without members are equivalent to their supertype. Use a type alias instead.',
+      noEmptyInterface:
+        'Interfaces without members are equivalent to their supertype. Use a type alias instead.',
       noExplicitAny: 'Unexpected any. Specify a different type.',
     },
   },
@@ -30,7 +31,10 @@ const noEmptyInterface = {
       },
       TSTypeAnnotation(node) {
         // Check for explicit any types
-        if (node.typeAnnotation && node.typeAnnotation.type === 'TSAnyKeyword') {
+        if (
+          node.typeAnnotation &&
+          node.typeAnnotation.type === 'TSAnyKeyword'
+        ) {
           context.report({
             node: node.typeAnnotation,
             messageId: 'noExplicitAny',

@@ -8,11 +8,16 @@ interface WixImageInfo {
   type: 'url' | 'wix-media' | 'object';
 }
 
-export function useWixImages(data: any): WixImageInfo[] {
+// Define a proper type for the data parameter
+interface WixData {
+  [key: string]: unknown;
+}
+
+export function useWixImages(data: WixData): WixImageInfo[] {
   return useMemo(() => {
     const images: WixImageInfo[] = [];
 
-    function extractImages(obj: any, prefix = ''): void {
+    function extractImages(obj: WixData, prefix = ''): void {
       if (!obj || typeof obj !== 'object') return;
 
       Object.keys(obj).forEach(key => {
@@ -26,14 +31,31 @@ export function useWixImages(data: any): WixImageInfo[] {
               url: value,
               type: 'url',
             });
-          } else if (typeof value === 'object' && value.src) {
+          } else if (
+            typeof value === 'object' &&
+            value &&
+            'src' in value &&
+            typeof value.src === 'string'
+          ) {
             images.push({
               fieldName: fullKey,
               url: value.src,
               type: 'wix-media',
             });
-          } else if (typeof value === 'object') {
-            const url = value.url || value.src || value.href || value.link;
+          } else if (typeof value === 'object' && value) {
+            const url =
+              ('url' in value && typeof value.url === 'string'
+                ? value.url
+                : null) ||
+              ('src' in value && typeof value.src === 'string'
+                ? value.src
+                : null) ||
+              ('href' in value && typeof value.href === 'string'
+                ? value.href
+                : null) ||
+              ('link' in value && typeof value.link === 'string'
+                ? value.link
+                : null);
             if (url) {
               images.push({
                 fieldName: fullKey,
@@ -44,12 +66,12 @@ export function useWixImages(data: any): WixImageInfo[] {
           }
         } else if (Array.isArray(value)) {
           value.forEach((item, idx) => {
-            if (typeof item === 'object') {
-              extractImages(item, `${fullKey}[${idx}]`);
+            if (typeof item === 'object' && item !== null) {
+              extractImages(item as WixData, `${fullKey}[${idx}]`);
             }
           });
-        } else if (typeof value === 'object') {
-          extractImages(value, fullKey);
+        } else if (typeof value === 'object' && value !== null) {
+          extractImages(value as WixData, fullKey);
         }
       });
     }
@@ -63,11 +85,19 @@ export function useWixImages(data: any): WixImageInfo[] {
 export function useImageLoadMonitoring() {
   const trackImageLoad = (url: string, success: boolean, attempts: number) => {
     // Analytics tracking
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'wix_image_load', {
-        custom_map: { url, success, attempts },
-        value: success ? 1 : 0,
-      });
+    if (
+      typeof window !== 'undefined' &&
+      (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
+    ) {
+      (window as unknown as { gtag: (...args: unknown[]) => void }).gtag(
+        'event',
+        'wix_image_load',
+        {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          custom_map: { url, success, attempts } as any,
+          value: success ? 1 : 0,
+        }
+      );
     }
 
     // Console logging for development

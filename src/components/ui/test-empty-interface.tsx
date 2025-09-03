@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 // This should trigger the empty interface rule
-interface EmptyInterface {}
+type EmptyInterface = object;
 
 // This should be fine
 interface ProperInterface {

@@ -8,6 +8,7 @@ import FooterSocialLinks from './FooterSocialLinks';
 import FooterNewsletter from './FooterNewsletter';
 import FooterLinkSection from './FooterLinkSection';
 import Image from 'next/image';
+import { LanguageSelector } from '@/components/common/LanguageSelector';
 import {
   ContactContent,
   ProductContent,
@@ -153,6 +154,7 @@ const Footer: React.FC = () => {
         ];
 
   const handleServiceClick = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     link: string | { label: string; href?: string }
   ) => {
     // Handle service link click - could navigate to service page
@@ -324,26 +326,31 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Back to Top */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={scrollToTop}
-            className="
-              bg-[#FDF8F0] backdrop-blur-sm
-              border-2 border-[#281909] text-[#281909]
-              hover:bg-[#225217] hover:text-[#FDF8F0]
-              hover:border-[#225217] hover:scale-105
-              transition-all duration-300 ease-out
-              group
-            "
-          >
-            <ArrowUp
-              size={16}
-              className="text-[#281909] group-hover:text-[#FDF8F0] transition-colors duration-200 mr-1"
-            />
-            Back to Top
-          </Button>
+          {/* Language Selector and Back to Top */}
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:block">
+              <LanguageSelector className="w-[160px] sm:w-[180px]" />
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={scrollToTop}
+              className="
+                bg-[#FDF8F0] backdrop-blur-sm
+                border-2 border-[#281909] text-[#281909]
+                hover:bg-[#225217] hover:text-[#FDF8F0]
+                hover:border-[#225217] hover:scale-105
+                transition-all duration-300 ease-out
+                group
+              "
+            >
+              <ArrowUp
+                size={16}
+                className="text-[#281909] group-hover:text-[#FDF8F0] transition-colors duration-200 mr-1"
+              />
+              Back to Top
+            </Button>
+          </div>
         </div>
       </div>
     </footer>

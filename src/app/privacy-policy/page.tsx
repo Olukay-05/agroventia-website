@@ -88,11 +88,11 @@ const PrivacyPolicyPage = () => {
                 <p className="text-[#281909]/80 mb-4">
                   We may also collect information on how the Service is accessed
                   and used (&quot;Usage Data&quot;). This Usage Data may include
-                  information such as your computer's Internet Protocol address
-                  (e.g. IP address), browser type, browser version, the pages of
-                  our Service that you visit, the time and date of your visit,
-                  the time spent on those pages, unique device identifiers and
-                  other diagnostic data.
+                  information such as your computer&#39;s Internet Protocol
+                  address (e.g. IP address), browser type, browser version, the
+                  pages of our Service that you visit, the time and date of your
+                  visit, the time spent on those pages, unique device
+                  identifiers and other diagnostic data.
                 </p>
 
                 <h4 className="text-lg font-semibold text-[#281909] mt-4 mb-2">
@@ -211,15 +211,15 @@ const PrivacyPolicyPage = () => {
                 <p className="text-[#281909]/80 mb-6">
                   Our Service may contain links to other sites that are not
                   operated by us. If you click on a third party link, you will
-                  be directed to that third party's site. We strongly advise you
-                  to review the Privacy Policy of every site you visit. We have
-                  no control over and assume no responsibility for the content,
-                  privacy policies or practices of any third party sites or
-                  services.
+                  be directed to that third party&#39;s site. We strongly advise
+                  you to review the Privacy Policy of every site you visit. We
+                  have no control over and assume no responsibility for the
+                  content, privacy policies or practices of any third party
+                  sites or services.
                 </p>
 
                 <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
-                  Children's Privacy
+                  Children&#39;s Privacy
                 </h2>
                 <p className="text-[#281909]/80 mb-6">
                   Our Service does not address anyone under the age of 18

@@ -42,7 +42,7 @@ export interface ProductContent extends WixBaseItem {
   description: string;
   category: string;
   origin: string;
-  specifications: Record<string, any>;
+  specifications: Record<string, unknown>;
   images: string[];
   price?: number;
   availability: boolean;
@@ -107,6 +107,14 @@ export enum CollectionNames {
   CONTACT_CONTENT = 'ContactContent',
   OUR_CORE_VALUES = 'OurCoreValues',
   CAROUSEL_IMAGE_DISPLAY = 'CarouselImageDisplay', // New collection
+}
+
+// Add missing interfaces
+interface ProductSummary {
+  totalProducts: number;
+  productsSource: string;
+  fetchedAt: string;
+  note: string;
 }
 
 export class WixDataService {
@@ -239,7 +247,10 @@ export class WixDataService {
 
       // Process each catalog item and add referenced products + all products
       categoriesResponse.items.forEach((categoryItem, i) => {
-        const categoryData = categoryItem.data;
+        const categoryData = categoryItem.data as ProductCategory & {
+          allProducts?: ProductContent[];
+          productSummary?: ProductSummary;
+        };
 
         console.log(
           `Processing catalog item ${i + 1}:`,
@@ -276,7 +287,7 @@ export class WixDataService {
             const referencedDataField =
               `${refField}_data` as keyof ProductCategory;
             (categoryData as Partial<ProductCategory>)[referencedDataField] =
-              referencedProducts;
+              referencedProducts as never;
             console.log(
               `Added ${
                 referencedProducts.length
@@ -295,12 +306,15 @@ export class WixDataService {
       });
 
       // Add all products at the collection level as well - same as Node.js
-      (
-        categoriesResponse as Partial<TransformedResponse<ProductCategory>>
-      ).allProducts = allProducts;
-      (
-        categoriesResponse as Partial<TransformedResponse<ProductCategory>>
-      ).productSummary = {
+      const categoriesResponseWithExtras =
+        categoriesResponse as TransformedResponse<ProductCategory> & {
+          allProducts?: ProductContent[];
+          productSummary?: ProductSummary;
+        };
+
+      categoriesResponseWithExtras.allProducts = allProducts;
+
+      categoriesResponseWithExtras.productSummary = {
         totalProducts: allProducts.length,
         productsSource: 'Complete Import2 collection',
         fetchedAt: new Date().toISOString(),

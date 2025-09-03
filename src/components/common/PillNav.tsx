@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { gsap } from 'gsap';
+import WixImage from '@/components/WixImage';
+import Image from 'next/image';
+import { LanguageSelector } from './LanguageSelector';
 
 export type PillNavItem = {
   label: string;
@@ -52,7 +55,7 @@ const PillNav: React.FC<PillNavProps> = ({
   const logoRef = useRef<HTMLAnchorElement | HTMLElement | null>(null);
 
   // Ensure items array is always defined to prevent conditional hook issues
-  const safeItems = items || [];
+  const safeItems = useMemo(() => items || [], [items]);
 
   useEffect(() => {
     // Check if we're in a browser environment
@@ -299,12 +302,15 @@ const PillNav: React.FC<PillNavProps> = ({
               background: logoBackgroundColor || 'var(--base, #000)', // Use custom color or fallback
             }}
           >
-            <img
-              src={logo}
-              alt={logoAlt}
-              ref={logoImgRef}
-              className="w-full h-full object-cover block"
-            />
+            <div ref={logoImgRef}>
+              <Image
+                src={logo}
+                alt={logoAlt}
+                width={36}
+                height={36}
+                className="w-full h-full object-cover block"
+              />
+            </div>
           </Link>
         ) : (
           <a
@@ -321,12 +327,15 @@ const PillNav: React.FC<PillNavProps> = ({
               background: logoBackgroundColor || 'var(--base, #000)', // Use custom color or fallback
             }}
           >
-            <img
-              src={logo}
-              alt={logoAlt}
-              ref={logoImgRef}
-              className="w-full h-full object-cover block"
-            />
+            <div ref={logoImgRef}>
+              <Image
+                src={logo}
+                alt={logoAlt}
+                width={36}
+                height={36}
+                className="w-full h-full object-cover block"
+              />
+            </div>
           </a>
         )}
 
@@ -507,6 +516,15 @@ const PillNav: React.FC<PillNavProps> = ({
               </li>
             );
           })}
+          {/* Language Selector in Mobile Menu */}
+          <li className="px-3 py-2">
+            <div className="text-[#FDF8F0] text-sm font-medium mb-2 px-1">
+              Language / Langue
+            </div>
+            <div className="px-1">
+              <LanguageSelector />
+            </div>
+          </li>
         </ul>
       </div>
     </div>

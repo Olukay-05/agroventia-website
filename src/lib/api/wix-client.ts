@@ -55,12 +55,55 @@ const COLLECTION_NAMES = {
   PRODUCT_CATALOG:
     process.env.WIX_PRODUCTS_CATALOG_COLLECTION_NAME || 'Import1',
   CONTACT: process.env.WIX_CONTACT_COLLECTION_NAME || 'ContactContent',
+  CORE_VALUES: process.env.WIX_CORE_VALUES_COLLECTION_NAME || 'OurCoreValues',
+  CAROUSEL_IMAGE_DISPLAY:
+    process.env.WIX_CAROUSEL_IMAGE_DISPLAY_COLLECTION_NAME ||
+    'CarouselImageDisplay',
 };
 
 // Product catalog item type
 export interface ProductCatalogItem extends ProductContent {
   allProducts?: ProductContent[];
   productReferences_data?: ProductContent[];
+}
+
+// Base Wix item interface
+export interface WixBaseItem {
+  _id: string;
+  _createdDate: { $date: string };
+  _updatedDate: { $date: string };
+  _owner: string;
+  [key: string]: unknown;
+}
+
+// Core values content type
+export interface CoreValuesContent extends WixBaseItem {
+  title: string;
+  description: string;
+  reference?: string;
+}
+
+// Carousel image display content type
+export interface CarouselImageDisplayContent extends WixBaseItem {
+  image: string;
+  imageDescription?: string;
+  tagline?: string;
+  displayOrder?: number;
+}
+
+interface WixResponse<T> {
+  dataItems: Array<{
+    _id: string;
+    dataCollectionId: string;
+    data: T;
+  }>;
+  pagingMetadata: {
+    count: number;
+    total: number;
+    tooManyToCount: boolean;
+    cursors: Record<string, unknown>;
+    hasNext: boolean;
+  };
 }
 
 // Function to fetch content from a collection by name
@@ -129,10 +172,10 @@ export const fetchWixContent = async <T>(
         const response = (await Promise.race([
           queryPromise,
           timeoutPromise,
-        ])) as any;
+        ])) as unknown as WixResponse<T>;
 
         // Handle empty collections - Wix API returns dataItems, not items
-        const items = response.dataItems || response.items || [];
+        const items = response.dataItems || [];
 
         if (!items || items.length === 0) {
           if (allowEmpty) {
@@ -145,7 +188,7 @@ export const fetchWixContent = async <T>(
         }
 
         // Success! Map the Wix response to our expected format
-        return items.map((item: any) => {
+        return items.map(item => {
           // Handle different Wix data structures
           // Some collections have item.data, others have fields directly on item
           const systemFields = [
@@ -161,22 +204,22 @@ export const fetchWixContent = async <T>(
             return {
               _id: item._id,
               ...item.data,
-            };
+            } as T;
           } else {
             // Alternative structure: content fields are directly on item
-            const contentData: Record<string, any> = {};
+            const contentData: Record<string, unknown> = {};
             Object.keys(item).forEach(key => {
               if (!systemFields.includes(key)) {
-                contentData[key] = item[key];
+                contentData[key] = (item as Record<string, unknown>)[key];
               }
             });
 
             return {
               _id: item._id,
               ...contentData,
-            };
+            } as T;
           }
-        }) as T[];
+        });
       } catch (attemptError) {
         lastError =
           attemptError instanceof Error
@@ -273,7 +316,9 @@ export const fetchTranslatedContent = async <T>(
 };
 
 // Specific functions for each content type with enhanced error handling
-export const getHeroContent = async (locale?: string) => {
+export const getHeroContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
   try {
     return await fetchWixContent<HeroContent>(COLLECTION_NAMES.HERO, {
       allowEmpty: false, // Hero content is critical
@@ -306,7 +351,9 @@ export const getHeroContent = async (locale?: string) => {
   }
 };
 
-export const getAboutContent = async (locale?: string) => {
+export const getAboutContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
   try {
     return await fetchWixContent<AboutContent>(COLLECTION_NAMES.ABOUT, {
       allowEmpty: true,
@@ -339,7 +386,9 @@ export const getAboutContent = async (locale?: string) => {
   }
 };
 
-export const getServicesContent = async (locale?: string) => {
+export const getServicesContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
   try {
     return await fetchWixContent<ServiceContent>(COLLECTION_NAMES.SERVICES, {
       allowEmpty: true,
@@ -372,7 +421,9 @@ export const getServicesContent = async (locale?: string) => {
   }
 };
 
-export const getProductsContent = async (locale?: string) => {
+export const getProductsContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
   try {
     return await fetchWixContent<ProductContent>(COLLECTION_NAMES.PRODUCTS, {
       allowEmpty: true,
@@ -405,7 +456,9 @@ export const getProductsContent = async (locale?: string) => {
   }
 };
 
-export const getProductCatalogContent = async (locale?: string) => {
+export const getProductCatalogContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
   try {
     return await fetchWixContent<ProductCatalogItem>(
       COLLECTION_NAMES.PRODUCT_CATALOG,
@@ -423,7 +476,9 @@ export const getProductCatalogContent = async (locale?: string) => {
   }
 };
 
-export const getContactContent = async (locale?: string) => {
+export const getContactContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
   try {
     return await fetchWixContent<ContactContent>(COLLECTION_NAMES.CONTACT, {
       allowEmpty: true,
@@ -454,6 +509,145 @@ export const getContactContent = async (locale?: string) => {
     logFallbackUsage('ContactContent', `Fetch error: ${errorMessage}`);
     return [];
   }
+};
+
+export const getCoreValuesContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
+  try {
+    return await fetchWixContent<CoreValuesContent>(
+      COLLECTION_NAMES.CORE_VALUES,
+      {
+        allowEmpty: true,
+        retryCount: 2,
+      }
+    );
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Core values content fetch failed:', errorMessage);
+
+    if (shouldUseMockData()) {
+      logFallbackUsage(
+        'CoreValuesContent',
+        'Development mode - using mock data'
+      );
+      return await getMockCoreValuesContent();
+    }
+
+    // Use emergency fallback for internal errors
+    if (
+      errorMessage.includes('Internal wixData error') ||
+      errorMessage.includes('Unknown error')
+    ) {
+      logFallbackUsage(
+        'CoreValuesContent',
+        'Wix internal error - using emergency fallback'
+      );
+      return await getFallbackContent<CoreValuesContent>('core-values', true);
+    }
+
+    // For other errors, return empty array
+    logFallbackUsage('CoreValuesContent', `Fetch error: ${errorMessage}`);
+    return [];
+  }
+};
+
+export const getCarouselImageDisplayContent = async (
+  locale?: string // eslint-disable-line @typescript-eslint/no-unused-vars
+) => {
+  try {
+    return await fetchWixContent<CarouselImageDisplayContent>(
+      COLLECTION_NAMES.CAROUSEL_IMAGE_DISPLAY,
+      {
+        allowEmpty: true,
+        retryCount: 2,
+      }
+    );
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Carousel image display content fetch failed:', errorMessage);
+
+    if (shouldUseMockData()) {
+      logFallbackUsage(
+        'CarouselImageDisplayContent',
+        'Development mode - using mock data'
+      );
+      return await getMockCarouselImageDisplayContent();
+    }
+
+    // Use emergency fallback for internal errors
+    if (
+      errorMessage.includes('Internal wixData error') ||
+      errorMessage.includes('Unknown error')
+    ) {
+      logFallbackUsage(
+        'CarouselImageDisplayContent',
+        'Wix internal error - using emergency fallback'
+      );
+      return await getFallbackContent<CarouselImageDisplayContent>(
+        'carousel-image-display',
+        true
+      );
+    }
+
+    // For other errors, return empty array
+    logFallbackUsage(
+      'CarouselImageDisplayContent',
+      `Fetch error: ${errorMessage}`
+    );
+    return [];
+  }
+};
+
+// Mock data functions
+const getMockCoreValuesContent = async (): Promise<CoreValuesContent[]> => {
+  return [
+    {
+      _id: '1',
+      _createdDate: { $date: new Date().toISOString() },
+      _updatedDate: { $date: new Date().toISOString() },
+      _owner: 'mock',
+      title: 'Quality',
+      description: 'We ensure the highest quality in all our products.',
+      reference: 'about',
+    } as CoreValuesContent,
+    {
+      _id: '2',
+      _createdDate: { $date: new Date().toISOString() },
+      _updatedDate: { $date: new Date().toISOString() },
+      _owner: 'mock',
+      title: 'Sustainability',
+      description: 'Our practices support environmental sustainability.',
+      reference: 'about',
+    } as CoreValuesContent,
+  ];
+};
+
+const getMockCarouselImageDisplayContent = async (): Promise<
+  CarouselImageDisplayContent[]
+> => {
+  return [
+    {
+      _id: '1',
+      _createdDate: { $date: new Date().toISOString() },
+      _updatedDate: { $date: new Date().toISOString() },
+      _owner: 'mock',
+      image: 'https://example.com/image1.jpg',
+      imageDescription: 'First carousel image',
+      tagline: 'Discover our products',
+      displayOrder: 1,
+    } as CarouselImageDisplayContent,
+    {
+      _id: '2',
+      _createdDate: { $date: new Date().toISOString() },
+      _updatedDate: { $date: new Date().toISOString() },
+      _owner: 'mock',
+      image: 'https://example.com/image2.jpg',
+      imageDescription: 'Second carousel image',
+      tagline: 'Quality you can trust',
+      displayOrder: 2,
+    } as CarouselImageDisplayContent,
+  ];
 };
 
 // Re-export the types for convenience

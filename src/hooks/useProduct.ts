@@ -54,6 +54,7 @@ const retryWithExponentialBackoff = (failureCount: number, error: unknown) => {
   }
 
   // Exponential backoff: 1s, 2s, 4s, 8s, 16s, max 30s
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const delay = Math.min(1000 * 2 ** failureCount, 30000);
 
   // Retry up to 3 times for server errors

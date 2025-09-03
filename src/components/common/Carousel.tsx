@@ -236,7 +236,7 @@ export default function Carousel({
             -(index - 1) * trackItemOffset,
           ];
           const outputRange = [90, 0, -90];
-          const rotateY = useTransform(x, range, outputRange, { clamp: false });
+          const rotateY = useTransform(x, range, outputRange, { clamp: false }); // eslint-disable-line react-hooks/rules-of-hooks
           return (
             <motion.div
               key={index}

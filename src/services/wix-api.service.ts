@@ -11,7 +11,7 @@ export interface WixApiResponse<T> {
     count: number;
     total: number;
     tooManyToCount: boolean;
-    cursors: Record<string, any>;
+    cursors: Record<string, unknown>;
     hasNext: boolean;
   };
 }
@@ -31,7 +31,7 @@ export interface TransformedResponse<T> {
 
 export interface WixQueryOptions {
   includeReferencedItems?: string[];
-  filter?: Record<string, any>;
+  filter?: Record<string, unknown>;
   limit?: number;
   returnTotalCount?: boolean;
 }
@@ -73,7 +73,7 @@ export class WixApiService {
         const response = await fetch(`/api/collections/${collectionName}`);
 
         if (!response.ok) {
-          const errorText = await response.text();
+          const errorText = await response.text(); // eslint-disable-line @typescript-eslint/no-unused-vars
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 

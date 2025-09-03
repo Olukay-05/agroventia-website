@@ -50,7 +50,8 @@ const Header: React.FC = () => {
           logoBackgroundColor="#f9ede0" /* Custom logo background color */
           initialLoadAnimation={false}
         />
-        <div className="ml-4">
+        {/* Language selector only visible on desktop (hidden on mobile and tablet) */}
+        <div className="ml-4 hidden lg:block">
           <LanguageSelector />
         </div>
       </div>
