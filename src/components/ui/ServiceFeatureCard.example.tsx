@@ -66,13 +66,12 @@ const ServiceFeatureCardExample = () => {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
+          {services.map(service => (
             <ServiceFeatureCard
               key={service.id}
               title={service.title}
               description={service.description}
               icon={service.icon}
-              index={index}
               isActive={activeCard === service.id}
               onClick={() =>
                 setActiveCard(activeCard === service.id ? null : service.id)

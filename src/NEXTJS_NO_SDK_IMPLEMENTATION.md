@@ -52,7 +52,7 @@ export const wixConfig: WixConfig = {
 // Validate configuration
 if (!wixConfig.apiToken || !wixConfig.siteId || !wixConfig.baseUrl) {
   throw new Error(
-    "Missing required Wix configuration. Check your environment variables."
+    'Missing required Wix configuration. Check your environment variables.'
   );
 }
 ```
@@ -63,7 +63,7 @@ if (!wixConfig.apiToken || !wixConfig.siteId || !wixConfig.baseUrl) {
 
 ```typescript
 // services/wix-api.service.ts
-import { wixConfig } from "@/lib/wix-config";
+import { wixConfig } from '@/lib/wix-config';
 
 export interface WixApiResponse<T> {
   dataItems: Array<{
@@ -89,7 +89,7 @@ export interface TransformedResponse<T> {
   totalCount: number;
   count: number;
   hasNext: boolean;
-  pagingMetadata: WixApiResponse<T>["pagingMetadata"];
+  pagingMetadata: WixApiResponse<T>['pagingMetadata'];
   _rawWixData: WixApiResponse<T>;
 }
 
@@ -128,14 +128,14 @@ export class WixApiService {
     options: WixQueryOptions = {}
   ): Promise<TransformedResponse<T>> {
     const {
-      includeReferencedItems = ["*"],
+      includeReferencedItems = ['*'],
       filter = {},
       limit = 100,
       returnTotalCount = true,
     } = options;
 
     console.log(`\n=== Fetching Collection: ${collectionName} ===`);
-    console.log("Time:", new Date().toISOString());
+    console.log('Time:', new Date().toISOString());
 
     const requestBody = {
       dataCollectionId: collectionName,
@@ -147,16 +147,16 @@ export class WixApiService {
       ...(Object.keys(filter).length > 0 && { filter }),
     };
 
-    console.log("Request URL:", this.queryUrl);
-    console.log("Request Body:", JSON.stringify(requestBody, null, 2));
+    console.log('Request URL:', this.queryUrl);
+    console.log('Request Body:', JSON.stringify(requestBody, null, 2));
 
     try {
       const response = await fetch(this.queryUrl, {
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${wixConfig.apiToken}`,
-          "Content-Type": "application/json",
-          "wix-site-id": wixConfig.siteId,
+          'Content-Type': 'application/json',
+          'wix-site-id': wixConfig.siteId,
         },
         body: JSON.stringify(requestBody),
       });
@@ -165,7 +165,7 @@ export class WixApiService {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error("Wix API Error:", errorText);
+        console.error('Wix API Error:', errorText);
 
         let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
 
@@ -194,7 +194,7 @@ export class WixApiService {
       console.error(`Error fetching ${collectionName}:`, error);
       throw new Error(
         `Failed to fetch ${collectionName}: ${
-          error instanceof Error ? error.message : "Unknown error"
+          error instanceof Error ? error.message : 'Unknown error'
         }`
       );
     }
@@ -211,7 +211,7 @@ export const wixApiService = new WixApiService();
 
 ```typescript
 // services/wix-data.service.ts
-import { wixApiService, TransformedResponse } from "./wix-api.service";
+import { wixApiService, TransformedResponse } from './wix-api.service';
 
 // Collection Types (same as before)
 export interface WixBaseItem {
@@ -261,13 +261,13 @@ export interface ProductCategory extends WixBaseItem {
 }
 
 export enum CollectionNames {
-  HERO_CONTENT = "HeroContent",
-  ABOUT_CONTENT = "AboutContent",
-  SERVICES_CONTENT = "ServicesContent",
-  PRODUCTS_CONTENT = "ProductsContent",
-  IMPORT1 = "Import1",
-  CONTACT_CONTENT = "ContactContent",
-  OUR_CORE_VALUES = "OurCoreValues",
+  HERO_CONTENT = 'HeroContent',
+  ABOUT_CONTENT = 'AboutContent',
+  SERVICES_CONTENT = 'ServicesContent',
+  PRODUCTS_CONTENT = 'ProductsContent',
+  IMPORT1 = 'Import1',
+  CONTACT_CONTENT = 'ContactContent',
+  OUR_CORE_VALUES = 'OurCoreValues',
 }
 
 export class WixDataService {
@@ -297,7 +297,7 @@ export class WixDataService {
                   $eq: aboutId,
                 },
               },
-              includeReferencedItems: ["*"],
+              includeReferencedItems: ['*'],
             }
           );
 
@@ -305,10 +305,10 @@ export class WixDataService {
 
         // Add core values to about content - same pattern as Node.js
         aboutResponse.items[0].data.coreValues = coreValuesResponse.items.map(
-          (item) => item.data
+          item => item.data
         );
       } catch (error) {
-        console.error("Error fetching core values:", error);
+        console.error('Error fetching core values:', error);
         // Continue without core values if there's an error
       }
     }
@@ -323,7 +323,7 @@ export class WixDataService {
     TransformedResponse<ProductCategory>
   > {
     console.log(
-      "Processing Import1 - fetching ALL products from ProductsContent collection"
+      'Processing Import1 - fetching ALL products from ProductsContent collection'
     );
 
     // First fetch the product categories
@@ -334,18 +334,18 @@ export class WixDataService {
 
     try {
       // Fetch ALL products from ProductsContent collection
-      console.log("Fetching complete ProductsContent collection...");
+      console.log('Fetching complete ProductsContent collection...');
 
       const allProductsResponse =
         await wixApiService.queryCollection<ProductContent>(
           CollectionNames.PRODUCTS_CONTENT,
           {
-            includeReferencedItems: ["*"],
+            includeReferencedItems: ['*'],
             limit: 100,
           }
         );
 
-      const allProducts = allProductsResponse.items.map((item) => item.data);
+      const allProducts = allProductsResponse.items.map(item => item.data);
 
       console.log(
         `Successfully fetched ${allProducts.length} total products from ProductsContent`
@@ -353,7 +353,7 @@ export class WixDataService {
 
       // Create a map of product ID to product data for easy lookup
       const productMap: Record<string, ProductContent> = {};
-      allProducts.forEach((product) => {
+      allProducts.forEach(product => {
         productMap[product._id] = product;
       });
 
@@ -368,26 +368,26 @@ export class WixDataService {
 
         // Look for reference fields - same logic as Node.js
         const referenceFields = Object.keys(categoryData).filter(
-          (key) =>
-            (key.toLowerCase().includes("product") ||
-              key.toLowerCase().includes("reference") ||
-              key.toLowerCase().includes("category") ||
-              key.toLowerCase().includes("item")) &&
-            !key.startsWith("_")
+          key =>
+            (key.toLowerCase().includes('product') ||
+              key.toLowerCase().includes('reference') ||
+              key.toLowerCase().includes('category') ||
+              key.toLowerCase().includes('item')) &&
+            !key.startsWith('_')
         );
 
-        console.log("Found potential reference fields:", referenceFields);
+        console.log('Found potential reference fields:', referenceFields);
 
         // Add referenced product data to each field (if any references exist)
-        referenceFields.forEach((refField) => {
+        referenceFields.forEach(refField => {
           const refValue = categoryData[refField as keyof ProductCategory];
           if (!refValue) return;
 
           const refIds = Array.isArray(refValue) ? refValue : [refValue];
           const referencedProducts: ProductContent[] = [];
 
-          refIds.forEach((refId) => {
-            if (typeof refId === "string" && productMap[refId]) {
+          refIds.forEach(refId => {
+            if (typeof refId === 'string' && productMap[refId]) {
               referencedProducts.push(productMap[refId]);
             }
           });
@@ -417,20 +417,20 @@ export class WixDataService {
       (categoriesResponse as any).allProducts = allProducts;
       (categoriesResponse as any).productSummary = {
         totalProducts: allProducts.length,
-        productsSource: "Complete ProductsContent collection",
+        productsSource: 'Complete ProductsContent collection',
         fetchedAt: new Date().toISOString(),
-        note: "All products from ProductsContent are embedded in each catalog item and at collection level",
+        note: 'All products from ProductsContent are embedded in each catalog item and at collection level',
       };
 
       console.log(
         `Successfully embedded ALL ${allProducts.length} products in Import1 collection`
       );
     } catch (error) {
-      console.error("Error processing Import1 with all products:", error);
+      console.error('Error processing Import1 with all products:', error);
       // Continue without products if there's an error
     }
 
-    console.log("Completed processing Import1 with ALL products embedded");
+    console.log('Completed processing Import1 with ALL products embedded');
     return categoriesResponse;
   }
 
@@ -470,7 +470,7 @@ export class WixDataService {
 
       return { hero, about, services, products, categories, contact };
     } catch (error) {
-      console.error("Error fetching all collections:", error);
+      console.error('Error fetching all collections:', error);
       throw error;
     }
   }
@@ -486,9 +486,9 @@ export const wixDataService = new WixDataService();
 
 ```typescript
 // app/api/collections/[collection]/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { wixDataService } from "@/services/wix-data.service";
-import { CollectionNames } from "@/services/wix-data.service";
+import { NextRequest, NextResponse } from 'next/server';
+import { wixDataService } from '@/services/wix-data.service';
+import { CollectionNames } from '@/services/wix-data.service';
 
 export async function GET(
   request: NextRequest,
@@ -530,8 +530,8 @@ export async function GET(
     console.error(`Error in collections API:`, error);
     return NextResponse.json(
       {
-        error: "Failed to fetch collection data",
-        details: error instanceof Error ? error.message : "Unknown error",
+        error: 'Failed to fetch collection data',
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );
@@ -543,8 +543,8 @@ export async function GET(
 
 ```typescript
 // app/api/collections/route.ts
-import { NextResponse } from "next/server";
-import { wixDataService } from "@/services/wix-data.service";
+import { NextResponse } from 'next/server';
+import { wixDataService } from '@/services/wix-data.service';
 
 export async function GET() {
   try {
@@ -558,11 +558,11 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error("Error fetching all collections:", error);
+    console.error('Error fetching all collections:', error);
     return NextResponse.json(
       {
-        error: "Failed to fetch collections",
-        details: error instanceof Error ? error.message : "Unknown error",
+        error: 'Failed to fetch collections',
+        details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

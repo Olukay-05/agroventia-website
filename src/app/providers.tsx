@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { LocaleProvider } from '@/contexts/LocaleContext';
 import { CookieConsentProvider } from '@/contexts/CookieConsentContext';
+import { QuoteRequestProvider } from '@/contexts/QuoteRequestContext';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -24,7 +25,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <CookieConsentProvider>
-        <LocaleProvider>{children}</LocaleProvider>
+        <LocaleProvider>
+          <QuoteRequestProvider>{children}</QuoteRequestProvider>
+        </LocaleProvider>
       </CookieConsentProvider>
     </QueryClientProvider>
   );

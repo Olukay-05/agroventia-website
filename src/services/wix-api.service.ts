@@ -36,8 +36,14 @@ export interface WixQueryOptions {
   returnTotalCount?: boolean;
 }
 
+export interface WixInsertOptions<T> {
+  data: T;
+  includeReferencedItems?: string[];
+}
+
 export class WixApiService {
   private readonly queryUrl = `${wixConfig.baseUrl}/query`;
+  private readonly insertUrl = `${wixConfig.baseUrl}/insert`;
 
   /**
    * Transform Wix API response to frontend-compatible format
@@ -73,7 +79,7 @@ export class WixApiService {
         const response = await fetch(`/api/collections/${collectionName}`);
 
         if (!response.ok) {
-          const errorText = await response.text(); // eslint-disable-line @typescript-eslint/no-unused-vars
+          const errorText = await response.text();
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
@@ -206,6 +212,175 @@ export class WixApiService {
         console.error(`Error fetching ${collectionName}:`, error);
         throw new Error(
           `Failed to fetch ${collectionName}: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`
+        );
+      }
+    }
+  }
+
+  /**
+   * Insert a new item into a Wix collection
+   */
+  async insertItem<T>(
+    collectionName: string,
+    options: WixInsertOptions<T>
+  ): Promise<TransformedResponse<T>> {
+    // For client-side requests, we need to use a different approach
+    // since we can't access the private API token directly
+    const isClientSide = typeof window !== 'undefined';
+
+    if (isClientSide) {
+      // On client side, make a request to our own API endpoint
+      try {
+        const response = await fetch(`/api/wix-collections/${collectionName}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(options.data),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        // Transform the response to match our expected format
+        return this.transformResponse({
+          dataItems: [data],
+          pagingMetadata: {
+            count: 1,
+            total: 1,
+            tooManyToCount: false,
+            cursors: {},
+            hasNext: false,
+          },
+        });
+      } catch (error) {
+        console.error(
+          `Error inserting item into ${collectionName} via client-side proxy:`,
+          error
+        );
+        // Return empty response on error
+        return {
+          items: [],
+          totalCount: 0,
+          count: 0,
+          hasNext: false,
+          pagingMetadata: {
+            count: 0,
+            total: 0,
+            tooManyToCount: false,
+            cursors: {},
+            hasNext: false,
+          },
+          _rawWixData: {
+            dataItems: [],
+            pagingMetadata: {
+              count: 0,
+              total: 0,
+              tooManyToCount: false,
+              cursors: {},
+              hasNext: false,
+            },
+          },
+        };
+      }
+    } else {
+      // Server-side logic
+      // Check if configuration is available
+      if (!wixConfig.apiToken || !wixConfig.siteId) {
+        console.warn('Wix configuration missing, returning empty response');
+        return {
+          items: [],
+          totalCount: 0,
+          count: 0,
+          hasNext: false,
+          pagingMetadata: {
+            count: 0,
+            total: 0,
+            tooManyToCount: false,
+            cursors: {},
+            hasNext: false,
+          },
+          _rawWixData: {
+            dataItems: [],
+            pagingMetadata: {
+              count: 0,
+              total: 0,
+              tooManyToCount: false,
+              cursors: {},
+              hasNext: false,
+            },
+          },
+        };
+      }
+
+      const { data, includeReferencedItems = ['*'] } = options;
+
+      const requestBody = {
+        dataCollectionId: collectionName,
+        data,
+        includeReferencedItems,
+      };
+
+      try {
+        const response = await fetch(this.insertUrl, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${wixConfig.apiToken}`,
+            'Content-Type': 'application/json',
+            'wix-site-id': wixConfig.siteId,
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+
+          let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+
+          // Special handling for 404 errors to provide more context
+          if (response.status === 404) {
+            errorMessage = `HTTP 404: Not Found - This could mean the collection "${collectionName}" doesn't exist or the API endpoint is incorrect. Please verify: 1) Collection name is correct, 2) Collection exists in Wix CMS, 3) Wix API token has proper permissions, 4) Base URL is correct.`;
+          }
+
+          try {
+            const errorJson = JSON.parse(errorText);
+            if (errorJson.message) {
+              errorMessage = errorJson.message;
+            }
+            if (errorJson.details) {
+              errorMessage += ` (${JSON.stringify(errorJson.details)})`;
+            }
+          } catch (e) {
+            // Keep original error message if JSON parsing fails
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        const responseData = await response.json();
+
+        const transformedData = this.transformResponse({
+          dataItems: [responseData],
+          pagingMetadata: {
+            count: 1,
+            total: 1,
+            tooManyToCount: false,
+            cursors: {},
+            hasNext: false,
+          },
+        });
+
+        return transformedData as TransformedResponse<T>;
+      } catch (error) {
+        console.error(`Error inserting item into ${collectionName}:`, error);
+        throw new Error(
+          `Failed to insert item into ${collectionName}: ${
             error instanceof Error ? error.message : 'Unknown error'
           }`
         );

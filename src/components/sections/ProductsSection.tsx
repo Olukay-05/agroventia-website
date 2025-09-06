@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Filter, Search, SortDesc } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,11 +19,24 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import SectionContainer from '@/components/common/SectionContainer';
 import WixImage from '@/components/WixImage';
 import useScrollToSection from '@/hooks/useScrollToSection';
 import { useQuoteRequest } from '@/contexts/QuoteRequestContext';
 import ProductSkeleton from '@/components/common/ProductSkeleton';
+import { ProductCategory } from '@/services/wix-data.service';
 
 interface Product {
   _id: string;
@@ -50,7 +63,7 @@ interface CategoryWithProducts {
 }
 
 interface ProductsSectionProps {
-  data?: CategoryWithProducts[];
+  data?: CategoryWithProducts[] | ProductCategory[];
   isLoading: boolean;
 }
 
@@ -62,11 +75,53 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [hoveredProductId, setHoveredProductId] = useState<string | null>(null);
   const { scrollToSection } = useScrollToSection();
   const { setRequestedProduct, prefetchProductForQuote } = useQuoteRequest();
 
   // Ensure we have a consistent data structure to prevent conditional hook issues
   const safeData = data || [];
+
+  // Type guard to check if data is ProductCategory[]
+  const isProductCategoryArray = (
+    data: CategoryWithProducts[] | ProductCategory[]
+  ): data is ProductCategory[] => {
+    return (
+      data.length > 0 &&
+      (data as ProductCategory[])[0] &&
+      'categoryImage' in (data as ProductCategory[])[0]
+    );
+  };
+
+  // Transform ProductCategory[] to CategoryWithProducts[] if needed
+  const transformedData = Array.isArray(safeData)
+    ? isProductCategoryArray(safeData)
+      ? safeData.map(category => ({
+          _id: category._id,
+          title: category.title,
+          categoryName: category.title,
+          description: category.description,
+          image: category.categoryImage,
+          categoryImage: category.categoryImage,
+          allProducts: category.allProducts,
+          productReferences_data: category.productReferences_data,
+          // Add index signature properties
+          ...Object.fromEntries(
+            Object.entries(category).filter(
+              ([key]) =>
+                ![
+                  '_id',
+                  'title',
+                  'description',
+                  'categoryImage',
+                  'allProducts',
+                  'productReferences_data',
+                ].includes(key)
+            )
+          ),
+        }))
+      : safeData
+    : [];
 
   // Check for category filter from sessionStorage on component mount
   useEffect(() => {
@@ -165,19 +220,30 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
   // Check if data has allProducts at the collection level (as per the JSON structure)
   if (
-    safeData &&
-    (safeData as unknown as { allProducts?: Product[] }).allProducts
+    transformedData &&
+    (transformedData as unknown as { allProducts?: Product[] }).allProducts
   ) {
-    individualProducts = (safeData as unknown as { allProducts: Product[] })
-      .allProducts;
+    individualProducts = (
+      transformedData as unknown as { allProducts: Product[] }
+    ).allProducts;
   }
   // Check if any category has allProducts
-  else if (safeData && safeData.length > 0) {
-    const categoryWithProducts = safeData.find(
-      cat => cat.allProducts && cat.allProducts.length > 0
-    );
+  else if (transformedData && transformedData.length > 0) {
+    const categoryWithProducts = transformedData.find(cat => {
+      // Type guard to check if cat has allProducts property
+      if ('allProducts' in cat && Array.isArray(cat.allProducts)) {
+        return cat.allProducts.length > 0;
+      }
+      return false;
+    });
     if (categoryWithProducts) {
-      individualProducts = categoryWithProducts.allProducts || [];
+      // Type guard to ensure categoryWithProducts has allProducts
+      if (
+        'allProducts' in categoryWithProducts &&
+        Array.isArray(categoryWithProducts.allProducts)
+      ) {
+        individualProducts = categoryWithProducts.allProducts || [];
+      }
     }
   }
 
@@ -185,8 +251,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const products =
     individualProducts && individualProducts.length > 0
       ? individualProducts
-      : Array.isArray(safeData)
-        ? safeData
+      : Array.isArray(transformedData)
+        ? transformedData
         : defaultProducts;
 
   // Check if we're displaying individual products or categories
@@ -207,6 +273,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         return null;
       }
 
+      // Type guard to check if product is ProductCategory
+      const isProductCategory = (p: unknown): p is ProductCategory => {
+        return p !== null && typeof p === 'object' && 'categoryImage' in p;
+      };
+
       const wixProduct = product as unknown as {
         name?: string;
         image1?: string;
@@ -215,30 +286,63 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       }; // Type assertion for Wix data structure
       const productWithName = product as Product; // Type assertion for Product with productName
 
-      const imageSource =
-        product.image ||
-        wixProduct.image1 ||
-        wixProduct.categoryImage ||
+      // Handle image source based on product type
+      let imageSource =
         'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop&crop=center&auto=format';
+      if ('image' in product && typeof product.image === 'string') {
+        imageSource = product.image;
+      } else if (wixProduct.image1) {
+        imageSource = wixProduct.image1;
+      } else if (wixProduct.categoryImage) {
+        imageSource = wixProduct.categoryImage;
+      } else if (isProductCategory(product) && product.categoryImage) {
+        imageSource = product.categoryImage;
+      }
+
+      // Handle title based on product type
+      let title = 'Agricultural Product';
+      if ('name' in product && typeof product.name === 'string') {
+        title = product.name;
+      } else if (wixProduct.name) {
+        title = wixProduct.name;
+      } else if ('title' in product && typeof product.title === 'string') {
+        title = product.title;
+      } else if (productWithName.productName) {
+        title = productWithName.productName;
+      } else if (productWithName.title) {
+        title = productWithName.title;
+      } else if (isProductCategory(product)) {
+        title = product.title;
+      }
+
+      // Handle product count based on product type
+      let productCount = 1;
+      if (
+        'productCount' in product &&
+        typeof product.productCount === 'number'
+      ) {
+        productCount = product.productCount;
+      }
+
+      // Handle category based on product type
+      let category = 'Not categorized';
+      if ('category' in product && typeof product.category === 'string') {
+        category = product.category;
+      } else if (wixProduct.category) {
+        category = wixProduct.category;
+      } else if (isProductCategory(product)) {
+        category = product.title;
+      }
 
       return {
         _id: product._id || `product-${index}`, // Fallback to index if no _id
-        title:
-          (product as unknown as { name?: string }).name || // Check product.name first (Wix data structure)
-          wixProduct.name ||
-          product.title ||
-          productWithName.productName ||
-          productWithName.title ||
-          'Agricultural Product',
+        title,
         description:
           product.description ||
           'Premium agricultural product sourced from trusted suppliers.',
         image: imageSource,
-        productCount: product.productCount || 1,
-        category:
-          (product as unknown as { category?: string }).category ||
-          wixProduct.category ||
-          'Not categorized',
+        productCount,
+        category,
       };
     })
     .filter(product => product !== null) as {
@@ -311,6 +415,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     scrollToSection('contact', 100);
   };
 
+  // Handle schedule consultation button click
+  const handleScheduleConsultation = () => {
+    scrollToSection('contact', 100);
+  };
+
   return (
     <SectionContainer
       id="products"
@@ -353,7 +462,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               value={selectedCategory}
               onValueChange={setSelectedCategory}
             >
-              <SelectTrigger className="w-full btn-agro-outline">
+              <SelectTrigger className="w-full btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50">
                 <Filter size={14} className="mr-2" />
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
@@ -362,7 +471,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                 {categories
                   .filter(cat => cat !== 'all')
                   .map(category => (
-                    <SelectItem key={category} value={category}>
+                    <SelectItem
+                      key={category}
+                      value={category}
+                      className="text-agro-primary-900 dark:text-agro-neutral-50"
+                    >
                       {category.charAt(0).toUpperCase() + category.slice(1)}
                     </SelectItem>
                   ))}
@@ -373,13 +486,23 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
           {/* Sort Controls */}
           <div className="flex gap-2">
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-32 btn-agro-outline">
+              <SelectTrigger className="w-32 btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50">
                 <SortDesc size={14} className="mr-2" />
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="name">Name</SelectItem>
-                <SelectItem value="category">Category</SelectItem>
+                <SelectItem
+                  value="name"
+                  className="text-agro-primary-900 dark:text-agro-neutral-50"
+                >
+                  Name
+                </SelectItem>
+                <SelectItem
+                  value="category"
+                  className="text-agro-primary-900 dark:text-agro-neutral-50"
+                >
+                  Category
+                </SelectItem>
               </SelectContent>
             </Select>
             <Button
@@ -395,7 +518,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
         {/* Results Count */}
         <div className="px-4 mb-4">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-agro-neutral-200">
             Showing {sortedProducts.length} of {mappedProducts.length} products
           </p>
         </div>
@@ -410,7 +533,9 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                   product._id && (
                     <Card
                       key={product._id}
-                      className="flex cursor-pointer flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                      className="flex cursor-pointer flex-col overflow-hidden gap-3 hover:shadow-lg transition-shadow duration-300"
+                      onMouseEnter={() => setHoveredProductId(product._id)}
+                      onMouseLeave={() => setHoveredProductId(null)}
                     >
                       <div
                         className="overflow-hidden rounded-t-lg relative wix-image-container"
@@ -425,11 +550,13 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                           fill
                           className="object-cover w-full h-full"
                         />
-                        <Badge className="absolute top-2 right-2 bg-green-600 text-white z-10">
-                          {isDisplayingIndividualProducts
-                            ? 'In Stock'
-                            : `${product.productCount} Products`}
-                        </Badge>
+                        {hoveredProductId === product._id && (
+                          <Badge className="absolute top-2 right-2 bg-green-600 text-white z-10">
+                            {isDisplayingIndividualProducts
+                              ? 'In Stock'
+                              : `${product.productCount} Products`}
+                          </Badge>
+                        )}
                       </div>
                       <CardHeader className="pb-3">
                         <CardTitle className="line-clamp-2">
@@ -437,7 +564,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="pb-3 flex-grow">
-                        <p className="text-gray-600 line-clamp-3">
+                        <p className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3">
                           {product.description || 'Product description'}
                         </p>
                       </CardContent>
@@ -461,7 +588,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-lg text-gray-500">
+              <p className="text-lg text-gray-500 dark:text-agro-neutral-400">
                 No products found matching your criteria.
               </p>
             </div>
@@ -472,12 +599,13 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         <div className="text-center scroll-reveal px-4 mt-[4rem]">
           <div className="glass-card p-6 md:p-8 lg:p-12 max-w-4xl mx-auto">
             <h3 className="heading-subsection mb-3 md:mb-4">
-              Ready to Transform Your Agricultural Operations?
+              Quality You Can Trust. Supply You Can Rely On Always.
             </h3>
             <p className="text-body mb-6 md:mb-8 max-w-2xl mx-auto">
-              Join thousands of farmers worldwide who trust AgroVentia for their
-              agricultural supply needs. Get access to premium products, expert
-              consultation, and unmatched customer support.
+              AgroVentia delivers Africa&#39;s best consistently, transparently,
+              and on time. Every shipment is managed with precision,
+              professionalism, and integrity; so you can focus on scaling your
+              business. Partner with us, and grow with confidence.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <Button
@@ -486,6 +614,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               >
                 Request Product Catalog
               </Button>
+
               <Button
                 size="lg"
                 variant="outline"

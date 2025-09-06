@@ -211,9 +211,9 @@ const Footer: React.FC = () => {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
                 <Image
-                  src="/agroventia-logo.jpg"
+                  src="/agroventia-logo%201.svg"
                   alt="AgroVentia Logo"
                   width={48}
                   height={48}
@@ -221,7 +221,9 @@ const Footer: React.FC = () => {
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-[#FDF8F0]">AgroVentia</h3>
+                <h3 className="text-xl font-bold text-[#FDF8F0]">
+                  AgroVentia Inc.
+                </h3>
                 <p className="text-sm text-[#F6F2E7] font-medium">
                   Agricultural Solutions
                 </p>

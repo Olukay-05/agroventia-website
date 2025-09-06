@@ -149,7 +149,7 @@ export default function WixImage({
 
   // Ensure proper styling for fill mode
   const containerClasses = `relative ${className || ''}`;
-  const containerStyle = fill
+  const containerStyle: React.CSSProperties = fill
     ? { position: 'relative', width: '100%', height: '100%', ...style }
     : { position: 'relative', ...style };
 

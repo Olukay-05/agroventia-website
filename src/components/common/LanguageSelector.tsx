@@ -13,7 +13,13 @@ import { useLocale } from '@/contexts/LocaleContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { Locale } from '@/lib/locale';
 
-export function LanguageSelector({ className }: { className?: string }) {
+export function LanguageSelector({
+  className,
+  onValueChange,
+}: {
+  className?: string;
+  onValueChange?: (value: string) => void;
+}) {
   const { locale, setLocale } = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -28,6 +34,9 @@ export function LanguageSelector({ className }: { className?: string }) {
     // Preserve any existing query parameters
     const newUrl = `${pathname}?${currentParams.toString()}`;
     router.push(newUrl);
+
+    // Call the onValueChange callback if provided
+    onValueChange?.(newLocale);
   };
 
   // Language options

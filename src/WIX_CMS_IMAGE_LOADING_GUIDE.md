@@ -79,13 +79,13 @@ export interface WixImageUrlResult {
 
 // utils/wix-image-converter.ts
 export function convertWixImageUrl(wixUrl: string): WixImageUrlResult | null {
-  if (typeof wixUrl !== "string") return null;
+  if (typeof wixUrl !== 'string') return null;
 
   // Check if it's a Wix internal URL
-  if (wixUrl.startsWith("wix:image://")) {
+  if (wixUrl.startsWith('wix:image://')) {
     try {
       // Extract components
-      const urlParts = wixUrl.replace("wix:image://v1/", "").split("/");
+      const urlParts = wixUrl.replace('wix:image://v1/', '').split('/');
       if (urlParts.length >= 2) {
         const imageIdPart = urlParts[0]; // e.g., "nsplsh_...~mv2.jpg"
         const filenamePart = urlParts[1]; // e.g., "Image%20...#originWidth=..."
@@ -94,17 +94,17 @@ export function convertWixImageUrl(wixUrl: string): WixImageUrlResult | null {
         let width = 800;
         let height = 600;
 
-        if (filenamePart.includes("#")) {
-          const fragment = filenamePart.split("#")[1];
+        if (filenamePart.includes('#')) {
+          const fragment = filenamePart.split('#')[1];
           const params = new URLSearchParams(fragment);
-          width = parseInt(params.get("originWidth") || "800");
-          height = parseInt(params.get("originHeight") || "600");
+          width = parseInt(params.get('originWidth') || '800');
+          height = parseInt(params.get('originHeight') || '600');
         }
 
         // Remove file extension to get clean image ID
         const imageId = imageIdPart.replace(
           /~mv2\.(jpg|jpeg|png|gif|webp)$/i,
-          ""
+          ''
         );
 
         // Create multiple URL formats for fallback
@@ -119,11 +119,11 @@ export function convertWixImageUrl(wixUrl: string): WixImageUrlResult | null {
           `https://static.wixstatic.com/media/${imageId}.jpg`,
 
           // Format 4: Direct Unsplash for nsplsh_ images
-          ...(imageId.startsWith("nsplsh_")
+          ...(imageId.startsWith('nsplsh_')
             ? [
                 `https://images.unsplash.com/photo-${imageId.replace(
-                  "nsplsh_",
-                  ""
+                  'nsplsh_',
+                  ''
                 )}?w=${Math.min(800, width)}&h=${Math.min(
                   600,
                   height
@@ -139,13 +139,13 @@ export function convertWixImageUrl(wixUrl: string): WixImageUrlResult | null {
         };
       }
     } catch (error) {
-      console.error("Error converting Wix URL:", error);
+      console.error('Error converting Wix URL:', error);
       return null;
     }
   }
 
   // Return standard URLs as-is
-  if (wixUrl.startsWith("http://") || wixUrl.startsWith("https://")) {
+  if (wixUrl.startsWith('http://') || wixUrl.startsWith('https://')) {
     return {
       primary: wixUrl,
       alternatives: [],
@@ -165,25 +165,25 @@ export function isImageField(fieldName: string, value: any): boolean {
   if (!value) return false;
 
   const imageFieldNames = [
-    "image",
-    "img",
-    "photo",
-    "picture",
-    "banner",
-    "logo",
-    "icon",
-    "thumbnail",
-    "avatar",
+    'image',
+    'img',
+    'photo',
+    'picture',
+    'banner',
+    'logo',
+    'icon',
+    'thumbnail',
+    'avatar',
   ];
 
   const lowerFieldName = fieldName.toLowerCase();
-  const hasImageInName = imageFieldNames.some((name) =>
+  const hasImageInName = imageFieldNames.some(name =>
     lowerFieldName.includes(name)
   );
 
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return hasImageInName || isImageUrl(value);
-  } else if (typeof value === "object" && value !== null) {
+  } else if (typeof value === 'object' && value !== null) {
     // Check for Wix media object structure
     return hasWixMediaStructure(value) || hasImageInName;
   }
@@ -192,36 +192,36 @@ export function isImageField(fieldName: string, value: any): boolean {
 }
 
 function isImageUrl(url: string): boolean {
-  if (typeof url !== "string") return false;
+  if (typeof url !== 'string') return false;
 
-  const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
   const lowerUrl = url.toLowerCase();
 
   // Check for Wix internal URLs
-  if (lowerUrl.startsWith("wix:image://")) return true;
+  if (lowerUrl.startsWith('wix:image://')) return true;
 
   // Check for image extensions
-  if (imageExtensions.some((ext) => lowerUrl.includes(ext))) return true;
+  if (imageExtensions.some(ext => lowerUrl.includes(ext))) return true;
 
   // Check for known image hosts
-  const imageHosts = ["wixstatic.com", "unsplash.com", "images.unsplash.com"];
-  return imageHosts.some((host) => lowerUrl.includes(host));
+  const imageHosts = ['wixstatic.com', 'unsplash.com', 'images.unsplash.com'];
+  return imageHosts.some(host => lowerUrl.includes(host));
 }
 
 function hasWixMediaStructure(obj: any): boolean {
-  if (!obj || typeof obj !== "object") return false;
+  if (!obj || typeof obj !== 'object') return false;
 
   const wixMediaProps = [
-    "src",
-    "url",
-    "filename",
-    "width",
-    "height",
-    "altText",
+    'src',
+    'url',
+    'filename',
+    'width',
+    'height',
+    'altText',
   ];
   const objKeys = Object.keys(obj);
 
-  return wixMediaProps.some((prop) => objKeys.includes(prop));
+  return wixMediaProps.some(prop => objKeys.includes(prop));
 }
 ```
 
@@ -231,14 +231,14 @@ function hasWixMediaStructure(obj: any): boolean {
 
 ```tsx
 // components/WixImage.tsx
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState, useCallback } from "react";
+import Image from 'next/image';
+import { useState, useCallback } from 'react';
 import {
   convertWixImageUrl,
   type WixImageUrlResult,
-} from "@/utils/wix-image-converter";
+} from '@/utils/wix-image-converter';
 
 interface WixImageProps {
   src: string;
@@ -259,7 +259,7 @@ export default function WixImage({
   onLoadSuccess,
   onLoadError,
 }: WixImageProps) {
-  const [currentSrc, setCurrentSrc] = useState<string>("");
+  const [currentSrc, setCurrentSrc] = useState<string>('');
   const [urlData, setUrlData] = useState<WixImageUrlResult | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -284,7 +284,7 @@ export default function WixImage({
         `Image failed, trying alternative ${currentIndex + 1}: ${nextUrl}`
       );
 
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex(prev => prev + 1);
       setCurrentSrc(nextUrl);
     } else {
       // All URLs failed
@@ -335,7 +335,7 @@ export default function WixImage({
         height={height}
         onLoad={handleImageLoad}
         onError={handleImageError}
-        className={isLoading ? "opacity-0" : "opacity-100 transition-opacity"}
+        className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity'}
         unoptimized // Disable Next.js optimization for external URLs
       />
     </div>
@@ -347,56 +347,56 @@ export default function WixImage({
 
 ```tsx
 // hooks/useWixImages.ts
-import { useMemo } from "react";
-import { isImageField } from "@/utils/image-detection";
+import { useMemo } from 'react';
+import { isImageField } from '@/utils/image-detection';
 
 interface WixImageInfo {
   fieldName: string;
   url: string;
-  type: "url" | "wix-media" | "object";
+  type: 'url' | 'wix-media' | 'object';
 }
 
 export function useWixImages(data: any): WixImageInfo[] {
   return useMemo(() => {
     const images: WixImageInfo[] = [];
 
-    function extractImages(obj: any, prefix = ""): void {
-      if (!obj || typeof obj !== "object") return;
+    function extractImages(obj: any, prefix = ''): void {
+      if (!obj || typeof obj !== 'object') return;
 
-      Object.keys(obj).forEach((key) => {
+      Object.keys(obj).forEach(key => {
         const value = obj[key];
         const fullKey = prefix ? `${prefix}.${key}` : key;
 
         if (isImageField(key, value)) {
-          if (typeof value === "string") {
+          if (typeof value === 'string') {
             images.push({
               fieldName: fullKey,
               url: value,
-              type: "url",
+              type: 'url',
             });
-          } else if (typeof value === "object" && value.src) {
+          } else if (typeof value === 'object' && value.src) {
             images.push({
               fieldName: fullKey,
               url: value.src,
-              type: "wix-media",
+              type: 'wix-media',
             });
-          } else if (typeof value === "object") {
+          } else if (typeof value === 'object') {
             const url = value.url || value.src || value.href || value.link;
             if (url) {
               images.push({
                 fieldName: fullKey,
                 url: url,
-                type: "object",
+                type: 'object',
               });
             }
           }
         } else if (Array.isArray(value)) {
           value.forEach((item, idx) => {
-            if (typeof item === "object") {
+            if (typeof item === 'object') {
               extractImages(item, `${fullKey}[${idx}]`);
             }
           });
-        } else if (typeof value === "object") {
+        } else if (typeof value === 'object') {
           extractImages(value, fullKey);
         }
       });
@@ -414,17 +414,17 @@ export function useWixImages(data: any): WixImageInfo[] {
 // lib/wix-api.ts
 export async function fetchWixCollection(collectionName: string) {
   const response = await fetch(
-    "https://www.wixapis.com/wix-data/v2/items/query",
+    'https://www.wixapis.com/wix-data/v2/items/query',
     {
-      method: "POST",
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.WIX_API_TOKEN}`,
-        "Content-Type": "application/json",
-        "wix-site-id": process.env.WIX_SITE_ID!,
+        'Content-Type': 'application/json',
+        'wix-site-id': process.env.WIX_SITE_ID!,
       },
       body: JSON.stringify({
         dataCollectionId: collectionName,
-        includeReferencedItems: ["*"],
+        includeReferencedItems: ['*'],
         returnTotalCount: true,
         cursorPaging: { limit: 100 },
       }),
@@ -456,17 +456,17 @@ export async function fetchWixCollection(collectionName: string) {
 }
 
 function processImageFields(data: any): any {
-  if (!data || typeof data !== "object") return data;
+  if (!data || typeof data !== 'object') return data;
 
   const processed = { ...data };
 
-  Object.keys(processed).forEach((key) => {
+  Object.keys(processed).forEach(key => {
     const value = processed[key];
 
     if (
       isImageField(key, value) &&
-      typeof value === "string" &&
-      value.startsWith("wix:image://")
+      typeof value === 'string' &&
+      value.startsWith('wix:image://')
     ) {
       // Add processed URL alongside original
       const converted = convertWixImageUrl(value);
@@ -474,8 +474,8 @@ function processImageFields(data: any): any {
         processed[`${key}_processed`] = converted;
       }
     } else if (Array.isArray(value)) {
-      processed[key] = value.map((item) => processImageFields(item));
-    } else if (typeof value === "object" && value !== null) {
+      processed[key] = value.map(item => processImageFields(item));
+    } else if (typeof value === 'object' && value !== null) {
       processed[key] = processImageFields(value);
     }
   });
@@ -488,9 +488,9 @@ function processImageFields(data: any): any {
 
 ```tsx
 // app/gallery/page.tsx
-import { Suspense } from "react";
-import WixImage from "@/components/WixImage";
-import { useWixImages } from "@/hooks/useWixImages";
+import { Suspense } from 'react';
+import WixImage from '@/components/WixImage';
+import { useWixImages } from '@/hooks/useWixImages';
 
 interface GalleryPageProps {
   data: any; // Your Wix collection data
@@ -518,8 +518,8 @@ export default function GalleryPage({ data }: GalleryPageProps) {
                 width={400}
                 height={300}
                 className="w-full h-64 object-cover"
-                onLoadSuccess={(url) => console.log(`✅ Loaded: ${url}`)}
-                onLoadError={(error) => console.error(`❌ Failed: ${error}`)}
+                onLoadSuccess={url => console.log(`✅ Loaded: ${url}`)}
+                onLoadError={error => console.error(`❌ Failed: ${error}`)}
               />
             </Suspense>
 
@@ -579,17 +579,17 @@ export function trackImageLoad(
   attempts: number
 ) {
   // Analytics tracking
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", "wix_image_load", {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'wix_image_load', {
       custom_map: { url, success, attempts },
       value: success ? 1 : 0,
     });
   }
 
   // Console logging for development
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     console.log(
-      `Image ${success ? "loaded" : "failed"}: ${url} (${attempts} attempts)`
+      `Image ${success ? 'loaded' : 'failed'}: ${url} (${attempts} attempts)`
     );
   }
 }
@@ -600,19 +600,16 @@ export function trackImageLoad(
 ### Common Issues and Solutions
 
 1. **Images not loading at all**
-
    - Check if URLs are being converted properly
    - Verify network connectivity and CORS settings
    - Ensure fallback URLs are implemented
 
 2. **403 Forbidden errors**
-
    - This is expected for dimension-based URLs
    - Ensure fallback to `~mv2.jpg` format is working
    - Check if alternative URL formats are being tried
 
 3. **Slow loading times**
-
    - Implement proper loading states
    - Consider image optimization strategies
    - Use appropriate image dimensions
@@ -626,8 +623,8 @@ export function trackImageLoad(
 
 ```typescript
 // Enable detailed logging in development
-if (process.env.NODE_ENV === "development") {
-  console.log("🔍 Wix Image Debug Info:", {
+if (process.env.NODE_ENV === 'development') {
+  console.log('🔍 Wix Image Debug Info:', {
     originalUrl: src,
     convertedUrl: currentSrc,
     alternativeUrls: urlData?.alternatives,
