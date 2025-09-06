@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { gsap } from 'gsap';
-import WixImage from '@/components/WixImage';
 import Image from 'next/image';
 import { LanguageSelector } from './LanguageSelector';
 
@@ -579,7 +578,7 @@ const PillNav: React.FC<PillNavProps> = ({
             </div>
             <div className="px-1">
               <LanguageSelector
-                onValueChange={value => {
+                onValueChange={() => {
                   // Close mobile menu when language is changed
                   if (
                     typeof window !== 'undefined' &&

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, Filter, Search, SortDesc } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,18 +19,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
 import SectionContainer from '@/components/common/SectionContainer';
 import WixImage from '@/components/WixImage';
 import useScrollToSection from '@/hooks/useScrollToSection';
@@ -412,11 +400,6 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     prefetchProductForQuote(productId);
 
     // Scroll to contact section
-    scrollToSection('contact', 100);
-  };
-
-  // Handle schedule consultation button click
-  const handleScheduleConsultation = () => {
     scrollToSection('contact', 100);
   };
 

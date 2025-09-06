@@ -114,7 +114,7 @@ const Footer: React.FC = () => {
   const navigationLinks = [
     { label: 'Home', href: '#hero' },
     { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
+    { label: 'Process', href: '#services' },
     { label: 'Products', href: '#products' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -125,11 +125,11 @@ const Footer: React.FC = () => {
           .slice(0, 5)
           .map(service => service.title || 'Agricultural Service')
       : [
-          'Agricultural Consulting',
-          'Supply Chain Management',
-          'Quality Control',
-          'Product Sourcing',
-          'Technical Support',
+          'Sourcing with Integrity',
+          'Rigorous Quality Checks',
+          'Seamless Logistics',
+          'On-Time Delivery',
+          'Long-Term Partnerships',
         ];
 
   const productCategories =
@@ -206,6 +206,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Content */}
+      {/* <div className="container-premium py-16 relative z-10"> */}
       <div className="container-premium py-16 relative z-10">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Company Info */}
@@ -231,9 +232,9 @@ const Footer: React.FC = () => {
             </div>
 
             <p className="text-[#F6F2E7] leading-relaxed">
-              Leading agricultural export company dedicated to providing premium
-              farming solutions and innovative agricultural products to farmers
-              worldwide.
+              Trusted agricultural export partner delivering premium products to
+              global markets with consistency, transparency, and on-time
+              delivery.
             </p>
 
             <div className="space-y-4">
@@ -280,7 +281,7 @@ const Footer: React.FC = () => {
 
           {/* Services */}
           <FooterLinkSection
-            title="Our Services"
+            title="Our Process"
             links={serviceLinks}
             onLinkClick={handleServiceClick}
           />

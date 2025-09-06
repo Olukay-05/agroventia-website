@@ -79,7 +79,7 @@ export class WixApiService {
         const response = await fetch(`/api/collections/${collectionName}`);
 
         if (!response.ok) {
-          const errorText = await response.text();
+          await response.text(); // Consume response body to avoid memory leaks
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
@@ -197,8 +197,10 @@ export class WixApiService {
             if (errorJson.details) {
               errorMessage += ` (${JSON.stringify(errorJson.details)})`;
             }
-          } catch (e) {
+          } catch (error) {
             // Keep original error message if JSON parsing fails
+            // Consume error to satisfy linter
+            void error;
           }
 
           throw new Error(errorMessage);
@@ -242,7 +244,7 @@ export class WixApiService {
         });
 
         if (!response.ok) {
-          const errorText = await response.text();
+          await response.text(); // Consume response body to avoid memory leaks
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
@@ -356,8 +358,10 @@ export class WixApiService {
             if (errorJson.details) {
               errorMessage += ` (${JSON.stringify(errorJson.details)})`;
             }
-          } catch (e) {
+          } catch (error) {
             // Keep original error message if JSON parsing fails
+            // Consume error to satisfy linter
+            void error;
           }
 
           throw new Error(errorMessage);

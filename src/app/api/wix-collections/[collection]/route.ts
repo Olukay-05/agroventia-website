@@ -1,15 +1,15 @@
 // src/app/api/wix-collections/[collection]/route.ts
 import { NextResponse } from 'next/server';
-import { wixDataService } from '@/services/wix-data.service';
 import { CollectionNames } from '@/services/wix-data.service';
 
 export async function POST(
   request: Request,
-  { params }: { params: { collection: string } }
+  context: { params: Promise<{ collection: string }> }
 ) {
   try {
-    const { collection } = params;
-    const data = await request.json();
+    const { collection } = await context.params;
+    // We're not using the request body data in this implementation
+    await request.json();
 
     // Validate collection name
     if (
@@ -33,7 +33,7 @@ export async function POST(
       },
       { status: 400 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error inserting item:', error);
 
     return NextResponse.json(

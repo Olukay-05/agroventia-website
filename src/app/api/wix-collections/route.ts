@@ -1,6 +1,5 @@
 // src/app/api/wix-collections/route.ts
 import { NextResponse } from 'next/server';
-import { wixDataService } from '@/services/wix-data.service';
 
 export async function GET() {
   try {
@@ -43,7 +42,7 @@ export async function GET() {
 
     // Return the collections data
     return NextResponse.json({ collections });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error fetching collection IDs:', error);
     console.error('Error details:', {
       message: (error as Error).message,
@@ -62,7 +61,6 @@ export async function GET() {
     );
   }
 }
-
 // POST handler for inserting items into Wix collections
 export async function POST(request: Request) {
   try {
@@ -93,7 +91,7 @@ export async function POST(request: Request) {
       },
       { status: 400 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error processing POST request:', error);
 
     return NextResponse.json(
