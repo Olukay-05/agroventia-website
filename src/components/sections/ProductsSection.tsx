@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Filter, Search, SortDesc } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +19,18 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import SectionContainer from '@/components/common/SectionContainer';
 import WixImage from '@/components/WixImage';
 import useScrollToSection from '@/hooks/useScrollToSection';
@@ -63,6 +75,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [hoveredProductId, setHoveredProductId] = useState<string | null>(null);
   const { scrollToSection } = useScrollToSection();
   const { setRequestedProduct, prefetchProductForQuote } = useQuoteRequest();
 
@@ -402,6 +415,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     scrollToSection('contact', 100);
   };
 
+  // Handle schedule consultation button click
+  const handleScheduleConsultation = () => {
+    scrollToSection('contact', 100);
+  };
+
   return (
     <SectionContainer
       id="products"
@@ -516,6 +534,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                     <Card
                       key={product._id}
                       className="flex cursor-pointer flex-col overflow-hidden gap-3 hover:shadow-lg transition-shadow duration-300"
+                      onMouseEnter={() => setHoveredProductId(product._id)}
+                      onMouseLeave={() => setHoveredProductId(null)}
                     >
                       <div
                         className="overflow-hidden rounded-t-lg relative wix-image-container"
@@ -530,11 +550,13 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                           fill
                           className="object-cover w-full h-full"
                         />
-                        <Badge className="absolute top-2 right-2 bg-green-600 text-white z-10">
-                          {isDisplayingIndividualProducts
-                            ? 'In Stock'
-                            : `${product.productCount} Products`}
-                        </Badge>
+                        {hoveredProductId === product._id && (
+                          <Badge className="absolute top-2 right-2 bg-green-600 text-white z-10">
+                            {isDisplayingIndividualProducts
+                              ? 'In Stock'
+                              : `${product.productCount} Products`}
+                          </Badge>
+                        )}
                       </div>
                       <CardHeader className="pb-3">
                         <CardTitle className="line-clamp-2">
@@ -577,12 +599,13 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         <div className="text-center scroll-reveal px-4 mt-[4rem]">
           <div className="glass-card p-6 md:p-8 lg:p-12 max-w-4xl mx-auto">
             <h3 className="heading-subsection mb-3 md:mb-4">
-              Ready to Transform Your Agricultural Operations?
+              Quality You Can Trust. Supply You Can Rely On Always.
             </h3>
             <p className="text-body mb-6 md:mb-8 max-w-2xl mx-auto">
-              Join thousands of farmers worldwide who trust AgroVentia for their
-              agricultural supply needs. Get access to premium products, expert
-              consultation, and unmatched customer support.
+              AgroVentia delivers Africa&#39;s best consistently, transparently,
+              and on time. Every shipment is managed with precision,
+              professionalism, and integrity; so you can focus on scaling your
+              business. Partner with us, and grow with confidence.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <Button
@@ -591,6 +614,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               >
                 Request Product Catalog
               </Button>
+
               <Button
                 size="lg"
                 variant="outline"

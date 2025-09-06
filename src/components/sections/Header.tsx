@@ -24,7 +24,7 @@ const Header: React.FC = () => {
   const navigationItems = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/#about' },
-    { label: 'Services', href: '/#services' },
+    { label: 'Process', href: '/#services' },
     { label: 'Products', href: '/#products' },
     { label: 'Contact', href: '/#contact' },
   ];
@@ -37,7 +37,7 @@ const Header: React.FC = () => {
     >
       <div className="container-premium flex justify-between items-center">
         <PillNav
-          logo="/agroventia-logo.jpg"
+          logo="/agroventia-logo%201.svg"
           logoAlt="AgroVentia Logo"
           items={navigationItems}
           activeHref="/"

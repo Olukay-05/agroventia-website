@@ -5,7 +5,7 @@ import { wixApiService, TransformedResponse } from './wix-api.service';
 export interface WixBaseItem {
   _id: string;
   _owner: string;
-  _createdDate: { $date: string };
+  _createdDate: { $date: string }; // This is the system field
   _updatedDate: { $date: string };
   isActive?: boolean;
 }
