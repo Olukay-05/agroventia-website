@@ -295,9 +295,9 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Newsletter Signup */}
-        <div className="mt-16">
+        {/* <div className="mt-16">
           <FooterNewsletter />
-        </div>
+        </div> */}
       </div>
 
       <Separator className="bg-gradient-to-r from-transparent via-[#F6F2E7]/50 to-transparent" />

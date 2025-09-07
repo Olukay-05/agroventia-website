@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { useScrollToSection } from '@/hooks/useScrollToSection';
 
 interface ServiceFeatureCardProps {
   title: string;
@@ -17,6 +18,7 @@ const ServiceFeatureCard: React.FC<ServiceFeatureCardProps> = ({
   isActive = false,
   onClick,
 }) => {
+  const { scrollToSection } = useScrollToSection();
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -129,8 +131,13 @@ const ServiceFeatureCard: React.FC<ServiceFeatureCardProps> = ({
             className="flex items-center text-green-600"
             animate={{ x: isHovered ? 5 : 0 }}
             transition={{ type: 'spring', stiffness: 300 }}
+            onClick={e => {
+              e.stopPropagation();
+              scrollToSection('products');
+              if (onClick) onClick();
+            }}
           >
-            <span className="text-sm font-medium">Learn more</span>
+            <span className="text-sm font-medium">View Products</span>
             <ArrowRight size={16} className="ml-1" />
           </motion.div>
         )}

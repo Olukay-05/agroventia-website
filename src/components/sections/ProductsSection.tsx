@@ -142,30 +142,27 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const defaultProducts = [
     {
       _id: 'category-1',
-      title: 'Farm Equipment',
+      title: 'Charcoal',
       description:
-        'Modern farming equipment and machinery for efficient agricultural operations.',
-      image:
-        'https://images.unsplash.com/photo-1634584604333-75c849472112?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHw0fHx0cmFjdG9yJTIwZmFybSUyMGVxdWlwbWVudCUyMG1hY2hpbmVyeSUyMGhhcnZlc3RlcnxlbnwwfDB8fHwxNzU2MjE4Mzc0fDA&ixlib=rb-4.1.0&q=85',
-      productCount: 25,
+        'Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.',
+      image: '/charcoal.jpg',
+      productCount: 15,
     },
     {
       _id: 'category-2',
-      title: 'Crop Protection',
+      title: 'Fresh Kola nuts',
       description:
-        'Advanced crop protection solutions including pesticides and disease management products.',
-      image:
-        'https://images.unsplash.com/photo-1708266658968-a9e1dc40ab17?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHw0fHxjcm9wJTIwc3ByYXlpbmclMjBwbGFudCUyMHByb3RlY3Rpb24lMjBhZ3JpY3VsdHVyZSUyMHBlc3RpY2lkZXxlbnwwfDB8fGdyZWVufDE3NTYyMTgzNzR8MA&ixlib=rb-4.1.0&q=85',
-      productCount: 18,
+        'Fresh, handpicked kola nut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.',
+      image: '/fresh-kolanuts.jpg',
+      productCount: 22,
     },
     {
       _id: 'category-3',
-      title: 'Fertilizers & Nutrients',
+      title: 'Cocoa Pods',
       description:
-        'Premium fertilizers and plant nutrients for optimal crop growth and yield.',
-      image:
-        'https://images.unsplash.com/photo-1682785868646-f2353d226849?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHw2fHxmZXJ0aWxpemVyJTIwcGxhbnQlMjBudXRyaWVudHMlMjBzb2lsJTIwYWdyaWN1bHR1cmV8ZW58MHwwfHx8MTc1NjIxODM3NHww&ixlib=rb-4.1.0&q=85',
-      productCount: 32,
+        'Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.',
+      image: '/cocoa-pod.jpg',
+      productCount: 18,
     },
   ];
 
@@ -593,7 +590,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <Button
                 size="lg"
-                className="btn-agro-primary text-sm md:text-base py-3 md:py-4"
+                className="btn-agro-primary text-sm md:text-base py-3 md:py-4 cursor-pointer"
+                onClick={() => scrollToSection('contact')}
               >
                 Request Product Catalog
               </Button>
@@ -601,9 +599,10 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               <Button
                 size="lg"
                 variant="outline"
-                className="btn-agro-outline text-sm md:text-base py-3 md:py-4"
+                className="btn-agro-outline text-sm md:text-base py-3 md:py-4 cursor-pointer"
+                onClick={() => scrollToSection('contact')}
               >
-                Schedule Consultation
+                Schedule a Call
               </Button>
             </div>
           </div>

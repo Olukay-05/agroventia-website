@@ -282,7 +282,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
       />
 
       {/* Blob Cursor - placed to cover the entire section */}
-      <BlobCursor
+      {/* <BlobCursor
         blobType="circle"
         fillColor="#00a63e"
         trailCount={3}
@@ -300,7 +300,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
         slowDuration={0.5}
         zIndex={100}
         constrainToElement={true}
-      />
+      /> */}
 
       {/* Glassmorphic container wrapper - hidden on mobile */}
       <div className="container-premium relative z-10">
@@ -316,7 +316,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                       typeof data === 'object' &&
                       !Array.isArray(data) &&
                       (data as unknown as WixServicesData).sectionTitle) ||
-                    'Our Services'}
+                    'Our Process'}
                 </h2>
                 <div className="text-lead text-[#fdf8f0] max-w-3xl mx-auto">
                   {servicesDataObject?.sectionDescription ||
@@ -336,8 +336,9 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                     />
                   ) : (
                     <p>
-                      Comprehensive agricultural solutions designed to meet the
-                      evolving needs of modern farming operations
+                      From farm to market, our process ensures every product is
+                      sourced responsibly, inspected carefully, and delivered
+                      reliably to global buyers.
                     </p>
                   )}
                 </div>

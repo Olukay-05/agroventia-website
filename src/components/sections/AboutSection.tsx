@@ -161,14 +161,14 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         </div>
 
         {/* Added even spacing for mobile screens */}
-        <div className="space-y-16 md:space-y-0 md:grid md:grid-cols-2 md:gap-16">
+        <div className="space-y-16 md:space-y-0 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-16">
           {/* Left Content - Centered on mobile */}
           <div className="space-y-16 scroll-reveal">
             <div className="space-y-6 ">
               <h3 className="heading-subsection text-center">Our Story</h3>
               <div
                 className={cn(
-                  'text-body-large leading-relaxed expandable-text text-center md:text-left relative overflow-hidden',
+                  'text-body-large leading-relaxed expandable-text text-center lg:text-left relative overflow-hidden',
                   isStoryExpanded
                     ? 'expanded opacity-100'
                     : 'collapsed opacity-90'

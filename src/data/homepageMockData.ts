@@ -82,19 +82,19 @@ export const mockRootProps = {
     _owner: 'mock-owner',
     _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
     _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
-    sectionTitle: 'Our Services',
+    sectionTitle: 'Our Process',
     sectionDescription:
-      'Comprehensive agricultural solutions tailored to your specific needs',
+      'From farm to market, our process ensures every product is sourced responsibly, inspected carefully, and delivered reliably to global buyers.',
     importServices:
-      'We provide seamless import services for agricultural products from around the world, handling all customs and logistics.',
+      'We identify Africa’s finest agricultural producers, prioritizing ethical practices and sustainable farming.',
     customSourcing:
-      'Our team can source specific products and varieties to meet your unique requirements.',
+      'We deliver as promised, shipments arrive on schedule so you can focus on growing your business.',
     qualityAssurance:
-      'Every product undergoes rigorous quality checks to ensure it meets our high standards.',
+      'Every product is carefully inspected and verified to meet international standards before export.',
     logistics:
-      'We offer end-to-end logistics solutions, from origin to your doorstep.',
+      'Our experienced team manages the entire supply chain, ensuring efficiency and transparency.',
     documentation:
-      'We handle all necessary documentation and certifications for smooth import processes.',
+      'More than a supplier, we’re committed to building lasting relationships based on trust and value.',
     servicesImage:
       'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHJlJTIwbG9naXN0aWNzJTIwc3VwcGx5JTIwY2hhaW58ZW58MHwwfHx8MTc1NjIxODM3NHww&ixlib=rb-4.1.0&q=85',
   },
