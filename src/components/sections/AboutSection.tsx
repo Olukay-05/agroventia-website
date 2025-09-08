@@ -124,7 +124,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
   }
 
   return (
-    <SectionContainer className="py-16 md:py-24">
+    <SectionContainer id="about" className="py-16 md:py-24">
       {/* DotGrid Background - Full Section Coverage - Desktop Only */}
       <div className="absolute inset-0 w-full h-full hidden md:block">
         <DotGrid

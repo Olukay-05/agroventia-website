@@ -12,6 +12,7 @@ import {
   WixCarouselItem,
 } from '@/services/carousel.service';
 import { HeroContent } from '@/types/wix';
+import useScrollToSection from '@/hooks/useScrollToSection';
 
 interface HeroSectionProps {
   data?: HeroContent;
@@ -31,6 +32,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   // For backward compatibility, we'll still use the hook if no data is provided
   const { data: heroContentData, isLoading: hookIsLoading } = useHeroContent();
   const heroContent = data || heroContentData?.[0];
+  const { scrollToSection } = useScrollToSection();
 
   // Calculate effectiveIsLoading first to avoid reference error
   const effectiveIsLoading =
@@ -160,13 +162,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     }
   }, [effectiveIsLoading, carouselLoading]);
 
-  const handleNavClick = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   // Get current carousel item
   const currentItem = carouselItems[currentItemIndex] || null;
 
@@ -265,10 +260,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             <Button
               size="lg"
               className={cn(
-                'btn-agro-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group transition-opacity duration-1000 ease-in-out',
+                'btn-agro-primary cursor-pointer text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group transition-opacity duration-1000 ease-in-out',
                 contentLoaded ? 'opacity-100' : 'opacity-0'
               )}
-              onClick={() => handleNavClick('#products')}
+              onClick={() => scrollToSection('products')}
             >
               {heroContent?.ctaPrimary || 'Explore Products'}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -281,7 +276,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   'text-base cursor-pointer sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group border-white/30 text-white hover:bg-white/20 backdrop-blur-lg shadow-lg transition-opacity duration-1000 ease-in-out',
                   contentLoaded ? 'opacity-100' : 'opacity-0'
                 )}
-                onClick={() => handleNavClick('#contact')}
+                onClick={() => scrollToSection('contact')}
               >
                 {heroContent?.ctaSecondary ||
                   data?.ctaSecondary ||

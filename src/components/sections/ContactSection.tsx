@@ -275,7 +275,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
 
   if (isLoading) {
     return (
-      <SectionContainer id="contact" background="muted">
+      <SectionContainer id="contact-loading" background="muted">
         <div className="max-w-6xl mx-auto p-6">
           {/* Section Header Skeleton */}
           <div className="text-center mb-16">
@@ -335,7 +335,10 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
   }
 
   return (
-    <SectionContainer className="py-16 md:py-24 bg-agro-neutral-50">
+    <SectionContainer
+      id="contact"
+      className="py-16 md:py-24 bg-agro-neutral-50"
+    >
       {/* Toast Provider */}
       <ToastProvider>
         {toast && (

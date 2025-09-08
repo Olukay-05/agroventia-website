@@ -55,7 +55,7 @@ const CookiePolicyPage = () => {
 
           <Card className="bg-white/80 backdrop-blur-sm border border-[#281909]/10 shadow-xl rounded-3xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-[#225217] to-[#CD7E0D] text-[#FDF8F0]">
-              <CardTitle className="text-3xl font-bold">
+              <CardTitle className="text-3xl font-bold text-[#fdf8f0] p-4">
                 Cookie Policy
               </CardTitle>
             </CardHeader>

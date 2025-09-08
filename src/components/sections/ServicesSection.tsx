@@ -263,7 +263,10 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
   }
 
   return (
-    <section className="py-16 md:py-24 bg-agro-neutral-50 relative overflow-hidden">
+    <section
+      id="services"
+      className="py-16 md:py-24 bg-agro-neutral-50 relative overflow-hidden"
+    >
       {/* Background image - desktop/tablet version */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden sm:block"
@@ -490,7 +493,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
           <div className="lg:hidden max-w-6xl mx-auto px-4 md:px-6">
             {/* Section Header */}
             <div className="text-center mb-12 scroll-reveal">
-              <h2 className="heading-section text-[#281909]">
+              <h2 className="heading-section text-[#fdf8f0]">
                 {servicesDataObject?.sectionTitle ||
                   (data &&
                     typeof data === 'object' &&
@@ -498,7 +501,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                     (data as unknown as WixServicesData).sectionTitle) ||
                   'Our Services'}
               </h2>
-              <div className="text-lead text-[#281909] max-w-3xl mx-auto">
+              <div className="text-lead text-[#fdf8f0] max-w-3xl mx-auto">
                 {servicesDataObject?.sectionDescription ||
                 (data &&
                   typeof data === 'object' &&

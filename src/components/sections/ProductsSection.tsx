@@ -479,7 +479,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   };
 
   return (
-    <SectionContainer className="py-16 md:py-24">
+    <SectionContainer id="products" className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 scroll-reveal">

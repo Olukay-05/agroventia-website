@@ -19,13 +19,23 @@ const CookieBanner: React.FC = () => {
       window.location.pathname.includes('cookie-policy') ||
       window.location.pathname.includes('policy');
 
-    // Show if no consent has been given and not on legal pages
-    if (
-      !consent.analytics &&
-      !consent.marketing &&
-      !consent.functional &&
-      !isLegalPage
-    ) {
+    // Check if user has made any consent choice (not in default state)
+    // hasMadeChoice is true if any cookie type has been explicitly set to true
+    // or if all optional cookies have been explicitly set to false (reject all)
+    // Check if user has made any consent choice (not in default state)
+    // hasMadeChoice is true if any cookie type has been explicitly set to true
+    // or if all optional cookies have been explicitly set to false (reject all)
+    const hasMadeChoice =
+      consent.analytics === true ||
+      consent.marketing === true ||
+      consent.functional === true ||
+      (consent.analytics === false &&
+        consent.marketing === false &&
+        consent.functional === false);
+
+    // Show if no explicit consent has been given and not on legal pages
+    // Only show if user hasn't made a choice yet
+    if (!hasMadeChoice && !isLegalPage) {
       // Small delay to ensure page is loaded
       const timer = setTimeout(() => {
         setIsVisible(true);
