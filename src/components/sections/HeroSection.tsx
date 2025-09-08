@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play } from 'lucide-react';
-import HeroSkeleton from '@/components/common/HeroSkeleton';
+import BlurredHeroSkeleton from '@/components/common/BlurredHeroSkeleton';
 import WixImage from '@/components/WixImage';
 import { cn } from '@/lib/utils';
 import {
@@ -12,6 +12,7 @@ import {
   WixCarouselItem,
 } from '@/services/carousel.service';
 import { HeroContent } from '@/types/wix';
+import useScrollToSection from '@/hooks/useScrollToSection';
 
 interface HeroSectionProps {
   data?: HeroContent;
@@ -31,16 +32,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   // For backward compatibility, we'll still use the hook if no data is provided
   const { data: heroContentData, isLoading: hookIsLoading } = useHeroContent();
   const heroContent = data || heroContentData?.[0];
+  const { scrollToSection } = useScrollToSection();
 
-  // Add debugging to see what data is being fetched
-  // useEffect(() => {
-  //   if (heroContentData) {
-  //     console.log('Hero content data:', heroContentData);
-  //   }
-  //   if (error) {
-  //     console.error('Hero content error:', error);
-  //   }
-  // }, [heroContentData, error]);
+  // Calculate effectiveIsLoading first to avoid reference error
+  const effectiveIsLoading =
+    isLoading !== undefined ? isLoading : hookIsLoading;
 
   const heroRef = useRef<HTMLElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
@@ -49,6 +45,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [carouselLoading, setCarouselLoading] = useState(true);
   const [carouselError, setCarouselError] = useState<string | null>(null);
+  const [contentLoaded, setContentLoaded] = useState(false);
 
   // Fetch carousel data from CarouselImageDisplay collection
   useEffect(() => {
@@ -152,22 +149,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  // Handle content loading state
+  useEffect(() => {
+    if (!effectiveIsLoading && !carouselLoading) {
+      // Add a small delay to ensure content is rendered before showing
+      const timer = setTimeout(() => {
+        setContentLoaded(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      setContentLoaded(false);
     }
-  };
+  }, [effectiveIsLoading, carouselLoading]);
 
   // Get current carousel item
   const currentItem = carouselItems[currentItemIndex] || null;
 
-  const effectiveIsLoading =
-    isLoading !== undefined ? isLoading : hookIsLoading;
-
   // Show skeleton only during initial data loading or carousel loading
   if (effectiveIsLoading || carouselLoading) {
-    return <HeroSkeleton />;
+    return <BlurredHeroSkeleton />;
   }
 
   if (carouselError) {
@@ -232,12 +232,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 px-4 sm:px-0">
           {/* Main Heading */}
           <div className="space-y-3 md:space-y-4 scroll-reveal">
-            <h1 className="heading-hero px-2">
+            <h1
+              className={cn(
+                'heading-hero px-2 transition-opacity duration-1000 ease-in-out',
+                contentLoaded ? 'opacity-100' : 'opacity-0'
+              )}
+            >
               {currentItem?.title ||
                 heroContent?.title ||
                 'Premium Agricultural Imports from West Africa'}
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200 max-w-3xl mx-auto px-2">
+            <p
+              className={cn(
+                'text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200 max-w-3xl mx-auto px-2 transition-opacity duration-1000 ease-in-out',
+                contentLoaded ? 'opacity-100' : 'opacity-0'
+              )}
+            >
               {currentItem?.tagline ||
                 currentItem?.description ||
                 heroContent?.subtitle ||
@@ -249,8 +259,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 scroll-reveal px-4">
             <Button
               size="lg"
-              className="btn-agro-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group"
-              onClick={() => handleNavClick('#products')}
+              className={cn(
+                'btn-agro-primary cursor-pointer text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group transition-opacity duration-1000 ease-in-out',
+                contentLoaded ? 'opacity-100' : 'opacity-0'
+              )}
+              onClick={() => scrollToSection('products')}
             >
               {heroContent?.ctaPrimary || 'Explore Products'}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -259,8 +272,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <Button
                 variant="glass"
                 size="lg"
-                className="text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group border-white/30 text-white hover:bg-white/20 backdrop-blur-lg shadow-lg"
-                onClick={() => handleNavClick('#contact')}
+                className={cn(
+                  'text-base cursor-pointer sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group border-white/30 text-white hover:bg-white/20 backdrop-blur-lg shadow-lg transition-opacity duration-1000 ease-in-out',
+                  contentLoaded ? 'opacity-100' : 'opacity-0'
+                )}
+                onClick={() => scrollToSection('contact')}
               >
                 {heroContent?.ctaSecondary ||
                   data?.ctaSecondary ||

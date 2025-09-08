@@ -114,7 +114,7 @@ const Footer: React.FC = () => {
   const navigationLinks = [
     { label: 'Home', href: '#hero' },
     { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
+    { label: 'Process', href: '#services' },
     { label: 'Products', href: '#products' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -125,11 +125,11 @@ const Footer: React.FC = () => {
           .slice(0, 5)
           .map(service => service.title || 'Agricultural Service')
       : [
-          'Agricultural Consulting',
-          'Supply Chain Management',
-          'Quality Control',
-          'Product Sourcing',
-          'Technical Support',
+          'Sourcing with Integrity',
+          'Rigorous Quality Checks',
+          'Seamless Logistics',
+          'On-Time Delivery',
+          'Long-Term Partnerships',
         ];
 
   const productCategories =
@@ -206,14 +206,15 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Content */}
+      {/* <div className="container-premium py-16 relative z-10"> */}
       <div className="container-premium py-16 relative z-10">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
                 <Image
-                  src="/agroventia-logo.jpg"
+                  src="/agroventia-logo%201.svg"
                   alt="AgroVentia Logo"
                   width={48}
                   height={48}
@@ -221,7 +222,9 @@ const Footer: React.FC = () => {
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-[#FDF8F0]">AgroVentia</h3>
+                <h3 className="text-xl font-bold text-[#FDF8F0]">
+                  AgroVentia Inc.
+                </h3>
                 <p className="text-sm text-[#F6F2E7] font-medium">
                   Agricultural Solutions
                 </p>
@@ -229,9 +232,9 @@ const Footer: React.FC = () => {
             </div>
 
             <p className="text-[#F6F2E7] leading-relaxed">
-              Leading agricultural export company dedicated to providing premium
-              farming solutions and innovative agricultural products to farmers
-              worldwide.
+              Trusted agricultural export partner delivering premium products to
+              global markets with consistency, transparency, and on-time
+              delivery.
             </p>
 
             <div className="space-y-4">
@@ -261,7 +264,7 @@ const Footer: React.FC = () => {
             {/* Social Links */}
             <div className="pt-4">
               <p className="text-sm text-[#F6F2E7] mb-3">Follow Us</p>
-              <FooterSocialLinks />
+              <FooterSocialLinks phoneNumber={contactInfo.phone} />
             </div>
           </div>
 
@@ -278,7 +281,7 @@ const Footer: React.FC = () => {
 
           {/* Services */}
           <FooterLinkSection
-            title="Our Services"
+            title="Our Process"
             links={serviceLinks}
             onLinkClick={handleServiceClick}
           />
@@ -292,9 +295,9 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Newsletter Signup */}
-        <div className="mt-16">
+        {/* <div className="mt-16">
           <FooterNewsletter />
-        </div>
+        </div> */}
       </div>
 
       <Separator className="bg-gradient-to-r from-transparent via-[#F6F2E7]/50 to-transparent" />

@@ -268,7 +268,7 @@
         "_updatedDate": {
           "$date": "2025-08-28T11:06:25.477Z"
         },
-        "sectionTitle": "Our Services",
+        "sectionTitle": "Our Process",
         "importServices": "Direct sourcing from verified West African suppliers, bulk and container shipping, customs clearance assistance",
         "logistics": "Temperature-controlled shipping, flexible delivery schedules, tracking and monitoring, inventory management",
         "sectionDescription": "Comprehensive agricultural import services connecting West African producers with global markets through reliable supply chain management.",
@@ -304,7 +304,7 @@
           "_updatedDate": {
             "$date": "2025-08-28T11:06:25.477Z"
           },
-          "sectionTitle": "Our Services",
+          "sectionTitle": "Our Process",
           "importServices": "Direct sourcing from verified West African suppliers, bulk and container shipping, customs clearance assistance",
           "logistics": "Temperature-controlled shipping, flexible delivery schedules, tracking and monitoring, inventory management",
           "sectionDescription": "Comprehensive agricultural import services connecting West African producers with global markets through reliable supply chain management.",

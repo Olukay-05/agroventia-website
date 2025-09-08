@@ -5,7 +5,7 @@ import {
   ServiceContent,
   ContactContent,
 } from '@/types/wix';
-import { ProductCategory, ProductContent } from '@/services/wix-data.service';
+import { ProductCategory } from '@/services/wix-data.service';
 
 /**
  * Interface for the raw data structure from Wix Collections API
@@ -22,10 +22,6 @@ interface WixCollectionsData {
   };
   categories?: {
     items?: Array<{ data: ProductCategory }>;
-    allProducts?: ProductContent[];
-  };
-  products?: {
-    items?: Array<{ data: ProductContent }>;
   };
   contact?: {
     items?: Array<{ data: ContactContent }>;
@@ -36,11 +32,11 @@ interface WixCollectionsData {
  * Interface for extracted homepage data
  */
 export interface ExtractedHomepageData {
-  heroData: HeroContent | typeof mockRootProps.heroData;
-  aboutData: AboutContent | typeof mockRootProps.aboutData;
-  servicesData: ServiceContent | typeof mockRootProps.servicesData;
-  productsData: ProductCategory[] | typeof mockRootProps.productsData;
-  contactData: ContactContent | typeof mockRootProps.contactData;
+  heroData: HeroContent;
+  aboutData: AboutContent;
+  servicesData: ServiceContent;
+  productsData: ProductCategory[];
+  contactData: ContactContent;
 }
 
 /**

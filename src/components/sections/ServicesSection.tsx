@@ -12,6 +12,8 @@ import {
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ServiceFeatureCard from '@/components/ui/ServiceFeatureCard';
 import BlobCursor from '@/components/common/BlobCursor';
+import { ServiceContent } from '@/types/wix';
+import SectionContainer from '../common/SectionContainer';
 
 interface ServiceItem {
   id: string;
@@ -35,7 +37,7 @@ interface WixServicesData {
 }
 
 interface ServicesSectionProps {
-  data?: ServiceItem[] | WixServicesData | WixServicesData[];
+  data?: ServiceItem[] | WixServicesData | WixServicesData[] | ServiceContent;
   isLoading: boolean;
 }
 
@@ -196,8 +198,13 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
           : defaultServices;
     }
   } else if (data && typeof data === 'object') {
+    // Check if this is a ServiceContent object (which extends WixBase)
+    if ('sectionTitle' in data && 'importServices' in data) {
+      // It's a ServiceContent object, cast it to WixServicesData
+      servicesDataObject = data as unknown as WixServicesData;
+    }
     // Special handling for services data - check if it has servicesImage directly
-    if ('servicesImage' in data) {
+    else if ('servicesImage' in data) {
       servicesDataObject = data as WixServicesData;
     }
     // Check if this is the direct WixServicesData object
@@ -258,13 +265,22 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
   return (
     <section
       id="services"
-      className="py-16 md:py-20 lg:py-32 overflow-hidden relative"
+      className="py-16 md:py-24 bg-agro-neutral-50 relative overflow-hidden"
     >
-      {/* Background image from public folder */}
+      {/* Background image - desktop/tablet version */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden sm:block"
         style={{
           backgroundImage: "url('/service-section.jpg')",
+          zIndex: 1,
+        }}
+      />
+
+      {/* Background image - mobile version */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat sm:hidden"
+        style={{
+          backgroundImage: "url('/background-image-mobile.jpg')",
           zIndex: 1,
         }}
       />
@@ -276,7 +292,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
       />
 
       {/* Blob Cursor - placed to cover the entire section */}
-      <BlobCursor
+      {/* <BlobCursor
         blobType="circle"
         fillColor="#00a63e"
         trailCount={3}
@@ -294,12 +310,12 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
         slowDuration={0.5}
         zIndex={100}
         constrainToElement={true}
-      />
+      /> */}
 
-      {/* Glassmorphic container wrapper */}
+      {/* Glassmorphic container wrapper - hidden on mobile */}
       <div className="container-premium relative z-10">
         <div className="max-w-full mx-auto">
-          <div className="glass-card backdrop-blur-xl bg-white/50 dark:bg-gray-800/5 border border-white/20 dark:border-gray-700/30 rounded-3xl shadow-2xl p-6 md:p-8 lg:p-12 mx-auto my-8 md:my-12">
+          <div className="hidden lg:block glass-card backdrop-blur-xl bg-white/50 dark:bg-gray-800/5 border border-white/20 dark:border-gray-700/30 rounded-3xl shadow-2xl p-6 md:p-8 lg:p-12 mx-auto my-8 md:my-12">
             {/* Content */}
             <div className="max-w-6xl mx-auto">
               {/* Section Header */}
@@ -310,7 +326,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                       typeof data === 'object' &&
                       !Array.isArray(data) &&
                       (data as unknown as WixServicesData).sectionTitle) ||
-                    'Our Services'}
+                    'Our Process'}
                 </h2>
                 <div className="text-lead text-[#fdf8f0] max-w-3xl mx-auto">
                   {servicesDataObject?.sectionDescription ||
@@ -329,9 +345,10 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                       }}
                     />
                   ) : (
-                    <p>
-                      Comprehensive agricultural solutions designed to meet the
-                      evolving needs of modern farming operations
+                    <p className="text-[#fdf8f0]">
+                      From farm to market, our process ensures every product is
+                      sourced responsibly, inspected carefully, and delivered
+                      reliably to global buyers.
                     </p>
                   )}
                 </div>
@@ -341,13 +358,12 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
               <div className="mb-8 md:mb-12">
                 {/* First row - 3 cards on large screens */}
                 <div className="hidden lg:grid lg:grid-cols-3 gap-6 mb-6">
-                  {services.slice(0, 3).map((service, index) => (
+                  {services.slice(0, 3).map(service => (
                     <ServiceFeatureCard
                       key={service.id}
                       title={service.title}
                       description={service.description}
                       icon={getIcon(service.icon)}
-                      index={index}
                       isActive={activeService === service.id}
                       onClick={() =>
                         setActiveService(
@@ -361,13 +377,12 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                 {/* Second row - 2 centered cards on large screens */}
                 <div className="hidden lg:flex lg:justify-center">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
-                    {services.slice(3, 5).map((service, index) => (
+                    {services.slice(3, 5).map(service => (
                       <ServiceFeatureCard
                         key={service.id}
                         title={service.title}
                         description={service.description}
                         icon={getIcon(service.icon)}
-                        index={index + 3}
                         isActive={activeService === service.id}
                         onClick={() =>
                           setActiveService(
@@ -381,13 +396,12 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
 
                 {/* Tablet/mobile layout - responsive grid */}
                 <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {services.map((service, index) => (
+                  {services.map(service => (
                     <ServiceFeatureCard
                       key={service.id}
                       title={service.title}
                       description={service.description}
                       icon={getIcon(service.icon)}
-                      index={index}
                       isActive={activeService === service.id}
                       onClick={() =>
                         setActiveService(
@@ -472,6 +486,62 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                   </div>
                 </div>
               </div> */}
+            </div>
+          </div>
+
+          {/* Mobile layout without glassmorphic effect */}
+          <div className="lg:hidden max-w-6xl mx-auto px-4 md:px-6">
+            {/* Section Header */}
+            <div className="text-center mb-12 scroll-reveal">
+              <h2 className="heading-section text-[#fdf8f0]">
+                {servicesDataObject?.sectionTitle ||
+                  (data &&
+                    typeof data === 'object' &&
+                    !Array.isArray(data) &&
+                    (data as unknown as WixServicesData).sectionTitle) ||
+                  'Our Services'}
+              </h2>
+              <div className="text-lead text-[#fdf8f0] max-w-3xl mx-auto">
+                {servicesDataObject?.sectionDescription ||
+                (data &&
+                  typeof data === 'object' &&
+                  !Array.isArray(data) &&
+                  (data as unknown as WixServicesData).sectionDescription) ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: (servicesDataObject?.sectionDescription ||
+                        (data as unknown as WixServicesData)
+                          .sectionDescription)!
+                        .replace(/<[^>]*>/g, '') // Strip all HTML tags
+                        .replace(/\s+/g, ' ') // Normalize whitespace
+                        .trim(),
+                    }}
+                  />
+                ) : (
+                  <p>
+                    Comprehensive agricultural solutions designed to meet the
+                    evolving needs of modern farming operations
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Services Grid for mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {services.map(service => (
+                <ServiceFeatureCard
+                  key={service.id}
+                  title={service.title}
+                  description={service.description}
+                  icon={getIcon(service.icon)}
+                  isActive={activeService === service.id}
+                  onClick={() =>
+                    setActiveService(
+                      service.id === activeService ? null : service.id
+                    )
+                  }
+                />
+              ))}
             </div>
           </div>
         </div>

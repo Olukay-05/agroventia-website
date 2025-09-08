@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Facebook, UserX, Images, SquareUserRound } from 'lucide-react';
+import { Linkedin, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SocialLink {
@@ -11,31 +11,30 @@ interface SocialLink {
   color: string;
 }
 
-const FooterSocialLinks: React.FC = () => {
+interface FooterSocialLinksProps {
+  phoneNumber?: string; // Add phoneNumber prop
+}
+
+const FooterSocialLinks: React.FC<FooterSocialLinksProps> = ({
+  phoneNumber,
+}) => {
+  // Format phone number for WhatsApp link (remove all non-digit characters)
+  const formattedPhoneNumber = phoneNumber
+    ? phoneNumber.replace(/\D/g, '')
+    : '14034776059'; // Default fallback
+
   const socialLinks: SocialLink[] = [
     {
-      name: 'Facebook',
-      icon: Facebook,
-      href: 'https://facebook.com/agroventia',
-      color: 'hover:text-blue-400',
-    },
-    {
-      name: 'Twitter',
-      icon: UserX,
-      href: 'https://twitter.com/agroventia',
-      color: 'hover:text-sky-400',
-    },
-    {
-      name: 'Instagram',
-      icon: Images,
-      href: 'https://instagram.com/agroventia',
-      color: 'hover:text-pink-400',
-    },
-    {
       name: 'LinkedIn',
-      icon: SquareUserRound,
-      href: 'https://linkedin.com/company/agroventia',
+      icon: Linkedin,
+      href: 'https://www.linkedin.com/company/agroventia-inc/',
       color: 'hover:text-blue-500',
+    },
+    {
+      name: 'WhatsApp',
+      icon: Phone,
+      href: `https://wa.me/${formattedPhoneNumber}`,
+      color: 'hover:text-green-500',
     },
   ];
 
@@ -46,7 +45,7 @@ const FooterSocialLinks: React.FC = () => {
           key={social.name}
           variant="ghost"
           size="sm"
-          title={`Follow us on ${social.name}`}
+          title={`Connect with us on ${social.name}`}
           className={`
             w-10 h-10 p-0 rounded-full
             bg-[#FDF8F0]

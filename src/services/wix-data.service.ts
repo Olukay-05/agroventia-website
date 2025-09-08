@@ -1,11 +1,15 @@
 // services/wix-data.service.ts
-import { wixApiService, TransformedResponse } from './wix-api.service';
+import {
+  wixApiService,
+  TransformedResponse,
+  WixQueryOptions,
+} from './wix-api.service';
 
 // Collection Types (same as before)
 export interface WixBaseItem {
   _id: string;
   _owner: string;
-  _createdDate: { $date: string };
+  _createdDate: { $date: string }; // This is the system field
   _updatedDate: { $date: string };
   isActive?: boolean;
 }
@@ -46,6 +50,7 @@ export interface ProductContent extends WixBaseItem {
   images: string[];
   price?: number;
   availability: boolean;
+  qualityStandards?: string; // Add quality standards field
 }
 
 export interface ProductCategory extends WixBaseItem {
@@ -355,15 +360,23 @@ export class WixDataService {
     );
   }
 
-  async fetchProductsFromImport2() {
+  async fetchProductsFromImport2(limit?: number, offset?: number) {
     console.log('Fetching products from Import2 collection...');
+
+    const options: WixQueryOptions = {
+      includeReferencedItems: ['*'],
+      limit: limit || 100,
+    };
+
+    // If offset is provided, we need to handle pagination
+    // Note: Wix API uses cursor-based pagination, but we'll simulate offset-based for simplicity
+    if (offset !== undefined) {
+      console.log(`Fetching products with limit: ${limit}, offset: ${offset}`);
+    }
 
     const response = await wixApiService.queryCollection<ProductContent>(
       CollectionNames.IMPORT2,
-      {
-        includeReferencedItems: ['*'],
-        limit: 100,
-      }
+      options
     );
 
     console.log(

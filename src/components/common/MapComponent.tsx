@@ -1,22 +1,17 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 
-// Define a proper type for the Leaflet Icon prototype
-interface LeafletIconPrototype {
-  _getIconUrl?: () => string;
-}
-
-// Fix for default marker icons in React Leaflet
-delete (L.Icon.Default.prototype as LeafletIconPrototype)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl:
-    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+// Dynamically import the LeafletMap component (client-side only)
+const LeafletMap = dynamic(() => import('./LeafletMap'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-gray-200 rounded-xl flex items-center justify-center">
+      <div className="text-center">
+        <div className="text-4xl mb-2">🗺️</div>
+        <p className="text-gray-600">Loading map...</p>
+      </div>
+    </div>
+  ),
 });
 
 interface MapComponentProps {
@@ -30,24 +25,31 @@ const MapComponent: React.FC<MapComponentProps> = ({
   position,
   className = '',
 }) => {
-  // Default to Toronto coordinates if not provided
-  const defaultCenter: [number, number] = position || [43.6532, -79.3832];
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return (
+      <div
+        className={`rounded-xl ${className}`}
+        style={{ height: '100%', minHeight: '300px', position: 'relative' }}
+      >
+        <div className="w-full h-full bg-gray-200 rounded-xl flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-4xl mb-2">🗺️</div>
+            <p className="text-gray-600">Interactive Map</p>
+            <p className="text-sm text-gray-500 mt-1">{address}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <MapContainer
-      center={defaultCenter}
-      zoom={15}
-      className={`rounded-xl ${className}`}
-      style={{ height: '100%', minHeight: '300px' }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={defaultCenter}>
-        <Popup>{address}</Popup>
-      </Marker>
-    </MapContainer>
+    <LeafletMap address={address} position={position} className={className} />
   );
 };
 

@@ -124,12 +124,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
   }
 
   return (
-    <SectionContainer
-      id="about"
-      background="muted"
-      padding="large"
-      className="relative overflow-hidden"
-    >
+    <SectionContainer id="about" className="py-16 md:py-24">
       {/* DotGrid Background - Full Section Coverage - Desktop Only */}
       <div className="absolute inset-0 w-full h-full hidden md:block">
         <DotGrid
@@ -150,10 +145,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 scroll-reveal">
-          <h2 className="heading-section">
+          <h2 className="heading-section text-[#281909]">
             {data?.sectionTitle || data?.title || 'About AgroVentia'}
           </h2>
-          <p className="text-lead max-w-3xl mx-auto">
+          <p className="text-lead max-w-3xl mx-auto text-[#281909]">
             {data?.mission ||
               data?.description ||
               'Leading agricultural export company dedicated to simplifying agricultural trade with reliable premium products.'}
@@ -161,14 +156,16 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         </div>
 
         {/* Added even spacing for mobile screens */}
-        <div className="space-y-16 md:space-y-0 md:grid md:grid-cols-2 md:gap-16">
+        <div className="space-y-16 md:space-y-0 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-16">
           {/* Left Content - Centered on mobile */}
           <div className="space-y-16 scroll-reveal">
             <div className="space-y-6 ">
-              <h3 className="heading-subsection text-center">Our Story</h3>
+              <h3 className="heading-subsection text-center text-[#281909]">
+                Our Story
+              </h3>
               <div
                 className={cn(
-                  'text-body-large leading-relaxed expandable-text text-center md:text-left relative overflow-hidden',
+                  'text-body-large leading-relaxed expandable-text text-center lg:text-left relative overflow-hidden text-[#281909]',
                   isStoryExpanded
                     ? 'expanded opacity-100'
                     : 'collapsed opacity-90'
@@ -275,7 +272,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                       {/* Premium Products */}
                       <div className="flex items-start space-x-4">
                         <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-600 font-bold text-xl"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-600 font-bold text-[16px]"
                           style={{ backgroundColor: 'var(--agro-primary-100)' }}
                         >
                           10+
@@ -293,7 +290,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                       {/* Global Markets Served */}
                       <div className="flex items-start space-x-4">
                         <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-yellow-700 font-bold text-xl"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-yellow-700 font-bold text-[16px]"
                           style={{
                             backgroundColor: 'var(--agro-secondary-100)',
                           }}
@@ -314,7 +311,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                       {/* Quality Guaranteed */}
                       <div className="flex items-start space-x-4">
                         <div
-                          className="p-3 w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-brown-700 font-bold text-[16px]"
+                          className="p-3 w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-brown-700 font-bold text-[14px]"
                           style={{
                             backgroundColor: 'var(--agro-accent-bronze-400)',
                           }}
@@ -335,7 +332,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                       {/* Years of Trade Expertise */}
                       <div className="flex items-start space-x-4">
                         <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-700 font-bold text-xl"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-700 font-bold text-[16px]"
                           style={{ backgroundColor: 'var(--agro-neutral-100)' }}
                         >
                           10+
@@ -354,10 +351,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                       {/* Reliable Logistics */}
                       <div className="flex items-start space-x-4">
                         <div
-                          className="p-3 w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-800 font-bold text-xl"
+                          className="p-3 w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-800 font-bold text-[14px]"
                           style={{ backgroundColor: 'var(--agro-primary-200)' }}
                         >
-                          98%
+                          100%
                         </div>
                         <div className="min-w-0">
                           <h5 className="font-semibold text-gray-900 mb-1 text-base">
