@@ -22,13 +22,13 @@ export const mockRootProps = {
     _owner: 'mock-owner',
     _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
     _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
-    sectionTitle: 'About AgroVentia',
+    sectionTitle: 'About AgroVentia Inc.',
     mission:
-      'Leading agricultural import company dedicated to providing premium farming solutions and innovative agricultural products to farmers worldwide.',
+      'To deliver premium, ethically sourced agricultural products worldwide, ensuring quality, reliability, and sustainability in every transaction.',
     vision:
       'To be the leading provider of sustainable agricultural solutions that empower farmers and contribute to global food security.',
     story:
-      'Founded in 2010, AgroVentia has grown from a small local distributor to a global leader in agricultural imports. Our journey began with a simple mission: to connect farmers with the highest quality agricultural products from around the world. Today, we serve customers in over 20 countries, providing everything from seeds and fertilizers to advanced farming equipment.',
+      "AgroVentia Inc. is a Canadian company with deep African roots, established to connect global markets with high-quality agricultural products. Our leadership team combines extensive expertise in business management, consulting, and global trade, with over a decade of direct experience in the import and export of agricultural produce.  AgroVentia was created with one goal: to give international buyers a reliable, straightforward way to access Africa's finest agricultural products. Every shipment carries our commitment to quality, transparency, and on-time delivery, so you can source with confidence and focus on growing your business. At AgroVentia, we prioritize quality, ethical sourcing, customer trust, and long-term value over short-term gains. Every transaction, regardless of scale, is handled with the highest professional and ethical standards. Through strong partnerships and a sustainable supply chain across Africa, we deliver consistency and trust. Our goal is not just to be a supplier, but a long-term partner in helping you achieve your sourcing objectives and deliver excellence to your customers through seamless, dependable trade.",
     headquarters: 'Toronto, Canada',
     foundingYear: '2010',
     certifications: 'ISO 9001, USDA Organic, GlobalGAP',
@@ -41,7 +41,7 @@ export const mockRootProps = {
         _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
         _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
         reference: 'quality',
-        title: 'Quality Assurance',
+        title: 'Quality First',
         description:
           'We ensure all our products meet the highest standards of quality and safety.',
       },
@@ -51,7 +51,7 @@ export const mockRootProps = {
         _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
         _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
         reference: 'sustainability',
-        title: 'Sustainable Practices',
+        title: 'Ethical Sourcing',
         description:
           'We are committed to environmentally responsible sourcing and distribution.',
       },
@@ -61,7 +61,7 @@ export const mockRootProps = {
         _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
         _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
         reference: 'innovation',
-        title: 'Innovation Focus',
+        title: 'Trust & Transparency',
         description:
           'We continuously seek new technologies and methods to improve agricultural outcomes.',
       },
@@ -71,7 +71,7 @@ export const mockRootProps = {
         _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
         _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
         reference: 'customer',
-        title: 'Customer Excellence',
+        title: 'Reliability',
         description:
           'We prioritize our customers needs and strive to exceed their expectations.',
       },
@@ -140,11 +140,12 @@ export const mockRootProps = {
     _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
     sectionTitle: 'Get In Touch',
     sectionDescription:
-      'Contact us for agricultural solutions and partnership opportunities.',
-    businessEmail: 'info@agroventia.com',
-    businessPhone: '+1 (555) 123-4567',
-    businessAddress: '123 Agricultural Drive, Farm City, FC 12345',
-    businessHours: 'Monday - Friday: 8:00 AM - 6:00 PM',
+      'Ready to discuss your product needs? Contact our team for personalized service and competitive pricing.',
+    businessEmail: 'info@agroventia.ca',
+    businessPhone: '+1 (403) 477-6059',
+    businessAddress: '403 - 65 Mutual Street, Toronto, M5B 0E5',
+    businessHours:
+      'Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed',
     responseTime: 'Within 24 hours',
     socialLinks: 'https://www.linkedin.com/company/agroventia',
     contactImage:

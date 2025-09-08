@@ -52,6 +52,7 @@ export interface ProductContent extends WixBase {
   description: string;
   category: string;
   image1: string;
+  qualityStandards?: string;
 }
 
 export interface ContactContent extends WixBase {

@@ -264,7 +264,7 @@ const Footer: React.FC = () => {
             {/* Social Links */}
             <div className="pt-4">
               <p className="text-sm text-[#F6F2E7] mb-3">Follow Us</p>
-              <FooterSocialLinks />
+              <FooterSocialLinks phoneNumber={contactInfo.phone} />
             </div>
           </div>
 

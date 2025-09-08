@@ -25,6 +25,8 @@ import useScrollToSection from '@/hooks/useScrollToSection';
 import { useQuoteRequest } from '@/contexts/QuoteRequestContext';
 import ProductSkeleton from '@/components/common/ProductSkeleton';
 import { ProductCategory } from '@/services/wix-data.service';
+import QualityStandardsModal from '@/components/common/QualityStandardsModal';
+import { useInfiniteProducts } from '@/hooks/useInfiniteProducts';
 
 interface Product {
   _id: string;
@@ -40,6 +42,7 @@ interface Product {
   _owner?: string;
   _createdDate?: string | { $date: string };
   _updatedDate?: string | { $date: string };
+  qualityStandards?: string; // Add quality standards field
 }
 
 interface CategoryWithProducts {
@@ -64,8 +67,25 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const [sortBy, setSortBy] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [hoveredProductId, setHoveredProductId] = useState<string | null>(null);
+  // Add state for modal
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { scrollToSection } = useScrollToSection();
   const { setRequestedProduct, prefetchProductForQuote } = useQuoteRequest();
+
+  // Use the new infinite products hook
+  const {
+    data: infiniteData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    isLoading: isInfiniteLoading,
+  } = useInfiniteProducts(12);
+
+  // Combine data from infinite query with existing data prop
+  const combinedData = infiniteData?.pages.flatMap(page => page.items) || [];
+  const isDataLoading = isLoading || isInfiniteLoading;
 
   // Ensure we have a consistent data structure to prevent conditional hook issues
   const safeData = data || [];
@@ -166,7 +186,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     },
   ];
 
-  if (isLoading) {
+  if (isDataLoading) {
     return (
       <SectionContainer id="products" background="gradient">
         <div className="max-w-6xl mx-auto">
@@ -200,8 +220,9 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     );
   }
 
-  // Extract individual products from the allProducts array
-  let individualProducts: Product[] = [];
+  // Extract individual products from the allProducts array or use infinite data
+  let individualProducts: Product[] =
+    combinedData.length > 0 ? combinedData : [];
 
   // Check if data has allProducts at the collection level (as per the JSON structure)
   if (
@@ -300,6 +321,24 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         title = product.title;
       }
 
+      // Extract quality standards if available
+      let qualityStandards = '';
+      if (
+        'qualityStandards' in product &&
+        typeof product.qualityStandards === 'string'
+      ) {
+        qualityStandards = product.qualityStandards;
+      } else if (
+        product &&
+        typeof product === 'object' &&
+        'qualityStandards' in product &&
+        typeof (product as { qualityStandards?: unknown }).qualityStandards ===
+          'string'
+      ) {
+        qualityStandards = (product as { qualityStandards: string })
+          .qualityStandards;
+      }
+
       // Handle product count based on product type
       let productCount = 1;
       if (
@@ -319,15 +358,27 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         category = product.title;
       }
 
+      // Ensure description is a string
+      let description =
+        'Premium agricultural product sourced from trusted suppliers.';
+      if (typeof product.description === 'string') {
+        description = product.description;
+      } else if (
+        product.description &&
+        typeof product.description === 'object'
+      ) {
+        // If description is an object, convert to string
+        description = JSON.stringify(product.description);
+      }
+
       return {
         _id: product._id || `product-${index}`, // Fallback to index if no _id
         title,
-        description:
-          product.description ||
-          'Premium agricultural product sourced from trusted suppliers.',
+        description,
         image: imageSource,
         productCount,
         category,
+        qualityStandards, // Include quality standards in the mapped product
       };
     })
     .filter(product => product !== null) as {
@@ -337,6 +388,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     image: string;
     productCount: number;
     category: string;
+    qualityStandards: string; // Add quality standards to the type
   }[]; // Filter out null values
 
   // Get unique categories for filter dropdown
@@ -400,22 +452,43 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     scrollToSection('contact', 100);
   };
 
+  // Handle card click to open quality standards modal
+  const handleCardClick = (product: Product) => {
+    // Open modal regardless of whether quality standards data exists
+    // The modal will handle displaying a message if no data is available
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  // Handle quote request from modal
+  const handleQuoteRequestFromModal = (productName: string) => {
+    if (selectedProduct) {
+      handleRequestQuote(productName, selectedProduct._id);
+    }
+  };
+
+  // Handle modal close
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
+  // Handle load more products
+  const handleLoadMore = () => {
+    fetchNextPage();
+  };
+
   return (
-    <SectionContainer
-      id="products"
-      background="gradient"
-      padding="large"
-      data-testid="products-section"
-    >
+    <SectionContainer className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 scroll-reveal">
-          <h2 className="heading-section">
+          <h2 className="heading-section text-[#281909]">
             {isDisplayingIndividualProducts
               ? 'Our Premium Products'
               : 'Product Categories'}
           </h2>
-          <p className="text-lead max-w-3xl mx-auto">
+          <p className="text-lead max-w-3xl mx-auto text-[#281909]">
             {isDisplayingIndividualProducts
               ? 'Explore our complete collection of premium agricultural products, carefully sourced and selected for quality and authenticity'
               : 'Discover our comprehensive range of premium agricultural products sourced from trusted global partners'}
@@ -513,9 +586,10 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                   product._id && (
                     <Card
                       key={product._id}
-                      className="flex cursor-pointer flex-col overflow-hidden gap-3 hover:shadow-lg transition-shadow duration-300"
+                      className="flex cursor-pointer flex-col overflow-hidden gap-3 border-[#281909] hover:shadow-lg transition-all duration-300 border border-agro-primary-200 dark:border-agro-primary-700 bg-white dark:bg-agro-neutral-900 hover:bg-[#FDF8F0] dark:hover:bg-agro-neutral-800"
                       onMouseEnter={() => setHoveredProductId(product._id)}
                       onMouseLeave={() => setHoveredProductId(null)}
+                      onClick={() => handleCardClick(product)} // Add click handler for the entire card
                     >
                       <div
                         className="overflow-hidden rounded-t-lg relative wix-image-container"
@@ -530,13 +604,13 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                           fill
                           className="object-cover w-full h-full"
                         />
-                        {hoveredProductId === product._id && (
+                        {/* {hoveredProductId === product._id && (
                           <Badge className="absolute top-2 right-2 bg-green-600 text-white z-10">
                             {isDisplayingIndividualProducts
                               ? 'In Stock'
                               : `${product.productCount} Products`}
                           </Badge>
-                        )}
+                        )} */}
                       </div>
                       <CardHeader className="pb-3">
                         <CardTitle className="line-clamp-2">
@@ -552,9 +626,10 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         <Button
                           variant="outline"
                           className="w-full"
-                          onClick={() =>
-                            handleRequestQuote(product.title, product._id)
-                          }
+                          onClick={e => {
+                            e.stopPropagation(); // Prevent card click event from firing
+                            handleRequestQuote(product.title, product._id);
+                          }}
                         >
                           {isDisplayingIndividualProducts
                             ? 'Request Quote'
@@ -574,6 +649,35 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
             </div>
           )}
         </div>
+
+        {/* Load More Button */}
+        {hasNextPage && (
+          <div className="text-center mb-8">
+            <Button
+              onClick={handleLoadMore}
+              disabled={isFetchingNextPage}
+              className="btn-agro-primary"
+            >
+              {isFetchingNextPage ? 'Loading more...' : 'Load More Products'}
+            </Button>
+          </div>
+        )}
+
+        {/* Add the Quality Standards Modal */}
+        {selectedProduct && (
+          <QualityStandardsModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            productName={
+              selectedProduct.title ||
+              selectedProduct.name ||
+              selectedProduct.productName ||
+              'Product'
+            }
+            qualityStandards={selectedProduct.qualityStandards || ''} // Pass the quality standards data
+            onRequestQuote={handleQuoteRequestFromModal} // Pass the quote request handler
+          />
+        )}
 
         {/* Call to Action */}
         <div className="text-center scroll-reveal px-4 mt-[4rem]">

@@ -13,6 +13,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ServiceFeatureCard from '@/components/ui/ServiceFeatureCard';
 import BlobCursor from '@/components/common/BlobCursor';
 import { ServiceContent } from '@/types/wix';
+import SectionContainer from '../common/SectionContainer';
 
 interface ServiceItem {
   id: string;
@@ -262,15 +263,21 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
   }
 
   return (
-    <section
-      id="services"
-      className="py-16 md:py-20 lg:py-32 overflow-hidden relative"
-    >
-      {/* Background image from public folder */}
+    <section className="py-16 md:py-24 bg-agro-neutral-50 relative overflow-hidden">
+      {/* Background image - desktop/tablet version */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden sm:block"
         style={{
           backgroundImage: "url('/service-section.jpg')",
+          zIndex: 1,
+        }}
+      />
+
+      {/* Background image - mobile version */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat sm:hidden"
+        style={{
+          backgroundImage: "url('/background-image-mobile.jpg')",
           zIndex: 1,
         }}
       />
@@ -335,7 +342,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                       }}
                     />
                   ) : (
-                    <p>
+                    <p className="text-[#fdf8f0]">
                       From farm to market, our process ensures every product is
                       sourced responsibly, inspected carefully, and delivered
                       reliably to global buyers.
@@ -483,7 +490,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
           <div className="lg:hidden max-w-6xl mx-auto px-4 md:px-6">
             {/* Section Header */}
             <div className="text-center mb-12 scroll-reveal">
-              <h2 className="heading-section text-[#fff8ea]">
+              <h2 className="heading-section text-[#281909]">
                 {servicesDataObject?.sectionTitle ||
                   (data &&
                     typeof data === 'object' &&
@@ -491,7 +498,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                     (data as unknown as WixServicesData).sectionTitle) ||
                   'Our Services'}
               </h2>
-              <div className="text-lead text-[#fff8ea] max-w-3xl mx-auto">
+              <div className="text-lead text-[#281909] max-w-3xl mx-auto">
                 {servicesDataObject?.sectionDescription ||
                 (data &&
                   typeof data === 'object' &&

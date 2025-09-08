@@ -278,7 +278,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 variant="glass"
                 size="lg"
                 className={cn(
-                  'text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group border-white/30 text-white hover:bg-white/20 backdrop-blur-lg shadow-lg transition-opacity duration-1000 ease-in-out',
+                  'text-base cursor-pointer sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group border-white/30 text-white hover:bg-white/20 backdrop-blur-lg shadow-lg transition-opacity duration-1000 ease-in-out',
                   contentLoaded ? 'opacity-100' : 'opacity-0'
                 )}
                 onClick={() => handleNavClick('#contact')}

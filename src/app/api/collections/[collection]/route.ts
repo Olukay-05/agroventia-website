@@ -24,6 +24,12 @@ export async function GET(
     // Await the params promise as required by Next.js
     const { collection } = await params;
 
+    // Get pagination parameters from query string
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '12', 10);
+    const offset = (page - 1) * limit;
+
     // Simple mapping without enum to avoid type issues
     let data;
 
@@ -45,7 +51,14 @@ export async function GET(
         data = await wixDataService.fetchProductCategories();
         break;
       case 'Import2':
+        // For Import2 (products), we can implement pagination
         data = await wixDataService.fetchProductsFromImport2();
+        // Apply pagination on the server side
+        if (data.items) {
+          const paginatedItems = data.items.slice(offset, offset + limit);
+          data.items = paginatedItems;
+          data.hasNext = offset + limit < data.totalCount;
+        }
         break;
       case 'ContactContent':
         data = await wixDataService.fetchContactContent();
