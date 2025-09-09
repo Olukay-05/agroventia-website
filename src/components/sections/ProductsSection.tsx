@@ -618,9 +618,16 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="pb-3 flex-grow">
-                        <p className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3">
+                        {/* <p className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3">
                           {product.description || 'Product description'}
-                        </p>
+                        </p> */}
+                        <div
+                          className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3"
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              product.description || 'Product description',
+                          }}
+                        />
                       </CardContent>
                       <CardFooter className="pt-0">
                         <Button

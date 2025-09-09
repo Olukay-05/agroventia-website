@@ -311,6 +311,7 @@ const PillNav: React.FC<PillNavProps> = ({
     ['--hover-text']: hoveredPillTextColor,
     ['--pill-text']: resolvedPillTextColor,
     ['--nav-h']: '42px',
+    ['--nav-h-mobile']: '58px', // New variable for mobile height
     ['--logo']: '36px',
     ['--pill-pad-x']: '18px',
     ['--pill-gap']: '3px',
@@ -332,14 +333,17 @@ const PillNav: React.FC<PillNavProps> = ({
             ref={el => {
               logoRef.current = el;
             }}
-            className="rounded-full inline-flex items-center justify-center overflow-hidden"
+            className="rounded-full inline-flex items-center justify-center overflow-hidden  border-2 "
             style={{
-              width: 'var(--nav-h)',
-              height: 'var(--nav-h)',
+              // width: 'var(--nav-h)',
+              // height: 'var(--nav-h)',
+              width: 'var(--nav-h-mobile)',
+              height: 'var(--nav-h-mobile)',
               background: logoBackgroundColor || 'var(--base, #000)', // Use custom color or fallback
+              borderColor: '#281909',
             }}
           >
-            <div ref={logoImgRef} className="w-full h-full relative">
+            <div ref={logoImgRef} className="w-full h-full relative ">
               <Image
                 src={logo}
                 alt={logoAlt}
@@ -358,8 +362,8 @@ const PillNav: React.FC<PillNavProps> = ({
             }}
             className="rounded-full p-2 inline-flex items-center justify-center overflow-hidden"
             style={{
-              width: 'var(--nav-h)',
-              height: 'var(--nav-h)',
+              width: 'var(--nav-h-mobile)',
+              height: 'var(--nav-h-mobile)',
               background: logoBackgroundColor || 'var(--base, #000)', // Use custom color or fallback
             }}
           >
@@ -581,8 +585,8 @@ const PillNav: React.FC<PillNavProps> = ({
           aria-expanded={isMobileMenuOpen}
           className="md:hidden rounded-full border border-[#FDF8F0] flex flex-col items-center justify-center gap-1 cursor-pointer p-0 relative"
           style={{
-            width: 'var(--nav-h)',
-            height: 'var(--nav-h)',
+            width: 'var(--nav-h-mobile)',
+            height: 'var(--nav-h-mobile)',
             background: 'var(--base, #000)',
           }}
         >
@@ -625,7 +629,7 @@ const PillNav: React.FC<PillNavProps> = ({
             };
 
             const linkClasses =
-              'block py-3 px-4 text-[16px] font-medium rounded-[50px] transition-all duration-200 ease-[cubic-bezier(0.25,0.1,0.25,1)]';
+              'block py-3 px-4 text-[16px] w-full text-left font-medium rounded-[50px] transition-all duration-200 ease-[cubic-bezier(0.25,0.1,0.25,1)]';
 
             // Check if item has a custom onClick handler
             if (item.onClick) {

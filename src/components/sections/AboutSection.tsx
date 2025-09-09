@@ -60,7 +60,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         text: '10+',
         bgColor: 'var(--agro-primary-100)',
         textColor: 'text-green-600',
-        textSize: 'text-lg',
+        textSize: 'text-[14px]',
       },
     },
     {
@@ -72,7 +72,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         text: '20+',
         bgColor: 'var(--agro-secondary-100)',
         textColor: 'text-yellow-700',
-        textSize: 'text-lg',
+        textSize: 'text-[14px]',
       },
     },
     {
@@ -84,7 +84,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         text: '100%',
         bgColor: 'var(--agro-accent-bronze-400)',
         textColor: 'text-brown-700',
-        textSize: 'text-[16px]',
+        textSize: 'text-[14px]',
       },
     },
     {
@@ -96,7 +96,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         text: '10+',
         bgColor: 'var(--agro-neutral-100)',
         textColor: 'text-green-700',
-        textSize: 'text-lg',
+        textSize: 'text-[14px]',
       },
     },
     {
@@ -105,10 +105,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         'Seamless supply chain and dependable shipping — so you can source with confidence.',
       id: 5,
       spanContent: {
-        text: '98%',
+        text: '100%',
         bgColor: 'var(--agro-primary-200)',
         textColor: 'text-green-800',
-        textSize: 'text-lg',
+        textSize: 'text-[14px]',
       },
     },
   ];
@@ -247,7 +247,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                   items={carouselItems}
                   baseWidth={300}
                   autoplay={true}
-                  autoplayDelay={3000}
+                  autoplayDelay={5000}
                   pauseOnHover={true}
                   loop={true}
                   round={false}

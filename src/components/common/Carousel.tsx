@@ -59,7 +59,7 @@ const DEFAULT_ITEMS: CarouselItem[] = [
       text: '100%',
       bgColor: 'var(--agro-accent-bronze-400)',
       textColor: 'text-brown-700',
-      textSize: 'text-[16px]',
+      textSize: 'text-[14px]',
     },
   },
   {
@@ -80,10 +80,10 @@ const DEFAULT_ITEMS: CarouselItem[] = [
       'Seamless supply chain and dependable shipping — so you can source with confidence.',
     id: 5,
     spanContent: {
-      text: '98%',
+      text: '100%',
       bgColor: 'var(--agro-primary-200)',
       textColor: 'text-green-800',
-      textSize: 'text-lg',
+      textSize: 'text-[14px]',
     },
   },
 ];

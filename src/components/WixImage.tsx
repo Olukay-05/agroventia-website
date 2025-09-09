@@ -108,7 +108,7 @@ export default function WixImage({
         }}
       >
         <div className="text-center text-gray-400 p-4">
-          <div className="text-4xl mb-2 opacity-50">🌿</div>
+          {/* <div className="text-4xl mb-2 opacity-50">🌿</div> */}
           <p className="text-sm font-medium opacity-75">Image loading...</p>
           {process.env.NODE_ENV === 'development' && (
             <>
