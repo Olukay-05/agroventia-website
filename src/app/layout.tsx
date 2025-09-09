@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Providers from './providers';
 import CookieBanner from '@/components/common/CookieBanner';
+import GoogleAnalyticsScript from '@/components/common/GoogleAnalyticsScript';
 
 export const metadata: Metadata = {
   title: 'AgroVentia',
@@ -23,6 +24,7 @@ export default function RootLayout({
           {children}
           <CookieBanner />
         </Providers>
+        <GoogleAnalyticsScript />
       </body>
     </html>
   );
