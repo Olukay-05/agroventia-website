@@ -124,20 +124,21 @@ Simplified access to cookie consent status for components.
 
 The CookieConsentProvider will be added to the existing Providers component:
 
-```tsx
+``tsx
 // src/app/providers.tsx
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <LocaleProvider>
-        <CookieConsentProvider>
-          <QuoteRequestProvider>{children}</QuoteRequestProvider>
-        </CookieConsentProvider>
-      </LocaleProvider>
-    </QueryClientProvider>
-  );
+return (
+<QueryClientProvider client={queryClient}>
+<LocaleProvider>
+<CookieConsentProvider>
+<QuoteRequestProvider>{children}</QuoteRequestProvider>
+</CookieConsentProvider>
+</LocaleProvider>
+</QueryClientProvider>
+);
 }
-```
+
+````
 
 #### Layout Integration
 
@@ -161,7 +162,7 @@ export default function RootLayout({
     </html>
   );
 }
-```
+````
 
 ## Cookie Categories
 
@@ -355,3 +356,23 @@ export default function RootLayout({
 - Existing project context implementations (QuoteRequestContext, LocaleContext)
 - Tailwind CSS styling patterns
 - WAI-ARIA accessibility guidelines
+
+## Integration with Third-Party Services
+
+### Google Analytics Integration
+
+To enable Google Analytics tracking:
+
+1. Add your GA4 Measurement ID to `.env.local`:
+
+```
+
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+
+```
+
+2. The GoogleAnalyticsScript component will automatically load the tracking script
+
+3. The GoogleAnalyticsIntegration component will handle consent-based tracking
+
+4. Verify implementation by checking Google Analytics Realtime reports
