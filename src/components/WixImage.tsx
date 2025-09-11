@@ -17,6 +17,9 @@ interface WixImageProps {
   fill?: boolean;
   style?: React.CSSProperties;
   sizes?: string;
+  // Lazy loading props
+  loading?: 'lazy' | 'eager';
+  placeholderColor?: string;
 }
 
 export default function WixImage({
@@ -30,12 +33,15 @@ export default function WixImage({
   fill = false,
   style,
   sizes,
+  loading = 'lazy',
+  placeholderColor = 'bg-gradient-to-br from-green-50 to-emerald-50',
 }: WixImageProps) {
   const [currentSrc, setCurrentSrc] = useState<string>(src || '');
   const [urlData, setUrlData] = useState<WixImageUrlResult | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
+  const [showImage, setShowImage] = useState<boolean>(false);
 
   // Initialize URL conversion
   useEffect(() => {
@@ -56,6 +62,7 @@ export default function WixImage({
     }
     setIsLoading(true);
     setHasError(false);
+    setShowImage(false);
   }, [src]);
 
   const handleImageError = useCallback(() => {
@@ -89,10 +96,14 @@ export default function WixImage({
   const handleImageLoad = useCallback(() => {
     setIsLoading(false);
     setHasError(false);
+    // Add a small delay to ensure smooth transition
+    setTimeout(() => {
+      setShowImage(true);
+    }, 50);
     onLoadSuccess?.(currentSrc);
 
-    // Log successful URL format for debugging
-    if (process.env.NODE_ENV === 'development') {
+    // Log successful URL format for debugging - but only in development and less frequently
+    if (process.env.NODE_ENV === 'development' && Math.random() < 0.1) {
       console.log(`✅ Image loaded successfully: ${currentSrc}`);
     }
   }, [currentSrc, onLoadSuccess]);
@@ -100,7 +111,7 @@ export default function WixImage({
   if (hasError) {
     return (
       <div
-        className={`bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center ${className || ''}`}
+        className={`flex items-center justify-center ${placeholderColor} ${className || ''}`}
         style={{
           width: fill ? undefined : width,
           height: fill ? undefined : height,
@@ -108,7 +119,6 @@ export default function WixImage({
         }}
       >
         <div className="text-center text-gray-400 p-4">
-          {/* <div className="text-4xl mb-2 opacity-50">🌿</div> */}
           <p className="text-sm font-medium opacity-75">Image loading...</p>
           {process.env.NODE_ENV === 'development' && (
             <>
@@ -129,7 +139,7 @@ export default function WixImage({
   if (!currentSrc || currentSrc.trim() === '') {
     return (
       <div
-        className={`bg-gray-200 flex items-center justify-center ${className || ''}`}
+        className={`flex items-center justify-center ${placeholderColor} ${className || ''}`}
         style={{
           width: fill ? undefined : width,
           height: fill ? undefined : height,
@@ -137,7 +147,6 @@ export default function WixImage({
         }}
       >
         <div className="text-center text-gray-500 p-4">
-          <div className="text-2xl mb-2">🖼️</div>
           <p className="text-sm font-medium">No image source</p>
         </div>
       </div>
@@ -155,11 +164,15 @@ export default function WixImage({
 
   return (
     <div className={containerClasses} style={containerStyle}>
-      {isLoading && (
-        <div className="absolute inset-0 z-10">
-          {/* Empty div to maintain space without visual elements */}
-        </div>
-      )}
+      {/* Placeholder with shimmer effect */}
+      <div
+        className={`absolute inset-0 z-0 ${placeholderColor} rounded-lg ${isLoading ? 'animate-pulse' : ''}`}
+        style={{
+          opacity: showImage ? 0 : 1,
+          transition: 'opacity 0.3s ease-in-out',
+          ...style,
+        }}
+      />
 
       <Image
         src={currentSrc}
@@ -168,9 +181,10 @@ export default function WixImage({
         height={fill ? undefined : height}
         onLoad={handleImageLoad}
         onError={handleImageError}
-        className={`${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300 ${fill ? 'object-cover' : ''} ${className || ''}`}
+        className={`${showImage ? 'opacity-100' : 'opacity-0'} transition-opacity duration-700 ease-in-out ${fill ? 'object-cover' : ''} ${className || ''}`}
         unoptimized // Disable Next.js optimization for external URLs
         fill={fill}
+        loading={loading}
         sizes={
           sizes ||
           (fill

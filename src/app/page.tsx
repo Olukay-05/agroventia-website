@@ -36,30 +36,13 @@ export default function HomePage() {
   // Ensure we always have consistent data structures
   const safeData = data || null;
 
+  // Handle error state more gracefully
   if (error) {
-    return (
-      <div className="min-h-screen bg-red-50 flex items-center justify-center p-4">
-        <div className="text-center max-w-md mx-auto">
-          <SeoHead
-            title="AgroVentia Inc. - Error Loading Page"
-            description="There was an error loading the AgroVentia Inc. homepage. Please try again."
-            noIndex={true}
-          />
-          <h2 className="text-xl md:text-2xl font-bold text-red-700 mb-4">
-            Error Loading Data
-          </h2>
-          <p className="text-red-600 mb-4 text-sm md:text-base">
-            {error instanceof Error ? error.message : 'Unknown error occurred'}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-red-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-red-700 text-sm md:text-base transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
+    console.warn(
+      'Error loading collections data, using fallback:',
+      error.message
     );
+    // Continue with fallback data instead of showing error page
   }
 
   // Use data if available, otherwise use mock data (especially if loading is taking too long)

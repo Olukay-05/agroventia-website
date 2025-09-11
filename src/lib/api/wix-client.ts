@@ -179,6 +179,12 @@ export const fetchWixContent = async <T>(
 
         if (!items || items.length === 0) {
           if (allowEmpty) {
+            // Reduce console noise for empty collections
+            if (process.env.NODE_ENV === 'development') {
+              console.debug(
+                `Collection '${collectionName}' is empty. Returning empty array.`
+              );
+            }
             return [];
           } else {
             throw new Error(
@@ -226,26 +232,43 @@ export const fetchWixContent = async <T>(
             ? attemptError
             : new Error(String(attemptError));
 
-        // Log the specific error for this attempt
-        console.warn(
-          `Attempt ${attempt}/${retryCount} failed for collection '${collectionName}':`,
-          lastError.message
-        );
+        // Log the specific error for this attempt - but reduce noise for empty collections
+        if (
+          !lastError.message.includes('Collection') ||
+          !lastError.message.includes('empty')
+        ) {
+          console.warn(
+            `Attempt ${attempt}/${retryCount} failed for collection '${collectionName}':`,
+            lastError.message
+          );
+        }
 
         // Don't retry on certain types of errors
         if (
           lastError.message.includes('401') ||
           lastError.message.includes('403') ||
-          lastError.message.includes('404')
+          lastError.message.includes('404') ||
+          // Don't retry on empty collections as it's not a transient error
+          (lastError.message.includes('Collection') &&
+            lastError.message.includes('empty'))
         ) {
-          console.error('Authentication/Permission error - not retrying');
+          if (
+            lastError.message.includes('Collection') &&
+            lastError.message.includes('empty')
+          ) {
+            console.debug('Collection is empty - not retrying');
+          } else {
+            console.error('Authentication/Permission error - not retrying');
+          }
           break;
         }
 
         // Wait before retrying (exponential backoff)
         if (attempt < retryCount) {
           const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-          console.log(`Waiting ${delay}ms before retry...`);
+          if (process.env.NODE_ENV === 'development') {
+            console.log(`Waiting ${delay}ms before retry...`);
+          }
           await new Promise(resolve => setTimeout(resolve, delay));
         }
       }
@@ -255,10 +278,17 @@ export const fetchWixContent = async <T>(
     throw lastError || new Error('All retry attempts failed');
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(
-      `Error fetching data from Wix collection '${collectionName}':`,
-      errorMessage
-    );
+
+    // Reduce console noise for empty collections
+    if (
+      !errorMessage.includes('Collection') ||
+      !errorMessage.includes('empty')
+    ) {
+      console.error(
+        `Error fetching data from Wix collection '${collectionName}':`,
+        errorMessage
+      );
+    }
 
     // Provide user-friendly error messages based on error type
     if (
@@ -344,6 +374,16 @@ export const getHeroContent = async (
         'Wix internal error - using emergency fallback'
       );
       return await getFallbackContent<HeroContent>('hero', true);
+    }
+
+    // For empty collection errors, immediately use fallback instead of retrying
+    if (errorMessage.includes('Collection') && errorMessage.includes('empty')) {
+      logFallbackUsage(
+        'HeroContent',
+        'Collection is empty - using fallback content'
+      );
+      // Return mock data immediately without additional retries
+      return await getMockHeroContent();
     }
 
     // For other errors on hero content (critical), we still throw

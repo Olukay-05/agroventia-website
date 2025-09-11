@@ -14,6 +14,9 @@ import {
 import { HeroContent } from '@/types/wix';
 import useScrollToSection from '@/hooks/useScrollToSection';
 import { trackButtonClick } from '@/lib/analytics';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+import Fade from 'embla-carousel-fade';
 
 interface HeroSectionProps {
   data?: HeroContent;
@@ -31,7 +34,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   isLoading,
 }) => {
   // For backward compatibility, we'll still use the hook if no data is provided
-  const { data: heroContentData, isLoading: hookIsLoading } = useHeroContent();
+  const {
+    data: heroContentData,
+    isLoading: hookIsLoading,
+    error: heroContentError,
+  } = useHeroContent();
   const heroContent = data || heroContentData?.[0];
   const { scrollToSection } = useScrollToSection();
 
@@ -43,10 +50,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const backgroundRef = useRef<HTMLDivElement>(null);
   // State for background image carousel
   const [carouselItems, setCarouselItems] = useState<CarouselItem[]>([]);
-  const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [carouselLoading, setCarouselLoading] = useState(true);
   const [carouselError, setCarouselError] = useState<string | null>(null);
   const [contentLoaded, setContentLoaded] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // Set up Embla Carousel
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: 'center',
+    },
+    [Fade(), Autoplay({ delay: 7000, stopOnInteraction: false })]
+  );
 
   // Fetch carousel data from CarouselImageDisplay collection
   useEffect(() => {
@@ -78,7 +94,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
         if (items.length > 0) {
           setCarouselItems(items);
-          setCurrentItemIndex(0);
         }
         setCarouselLoading(false);
         return;
@@ -96,11 +111,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
         if (items.length > 0) {
           setCarouselItems(items);
-          // Set to first item when data is loaded
-          setCurrentItemIndex(0);
         } else {
           // If no carousel data, fall back to original implementation
-          console.warn('No carousel data found, using fallback');
+          console.debug('No carousel data found, using fallback');
         }
       } catch (error) {
         console.error('Error fetching carousel data:', error);
@@ -119,23 +132,21 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     fetchCarouselData();
   }, [collectionsData]);
 
-  // Set up interval for carousel rotation
+  // Handle carousel selection changes
   useEffect(() => {
-    if (carouselItems.length <= 1) {
-      return;
-    }
+    if (!emblaApi) return;
 
-    const interval = setInterval(() => {
-      setCurrentItemIndex(prevIndex => {
-        const newIndex = (prevIndex + 1) % carouselItems.length;
-        return newIndex;
-      });
-    }, 7000); // Change image every 7 seconds (matching user preference)
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on('select', onSelect);
+    onSelect(); // Set initial selection
 
     return () => {
-      clearInterval(interval);
+      emblaApi.off('select', onSelect);
     };
-  }, [carouselItems.length]);
+  }, [emblaApi]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -163,17 +174,26 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     }
   }, [effectiveIsLoading, carouselLoading]);
 
-  // Get current carousel item
-  const currentItem = carouselItems[currentItemIndex] || null;
-
   // Show skeleton only during initial data loading or carousel loading
   if (effectiveIsLoading || carouselLoading) {
     return <BlurredHeroSkeleton />;
   }
 
-  if (carouselError) {
-    console.error('Carousel error:', carouselError);
+  // If we have an error with hero content and no fallback data, show a minimal version
+  if (heroContentError && !heroContent) {
+    console.warn(
+      'Hero content error, using minimal fallback:',
+      heroContentError.message
+    );
+    // Continue with minimal content
   }
+
+  if (carouselError) {
+    console.debug('Carousel error (non-critical):', carouselError);
+  }
+
+  // Get the currently selected carousel item
+  const selectedCarouselItem = carouselItems[selectedIndex];
 
   return (
     <section
@@ -187,26 +207,25 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         className="absolute inset-0 w-full h-[120%] -top-[10%] overflow-hidden"
       >
         {carouselItems.length > 0 ? (
-          <div className="responsive-image w-full h-full">
-            {carouselItems.map((item, index) => (
-              <div
-                key={index}
-                className={cn(
-                  'absolute inset-0 w-full h-full transition-opacity duration-2000 ease-in-out',
-                  index === currentItemIndex
-                    ? 'opacity-100 z-0'
-                    : 'opacity-0 z-0'
-                )}
-              >
-                <WixImage
-                  src={item.imageUrl}
-                  alt={`Carousel background ${index + 1}`}
-                  fill={true}
-                  className="w-full h-full"
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-            ))}
+          <div className="w-full h-full" ref={emblaRef}>
+            <div className="flex h-full">
+              {carouselItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex-[0_0_100%] min-w-0 relative w-full h-full"
+                >
+                  <WixImage
+                    src={item.imageUrl}
+                    alt={`Carousel background ${index + 1}`}
+                    fill={true}
+                    className="w-full h-full"
+                    style={{ objectFit: 'cover' }}
+                    loading={index === 0 ? 'eager' : 'lazy'} // Load first image eagerly, others lazily
+                    placeholderColor="bg-gradient-to-br from-green-600/20 via-emerald-700/20 to-teal-800/20"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         ) : // Fallback to original background image or gradient
         heroContent?.backgroundImage &&
@@ -218,6 +237,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               fill={true}
               className="w-full h-full"
               style={{ objectFit: 'cover' }}
+              loading="eager"
+              placeholderColor="bg-gradient-to-br from-green-600/20 via-emerald-700/20 to-teal-800/20"
             />
           </div>
         ) : (
@@ -239,7 +260,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 contentLoaded ? 'opacity-100' : 'opacity-0'
               )}
             >
-              {currentItem?.title ||
+              {selectedCarouselItem?.title ||
                 heroContent?.title ||
                 'Premium Agricultural Imports from West Africa'}
             </h1>
@@ -249,8 +270,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 contentLoaded ? 'opacity-100' : 'opacity-0'
               )}
             >
-              {currentItem?.tagline ||
-                currentItem?.description ||
+              {selectedCarouselItem?.tagline ||
+                selectedCarouselItem?.description ||
                 heroContent?.subtitle ||
                 'Connecting Global Markets with Quality Agricultural Products'}
             </p>

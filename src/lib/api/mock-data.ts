@@ -20,13 +20,21 @@ export const shouldUseMockData = (): boolean => {
   if (isClientSide) {
     // Client-side can only access NEXT_PUBLIC_ variables
     const hasClientCredentials = !!process.env.NEXT_PUBLIC_WIX_CLIENT_ID;
-    return isDevelopment && !hasClientCredentials;
+    // In development, use mock data if credentials are missing
+    // In production, only use mock data if explicitly requested (for testing)
+    return isDevelopment
+      ? !hasClientCredentials
+      : !!process.env.NEXT_PUBLIC_USE_MOCK_DATA;
   } else {
     // Server-side can access both public and private variables
     const hasWixCredentials = !!(
       process.env.NEXT_PUBLIC_WIX_CLIENT_ID && process.env.WIX_API_TOKEN
     );
-    return isDevelopment && !hasWixCredentials;
+    // In development, use mock data if credentials are missing
+    // In production, only use mock data if explicitly requested (for testing)
+    return isDevelopment
+      ? !hasWixCredentials
+      : !!process.env.NEXT_PUBLIC_USE_MOCK_DATA;
   }
 };
 

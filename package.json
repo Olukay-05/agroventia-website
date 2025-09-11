@@ -29,6 +29,7 @@
     "@wix/sdk": "^1.15.27",
     "class-variance-authority": "^0.7.1",
     "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-fade": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
     "gsap": "^3.12.5",
