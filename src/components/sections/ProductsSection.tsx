@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Filter, Search, SortDesc } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   Card,
   CardContent,
@@ -27,6 +26,7 @@ import ProductSkeleton from '@/components/common/ProductSkeleton';
 import { ProductCategory } from '@/services/wix-data.service';
 import QualityStandardsModal from '@/components/common/QualityStandardsModal';
 import { useInfiniteProducts } from '@/hooks/useInfiniteProducts';
+import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
 
 interface Product {
   _id: string;
@@ -66,7 +66,6 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-  const [hoveredProductId, setHoveredProductId] = useState<string | null>(null);
   // Add state for modal
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -79,13 +78,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
-    isLoading: isInfiniteLoading,
   } = useInfiniteProducts(12);
 
   // Combine data from infinite query with existing data prop
   const combinedData = infiniteData?.pages.flatMap(page => page.items) || [];
-  const isDataLoading = isLoading || isInfiniteLoading;
+  const isDataLoading = isLoading || isFetchingNextPage;
 
   // Ensure we have a consistent data structure to prevent conditional hook issues
   const safeData = data || [];
@@ -445,6 +442,9 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     const cleanProductTitle = productTitle || 'Agricultural Product';
     setRequestedProduct({ name: cleanProductTitle, id: productId });
 
+    // Track product quote request
+    trackProductQuoteRequest(cleanProductTitle, productId);
+
     // Prefetch product data for better performance in the quote flow
     prefetchProductForQuote(productId);
 
@@ -454,6 +454,12 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
   // Handle card click to open quality standards modal
   const handleCardClick = (product: Product) => {
+    // Track button click
+    trackButtonClick('product_card_click', {
+      product_name: product.title || product.name || 'Unknown Product',
+      product_id: product._id,
+    });
+
     // Open modal regardless of whether quality standards data exists
     // The modal will handle displaying a message if no data is available
     setSelectedProduct(product);
@@ -587,8 +593,6 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                     <Card
                       key={product._id}
                       className="flex cursor-pointer flex-col overflow-hidden gap-3 border-[#281909] hover:shadow-lg transition-all duration-300 border border-agro-primary-200 dark:border-agro-primary-700 bg-white dark:bg-agro-neutral-900 hover:bg-[#FDF8F0] dark:hover:bg-agro-neutral-800"
-                      onMouseEnter={() => setHoveredProductId(product._id)}
-                      onMouseLeave={() => setHoveredProductId(null)}
                       onClick={() => handleCardClick(product)} // Add click handler for the entire card
                     >
                       <div
@@ -604,13 +608,6 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                           fill
                           className="object-cover w-full h-full"
                         />
-                        {/* {hoveredProductId === product._id && (
-                          <Badge className="absolute top-2 right-2 bg-green-600 text-white z-10">
-                            {isDisplayingIndividualProducts
-                              ? 'In Stock'
-                              : `${product.productCount} Products`}
-                          </Badge>
-                        )} */}
                       </div>
                       <CardHeader className="pb-3">
                         <CardTitle className="line-clamp-2">

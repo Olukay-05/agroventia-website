@@ -19,6 +19,7 @@ interface CookieConsentContextType {
   consent: ConsentPreferences;
   setConsent: (consent: Partial<ConsentPreferences>) => void;
   resetConsent: () => void;
+  hasMadeChoice: boolean; // Add this to track if user has explicitly made a choice
 }
 
 const CookieConsentContext = createContext<
@@ -37,6 +38,7 @@ export const CookieConsentProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [consent, setConsentState] =
     useState<ConsentPreferences>(DEFAULT_CONSENT);
+  const [hasMadeChoice, setHasMadeChoice] = useState<boolean>(false); // Track if user has made explicit choice
 
   // Load consent from localStorage on mount
   useEffect(() => {
@@ -48,6 +50,8 @@ export const CookieConsentProvider: React.FC<{ children: ReactNode }> = ({
           ...DEFAULT_CONSENT,
           ...parsedConsent,
         });
+        // If there's saved consent, user has made a choice
+        setHasMadeChoice(true);
       } catch (error) {
         console.warn(
           'Failed to parse cookie consent from localStorage:',
@@ -67,16 +71,20 @@ export const CookieConsentProvider: React.FC<{ children: ReactNode }> = ({
       ...prev,
       ...newConsent,
     }));
+    // When setConsent is called, user has made an explicit choice
+    setHasMadeChoice(true);
   };
 
   const resetConsent = () => {
     setConsentState(DEFAULT_CONSENT);
     localStorage.removeItem('cookieConsent');
+    // When reset, user hasn't made a choice anymore
+    setHasMadeChoice(false);
   };
 
   return (
     <CookieConsentContext.Provider
-      value={{ consent, setConsent, resetConsent }}
+      value={{ consent, setConsent, resetConsent, hasMadeChoice }}
     >
       {children}
     </CookieConsentContext.Provider>

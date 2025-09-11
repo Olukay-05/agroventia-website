@@ -7,7 +7,7 @@ import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const CookieBanner: React.FC = () => {
-  const { consent, setConsent } = useCookieConsent();
+  const { consent, setConsent, hasMadeChoice } = useCookieConsent();
   const [isVisible, setIsVisible] = useState(false);
 
   // Check if we should show the banner
@@ -19,22 +19,7 @@ const CookieBanner: React.FC = () => {
       window.location.pathname.includes('cookie-policy') ||
       window.location.pathname.includes('policy');
 
-    // Check if user has made any consent choice (not in default state)
-    // hasMadeChoice is true if any cookie type has been explicitly set to true
-    // or if all optional cookies have been explicitly set to false (reject all)
-    // Check if user has made any consent choice (not in default state)
-    // hasMadeChoice is true if any cookie type has been explicitly set to true
-    // or if all optional cookies have been explicitly set to false (reject all)
-    const hasMadeChoice =
-      consent.analytics === true ||
-      consent.marketing === true ||
-      consent.functional === true ||
-      (consent.analytics === false &&
-        consent.marketing === false &&
-        consent.functional === false);
-
-    // Show if no explicit consent has been given and not on legal pages
-    // Only show if user hasn't made a choice yet
+    // Show the banner if the user hasn't made an explicit choice and not on legal pages
     if (!hasMadeChoice && !isLegalPage) {
       // Small delay to ensure page is loaded
       const timer = setTimeout(() => {
@@ -43,7 +28,7 @@ const CookieBanner: React.FC = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [consent]);
+  }, [consent, hasMadeChoice]);
 
   const handleAcceptAll = () => {
     setConsent({

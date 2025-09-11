@@ -61,6 +61,7 @@ Centralized state management for cookie consent preferences, following the same 
 - Provide consent status to all components
 - Handle different cookie categories (necessary, analytics, marketing, functional)
 - Server-side rendering compatibility
+- Track whether user has explicitly made a consent choice
 
 #### Interface
 
@@ -74,6 +75,7 @@ interface CookieConsentContextType {
   };
   setConsent: (consent: ConsentPreferences) => void;
   resetConsent: () => void;
+  hasMadeChoice: boolean; // New: Track if user has explicitly made a choice
 }
 
 interface ConsentPreferences {
@@ -97,6 +99,7 @@ Visual component that presents the consent options to users.
 - Animation timing synchronized with existing UI elements (2000ms transitions)
 - Accessible with proper ARIA attributes
 - Conditional rendering based on consent status
+- Only shows when user hasn't explicitly made a choice
 
 #### Design Requirements
 
@@ -117,6 +120,7 @@ Simplified access to cookie consent status for components.
 - Easy consumption of consent preferences
 - Type-safe access to consent status
 - Reactivity to consent changes
+- Access to hasMadeChoice flag
 
 ### 4. Integration Points
 
@@ -124,21 +128,20 @@ Simplified access to cookie consent status for components.
 
 The CookieConsentProvider will be added to the existing Providers component:
 
-``tsx
+```tsx
 // src/app/providers.tsx
 export default function Providers({ children }: { children: React.ReactNode }) {
-return (
-<QueryClientProvider client={queryClient}>
-<LocaleProvider>
-<CookieConsentProvider>
-<QuoteRequestProvider>{children}</QuoteRequestProvider>
-</CookieConsentProvider>
-</LocaleProvider>
-</QueryClientProvider>
-);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <LocaleProvider>
+        <CookieConsentProvider>
+          <QuoteRequestProvider>{children}</QuoteRequestProvider>
+        </CookieConsentProvider>
+      </LocaleProvider>
+    </QueryClientProvider>
+  );
 }
-
-````
+```
 
 #### Layout Integration
 
@@ -162,7 +165,7 @@ export default function RootLayout({
     </html>
   );
 }
-````
+```
 
 ## Cookie Categories
 
@@ -275,12 +278,14 @@ export default function RootLayout({
 - Test useCookieConsent hook
 - Test CookieBanner component rendering
 - Test consent persistence
+- Test hasMadeChoice flag behavior
 
 ### Integration Tests
 
 - Test localStorage persistence
 - Test server-side cookie handling
 - Test integration with existing context providers
+- Test banner visibility logic
 
 ### Accessibility Tests
 
@@ -366,9 +371,7 @@ To enable Google Analytics tracking:
 1. Add your GA4 Measurement ID to `.env.local`:
 
 ```
-
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
-
 ```
 
 2. The GoogleAnalyticsScript component will automatically load the tracking script
@@ -376,3 +379,23 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 3. The GoogleAnalyticsIntegration component will handle consent-based tracking
 
 4. Verify implementation by checking Google Analytics Realtime reports
+
+## Bug Fixes and Improvements
+
+### Fixed Cookie Banner Visibility Issue
+
+**Problem**: The cookie banner was not showing up for new users because the logic incorrectly identified users who had explicitly rejected all cookies as users who had not made any choices yet.
+
+**Solution**: Added a `hasMadeChoice` flag to the CookieConsentContext to explicitly track whether a user has made an explicit consent choice. The CookieBanner now only shows when this flag is false, ensuring that:
+
+1. New users who haven't made any choices see the banner
+2. Users who have explicitly accepted or rejected cookies do not see the banner again
+3. Users who have closed the banner without making a choice will see it again on subsequent visits
+
+**Implementation Details**:
+
+- Added `hasMadeChoice` state to CookieConsentContext
+- Set `hasMadeChoice` to true when `setConsent` is called
+- Set `hasMadeChoice` to false when `resetConsent` is called
+- Updated CookieBanner to use `hasMadeChoice` instead of trying to infer user choice from consent values
+- Preserved existing behavior for legal pages (banner never shows on privacy, terms, cookie-policy, or policy pages)

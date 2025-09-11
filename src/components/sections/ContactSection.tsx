@@ -16,6 +16,7 @@ import {
   ToastTitle,
   ToastDescription,
 } from '@/components/ui/toast';
+import { trackFormSubmit, trackProductQuoteRequest } from '@/lib/analytics';
 
 interface ContactSectionProps {
   data?: ContactContent;
@@ -206,7 +207,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
     setIsSubmitting(true);
 
     try {
-      // Prepare EmailJS template parameters
+      // Prepare template parameters
       const templateParams = {
         first_name: formData.firstName,
         last_name: formData.lastName,
@@ -220,40 +221,80 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
         to_email: data?.businessEmail || 'info@agroventia.ca', // Send to business email
       };
 
+      // const templateParams = {
+      //   from_name: `${formData.firstName} ${formData.lastName}`,
+      //   from_email: formData.email,
+      //   from_phone: `${formData.phoneCountryCode} ${formData.phone}`,
+      //   to_name: 'AgroVentia Team',
+      //   subject:
+      //     formData.enquiryType === 'quote'
+      //       ? `Product Quote Request from ${formData.firstName} ${formData.lastName}`
+      //       : `General Enquiry from ${formData.firstName} ${formData.lastName}`,
+      //   message: formData.message,
+      //   enquiry_type: formData.enquiryType,
+      //   phone_number: `${formData.phoneCountryCode} ${formData.phone}`,
+      // };
+
       // Send email using EmailJS
-      const result = await emailjs.send(
+      const response = await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         templateParams,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
-      console.log('Email sent successfully:', result);
+      if (response.status === 200) {
+        // Track successful form submission
+        trackFormSubmit('contact_form', {
+          enquiry_type: formData.enquiryType,
+          success: true,
+        });
 
-      setToast({
-        open: true,
-        title: 'Message Sent',
-        description:
-          "Your message has been sent successfully! We'll get back to you soon.",
-        variant: 'success',
-      });
+        // Track product quote request if applicable
+        if (formData.enquiryType === 'quote' && requestedProduct) {
+          trackProductQuoteRequest(
+            requestedProduct,
+            requestedProductId || undefined
+          );
+        }
 
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        phoneCountryCode: '+1',
-        enquiryType: 'general',
-        message: '',
-      });
+        setToast({
+          open: true,
+          title: 'Message Sent',
+          description:
+            'Thank you for your message. We will get back to you shortly.',
+          variant: 'success',
+        });
+
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          phoneCountryCode: '+1',
+          enquiryType: 'general',
+          message: '',
+        });
+        setErrors({});
+      } else {
+        throw new Error('Failed to send message');
+      }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      // Show error message to user
+      console.error('Error sending email:', error);
+
+      // Track failed form submission
+      trackFormSubmit('contact_form', {
+        enquiry_type: formData.enquiryType,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+
       setToast({
         open: true,
         title: 'Error',
-        description: 'Failed to send message. Please try again later.',
+        description:
+          'There was an error sending your message. Please try again later.',
         variant: 'destructive',
       });
     } finally {
@@ -335,10 +376,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
   }
 
   return (
-    <SectionContainer
-      id="contact"
-      className="py-16 md:py-24 bg-agro-neutral-50"
-    >
+    <SectionContainer id="contact" className="py-16 md:py-24">
       {/* Toast Provider */}
       <ToastProvider>
         {toast && (
@@ -374,7 +412,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
           </div>
         </div>
 
-        <div className="responsive-grid lg-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-6 md:space-y-8 scroll-reveal">
             <div className="glass-card p-6 md:p-8">

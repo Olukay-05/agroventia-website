@@ -5,7 +5,6 @@ import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import FooterSocialLinks from './FooterSocialLinks';
-import FooterNewsletter from './FooterNewsletter';
 import FooterLinkSection from './FooterLinkSection';
 import Image from 'next/image';
 import { LanguageSelector } from '@/components/common/LanguageSelector';

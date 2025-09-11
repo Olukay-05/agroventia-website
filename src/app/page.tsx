@@ -12,6 +12,7 @@ import { useAllCollections } from '@/hooks/useAllCollections';
 import { extractHomepageData } from '@/lib/utils/extractHomepageData';
 import useScrollReveal from '@/hooks/useScrollReveal';
 import { QuoteRequestProvider } from '@/contexts/QuoteRequestContext';
+import SeoHead from '@/components/common/SeoHead';
 
 export default function HomePage() {
   const { data, isLoading, error } = useAllCollections();
@@ -39,6 +40,11 @@ export default function HomePage() {
     return (
       <div className="min-h-screen bg-red-50 flex items-center justify-center p-4">
         <div className="text-center max-w-md mx-auto">
+          <SeoHead
+            title="AgroVentia Inc. - Error Loading Page"
+            description="There was an error loading the AgroVentia Inc. homepage. Please try again."
+            noIndex={true}
+          />
           <h2 className="text-xl md:text-2xl font-bold text-red-700 mb-4">
             Error Loading Data
           </h2>
@@ -66,6 +72,11 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
+      <SeoHead
+        title="AgroVentia Inc. - Premium Agricultural Imports from West Africa"
+        description="Connecting global markets with quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources."
+        keywords="agricultural exports, African produce sourcing, premium agro products, kolanut, ginger, hibiscus, cocoa, West Africa, agricultural imports, ethically sourced"
+      />
       <Header />
 
       <main>

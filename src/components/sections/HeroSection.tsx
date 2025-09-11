@@ -13,6 +13,7 @@ import {
 } from '@/services/carousel.service';
 import { HeroContent } from '@/types/wix';
 import useScrollToSection from '@/hooks/useScrollToSection';
+import { trackButtonClick } from '@/lib/analytics';
 
 interface HeroSectionProps {
   data?: HeroContent;
@@ -256,6 +257,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
 
           {/* Call to Action Buttons */}
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 scroll-reveal px-4">
             <Button
               size="lg"
@@ -263,7 +265,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 'btn-agro-primary cursor-pointer text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group transition-opacity duration-1000 ease-in-out',
                 contentLoaded ? 'opacity-100' : 'opacity-0'
               )}
-              onClick={() => scrollToSection('products')}
+              onClick={() => {
+                scrollToSection('products');
+                trackButtonClick('hero_cta_explore_products');
+              }}
             >
               {heroContent?.ctaPrimary || 'Explore Products'}
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -276,7 +281,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   'text-base cursor-pointer sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group border-white/30 text-white hover:bg-white/20 backdrop-blur-lg shadow-lg transition-opacity duration-1000 ease-in-out',
                   contentLoaded ? 'opacity-100' : 'opacity-0'
                 )}
-                onClick={() => scrollToSection('contact')}
+                onClick={() => {
+                  scrollToSection('contact');
+                  trackButtonClick('hero_cta_contact_us');
+                }}
               >
                 {heroContent?.ctaSecondary ||
                   data?.ctaSecondary ||
