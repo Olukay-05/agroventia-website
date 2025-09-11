@@ -118,18 +118,18 @@ const Footer: React.FC = () => {
     { label: 'Contact', href: '#contact' },
   ];
 
-  const serviceLinks =
-    servicesData.length > 0
-      ? servicesData
-          .slice(0, 5)
-          .map(service => service.title || 'Agricultural Service')
-      : [
-          'Sourcing with Integrity',
-          'Rigorous Quality Checks',
-          'Seamless Logistics',
-          'On-Time Delivery',
-          'Long-Term Partnerships',
-        ];
+  // const serviceLinks =
+  //   servicesData.length > 0
+  //     ? servicesData
+  //         .slice(0, 5)
+  //         .map(service => service.title || 'Agricultural Service')
+  //     : [
+  //         'Sourcing with Integrity',
+  //         'Rigorous Quality Checks',
+  //         'Seamless Logistics',
+  //         'On-Time Delivery',
+  //         'Long-Term Partnerships',
+  //       ];
 
   const productCategories =
     productsData.length > 0
@@ -152,12 +152,10 @@ const Footer: React.FC = () => {
           'Irrigation Systems',
         ];
 
-  const handleServiceClick = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    link: string | { label: string; href?: string }
-  ) => {
-    // Handle service link click - could navigate to service page
-  };
+  // const handleServiceClick = (
+  //   link: string | { label: string; href?: string }
+  // ) => {
+  // };
 
   const handleProductClick = (
     link: string | { label: string; href?: string }
@@ -278,12 +276,26 @@ const Footer: React.FC = () => {
             }}
           />
 
-          {/* Services */}
-          <FooterLinkSection
-            title="Our Process"
-            links={serviceLinks}
-            onLinkClick={handleServiceClick}
-          />
+          {/* Core Values */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-[#FDF8F0]">
+              Our Core Values
+            </h3>
+            <ul className="space-y-2">
+              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
+                <span>Quality First</span>
+              </li>
+              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
+                <span>Ethical Sourcing</span>
+              </li>
+              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
+                <span>Trust & Transparency</span>
+              </li>
+              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
+                <span>Reliability</span>
+              </li>
+            </ul>
+          </div>
 
           {/* Products */}
           <FooterLinkSection
