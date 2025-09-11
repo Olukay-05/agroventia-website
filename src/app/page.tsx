@@ -69,9 +69,9 @@ export default function HomePage() {
             collectionsData={safeData}
             isLoading={effectiveLoading}
           />
+          <ProductsSection data={productsData} isLoading={effectiveLoading} />
           <AboutSection data={aboutData} isLoading={effectiveLoading} />
           <ServicesSection data={servicesData} isLoading={effectiveLoading} />
-          <ProductsSection data={productsData} isLoading={effectiveLoading} />
           <ContactSection data={contactData} isLoading={effectiveLoading} />
         </QuoteRequestProvider>
       </main>
