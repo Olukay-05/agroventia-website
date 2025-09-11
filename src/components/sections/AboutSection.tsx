@@ -7,6 +7,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner';
 import DotGrid from '@/components/ui/DotGrid';
 import TiltedContainer from '@/components/ui/TiltedContainer';
 import Carousel from '@/components/common/Carousel';
+import MissionVisionCarousel from '@/components/common/MissionVisionCarousel';
 import { cn } from '@/lib/utils';
 
 interface CoreValue {
@@ -148,11 +149,16 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
           <h2 className="heading-section text-[#281909]">
             {data?.sectionTitle || data?.title || 'About AgroVentia'}
           </h2>
-          <p className="text-lead max-w-3xl mx-auto text-[#281909]">
-            {data?.mission ||
-              data?.description ||
-              'Leading agricultural export company dedicated to simplifying agricultural trade with reliable premium products.'}
-          </p>
+
+          {/* Mission/Vision Carousel - Replaces static mission display */}
+          {data?.mission && data?.vision && (
+            <div className="my-8">
+              <MissionVisionCarousel
+                mission={data.mission}
+                vision={data.vision}
+              />
+            </div>
+          )}
         </div>
 
         {/* Added even spacing for mobile screens */}
