@@ -11,9 +11,7 @@ import {
 } from 'lucide-react';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ServiceFeatureCard from '@/components/ui/ServiceFeatureCard';
-import BlobCursor from '@/components/common/BlobCursor';
 import { ServiceContent } from '@/types/wix';
-import SectionContainer from '../common/SectionContainer';
 
 interface ServiceItem {
   id: string;
@@ -263,6 +261,159 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
   }
 
   return (
+    // <section
+    //   id="services"
+    //   className="py-16 md:py-20 lg:py-32 overflow-hidden relative"
+    // >
+    //   <div className="container-premium">
+    //     <div className="text-center mb-16 scroll-reveal">
+    //       <h2 className="heading-section text-[#281909] mb-4">
+    //         {Array.isArray(data) && data.length > 0 && 'sectionTitle' in data[0]
+    //           ? (data[0] as WixServicesData).sectionTitle
+    //           : 'Our Process'}
+    //       </h2>
+    //       <p className="text-lead max-w-3xl mx-auto text-[#281909]">
+    //         {Array.isArray(data) &&
+    //         data.length > 0 &&
+    //         'sectionDescription' in data[0]
+    //           ? (data[0] as WixServicesData).sectionDescription
+    //           : 'Comprehensive agricultural import services connecting West African producers with global markets through reliable supply chain management.'}
+    //       </p>
+    //     </div>
+
+    //     {/* Services Grid with triangle layout */}
+    //     <div className="mb-8 md:mb-12">
+    //       {/* First row - 3 cards on large screens */}
+    //       <div className="hidden lg:grid lg:grid-cols-3 gap-6 mb-6">
+    //         {services.slice(0, 3).map(service => (
+    //           <ServiceFeatureCard
+    //             key={service.id}
+    //             title={service.title}
+    //             description={service.description}
+    //             icon={getIcon(service.icon)}
+    //             isActive={activeService === service.id}
+    //             onClick={() =>
+    //               setActiveService(
+    //                 service.id === activeService ? null : service.id
+    //               )
+    //             }
+    //           />
+    //         ))}
+    //       </div>
+
+    //       {/* Second row - 2 centered cards on large screens */}
+    //       <div className="hidden lg:flex lg:justify-center">
+    //         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
+    //           {services.slice(3, 5).map(service => (
+    //             <ServiceFeatureCard
+    //               key={service.id}
+    //               title={service.title}
+    //               description={service.description}
+    //               icon={getIcon(service.icon)}
+    //               isActive={activeService === service.id}
+    //               onClick={() =>
+    //                 setActiveService(
+    //                   service.id === activeService ? null : service.id
+    //                 )
+    //               }
+    //             />
+    //           ))}
+    //         </div>
+    //       </div>
+
+    //       {/* Tablet/mobile layout - responsive grid */}
+    //       <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-6">
+    //         {services.map(service => (
+    //           <ServiceFeatureCard
+    //             key={service.id}
+    //             title={service.title}
+    //             description={service.description}
+    //             icon={getIcon(service.icon)}
+    //             isActive={activeService === service.id}
+    //             onClick={() =>
+    //               setActiveService(
+    //                 service.id === activeService ? null : service.id
+    //               )
+    //             }
+    //           />
+    //         ))}
+    //       </div>
+    //     </div>
+
+    //     {/* Additional Services */}
+
+    //     {/* <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6 md:p-8 lg:p-12 scroll-reveal">
+    //       <div className="responsive-grid lg-2 items-center">
+    //         <div className="space-y-4 md:space-y-6">
+    //           <h3 className="heading-subsection mb-3 md:mb-4">
+    //             Need Custom Solutions?
+    //           </h3>
+    //           <p className="text-body mb-4 md:mb-6">
+    //             Our team of agricultural experts can develop tailored
+    //             solutions to meet your specific farming requirements. From
+    //             specialized equipment sourcing to custom supply chain
+    //             optimization, we're here to help.
+    //           </p>
+    //           <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+    //             <Button className="btn-agro-primary text-sm md:text-base py-2 md:py-3">
+    //               Request Consultation
+    //             </Button>
+    //             <Button
+    //               variant="outline"
+    //               className="btn-agro-outline text-sm md:text-base py-2 md:py-3"
+    //             >
+    //               View All Services
+    //             </Button>
+    //           </div>
+    //         </div>
+
+    //         <div className="responsive-grid sm-2 gap-3 md:gap-4 mt-6 lg:mt-0">
+    //           {[
+    //             {
+    //               id: 'satisfaction',
+    //               value: '98%',
+    //               color: 'text-green-600',
+    //               label: 'Client Satisfaction',
+    //             },
+    //             {
+    //               id: 'response',
+    //               value: '24h',
+    //               color: 'text-blue-600',
+    //               label: 'Response Time',
+    //             },
+    //             {
+    //               id: 'projects',
+    //               value: '100+',
+    //               color: 'text-purple-600',
+    //               label: 'Projects Completed',
+    //             },
+    //             {
+    //               id: 'countries',
+    //               value: '15+',
+    //               color: 'text-amber-600',
+    //               label: 'Countries Served',
+    //             },
+    //           ].map(stat => (
+    //             <div
+    //               key={stat.id}
+    //               className="bg-white p-3 md:p-4 rounded-lg shadow-sm text-center"
+    //             >
+    //               <div
+    //                 className={`text-xl md:text-2xl font-bold ${stat.color} mb-1`}
+    //               >
+    //                 {stat.value}
+    //               </div>
+    //               <div className="text-xs md:text-sm text-gray-600">
+    //                 {stat.label}
+    //               </div>
+    //             </div>
+    //           ))}
+    //         </div>
+    //       </div>
+    //     </div> */}
+    //   </div>
+    // </section>
+
     <section
       id="services"
       className="py-16 md:py-24 bg-agro-neutral-50 relative overflow-hidden"
@@ -287,30 +438,10 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
 
       {/* Lighter overlay to ensure text readability while showing more of the image */}
       <div
-        className="absolute inset-0 bg-white/70 dark:bg-gray-900/50"
+        // className="absolute inset-0 bg-white/70 dark:bg-gray-900/50"
+        className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30"
         style={{ zIndex: 2 }}
       />
-
-      {/* Blob Cursor - placed to cover the entire section */}
-      {/* <BlobCursor
-        blobType="circle"
-        fillColor="#00a63e"
-        trailCount={3}
-        sizes={[60, 125, 75]}
-        innerSizes={[20, 35, 25]}
-        innerColor="rgba(255,255,255,0.8)"
-        opacities={[0.6, 0.6, 0.6]}
-        shadowColor="rgba(0,0,0,0.75)"
-        shadowBlur={5}
-        shadowOffsetX={10}
-        shadowOffsetY={10}
-        filterStdDeviation={30}
-        useFilter={true}
-        fastDuration={0.1}
-        slowDuration={0.5}
-        zIndex={100}
-        constrainToElement={true}
-      /> */}
 
       {/* Glassmorphic container wrapper - hidden on mobile */}
       <div className="container-premium relative z-10">

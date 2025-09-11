@@ -137,8 +137,8 @@ const ServiceFeatureCard: React.FC<ServiceFeatureCardProps> = ({
               if (onClick) onClick();
             }}
           >
-            <span className="text-sm font-medium">View Products</span>
-            <ArrowRight size={16} className="ml-1" />
+            {/* <span className="text-sm font-medium">View Products</span>
+            <ArrowRight size={16} className="ml-1" /> */}
           </motion.div>
         )}
       </div>

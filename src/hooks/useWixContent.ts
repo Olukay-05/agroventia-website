@@ -25,7 +25,17 @@ export const useHeroContent = () => {
     queryFn: () => getHeroContent(locale),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 3,
+    retry: (failureCount, error) => {
+      // Don't retry on empty collection errors as they're not transient
+      if (
+        error.message.includes('Collection') &&
+        error.message.includes('empty')
+      ) {
+        return false;
+      }
+      // For other errors, retry up to 2 times
+      return failureCount < 2;
+    },
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     enabled: !isLocaleLoading,
   });
@@ -40,7 +50,7 @@ export const useAboutContent = () => {
     queryFn: () => getAboutContent(locale),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 3,
+    retry: 2,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     enabled: !isLocaleLoading,
   });
@@ -55,7 +65,7 @@ export const useServicesContent = () => {
     queryFn: () => getServicesContent(locale),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 3,
+    retry: 2,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     enabled: !isLocaleLoading,
   });
@@ -70,7 +80,7 @@ export const useProductsContent = () => {
     queryFn: () => getProductsContent(locale),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 3,
+    retry: 2,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     enabled: !isLocaleLoading,
   });
@@ -85,7 +95,7 @@ export const useProductCatalogContent = () => {
     queryFn: () => getProductCatalogContent(locale),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 3,
+    retry: 2,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     enabled: !isLocaleLoading,
   });
@@ -100,7 +110,7 @@ export const useContactContent = () => {
     queryFn: () => getContactContent(locale),
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
-    retry: 3,
+    retry: 2,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     enabled: !isLocaleLoading,
   });

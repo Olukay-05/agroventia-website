@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
+import { trackNewsletterSignup } from '@/lib/analytics';
 
 const FooterNewsletter: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -23,6 +24,10 @@ const FooterNewsletter: React.FC = () => {
       if (email.includes('@')) {
         setStatus('success');
         setMessage('Thank you for subscribing!');
+
+        // Track newsletter signup
+        trackNewsletterSignup(email);
+
         setEmail('');
       } else {
         setStatus('error');
