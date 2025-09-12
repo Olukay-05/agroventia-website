@@ -710,7 +710,7 @@ const PillNav: React.FC<PillNavProps> = ({
             );
           })}
           {/* Language Selector in Mobile Menu */}
-          <li className="px-3 py-2">
+          {/* <li className="px-3 py-2">
             <div className="text-[#FDF8F0] text-sm font-medium mb-2 px-1">
               Language / Langue
             </div>
@@ -727,7 +727,7 @@ const PillNav: React.FC<PillNavProps> = ({
                 }}
               />
             </div>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>
