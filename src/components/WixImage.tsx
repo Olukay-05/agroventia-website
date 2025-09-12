@@ -43,12 +43,17 @@ export default function WixImage({
   const [hasError, setHasError] = useState<boolean>(false);
   const [showImage, setShowImage] = useState<boolean>(false);
 
-  // Initialize URL conversion
+  // Initialize URL conversion - only when src changes
   useEffect(() => {
     if (!src || src.trim() === '') {
       setHasError(true);
       setIsLoading(false);
       return;
+    }
+
+    // Log when we're processing a new image
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`🔄 Processing image: ${src}`);
     }
 
     const converted = convertWixImageUrl(src);
@@ -60,38 +65,11 @@ export default function WixImage({
       setCurrentSrc(src);
       setUrlData(null);
     }
+    // Reset loading states when src changes
     setIsLoading(true);
     setHasError(false);
     setShowImage(false);
   }, [src]);
-
-  const handleImageError = useCallback(() => {
-    if (urlData && currentIndex < urlData.alternatives.length) {
-      // Try next alternative URL
-      const nextUrl = urlData.alternatives[currentIndex];
-
-      setCurrentIndex(prev => prev + 1);
-      setCurrentSrc(nextUrl);
-    } else {
-      // All URLs failed - but don't show error state too aggressively
-      console.warn(
-        `Failed to load image after ${
-          (urlData?.alternatives.length || 0) + 1
-        } attempts: ${urlData?.original}`
-      );
-
-      // Only set error state after a delay to allow for slower loading
-      setTimeout(() => {
-        setHasError(true);
-        setIsLoading(false);
-        onLoadError?.(
-          `Failed to load image after ${
-            (urlData?.alternatives.length || 0) + 1
-          } attempts`
-        );
-      }, 2000);
-    }
-  }, [urlData, currentIndex, onLoadError]);
 
   const handleImageLoad = useCallback(() => {
     setIsLoading(false);
@@ -102,13 +80,48 @@ export default function WixImage({
     }, 50);
     onLoadSuccess?.(currentSrc);
 
-    // Log successful URL format for debugging - but only in development and less frequently
-    if (process.env.NODE_ENV === 'development' && Math.random() < 0.1) {
+    // Log successful loading in development
+    if (process.env.NODE_ENV === 'development') {
       console.log(`✅ Image loaded successfully: ${currentSrc}`);
     }
   }, [currentSrc, onLoadSuccess]);
 
+  const handleImageError = useCallback(() => {
+    if (urlData && currentIndex < urlData.alternatives.length) {
+      // Try next alternative URL
+      const nextUrl = urlData.alternatives[currentIndex];
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log(
+          `🔄 Trying alternative URL (${currentIndex + 1}/${urlData.alternatives.length + 1}): ${nextUrl}`
+        );
+      }
+
+      setCurrentIndex(prev => prev + 1);
+      setCurrentSrc(nextUrl);
+    } else {
+      // All URLs failed
+      console.warn(
+        `Failed to load image after ${
+          (urlData?.alternatives.length || 0) + 1
+        } attempts: ${urlData?.original}`
+      );
+
+      // Set error state after a delay to allow for slower loading
+      setTimeout(() => {
+        setHasError(true);
+        setIsLoading(false);
+        onLoadError?.(
+          `Failed to load image after ${
+            (urlData?.alternatives.length || 0) + 1
+          } attempts`
+        );
+      }, 1000);
+    }
+  }, [urlData, currentIndex, onLoadError]);
+
   if (hasError) {
+    // Even in error state, try to show a basic image if we have a valid URL
     return (
       <div
         className={`flex items-center justify-center ${placeholderColor} ${className || ''}`}
@@ -119,7 +132,7 @@ export default function WixImage({
         }}
       >
         <div className="text-center text-gray-400 p-4">
-          <p className="text-sm font-medium opacity-75">Image loading...</p>
+          <p className="text-sm font-medium opacity-75">Image unavailable</p>
           {process.env.NODE_ENV === 'development' && (
             <>
               <p className="text-xs mt-1 opacity-50">
