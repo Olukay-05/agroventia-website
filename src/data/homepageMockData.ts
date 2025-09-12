@@ -7,10 +7,10 @@ export const mockRootProps = {
     _owner: 'mock-owner',
     _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
     _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
-    title: 'Professional Agricultural Import Solutions',
+    title: 'AgroVentia Inc. - Premium Agricultural from Africa',
     subtitle:
       'Quality Products for Modern Agriculture - Your Trusted Partner in Agricultural Innovation',
-    description: 'Leading agricultural solutions for modern farming needs',
+    description: 'Connecting global markets with quality agricultural products',
     backgroundImage:
       'https://images.unsplash.com/photo-1649344739140-c71b2ee1005c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTAwNDR8MHwxfHNlYXJjaHwxfHxhZ3JpY3VsdHVyZSUyMGZhcm1pbmclMjBmaWVsZHMlMjB0cmFjdG9yJTIwbGFuZHNjYXBlfGVufDB8MHx8Z3JlZW58MTc1NjIxODM3NHww&ixlib=rb-4.1.0&q=85',
     companyLogo: '/agroventia-logo.jpg',

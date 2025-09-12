@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       <SeoHead
-        title="AgroVentia Inc. - Premium Agricultural Imports from West Africa"
+        title="AgroVentia Inc. - Premium Agricultural from Africa"
         description="Connecting global markets with quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources."
         keywords="agricultural exports, African produce sourcing, premium agro products, kolanut, ginger, hibiscus, cocoa, West Africa, agricultural imports, ethically sourced"
       />
@@ -71,7 +71,7 @@ export default function HomePage() {
           />
           <ProductsSection data={productsData} isLoading={effectiveLoading} />
           <AboutSection data={aboutData} isLoading={effectiveLoading} />
-          <ServicesSection data={servicesData} isLoading={effectiveLoading} />
+          {/* <ServicesSection data={servicesData} isLoading={effectiveLoading} /> */}
           <ContactSection data={contactData} isLoading={effectiveLoading} />
         </QuoteRequestProvider>
       </main>

@@ -5,7 +5,7 @@ import { ProductContent } from '@/types/wix';
 // SEO constants
 export const DEFAULT_SITE_NAME = 'AgroVentia Inc.';
 export const DEFAULT_TITLE =
-  'AgroVentia Inc. - Premium Agricultural Imports from Africa';
+  'AgroVentia Inc. - Premium Agricultural Produce from Africa';
 export const DEFAULT_DESCRIPTION =
   'Connecting global markets with quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources.';
 export const DEFAULT_KEYWORDS =

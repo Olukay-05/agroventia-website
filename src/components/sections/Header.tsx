@@ -23,9 +23,9 @@ const Header: React.FC = () => {
 
   const navigationItems = [
     { label: 'Home', href: '/' },
-    { label: 'About', href: '/#about' },
-    { label: 'Process', href: '/#services' },
     { label: 'Products', href: '/#products' },
+    { label: 'About', href: '/#about' },
+    // { label: 'Process', href: '/#services' },
     { label: 'Contact', href: '/#contact' },
   ];
 
@@ -51,9 +51,9 @@ const Header: React.FC = () => {
           initialLoadAnimation={false}
         />
         {/* Language selector only visible on desktop (hidden on mobile and tablet) */}
-        <div className="ml-4 hidden lg:block">
+        {/* <div className="ml-4 hidden lg:block">
           <LanguageSelector />
-        </div>
+        </div> */}
       </div>
     </header>
   );

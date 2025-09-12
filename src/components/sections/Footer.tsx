@@ -112,9 +112,9 @@ const Footer: React.FC = () => {
 
   const navigationLinks = [
     { label: 'Home', href: '#hero' },
-    { label: 'About', href: '#about' },
-    { label: 'Process', href: '#services' },
     { label: 'Products', href: '#products' },
+    { label: 'About', href: '#about' },
+    // { label: 'Process', href: '#services' },
     { label: 'Contact', href: '#contact' },
   ];
 

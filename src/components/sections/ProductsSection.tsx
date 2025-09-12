@@ -78,11 +78,10 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteProducts(12);
+    isLoading: isInfiniteLoading,
+  } = useInfiniteProducts(6); // Set limit to 6 products per page
 
-  // Combine data from infinite query with existing data prop
-  const combinedData = infiniteData?.pages.flatMap(page => page.items) || [];
-  const isDataLoading = isLoading || isFetchingNextPage;
+  const isDataLoading = isLoading || isInfiniteLoading;
 
   // Ensure we have a consistent data structure to prevent conditional hook issues
   const safeData = data || [];
@@ -128,61 +127,6 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       : safeData
     : [];
 
-  // Check for category filter from sessionStorage on component mount
-  useEffect(() => {
-    const storedCategory = sessionStorage.getItem('selectedProductCategory');
-    if (storedCategory) {
-      setSelectedCategory(storedCategory);
-      // Clear the sessionStorage item after using it
-      sessionStorage.removeItem('selectedProductCategory');
-    }
-
-    // Listen for custom event from Footer component
-    const handleCategorySelection = (event: CustomEvent) => {
-      const { category } = event.detail;
-      setSelectedCategory(category);
-    };
-
-    window.addEventListener(
-      'productCategorySelected',
-      handleCategorySelection as EventListener
-    );
-
-    return () => {
-      window.removeEventListener(
-        'productCategorySelected',
-        handleCategorySelection as EventListener
-      );
-    };
-  }, []);
-
-  const defaultProducts = [
-    {
-      _id: 'category-1',
-      title: 'Charcoal',
-      description:
-        'Durable, clean-burning charcoal made from sustainably sourced wood. Perfect for cooking, grilling, and artisanal uses.',
-      image: '/charcoal.jpg',
-      productCount: 15,
-    },
-    {
-      _id: 'category-2',
-      title: 'Fresh Kola nuts',
-      description:
-        'Fresh, handpicked kola nut with full natural aroma and potency. Perfect for culinary, cultural, and beverage applications.',
-      image: '/fresh-kolanuts.jpg',
-      productCount: 22,
-    },
-    {
-      _id: 'category-3',
-      title: 'Cocoa Pods',
-      description:
-        'Fresh cocoa pods with rich, aromatic pulp and beans. Ideal for chocolate production and artisanal cocoa products.',
-      image: '/cocoa-pod.jpg',
-      productCount: 18,
-    },
-  ];
-
   if (isDataLoading) {
     return (
       <SectionContainer id="products" background="gradient">
@@ -218,11 +162,13 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   }
 
   // Extract individual products from the allProducts array or use infinite data
-  let individualProducts: Product[] =
-    combinedData.length > 0 ? combinedData : [];
+  let individualProducts: Product[] = [];
 
-  // Check if data has allProducts at the collection level (as per the JSON structure)
-  if (
+  // If we have infinite data, use it; otherwise fall back to existing data
+  if (infiniteData && infiniteData.pages && infiniteData.pages.length > 0) {
+    // Flatten all pages to get all loaded products
+    individualProducts = infiniteData.pages.flatMap(page => page.items);
+  } else if (
     transformedData &&
     (transformedData as unknown as { allProducts?: Product[] }).allProducts
   ) {
@@ -250,6 +196,9 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     }
   }
 
+  // Define default empty products array
+  const defaultProducts: Product[] = [];
+
   // Use individual products if available, otherwise fallback to categories or default
   const products =
     individualProducts && individualProducts.length > 0
@@ -262,15 +211,9 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const isDisplayingIndividualProducts =
     individualProducts && individualProducts.length > 0;
 
-  // Debug: Log the data structures to see what we're working with
-  // console.log('safeData:', safeData);
-  // console.log('individualProducts:', individualProducts);
-  // console.log('products:', products);
-  // console.log('isDisplayingIndividualProducts:', isDisplayingIndividualProducts);
-
   // Map data to display format
   const mappedProducts = products
-    .map((product, index) => {
+    .map((product: CategoryWithProducts | Product, index: number) => {
       // Skip null or undefined products
       if (!product) {
         return null;
@@ -289,32 +232,63 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       }; // Type assertion for Wix data structure
       const productWithName = product as Product; // Type assertion for Product with productName
 
-      // Handle image source based on product type
+      // Handle image source based on product type with validation
       let imageSource =
         'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop&crop=center&auto=format';
-      if ('image' in product && typeof product.image === 'string') {
-        imageSource = product.image;
-      } else if (wixProduct.image1) {
-        imageSource = wixProduct.image1;
-      } else if (wixProduct.categoryImage) {
-        imageSource = wixProduct.categoryImage;
-      } else if (isProductCategory(product) && product.categoryImage) {
-        imageSource = product.categoryImage;
+
+      // Check each image source and validate it
+      const potentialImages = [
+        'image' in product &&
+          typeof product.image === 'string' &&
+          product.image,
+        wixProduct.image1 &&
+          typeof wixProduct.image1 === 'string' &&
+          wixProduct.image1,
+        wixProduct.categoryImage &&
+          typeof wixProduct.categoryImage === 'string' &&
+          wixProduct.categoryImage,
+        isProductCategory(product) &&
+          product.categoryImage &&
+          typeof product.categoryImage === 'string' &&
+          product.categoryImage,
+      ].filter(Boolean) as string[];
+
+      // Use the first valid image source, or fallback
+      if (potentialImages.length > 0) {
+        imageSource = potentialImages[0];
       }
 
       // Handle title based on product type
       let title = 'Agricultural Product';
-      if ('name' in product && typeof product.name === 'string') {
+      if (
+        'name' in product &&
+        typeof product.name === 'string' &&
+        product.name
+      ) {
         title = product.name;
-      } else if (wixProduct.name) {
+      } else if (wixProduct.name && typeof wixProduct.name === 'string') {
         title = wixProduct.name;
-      } else if ('title' in product && typeof product.title === 'string') {
+      } else if (
+        'title' in product &&
+        typeof product.title === 'string' &&
+        product.title
+      ) {
         title = product.title;
-      } else if (productWithName.productName) {
+      } else if (
+        productWithName.productName &&
+        typeof productWithName.productName === 'string'
+      ) {
         title = productWithName.productName;
-      } else if (productWithName.title) {
+      } else if (
+        productWithName.title &&
+        typeof productWithName.title === 'string'
+      ) {
         title = productWithName.title;
-      } else if (isProductCategory(product)) {
+      } else if (
+        isProductCategory(product) &&
+        product.title &&
+        typeof product.title === 'string'
+      ) {
         title = product.title;
       }
 
@@ -347,11 +321,22 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
       // Handle category based on product type
       let category = 'Not categorized';
-      if ('category' in product && typeof product.category === 'string') {
+      if (
+        'category' in product &&
+        typeof product.category === 'string' &&
+        product.category
+      ) {
         category = product.category;
-      } else if (wixProduct.category) {
+      } else if (
+        wixProduct.category &&
+        typeof wixProduct.category === 'string'
+      ) {
         category = wixProduct.category;
-      } else if (isProductCategory(product)) {
+      } else if (
+        isProductCategory(product) &&
+        product.title &&
+        typeof product.title === 'string'
+      ) {
         category = product.title;
       }
 
@@ -366,10 +351,24 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       ) {
         // If description is an object, convert to string
         description = JSON.stringify(product.description);
+      } else if (
+        'description' in product &&
+        typeof product.description === 'string'
+      ) {
+        description = product.description;
+      }
+
+      // Ensure we have a valid ID
+      let id = `product-${index}`;
+      if (
+        (product as Product)._id &&
+        typeof (product as Product)._id === 'string'
+      ) {
+        id = (product as Product)._id;
       }
 
       return {
-        _id: product._id || `product-${index}`, // Fallback to index if no _id
+        _id: id,
         title,
         description,
         image: imageSource,
@@ -378,7 +377,19 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         qualityStandards, // Include quality standards in the mapped product
       };
     })
-    .filter(product => product !== null) as {
+    .filter(
+      (
+        product: {
+          _id: string;
+          title: string;
+          description: string;
+          image: string;
+          productCount: number;
+          category: string;
+          qualityStandards: string;
+        } | null
+      ) => product !== null
+    ) as {
     _id: string;
     title: string;
     description: string;
@@ -403,14 +414,16 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         );
 
   // Filter products by search query
-  const searchFilteredProducts = categoryFilteredProducts.filter(product => {
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      product.title.toLowerCase().includes(searchLower) ||
-      product.description.toLowerCase().includes(searchLower) ||
-      product.category.toLowerCase().includes(searchLower)
-    );
-  });
+  const searchFilteredProducts = categoryFilteredProducts.filter(
+    (product: { title: string; description: string; category: string }) => {
+      const searchLower = searchQuery.toLowerCase();
+      return (
+        product.title.toLowerCase().includes(searchLower) ||
+        product.description.toLowerCase().includes(searchLower) ||
+        product.category.toLowerCase().includes(searchLower)
+      );
+    }
+  );
 
   // Sort products
   const sortedProducts = [...searchFilteredProducts].sort((a, b) => {
@@ -521,19 +534,21 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               value={selectedCategory}
               onValueChange={setSelectedCategory}
             >
-              <SelectTrigger className="w-full btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50">
+              <SelectTrigger className="w-full btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50 cursor-pointer hover:text-gray-400">
                 <Filter size={14} className="mr-2" />
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="all" className="cursor-pointer">
+                  All Categories
+                </SelectItem>
                 {categories
                   .filter(cat => cat !== 'all')
                   .map(category => (
                     <SelectItem
                       key={category}
                       value={category}
-                      className="text-agro-primary-900 dark:text-agro-neutral-50"
+                      className="text-agro-primary-900 dark:text-agro-neutral-50 hover:text-gray-400 cursor-pointer"
                     >
                       {category.charAt(0).toUpperCase() + category.slice(1)}
                     </SelectItem>
@@ -545,20 +560,20 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
           {/* Sort Controls */}
           <div className="flex gap-2">
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-32 btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50">
+              <SelectTrigger className="w-32 btn-agro-outline bg-white dark:bg-agro-neutral-900 border-agro-primary-200 dark:border-agro-primary-700 text-agro-primary-900 dark:text-agro-neutral-50 cursor-pointer hover:text-gray-400">
                 <SortDesc size={14} className="mr-2" />
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem
                   value="name"
-                  className="text-agro-primary-900 dark:text-agro-neutral-50"
+                  className="text-agro-primary-900 dark:text-agro-neutral-50 hover:text-gray-400 cursor-pointer"
                 >
                   Name
                 </SelectItem>
                 <SelectItem
                   value="category"
-                  className="text-agro-primary-900 dark:text-agro-neutral-50"
+                  className="text-agro-primary-900 dark:text-agro-neutral-50 hover:text-gray-400 cursor-pointer"
                 >
                   Category
                 </SelectItem>
@@ -591,7 +606,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                   product &&
                   product._id && (
                     <Card
-                      key={product._id}
+                      key={`${product._id}-${product.image}-${sortBy}-${sortOrder}`}
                       className="flex cursor-pointer flex-col overflow-hidden gap-3 border-[#281909] hover:shadow-lg transition-all duration-300 border border-agro-primary-200 dark:border-agro-primary-700 bg-white dark:bg-agro-neutral-900 hover:bg-[#FDF8F0] dark:hover:bg-agro-neutral-800"
                       onClick={() => handleCardClick(product)} // Add click handler for the entire card
                     >
@@ -600,6 +615,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         style={{ height: '12rem' }}
                       >
                         <WixImage
+                          key={product.image} // Add key to force re-render when image changes
                           src={
                             product.image ||
                             'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop&crop=center&auto=format'
@@ -660,7 +676,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
             <Button
               onClick={handleLoadMore}
               disabled={isFetchingNextPage}
-              className="btn-agro-primary"
+              className="btn-agro-primary cursor-pointer"
             >
               {isFetchingNextPage ? 'Loading more...' : 'Load More Products'}
             </Button>

@@ -125,9 +125,9 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
   }
 
   return (
-    <SectionContainer id="about" className="py-16 md:py-24">
+    <section id="about" className="py-16 md:py-24 overflow-visible relative">
       {/* DotGrid Background - Full Section Coverage - Desktop Only */}
-      <div className="absolute inset-0 w-full h-full hidden md:block">
+      <div className="absolute inset-0 w-screen left-1/2 transform -translate-x-1/2 hidden md:block">
         <DotGrid
           dotSize={3}
           gap={40}
@@ -184,7 +184,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                 <div className="flex justify-center">
                   <button
                     onClick={() => setIsStoryExpanded(!isStoryExpanded)}
-                    className="text-agro-primary-600 font-semibold hover:text-agro-primary-800 transition-colors focus:outline-none focus:underline transform hover:scale-105 transition-transform duration-200"
+                    className="text-agro-primary-600 font-semibold hover:text-agro-primary-800 cursor-pointer focus:outline-none focus:underline transform hover:scale-105 transition-transform duration-200"
                   >
                     {isStoryExpanded ? 'Read Less' : 'Read More'}
                   </button>
@@ -380,7 +380,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
           </div>
         </div>
       </div>
-    </SectionContainer>
+    </section>
   );
 };
 
