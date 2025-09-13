@@ -661,3 +661,16 @@
     outline-offset: 2px;
   }
 }
+
+/* Custom styles for Quality Standards Modal on mobile */
+@media (max-width: 768px) {
+  .mobile-modal {
+    margin: 1rem auto;
+    width: calc(100% - 2rem);
+    max-width: calc(100% - 2rem);
+  }
+
+  .mobile-modal[data-slot='dialog-content'] {
+    border-radius: var(--radius-lg);
+  }
+}

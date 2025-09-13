@@ -117,7 +117,7 @@ const QualityStandardsModal: React.FC<QualityStandardsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className=" lg:max-w-3xl rounded-lg max-h-[80vh] overflow-y-auto bg-[#FDF8F0] text-[#281909] backdrop-blur-lg border border-white/20 shadow-2xl">
+      <DialogContent className=" lg:max-w-3xl rounded-lg max-h-[80vh] overflow-y-auto bg-[#FDF8F0] text-[#281909] backdrop-blur-lg border border-white/20 shadow-2xl DialogContent mobile-modal">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-[#281909]">
             {productName}
