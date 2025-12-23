@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import FooterSocialLinks from './FooterSocialLinks';
@@ -73,15 +74,22 @@ const Footer: React.FC = () => {
   // Use fetched data or fallback to defaults
   const contactInfo = contactData
     ? {
-        address: contactData.businessAddress || defaultContactData.address,
-        phone: contactData.businessPhone || defaultContactData.phone,
-        email: contactData.businessEmail || defaultContactData.email,
-        workingHours:
-          contactData.businessHours || defaultContactData.workingHours,
-      }
+      address: contactData.businessAddress || defaultContactData.address,
+      phone: contactData.businessPhone || defaultContactData.phone,
+      email: contactData.businessEmail || defaultContactData.email,
+      workingHours:
+        contactData.businessHours || defaultContactData.workingHours,
+    }
     : defaultContactData;
 
+  // Import router
+  const router = useRouter();
+
   const handleNavClick = (href: string) => {
+    if (href.startsWith('/')) {
+      router.push(href);
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -96,6 +104,7 @@ const Footer: React.FC = () => {
     { label: 'Home', href: '#hero' },
     { label: 'Products', href: '#products' },
     { label: 'About', href: '#about' },
+    { label: 'Blog', href: '/blog' },
     // { label: 'Process', href: '#services' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -116,23 +125,23 @@ const Footer: React.FC = () => {
   const productCategories =
     productsData.length > 0
       ? [
-          ...new Set(
-            productsData.map(
-              product =>
-                product.category ||
-                (product as unknown as { productCategory?: string })
-                  .productCategory ||
-                'Agricultural Products'
-            )
-          ),
-        ].slice(0, 5)
+        ...new Set(
+          productsData.map(
+            product =>
+              product.category ||
+              (product as unknown as { productCategory?: string })
+                .productCategory ||
+              'Agricultural Products'
+          )
+        ),
+      ].slice(0, 5)
       : [
-          'Farm Equipment',
-          'Crop Protection',
-          'Fertilizers & Nutrients',
-          'Seeds & Planting',
-          'Irrigation Systems',
-        ];
+        'Farm Equipment',
+        'Crop Protection',
+        'Fertilizers & Nutrients',
+        'Seeds & Planting',
+        'Irrigation Systems',
+      ];
 
   // const handleServiceClick = (
   //   link: string | { label: string; href?: string }
