@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { gsap } from 'gsap';
 import Image from 'next/image';
-import { LanguageSelector } from './LanguageSelector';
+
 import useScrollToSection from '@/hooks/useScrollToSection';
 
 export type PillNavItem = {

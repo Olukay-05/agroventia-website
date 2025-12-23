@@ -153,10 +153,7 @@ export function generateProductSchema(
 }
 
 // Generate hreflang tags for multilingual support
-export function generateHreflangLinks(
-  pathname: string,
-  currentLocale?: string
-) {
+export function generateHreflangLinks(pathname: string) {
   const locales: { [key: string]: string } = {
     en: 'en-CA',
     'fr-CA': 'fr-CA',

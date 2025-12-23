@@ -51,6 +51,7 @@ export interface ProductContent extends WixBase {
   title: string;
   description: string;
   category: string;
+  images?: string[];
   image1: string;
   qualityStandards?: string;
 }

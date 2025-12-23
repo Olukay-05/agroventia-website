@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import PillNav from '@/components/common/PillNav';
-import { LanguageSelector } from '@/components/common/LanguageSelector';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,7 +37,7 @@ const Header: React.FC = () => {
       <div className="container-premium flex justify-between items-center">
         <PillNav
           logo="/agroventia-logo%201.svg"
-          logoAlt="AgroVentia Logo"
+          logoAlt="AgroVentia Inc. Logo"
           items={navigationItems}
           activeHref="/"
           className="custom-nav"

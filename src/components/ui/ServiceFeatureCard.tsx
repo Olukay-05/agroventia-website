@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+
 import { useScrollToSection } from '@/hooks/useScrollToSection';
 
 interface ServiceFeatureCardProps {

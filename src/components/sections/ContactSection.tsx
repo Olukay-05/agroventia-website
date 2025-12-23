@@ -98,7 +98,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
   useEffect(() => {
     if (requestedProduct) {
       // Use detailed product information if available, otherwise fallback to basic product name
-      const productName = productDetails?.title || requestedProduct;
+      const productName =
+        productDetails?.title || requestedProduct || 'Agricultural Product';
 
       setFormData(prev => ({
         ...prev,
@@ -225,7 +226,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
       //   from_name: `${formData.firstName} ${formData.lastName}`,
       //   from_email: formData.email,
       //   from_phone: `${formData.phoneCountryCode} ${formData.phone}`,
-      //   to_name: 'AgroVentia Team',
+      //   to_name: 'AgroVentia Inc. Team',
       //   subject:
       //     formData.enquiryType === 'quote'
       //       ? `Product Quote Request from ${formData.firstName} ${formData.lastName}`

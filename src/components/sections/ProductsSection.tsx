@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, Filter, Search, SortDesc } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -706,10 +706,10 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               Quality You Can Trust. Supply You Can Rely On Always.
             </h3>
             <p className="text-body mb-6 md:mb-8 max-w-2xl mx-auto">
-              AgroVentia delivers Africa&#39;s best consistently, transparently,
-              and on time. Every shipment is managed with precision,
-              professionalism, and integrity; so you can focus on scaling your
-              business. Partner with us, and grow with confidence.
+              AgroVentia Inc. delivers Africa&#39;s best consistently,
+              transparently, and on time. Every shipment is managed with
+              precision, professionalism, and integrity; so you can focus on
+              scaling your business. Partner with us, and grow with confidence.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <Button

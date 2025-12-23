@@ -8,11 +8,7 @@ import FooterSocialLinks from './FooterSocialLinks';
 import FooterLinkSection from './FooterLinkSection';
 import Image from 'next/image';
 import { LanguageSelector } from '@/components/common/LanguageSelector';
-import {
-  ContactContent,
-  ProductContent,
-  ServiceContent,
-} from '@/services/wix-data.service';
+import { ContactContent, ProductContent } from '@/services/wix-data.service';
 
 const Footer: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(
@@ -25,7 +21,7 @@ const Footer: React.FC = () => {
   }, []);
 
   const [contactData, setContactData] = useState<ContactContent | null>(null);
-  const [servicesData, setServicesData] = useState<ServiceContent[]>([]);
+
   const [productsData, setProductsData] = useState<ProductContent[]>([]);
 
   // Fetch contact data from Wix CMS
@@ -33,30 +29,16 @@ const Footer: React.FC = () => {
     const fetchAllData = async () => {
       try {
         // Fetch all collections in parallel
-        const [contactResponse, servicesResponse, productsResponse] =
-          await Promise.all([
-            fetch('/api/collections/ContactContent'),
-            fetch('/api/collections/ServicesContent'),
-            fetch('/api/collections/Import2'), // Using Import2 for products
-          ]);
+        const [contactResponse, productsResponse] = await Promise.all([
+          fetch('/api/collections/ContactContent'),
+          fetch('/api/collections/Import2'), // Using Import2 for products
+        ]);
 
         // Process contact data
         if (contactResponse.ok) {
           const contactData = await contactResponse.json();
           if (contactData.items && contactData.items.length > 0) {
             setContactData(contactData.items[0].data);
-          }
-        }
-
-        // Process services data
-        if (servicesResponse.ok) {
-          const servicesData = await servicesResponse.json();
-          if (servicesData.items && servicesData.items.length > 0) {
-            setServicesData(
-              servicesData.items.map(
-                (item: { data: ServiceContent }) => item.data
-              )
-            );
           }
         }
 
@@ -212,7 +194,7 @@ const Footer: React.FC = () => {
               <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
                 <Image
                   src="/agroventia-logo%201.svg"
-                  alt="AgroVentia Logo"
+                  alt="AgroVentia Inc. Logo"
                   width={48}
                   height={48}
                   className="w-full h-full object-contain"
