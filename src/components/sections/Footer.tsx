@@ -10,6 +10,7 @@ import FooterLinkSection from './FooterLinkSection';
 import Image from 'next/image';
 import { LanguageSelector } from '@/components/common/LanguageSelector';
 import { ContactContent, ProductContent } from '@/services/wix-data.service';
+import { useLocale } from '@/contexts/LocaleContext';
 
 const Footer: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(
@@ -25,14 +26,16 @@ const Footer: React.FC = () => {
 
   const [productsData, setProductsData] = useState<ProductContent[]>([]);
 
+  const { locale } = useLocale();
+
   // Fetch contact data from Wix CMS
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         // Fetch all collections in parallel
         const [contactResponse, productsResponse] = await Promise.all([
-          fetch('/api/collections/ContactContent'),
-          fetch('/api/collections/Import2'), // Using Import2 for products
+          fetch(`/api/collections/ContactContent?lang=${locale}`),
+          fetch(`/api/collections/Import2?lang=${locale}`), // Using Import2 for products
         ]);
 
         // Process contact data
@@ -60,7 +63,7 @@ const Footer: React.FC = () => {
     };
 
     fetchAllData();
-  }, []);
+  }, [locale]);
 
   // Default fallback data
   const defaultContactData = {
