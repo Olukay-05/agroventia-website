@@ -94,19 +94,114 @@ To maximize visibility, we will implement acceptable "White Hat" SEO techniques 
 
 Since Wix Headless CMS might not easily trigger complex custom external API flows without Wix Velo (coding in Wix), we will implement the control on the **Next.js side** or via a **Wix Webhook**.
 
-**Option A: Wix Velo Automation (Recommended)**
-*   Add a `AfterUpdate` hook in Wix Code.
-*   If `postToLinkedIn` is strictly `true` AND `linkedInStatus` is NOT 'Posted':
-    *   Call external Next.js endpoint `/api/linkedin/share` with post data.
-    *   Update `linkedInStatus` to 'Posted'.
+**Recommended Solution: Next.js Admin Dashboard (Client-Side Trigger)**
 
-**Option B: Custom Admin Dashboard Button** (If strict separation preferred)
-*   Add a "Blog Manager" tab in the existing Admin Dashboard.
-*   List posts with a "Post to LinkedIn" button.
-*   Button calls Next.js API to execute the share.
-*   *Benefit*: Absolute control, immediate feedback if token expires.
+Since the Wix Free Plan does not support custom backend Velo code (hooks), we will move the automation logic entirely to the Next.js application. We will build a secured "Admin Dashboard" page where the client can manually trigger the LinkedIn share.
 
-*Decision*: We will proceed with **Option B** (integration into existing Admin Dashboard) as it offers better visibility and error handling for the client than a background webhook.
+**Step 1: The Secured Admin Page (`/admin/blog`)**
+*Detailed implementation of the Auth flow and components is available in `LinkedIn_Integration_Plan.md`.*
+
+Create a new page in Next.js protected by Basic Auth or a simple hardcoded login (since this is an MVP/internal tool). This page will fetch blog posts from Wix and provide the control interface.
+
+```tsx
+// path: src/app/admin/blog/page.tsx (simplified)
+"use client";
+import { useState, useEffect } from 'react';
+import { createClient, OAuthStrategy } from '@wix/sdk';
+import { items } from '@wix/data';
+
+// initialize wix client (ensure this uses an API Key or OAuth with "Write" permissions if possible)
+const wixClient = createClient({
+  modules: { items },
+  auth: OAuthStrategy({ clientId: 'YOUR_CLIENT_ID' })
+});
+
+export default function AdminBlogPage() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    // Fetch posts that haven't been shared yet (or all posts)
+    wixClient.items.query('BlogPosts')
+      .descending('publishedDate')
+      .find()
+      .then(res => setPosts(res.items));
+  }, []);
+
+  const handleShare = async (post) => {
+    // Call our own Next.js API route
+    const res = await fetch('/api/linkedin/share', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slug: post.slug,
+        title: post.title,
+        excerpt: post.excerpt,
+        coverImage: post.coverImage
+      })
+    });
+
+    if (res.ok) {
+        alert('Shared successfully!');
+        // Optimistically update UI or re-fetch
+        // Note: Updating 'linkedInStatus' back to Wix might require specific API permissions
+    }
+  };
+
+  return (
+    <div className="p-8">
+      <h1>Blog Automation Dashboard</h1>
+      <div className="grid gap-4">
+        {posts.map(post => (
+          <div key={post._id} className="border p-4 flex justify-between items-center">
+            <div>
+              <h3 className="font-bold">{post.title}</h3>
+              <p className="text-sm text-gray-500">{post.linkedInStatus || 'Not Shared'}</p>
+            </div>
+            <button
+              onClick={() => handleShare(post)}
+              disabled={post.linkedInStatus === 'Posted'}
+              className="bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Share to LinkedIn
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+**Step 2: The Next.js API Route (`/api/linkedin/share`)**
+This remains similar to the previous plan but is now triggered by the Admin Page instead of a Wix Webhook.
+
+```typescript
+// path: src/app/api/linkedin/share/route.ts
+import { NextResponse } from 'next/server';
+
+export async function POST(request: Request) {
+  // 1. Session/Auth Check (ensure only Admin can call this)
+  // e.g., check for a specific cookie or secret header passed from the client
+  
+  try {
+    const { slug, title, excerpt, coverImage } = await request.json();
+
+    // 2. Execute LinkedIn Logic
+    // Full OAuth 2.0 token management and publishing logic is detailed in `LinkedIn_Integration_Plan.md`
+    // The system will automatically refresh tokens if expired before posting.
+
+    return NextResponse.json({ success: true, message: 'Posted to LinkedIn' });
+  } catch (error) {
+    console.error('LinkedIn Implementation Error:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+```
+
+**Step 3: Status Tracking Workaround**
+Since we cannot use backend hooks to automatically update the `linkedInStatus` field reliably on the free plan (without exposed API keys with write access), we have two sub-options:
+1.  **Optimistic UI Only**: The Admin Dashboard shows "Posted" for the current session, but doesn't persist it to Wix.
+2.  **API Write**: If the Wix Headless API Key created in the Wix Dashboard allows "Write" access to the collection, we can send an update request from the Next.js API route back to Wix to update the `linkedInStatus`. **We will attempt this method first.**
 
 ---
 
