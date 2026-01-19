@@ -111,7 +111,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
 
               {/* H1 Title with proper hierarchy and responsiveness */}
-              <h1 className="heading-display text-[#f8f4e9] text-4xl sm:text-5xl md:text-5xl lg:text-6xl !leading-[1.15] text-[#FDF8F0] tracking-tight drop-shadow-sm">
+              <h1 className="heading-display-blog text-3xl sm:text-4xl md:text-5xl lg:text-6xl !leading-[1.15] tracking-tight">
                 {post.title}
               </h1>
 
@@ -129,15 +129,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-agro-neutral-600" />
 
                 <div className="flex items-center gap-2.5" title="Published date">
-                  <Calendar size={18} className="text-agro-primary-400" />
-                  <span className="font-medium tracking-normal opacity-90">{formatDate(post.publishedDate)}</span>
+                  <Calendar size={18} className="text-[#FDF8F0]" />
+                  <span className="font-medium tracking-normal text-[#FDF8F0]">{formatDate(post.publishedDate)}</span>
                 </div>
 
                 <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-agro-neutral-600" />
 
                 <div className="flex items-center gap-2.5" title="Estimated reading time">
-                  <Clock size={18} className="text-agro-primary-400" />
-                  <span className="font-medium tracking-normal opacity-90">5 min read</span>
+                  <Clock size={18} className="text-[#FDF8F0]" />
+                  <span className="font-medium tracking-normal text-[#FDF8F0]">5 min read</span>
                 </div>
               </div>
             </div>
