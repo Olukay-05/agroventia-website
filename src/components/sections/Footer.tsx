@@ -112,18 +112,7 @@ const Footer: React.FC = () => {
     { label: 'Contact', href: '#contact' },
   ];
 
-  // const serviceLinks =
-  //   servicesData.length > 0
-  //     ? servicesData
-  //         .slice(0, 5)
-  //         .map(service => service.title || 'Agricultural Service')
-  //     : [
-  //         'Sourcing with Integrity',
-  //         'Rigorous Quality Checks',
-  //         'Seamless Logistics',
-  //         'On-Time Delivery',
-  //         'Long-Term Partnerships',
-  //       ];
+
 
   const productCategories =
     productsData.length > 0

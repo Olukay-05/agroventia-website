@@ -78,11 +78,10 @@ const ServiceFeatureCard: React.FC<ServiceFeatureCardProps> = ({
   return (
     <motion.div
       ref={ref}
-      className={`relative h-full cursor-pointer rounded-2xl border p-6 transition-all duration-300 ${
-        isActive
+      className={`relative h-full cursor-pointer rounded-2xl border p-6 transition-all duration-300 ${isActive
           ? 'border-green-500 bg-gradient-to-br from-green-50 to-white shadow-lg'
           : 'border-gray-200 bg-[#fdf8f0] hover:border-green-300 hover:shadow-md'
-      }`}
+        }`}
       style={{
         rotateX,
         rotateY,
@@ -105,11 +104,10 @@ const ServiceFeatureCard: React.FC<ServiceFeatureCardProps> = ({
         }}
       >
         <div
-          className={`flex h-16 w-16 items-center justify-center rounded-xl ${
-            isActive
+          className={`flex h-16 w-16 items-center justify-center rounded-xl ${isActive
               ? 'bg-green-100 text-green-600'
               : 'bg-gray-100 text-gray-600'
-          }`}
+            }`}
         >
           {icon}
         </div>
@@ -118,9 +116,8 @@ const ServiceFeatureCard: React.FC<ServiceFeatureCardProps> = ({
       {/* Content */}
       <div className="space-y-3">
         <h3
-          className={`text-xl font-semibold ${
-            isActive ? 'text-green-700' : 'text-gray-900'
-          }`}
+          className={`text-xl font-semibold ${isActive ? 'text-green-700' : 'text-gray-900'
+            }`}
         >
           {title}
         </h3>

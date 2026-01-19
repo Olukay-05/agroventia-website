@@ -30,11 +30,21 @@ export default function AdminBlogPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [password, setPassword] = useState('');
 
+    // Restore session and Fetch Posts
+    useEffect(() => {
+        // Check local storage for persistent login
+        const storedAuth = localStorage.getItem('adminAuth');
+        if (storedAuth === 'true') {
+            setIsAuthenticated(true);
+        }
+    }, []);
+
     // 1. Fetch Posts & Connection Status
     useEffect(() => {
         if (!isAuthenticated) return;
 
-        wixClient.items.query('BlogPosts')
+        // Using 'Import3' as identified in previous conversation for "BlogPosts"
+        wixClient.items.query('Import5')
             .descending('publishedDate')
             .find()
             .then(res => {
@@ -51,60 +61,94 @@ export default function AdminBlogPage() {
                 setLoading(false);
             });
 
-        // Check if connected (hacky way: try to call a lightweight protected route or check a flag)
-        // For MVP, we can assume if the key exists in our DB, we are connected.
-        // Ideally, we'd have an API route /api/auth/linkedin/status
+
+        // Check connection status
+        fetch('/api/auth/linkedin/status')
+            .then(res => res.json())
+            .then(data => setConnected(data.connected))
+            .catch(() => setConnected(false));
     }, [isAuthenticated]);
 
 
-    const handleShare = async (post: BlogPost) => {
-        const confirm = window.confirm(`Share "${post.title}" to LinkedIn?`);
-        if (!confirm) return;
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+    const [shareStatus, setShareStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [statusMessage, setStatusMessage] = useState('');
+    const [postUrl, setPostUrl] = useState('');
 
+    const handleShareClick = (post: BlogPost) => {
+        setSelectedPost(post);
+        setShareStatus('idle');
+        setStatusMessage('');
+        setPostUrl('');
+        setModalOpen(true);
+    };
+
+    const confirmShare = async () => {
+        if (!selectedPost) return;
+
+        setShareStatus('loading');
         try {
             const res = await fetch('/api/linkedin/share', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    slug: post.slug,
-                    title: post.title,
-                    excerpt: post.excerpt,
-                    coverImage: post.coverImage
+                    slug: selectedPost.slug,
+                    title: selectedPost.title,
+                    excerpt: selectedPost.excerpt,
+                    coverImage: selectedPost.coverImage
                 })
             });
 
             const data = await res.json();
 
             if (res.ok) {
-                alert('Shared successfully!');
+                setShareStatus('success');
+                setStatusMessage('Shared successfully!');
+                if (data.url) setPostUrl(data.url);
                 // Optimistically update UI
-                setPosts(prev => prev.map(p => p._id === post._id ? { ...p, linkedInStatus: 'Posted' } : p));
+                setPosts(prev => prev.map(p => p._id === selectedPost._id ? { ...p, linkedInStatus: 'Posted' } : p));
+                // Removed auto-close so user can see the link
             } else {
-                alert(`Error: ${data.error}`);
+                setShareStatus('error');
+                setStatusMessage(`Error: ${data.error}`);
             }
         } catch (e) {
-            alert('Network error occurred.');
+            setShareStatus('error');
+            setStatusMessage('Network error occurred.');
         }
+    };
+
+    const handleLogin = () => {
+        // Simple client-side check for demonstration/internal usage
+        if (password === 'admin123' || password === 'agroventia') {
+            localStorage.setItem('adminAuth', 'true');
+            setIsAuthenticated(true);
+        } else {
+            alert('Incorrect password');
+        }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('adminAuth');
+        setIsAuthenticated(false);
     };
 
     if (!isAuthenticated) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
-                <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
-                    <h1 className="text-xl font-bold mb-4">Admin Login</h1>
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+                <div className="p-8 bg-white rounded shadow-md w-96">
+                    <h1 className="text-2xl font-bold mb-6 text-center">Admin Login</h1>
                     <input
                         type="password"
-                        placeholder="Enter Admin Password"
-                        className="w-full border p-2 rounded mb-4"
+                        placeholder="Enter Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="w-full p-2 border rounded mb-4"
                     />
                     <button
-                        onClick={() => {
-                            if (password === 'admin123') setIsAuthenticated(true); // HARDCODED MVP PASSWORD
-                            else alert('Incorrect');
-                        }}
-                        className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                        onClick={handleLogin}
+                        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 cursor-pointer"
                     >
                         Login
                     </button>
@@ -113,67 +157,142 @@ export default function AdminBlogPage() {
         );
     }
 
-    return (
-        <div className="min-h-screen bg-gray-100 p-8">
-            <div className="max-w-6xl mx-auto">
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">Blog Automation Dashboard</h1>
-                    <div className="space-x-4">
-                        <a
-                            href="/api/auth/linkedin/login"
-                            className="bg-[#0077b5] text-white px-4 py-2 rounded hover:bg-[#005c8d] transition"
-                        >
-                            {connected === true ? 'Refresh Connection' : 'Connect LinkedIn'}
-                        </a>
-                    </div>
-                </div>
+    if (loading) {
+        return <div className="p-10 text-center">Loading posts...</div>;
+    }
 
-                <div className="bg-white rounded-lg shadow overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Post Title</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Published</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {loading ? (
-                                <tr><td colSpan={4} className="text-center py-4">Loading posts...</td></tr>
-                            ) : posts.map(post => (
-                                <tr key={post._id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="text-sm font-medium text-gray-900">{post.title}</div>
-                                        <div className="text-sm text-gray-500 truncate max-w-xs">{post.slug}</div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {post.publishedDate ? new Date(post.publishedDate).toLocaleDateString() : 'N/A'}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${post.linkedInStatus === 'Posted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                            }`}>
-                                            {post.linkedInStatus || 'Pending'}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button
-                                            onClick={() => handleShare(post)}
-                                            disabled={post.linkedInStatus === 'Posted'}
-                                            className={`text-white px-3 py-1 rounded ${post.linkedInStatus === 'Posted'
-                                                    ? 'bg-gray-300 cursor-not-allowed'
-                                                    : 'bg-indigo-600 hover:bg-indigo-700'
-                                                }`}
-                                        >
-                                            {post.linkedInStatus === 'Posted' ? 'Posted' : 'Share to LinkedIn'}
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+    return (
+        <div className="p-8 max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-bold">Blog Administration</h1>
+                <div className="flex gap-4">
+                    {!connected ? (
+                        <a
+                            href="/api/auth/linkedin"
+                            className="bg-[#0077b5] text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-[#005c8d] cursor-pointer"
+                        >
+                            Connect LinkedIn
+                        </a>
+                    ) : (
+                        <span className="text-green-600 font-medium flex items-center border px-4 py-2 rounded bg-green-50 border-green-200">
+                            LinkedIn Connected
+                        </span>
+                    )}
+                    <button onClick={handleLogout} className="text-red-500 hover:text-red-700 cursor-pointer">Logout</button>
                 </div>
             </div>
+
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                        <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">LinkedIn Status</th>
+                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                        {posts.map((post) => (
+                            <tr key={post._id}>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="font-medium text-gray-900">{post.title}</div>
+                                    <div className="text-sm text-gray-500 truncate max-w-xs">{post.slug}</div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {post.publishedDate ? new Date(post.publishedDate).toLocaleDateString() : '-'}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    {post.linkedInStatus === 'Posted' ? (
+                                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Posted
+                                        </span>
+                                    ) : (
+                                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            Not Shared
+                                        </span>
+                                    )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    {connected && post.linkedInStatus !== 'Posted' && (
+                                        <button
+                                            onClick={() => handleShareClick(post)}
+                                            className="text-[#0077b5] hover:text-[#005c8d] font-medium cursor-pointer"
+                                        >
+                                            Share to LinkedIn
+                                        </button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* Share Modal */}
+            {modalOpen && selectedPost && (
+                <div className="fixed inset-0 bg-black bg-opacity-10 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+                        <h2 className="text-xl font-bold mb-4">Share to LinkedIn</h2>
+
+                        {shareStatus === 'idle' && (
+                            <>
+                                <p className="text-gray-600 mb-6">
+                                    Are you sure you want to share <strong>"{selectedPost.title}"</strong> to your LinkedIn profile?
+                                </p>
+                                <div className="flex justify-end space-x-3">
+                                    <button
+                                        onClick={() => setModalOpen(false)}
+                                        className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 cursor-pointer"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={confirmShare}
+                                        className="px-4 py-2 bg-[#0077b5] text-white rounded hover:bg-[#005c8d] cursor-pointer"
+                                    >
+                                        Share Now
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        {shareStatus === 'loading' && (
+                            <div className="flex flex-col items-center py-4">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#0077b5] mb-2"></div>
+                                <p className="text-gray-600">Posting to LinkedIn...</p>
+                            </div>
+                        )}
+
+                        {(shareStatus === 'success' || shareStatus === 'error') && (
+                            <div className="text-center py-2">
+                                <div className={`mb-2 text-lg font-semibold ${shareStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                                    {statusMessage}
+                                </div>
+                                {shareStatus === 'success' && postUrl && (
+                                    <a
+                                        href={postUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-block mt-4 px-4 py-2 bg-[#0077b5] text-white rounded hover:bg-[#005c8d] cursor-pointer"
+                                    >
+                                        View on LinkedIn
+                                    </a>
+                                )}
+                                <div className="mt-4">
+                                    <button
+                                        onClick={() => setModalOpen(false)}
+                                        className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-gray-700 cursor-pointer"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
+

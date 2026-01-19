@@ -26,7 +26,7 @@ interface GTagConfigParams {
   [key: string]: string | number | boolean | undefined;
 }
 
-// type GTagConsentArg = 'default' | 'update' | string;
+
 
 type GTagConsentParams = {
   analytics_storage?: 'granted' | 'denied';

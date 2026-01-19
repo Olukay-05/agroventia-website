@@ -12,7 +12,7 @@ const wixClient = createClient({
     }),
 });
 
-const COLLECTION_ID = 'SystemSettings';
+const COLLECTION_ID = 'Import6'; // User's actual collection ID for System Settings
 const LINKEDIN_KEY = 'linkedin_auth';
 const ALGORITHM = 'aes-256-cbc';
 const ENCRYPTION_KEY = process.env.TOKEN_ENCRYPTION_KEY || 'default-dev-key-must-be-32-bytes!!'; // 32 bytes

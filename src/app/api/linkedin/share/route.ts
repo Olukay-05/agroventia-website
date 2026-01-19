@@ -48,20 +48,20 @@ export async function POST(request: Request) {
         const { title, excerpt, slug } = body; // Simplified payload for now
 
         // Retrieve LinkedIn Person URN (needed for author)
-        // We can cache this too, but fetching profile is fast
         // Retrieve LinkedIn Person URN (needed for author)
-        // With OpenID scopes, we use the userinfo endpoint
+        // With OIDC scopes (openid profile), we use the /v2/userinfo endpoint
         const profileResponse = await fetch('https://api.linkedin.com/v2/userinfo', {
             headers: { 'Authorization': `Bearer ${access_token}` }
         });
 
         if (!profileResponse.ok) {
+            console.error('Failed to fetch LinkedIn Profile:', await profileResponse.text());
             return NextResponse.json({ error: 'Failed to fetch LinkedIn Profile' }, { status: 500 });
         }
 
         const profileData = await profileResponse.json();
         const authorUrn = `urn:li:person:${profileData.sub}`; // 'sub' is the member ID in OIDC
-        // For Organization/Company Pages, author should be `urn:li:organization:${id}` 
+        // For Organization/Company Pages, author should be `urn:li:organization:${id}`  
 
         const postPayload = {
             author: authorUrn,
@@ -93,13 +93,26 @@ export async function POST(request: Request) {
 
         if (!shareResponse.ok) {
             console.error('LinkedIn Share API Error:', shareData);
+
+            // Handle Duplicate Content Error specifically
+            if (shareData.message && shareData.message.includes('Content is a duplicate')) {
+                return NextResponse.json({
+                    error: 'This post is a duplicate. LinkedIn prevents sharing the exact same content twice within a short period. Please try changing the title or excerpt slightly.'
+                }, { status: 409 });
+            }
+
             return NextResponse.json({ error: shareData.message || 'Failed to post to LinkedIn' }, { status: shareResponse.status });
         }
 
-        return NextResponse.json({ success: true, id: shareData.id });
+        const postId = shareData.id; // e.g., urn:li:share:123...
+        const postUrl = `https://www.linkedin.com/feed/update/${postId}`;
+
+        console.log('LinkedIn Post Created:', postUrl);
+
+        return NextResponse.json({ success: true, id: postId, url: postUrl });
 
     } catch (error: any) {
         console.error('LinkedIn API Handler Error:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
     }
 }
