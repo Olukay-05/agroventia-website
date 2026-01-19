@@ -2,17 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import FooterSocialLinks from './FooterSocialLinks';
 import FooterLinkSection from './FooterLinkSection';
 import Image from 'next/image';
 import { LanguageSelector } from '@/components/common/LanguageSelector';
-import {
-  ContactContent,
-  ProductContent,
-  ServiceContent,
-} from '@/services/wix-data.service';
+import { ContactContent, ProductContent } from '@/services/wix-data.service';
+import { useLocale } from '@/contexts/LocaleContext';
 
 const Footer: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(
@@ -25,38 +23,26 @@ const Footer: React.FC = () => {
   }, []);
 
   const [contactData, setContactData] = useState<ContactContent | null>(null);
-  const [servicesData, setServicesData] = useState<ServiceContent[]>([]);
+
   const [productsData, setProductsData] = useState<ProductContent[]>([]);
+
+  const { locale } = useLocale();
 
   // Fetch contact data from Wix CMS
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         // Fetch all collections in parallel
-        const [contactResponse, servicesResponse, productsResponse] =
-          await Promise.all([
-            fetch('/api/collections/ContactContent'),
-            fetch('/api/collections/ServicesContent'),
-            fetch('/api/collections/Import2'), // Using Import2 for products
-          ]);
+        const [contactResponse, productsResponse] = await Promise.all([
+          fetch(`/api/collections/ContactContent?lang=${locale}`),
+          fetch(`/api/collections/Import2?lang=${locale}`), // Using Import2 for products
+        ]);
 
         // Process contact data
         if (contactResponse.ok) {
           const contactData = await contactResponse.json();
           if (contactData.items && contactData.items.length > 0) {
             setContactData(contactData.items[0].data);
-          }
-        }
-
-        // Process services data
-        if (servicesResponse.ok) {
-          const servicesData = await servicesResponse.json();
-          if (servicesData.items && servicesData.items.length > 0) {
-            setServicesData(
-              servicesData.items.map(
-                (item: { data: ServiceContent }) => item.data
-              )
-            );
           }
         }
 
@@ -77,7 +63,7 @@ const Footer: React.FC = () => {
     };
 
     fetchAllData();
-  }, []);
+  }, [locale]);
 
   // Default fallback data
   const defaultContactData = {
@@ -91,15 +77,22 @@ const Footer: React.FC = () => {
   // Use fetched data or fallback to defaults
   const contactInfo = contactData
     ? {
-        address: contactData.businessAddress || defaultContactData.address,
-        phone: contactData.businessPhone || defaultContactData.phone,
-        email: contactData.businessEmail || defaultContactData.email,
-        workingHours:
-          contactData.businessHours || defaultContactData.workingHours,
-      }
+      address: contactData.businessAddress || defaultContactData.address,
+      phone: contactData.businessPhone || defaultContactData.phone,
+      email: contactData.businessEmail || defaultContactData.email,
+      workingHours:
+        contactData.businessHours || defaultContactData.workingHours,
+    }
     : defaultContactData;
 
+  // Import router
+  const router = useRouter();
+
   const handleNavClick = (href: string) => {
+    if (href.startsWith('/')) {
+      router.push(href);
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -114,43 +107,33 @@ const Footer: React.FC = () => {
     { label: 'Home', href: '#hero' },
     { label: 'Products', href: '#products' },
     { label: 'About', href: '#about' },
+    { label: 'Blog', href: '/blog' },
     // { label: 'Process', href: '#services' },
     { label: 'Contact', href: '#contact' },
   ];
 
-  // const serviceLinks =
-  //   servicesData.length > 0
-  //     ? servicesData
-  //         .slice(0, 5)
-  //         .map(service => service.title || 'Agricultural Service')
-  //     : [
-  //         'Sourcing with Integrity',
-  //         'Rigorous Quality Checks',
-  //         'Seamless Logistics',
-  //         'On-Time Delivery',
-  //         'Long-Term Partnerships',
-  //       ];
+
 
   const productCategories =
     productsData.length > 0
       ? [
-          ...new Set(
-            productsData.map(
-              product =>
-                product.category ||
-                (product as unknown as { productCategory?: string })
-                  .productCategory ||
-                'Agricultural Products'
-            )
-          ),
-        ].slice(0, 5)
+        ...new Set(
+          productsData.map(
+            product =>
+              product.category ||
+              (product as unknown as { productCategory?: string })
+                .productCategory ||
+              'Agricultural Products'
+          )
+        ),
+      ].slice(0, 5)
       : [
-          'Farm Equipment',
-          'Crop Protection',
-          'Fertilizers & Nutrients',
-          'Seeds & Planting',
-          'Irrigation Systems',
-        ];
+        'Farm Equipment',
+        'Crop Protection',
+        'Fertilizers & Nutrients',
+        'Seeds & Planting',
+        'Irrigation Systems',
+      ];
 
   // const handleServiceClick = (
   //   link: string | { label: string; href?: string }
@@ -212,7 +195,7 @@ const Footer: React.FC = () => {
               <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
                 <Image
                   src="/agroventia-logo%201.svg"
-                  alt="AgroVentia Logo"
+                  alt="AgroVentia Inc. Logo"
                   width={48}
                   height={48}
                   className="w-full h-full object-contain"

@@ -147,7 +147,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         {/* Section Header */}
         <div className="text-center mb-16 scroll-reveal">
           <h2 className="heading-section text-[#281909]">
-            {data?.sectionTitle || data?.title || 'About AgroVentia'}
+            {data?.sectionTitle || data?.title || 'About AgroVentia Inc.'}
           </h2>
 
           {/* Mission/Vision Carousel - Replaces static mission display */}
@@ -239,7 +239,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
             {/* Mobile Carousel - Reduced bottom spacing */}
             <div className="md:hidden scroll-reveal flex flex-col items-center justify-center -mb-52">
               <h4 className="heading-card mb-10 text-center">
-                Why Choose AgroVentia?
+                Why Choose AgroVentia Inc.?
               </h4>
               <div
                 style={{
@@ -271,7 +271,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                 <div className="space-y-8 h-full flex flex-col justify-center">
                   <div className="glass-card p-8 shadow-md">
                     <h4 className="heading-card mb-6 text-center">
-                      Why Choose AgroVentia?
+                      Why Choose AgroVentia Inc.?
                     </h4>
 
                     <div className="space-y-6">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, Filter, Search, SortDesc } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -101,29 +101,29 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const transformedData = Array.isArray(safeData)
     ? isProductCategoryArray(safeData)
       ? safeData.map(category => ({
-          _id: category._id,
-          title: category.title,
-          categoryName: category.title,
-          description: category.description,
-          image: category.categoryImage,
-          categoryImage: category.categoryImage,
-          allProducts: category.allProducts,
-          productReferences_data: category.productReferences_data,
-          // Add index signature properties
-          ...Object.fromEntries(
-            Object.entries(category).filter(
-              ([key]) =>
-                ![
-                  '_id',
-                  'title',
-                  'description',
-                  'categoryImage',
-                  'allProducts',
-                  'productReferences_data',
-                ].includes(key)
-            )
-          ),
-        }))
+        _id: category._id,
+        title: category.title,
+        categoryName: category.title,
+        description: category.description,
+        image: category.categoryImage,
+        categoryImage: category.categoryImage,
+        allProducts: category.allProducts,
+        productReferences_data: category.productReferences_data,
+        // Add index signature properties
+        ...Object.fromEntries(
+          Object.entries(category).filter(
+            ([key]) =>
+              ![
+                '_id',
+                'title',
+                'description',
+                'categoryImage',
+                'allProducts',
+                'productReferences_data',
+              ].includes(key)
+          )
+        ),
+      }))
       : safeData
     : [];
 
@@ -239,18 +239,18 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       // Check each image source and validate it
       const potentialImages = [
         'image' in product &&
-          typeof product.image === 'string' &&
-          product.image,
+        typeof product.image === 'string' &&
+        product.image,
         wixProduct.image1 &&
-          typeof wixProduct.image1 === 'string' &&
-          wixProduct.image1,
+        typeof wixProduct.image1 === 'string' &&
+        wixProduct.image1,
         wixProduct.categoryImage &&
-          typeof wixProduct.categoryImage === 'string' &&
-          wixProduct.categoryImage,
+        typeof wixProduct.categoryImage === 'string' &&
+        wixProduct.categoryImage,
         isProductCategory(product) &&
-          product.categoryImage &&
-          typeof product.categoryImage === 'string' &&
-          product.categoryImage,
+        product.categoryImage &&
+        typeof product.categoryImage === 'string' &&
+        product.categoryImage,
       ].filter(Boolean) as string[];
 
       // Use the first valid image source, or fallback
@@ -304,7 +304,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         typeof product === 'object' &&
         'qualityStandards' in product &&
         typeof (product as { qualityStandards?: unknown }).qualityStandards ===
-          'string'
+        'string'
       ) {
         qualityStandards = (product as { qualityStandards: string })
           .qualityStandards;
@@ -390,14 +390,14 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         } | null
       ) => product !== null
     ) as {
-    _id: string;
-    title: string;
-    description: string;
-    image: string;
-    productCount: number;
-    category: string;
-    qualityStandards: string; // Add quality standards to the type
-  }[]; // Filter out null values
+      _id: string;
+      title: string;
+      description: string;
+      image: string;
+      productCount: number;
+      category: string;
+      qualityStandards: string; // Add quality standards to the type
+    }[]; // Filter out null values
 
   // Get unique categories for filter dropdown
   const categories = [
@@ -410,8 +410,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     selectedCategory === 'all'
       ? mappedProducts
       : mappedProducts.filter(
-          p => p.category.toLowerCase() === selectedCategory
-        );
+        p => p.category.toLowerCase() === selectedCategory
+      );
 
   // Filter products by search query
   const searchFilteredProducts = categoryFilteredProducts.filter(
@@ -706,10 +706,10 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               Quality You Can Trust. Supply You Can Rely On Always.
             </h3>
             <p className="text-body mb-6 md:mb-8 max-w-2xl mx-auto">
-              AgroVentia delivers Africa&#39;s best consistently, transparently,
-              and on time. Every shipment is managed with precision,
-              professionalism, and integrity; so you can focus on scaling your
-              business. Partner with us, and grow with confidence.
+              AgroVentia Inc. delivers Africa&#39;s best consistently,
+              transparently, and on time. Every shipment is managed with
+              precision, professionalism, and integrity; so you can focus on
+              scaling your business. Partner with us, and grow with confidence.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <Button

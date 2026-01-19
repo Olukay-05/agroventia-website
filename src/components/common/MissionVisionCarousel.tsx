@@ -5,11 +5,6 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import type { AutoplayType } from 'embla-carousel-autoplay';
 
-// Simple classnames function since we can't import from utils
-const cn = (...classes: (string | undefined | null | false)[]): string => {
-  return classes.filter(Boolean).join(' ');
-};
-
 interface MissionVisionCarouselProps {
   mission: string;
   vision: string;

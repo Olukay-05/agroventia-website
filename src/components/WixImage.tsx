@@ -19,6 +19,7 @@ interface WixImageProps {
   sizes?: string;
   // Lazy loading props
   loading?: 'lazy' | 'eager';
+  priority?: boolean;
   placeholderColor?: string;
 }
 
@@ -34,6 +35,7 @@ export default function WixImage({
   style,
   sizes,
   loading = 'lazy',
+  priority = false,
   placeholderColor = 'bg-gradient-to-br from-green-50 to-emerald-50',
 }: WixImageProps) {
   const [currentSrc, setCurrentSrc] = useState<string>(src || '');
@@ -102,8 +104,7 @@ export default function WixImage({
     } else {
       // All URLs failed
       console.warn(
-        `Failed to load image after ${
-          (urlData?.alternatives.length || 0) + 1
+        `Failed to load image after ${(urlData?.alternatives.length || 0) + 1
         } attempts: ${urlData?.original}`
       );
 
@@ -112,8 +113,7 @@ export default function WixImage({
         setHasError(true);
         setIsLoading(false);
         onLoadError?.(
-          `Failed to load image after ${
-            (urlData?.alternatives.length || 0) + 1
+          `Failed to load image after ${(urlData?.alternatives.length || 0) + 1
           } attempts`
         );
       }, 1000);
@@ -197,7 +197,8 @@ export default function WixImage({
         className={`${showImage ? 'opacity-100' : 'opacity-0'} transition-opacity duration-700 ease-in-out ${fill ? 'object-cover' : ''} ${className || ''}`}
         unoptimized // Disable Next.js optimization for external URLs
         fill={fill}
-        loading={loading}
+        loading={priority ? undefined : loading}
+        priority={priority}
         sizes={
           sizes ||
           (fill
@@ -208,11 +209,11 @@ export default function WixImage({
           fill
             ? { objectFit: 'cover', width: '100%', height: '100%', ...style }
             : {
-                width: '100%',
-                height: 'auto',
-                aspectRatio: `${aspectRatio}`,
-                ...style,
-              }
+              width: '100%',
+              height: 'auto',
+              aspectRatio: `${aspectRatio}`,
+              ...style,
+            }
         }
       />
 

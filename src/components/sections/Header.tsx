@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import PillNav from '@/components/common/PillNav';
-import { LanguageSelector } from '@/components/common/LanguageSelector';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -25,20 +24,20 @@ const Header: React.FC = () => {
     { label: 'Home', href: '/' },
     { label: 'Products', href: '/#products' },
     { label: 'About', href: '/#about' },
+    { label: 'Blog', href: '/blog' },
     // { label: 'Process', href: '/#services' },
     { label: 'Contact', href: '/#contact' },
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'py-2 md:py-3' : 'py-3 md:py-4'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-2 md:py-3' : 'py-3 md:py-4'
+        }`}
     >
       <div className="container-premium flex justify-between items-center">
         <PillNav
           logo="/agroventia-logo%201.svg"
-          logoAlt="AgroVentia Logo"
+          logoAlt="AgroVentia Inc. Logo"
           items={navigationItems}
           activeHref="/"
           className="custom-nav"
@@ -51,9 +50,7 @@ const Header: React.FC = () => {
           initialLoadAnimation={false}
         />
         {/* Language selector only visible on desktop (hidden on mobile and tablet) */}
-        {/* <div className="ml-4 hidden lg:block">
-          <LanguageSelector />
-        </div> */}
+
       </div>
     </header>
   );

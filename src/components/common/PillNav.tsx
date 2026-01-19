@@ -1,8 +1,11 @@
+'use client';
+
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { gsap } from 'gsap';
 import Image from 'next/image';
-import { LanguageSelector } from './LanguageSelector';
+
 import useScrollToSection from '@/hooks/useScrollToSection';
 
 export type PillNavItem = {
@@ -44,6 +47,7 @@ const PillNav: React.FC<PillNavProps> = ({
   initialLoadAnimation = true,
 }) => {
   const { scrollToSection } = useScrollToSection();
+  const pathname = usePathname();
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const circleRefs = useRef<Array<HTMLSpanElement | null>>([]);
@@ -134,7 +138,7 @@ const PillNav: React.FC<PillNavProps> = ({
     window.addEventListener('resize', onResize);
 
     if (document.fonts) {
-      document.fonts.ready.then(layout).catch(() => {});
+      document.fonts.ready.then(layout).catch(() => { });
     }
 
     // Set initial hidden state for mobile menu
@@ -480,6 +484,40 @@ const PillNav: React.FC<PillNavProps> = ({
               // Handle anchor links (starting with /#)
               if (item.href.startsWith('/#')) {
                 const sectionId = item.href.substring(2); // Remove '/#' prefix
+
+                // If we are not on the home page, treat as a navigation link
+                if (pathname !== '/') {
+                  return (
+                    <li
+                      key={`${item.href}-${i}`}
+                      role="none"
+                      className="flex h-full"
+                    >
+                      <Link
+                        role="menuitem"
+                        href={item.href}
+                        className={basePillClasses}
+                        style={pillStyle}
+                        aria-label={item.ariaLabel || item.label}
+                        onMouseEnter={() => handleEnter(i)}
+                        onMouseLeave={() => handleLeave(i)}
+                        onClick={() => {
+                          // Close mobile menu when a link is clicked on mobile devices
+                          if (
+                            typeof window !== 'undefined' &&
+                            window.innerWidth < 768
+                          ) {
+                            closeMobileMenu();
+                          }
+                        }}
+                      >
+                        {PillContent}
+                      </Link>
+                    </li>
+                  );
+                }
+
+                // If on homepage, use scroll behavior
                 return (
                   <li
                     key={`${item.href}-${i}`}
@@ -654,6 +692,25 @@ const PillNav: React.FC<PillNavProps> = ({
             // Handle anchor links (starting with /#)
             if (item.href.startsWith('/#')) {
               const sectionId = item.href.substring(2); // Remove '/#' prefix
+
+              // If we are not on the home page, treat as a navigation link
+              if (pathname !== '/') {
+                return (
+                  <li key={`${item.href}-${index}`}>
+                    <Link
+                      href={item.href}
+                      className={linkClasses}
+                      style={defaultStyle}
+                      onMouseEnter={hoverIn}
+                      onMouseLeave={hoverOut}
+                      onClick={closeMobileMenu}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              }
+
               return (
                 <li key={`${item.href}-${index}`}>
                   <button

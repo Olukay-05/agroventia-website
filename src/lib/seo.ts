@@ -32,7 +32,7 @@ export const ORGANIZATION_SCHEMA = {
   logo: `${BASE_URL}/agroventia-logo.jpg`,
   sameAs: [
     `https://www.linkedin.com/company/${SOCIAL_HANDLES.linkedin}`,
-    // Note: WhatsApp is a communication platform, not typically included in sameAs
+    // Note: WhatsApp is a communication// placeholderm, not typically included in sameAs
   ],
   address: {
     '@type': 'PostalAddress',
@@ -73,9 +73,9 @@ export interface SeoMetadata {
   canonical?: string;
   ogImage?: string;
   ogType?:
-    | 'website' // For main pages, product categories, general information
-    | 'article' // For blog posts, news, educational content about agricultural products
-    | 'profile'; // For team members, partner profiles
+  | 'website' // For main pages, product categories, general information
+  | 'article' // For blog posts, news, educational content about agricultural products
+  | 'profile'; // For team members, partner profiles
   ogUrl?: string;
   twitterCard?: 'summary_large_image' | 'summary' | 'player' | 'app';
   twitterSite?: string;
@@ -153,10 +153,7 @@ export function generateProductSchema(
 }
 
 // Generate hreflang tags for multilingual support
-export function generateHreflangLinks(
-  pathname: string,
-  currentLocale?: string
-) {
+export function generateHreflangLinks(pathname: string) {
   const locales: { [key: string]: string } = {
     en: 'en-CA',
     'fr-CA': 'fr-CA',
@@ -193,13 +190,13 @@ export interface SitemapEntry {
   loc: string;
   lastmod?: string;
   changefreq?:
-    | 'always'
-    | 'hourly'
-    | 'daily'
-    | 'weekly'
-    | 'monthly'
-    | 'yearly'
-    | 'never';
+  | 'always'
+  | 'hourly'
+  | 'daily'
+  | 'weekly'
+  | 'monthly'
+  | 'yearly'
+  | 'never';
   priority?: number;
 }
 
