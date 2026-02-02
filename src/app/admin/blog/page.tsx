@@ -21,6 +21,18 @@ interface BlogPost {
     publishedDate?: string;
 }
 
+interface NotificationState {
+    type: 'success' | 'error' | 'info';
+    message: string;
+    isOpen: boolean;
+}
+
+interface ConfirmationState {
+    message: string;
+    isOpen: boolean;
+    onConfirm: () => void;
+}
+
 export default function AdminBlogPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
@@ -76,6 +88,27 @@ export default function AdminBlogPage() {
     const [statusMessage, setStatusMessage] = useState('');
     const [postUrl, setPostUrl] = useState('');
 
+    // Notification State
+    const [notification, setNotification] = useState<NotificationState>({ type: 'info', message: '', isOpen: false });
+    // Confirmation State
+    const [confirmation, setConfirmation] = useState<ConfirmationState>({ message: '', isOpen: false, onConfirm: () => { } });
+
+    const showNotification = (type: 'success' | 'error' | 'info', message: string) => {
+        setNotification({ type, message, isOpen: true });
+    };
+
+    const closeNotification = () => {
+        setNotification(prev => ({ ...prev, isOpen: false }));
+    };
+
+    const showConfirmation = (message: string, onConfirm: () => void) => {
+        setConfirmation({ message, isOpen: true, onConfirm });
+    };
+
+    const closeConfirmation = () => {
+        setConfirmation(prev => ({ ...prev, isOpen: false }));
+    };
+
     const handleShareClick = (post: BlogPost) => {
         setSelectedPost(post);
         setShareStatus('idle');
@@ -125,13 +158,31 @@ export default function AdminBlogPage() {
             localStorage.setItem('adminAuth', 'true');
             setIsAuthenticated(true);
         } else {
-            alert('Incorrect password');
+            showNotification('error', 'Incorrect password');
         }
     };
 
     const handleLogout = () => {
         localStorage.removeItem('adminAuth');
         setIsAuthenticated(false);
+    };
+
+    const handleDisconnect = async () => {
+        showConfirmation('Are you sure you want to disconnect the LinkedIn account?', async () => {
+            try {
+                const res = await fetch('/api/auth/linkedin/disconnect', { method: 'POST' });
+                if (res.ok) {
+                    setConnected(false);
+                    showNotification('success', 'LinkedIn disconnected successfully.');
+                } else {
+                    showNotification('error', 'Failed to disconnect.');
+                }
+            } catch (e) {
+                console.error(e);
+                showNotification('error', 'An error occurred.');
+            }
+            closeConfirmation();
+        });
     };
 
     if (!isAuthenticated) {
@@ -162,27 +213,36 @@ export default function AdminBlogPage() {
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold">Blog Administration</h1>
+        <div className="p-4 md:p-8 max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <h1 className="text-2xl md:text-3xl font-bold">Blog Administration</h1>
                 <div className="flex gap-4">
                     {!connected ? (
                         <a
-                            href="/api/auth/linkedin"
+                            href="/api/auth/linkedin/login"
                             className="bg-[#0077b5] text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-[#005c8d] cursor-pointer"
                         >
                             Connect LinkedIn
                         </a>
                     ) : (
-                        <span className="text-green-600 font-medium flex items-center border px-4 py-2 rounded bg-green-50 border-green-200">
-                            LinkedIn Connected
-                        </span>
+                        <div className="flex gap-2">
+                            <span className="text-green-600 font-medium flex items-center border px-4 py-2 rounded bg-green-50 border-green-200 text-sm md:text-base">
+                                LinkedIn Connected
+                            </span>
+                            <button
+                                onClick={handleDisconnect}
+                                className="text-red-600 px-3 py-2 border border-red-200 rounded hover:bg-red-50 cursor-pointer text-sm"
+                            >
+                                Disconnect
+                            </button>
+                        </div>
                     )}
-                    <button onClick={handleLogout} className="text-red-500 hover:text-red-700 cursor-pointer">Logout</button>
+                    <button onClick={handleLogout} className="text-red-500 hover:text-red-700 cursor-pointer text-sm md:text-base">Logout</button>
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow overflow-hidden">
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white rounded-lg shadow overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
@@ -227,6 +287,42 @@ export default function AdminBlogPage() {
                         ))}
                     </tbody>
                 </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden flex flex-col gap-4">
+                {posts.map((post) => (
+                    <div key={post._id} className="bg-white rounded-lg shadow p-4 border border-gray-100">
+                        <div className="mb-3">
+                            <h3 className="font-semibold text-lg text-gray-900">{post.title}</h3>
+                            <p className="text-xs text-gray-500 truncate">{post.slug}</p>
+                        </div>
+
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-sm text-gray-500">
+                                {post.publishedDate ? new Date(post.publishedDate).toLocaleDateString() : '-'}
+                            </span>
+                            {post.linkedInStatus === 'Posted' ? (
+                                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                    Posted
+                                </span>
+                            ) : (
+                                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    Not Shared
+                                </span>
+                            )}
+                        </div>
+
+                        {connected && post.linkedInStatus !== 'Posted' && (
+                            <button
+                                onClick={() => handleShareClick(post)}
+                                className="w-full text-center py-2 bg-[#0077b5] text-white rounded hover:bg-[#005c8d] font-medium text-sm transition-colors"
+                            >
+                                Share to LinkedIn
+                            </button>
+                        )}
+                    </div>
+                ))}
             </div>
 
             {/* Share Modal */}
@@ -289,6 +385,51 @@ export default function AdminBlogPage() {
                                 </div>
                             </div>
                         )}
+                    </div>
+                </div>
+            )}
+
+            {/* Notification Modal */}
+            {notification.isOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[60] p-4">
+                    <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl border-l-4 border-l-transparent"
+                        style={{ borderLeftColor: notification.type === 'error' ? '#ef4444' : notification.type === 'success' ? '#22c55e' : '#3b82f6' }}>
+                        <h3 className={`text-lg font-semibold mb-2 ${notification.type === 'error' ? 'text-red-600' : notification.type === 'success' ? 'text-green-600' : 'text-blue-600'}`}>
+                            {notification.type === 'error' ? 'Error' : notification.type === 'success' ? 'Success' : 'Notice'}
+                        </h3>
+                        <p className="text-gray-700 mb-4">{notification.message}</p>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={closeNotification}
+                                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded font-medium cursor-pointer"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Confirmation Modal */}
+            {confirmation.isOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-[60] p-4">
+                    <div className="bg-white rounded-lg p-6 max-w-sm w-full shadow-xl">
+                        <h3 className="text-lg font-semibold mb-2 text-gray-900">Confirm Action</h3>
+                        <p className="text-gray-700 mb-6">{confirmation.message}</p>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={closeConfirmation}
+                                className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 font-medium cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => { confirmation.onConfirm(); }}
+                                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-medium cursor-pointer"
+                            >
+                                Confirm
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
