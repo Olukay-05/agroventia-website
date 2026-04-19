@@ -105,3 +105,21 @@ export async function saveLinkedInTokens(tokens: LinkedInTokens): Promise<void> 
         throw error;
     }
 }
+
+/**
+ * Deletes LinkedIn tokens from Wix SystemSettings
+ */
+export async function deleteLinkedInTokens(): Promise<void> {
+    try {
+        const result = await wixClient.items.query(COLLECTION_ID)
+            .eq('key', LINKEDIN_KEY)
+            .find();
+
+        if (result.items.length > 0) {
+            await wixClient.items.remove(COLLECTION_ID, result.items[0]._id);
+        }
+    } catch (error) {
+        console.error("Failed to delete LinkedIn tokens from Wix:", error);
+        throw error;
+    }
+}
