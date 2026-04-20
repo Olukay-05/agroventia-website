@@ -12,6 +12,8 @@ import { BlogPost, Category, Author } from '@/types/wix';
 
 import { formatDate } from '@/lib/utils/date';
 
+export const revalidate = 60;
+
 const NEWSLETTER_BG_IMAGE =
   'https://images.unsplash.com/photo-1625246333195-098e98e509c6';
 
