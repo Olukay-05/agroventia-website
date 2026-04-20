@@ -22,6 +22,9 @@ import RichTextRenderer from '@/components/blog/RichTextRenderer';
 import { Category, Author } from '@/types/wix';
 import { formatDate } from '@/lib/utils/date';
 
+export const revalidate = 60;
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
   return posts.map(post => ({
