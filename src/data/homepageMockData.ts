@@ -7,7 +7,7 @@ export const mockRootProps = {
     _owner: 'mock-owner',
     _createdDate: { $date: '2023-01-01T00:00:00.000Z' },
     _updatedDate: { $date: '2023-01-01T00:00:00.000Z' },
-    title: 'AgroVentia Inc. - Premium Agricultural from Africa',
+    title: 'AgroVentia Inc. - Premium Agricultural Produce from Africa',
     subtitle:
       'Quality Products for Modern Agriculture - Your Trusted Partner in Agricultural Innovation',
     description: 'Connecting global markets with quality agricultural products',

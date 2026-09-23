@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import HomeClient from './HomeClient';
 
 export const metadata: Metadata = {
-  title: 'AgroVentia Inc. - Premium Agricultural from Africa',
+  title: 'AgroVentia Inc. - Premium Agricultural Produce from Africa',
   description:
     'Connecting global markets with quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources.',
   keywords:
