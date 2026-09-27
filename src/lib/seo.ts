@@ -15,7 +15,7 @@ export const DEFAULT_CREATOR = 'AgroVentia Inc.';
 
 // Base URL - should be set in environment variables
 export const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://agroventia.ca';
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://agroventia.ca';
 
 // Social media handles
 export const SOCIAL_HANDLES = {
