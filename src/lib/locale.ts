@@ -1,7 +1,7 @@
 // lib/locale.ts
 
 // Supported locales
-export const SUPPORTED_LOCALES = ['en', 'fr-CA'] as const;
+export const SUPPORTED_LOCALES = ['en', 'fr-CA', 'fr', 'esp', 'es'] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 // Default locale

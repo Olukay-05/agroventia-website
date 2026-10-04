@@ -49,11 +49,16 @@ export interface ServiceContent extends WixBase {
 
 export interface ProductContent extends WixBase {
   title: string;
+  productName?: string;
   description: string;
   category: string;
   images?: string[];
   image1: string;
   qualityStandards?: string;
+  sku?: string;
+  inStock?: boolean;
+  sortOrder?: number;
+  price?: number;
 }
 
 export interface ContactContent extends WixBase {

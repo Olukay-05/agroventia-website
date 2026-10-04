@@ -43,6 +43,7 @@ export function LanguageSelector({
   const languageOptions = [
     { value: 'en', label: 'English' },
     { value: 'fr-CA', label: 'Français (Canada)' },
+    { value: 'esp', label: 'Español' },
   ];
 
   return (
