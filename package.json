@@ -13,7 +13,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "query-collections": "tsx scripts/query-collections.ts"
+    "query-collections": "tsx scripts/query-collections.ts",
+    "seed-sanity": "tsx scripts/seed-sanity-from-snapshot.ts"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
