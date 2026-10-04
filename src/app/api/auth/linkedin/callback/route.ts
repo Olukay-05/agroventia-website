@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { saveLinkedInTokens } from '@/lib/wix-system-settings';
 
 export async function GET(request: Request) {
+    const origin = new URL(request.url).origin;
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');
     const error = searchParams.get('error');
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
 
     try {
         // Exchange Code for Token
-        const redirectUri = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.agroventia.ca'}/api/auth/linkedin/callback`;
+        const redirectUri = `${origin}/api/auth/linkedin/callback`;
         const tokenResponse = await fetch('https://www.linkedin.com/oauth/v2/accessToken', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -44,7 +45,7 @@ export async function GET(request: Request) {
         });
 
         // Redirect back to Admin Dashboard
-        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.agroventia.ca'}/admin/blog?success=true`);
+        return NextResponse.redirect(`${origin}/admin/blog?success=true`);
 
     } catch (err: any) {
         console.error('LinkedIn Callback Error:', err);

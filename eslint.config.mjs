@@ -1,28 +1,44 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
-import prettierPlugin from 'eslint-plugin-prettier';
-import typescriptBestPractices from './rules/typescript-best-practices.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+import nextPlugin from '@next/eslint-plugin-next';
+import prettierConfig from 'eslint-config-prettier';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
   {
-    plugins: {
-      prettier: prettierPlugin,
-      'typescript-best-practices': typescriptBestPractices,
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'dist/**',
+      'public/**',
+      '.kilo/**',
+      '**/*.d.ts',
+      'src/product-category.json',
+      'src/wix-collections.data.json',
+    ],
+  },
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
-    rules: {
-      'prettier/prettier': 'error',
-      'typescript-best-practices/no-empty-interface': 'error',
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+      'react-hooks': reactHooksPlugin,
     },
   },
+  {
+    files: ['**/*.{js,jsx,ts,tsx,mjs}'],
+    ...nextPlugin.configs['core-web-vitals'],
+  },
+  prettierConfig,
 ];
 
 export default eslintConfig;
