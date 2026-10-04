@@ -291,7 +291,7 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
         React.createElement(
           QueryClientProvider,
           { client: queryClient },
-          React.createElement(LocaleProvider, { initialLocale }, children)
+          React.createElement(LocaleProvider, { initialLocale, children })
         );
     };
 

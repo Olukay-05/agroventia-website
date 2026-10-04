@@ -25,8 +25,24 @@ import {
   getMockProductsContent,
   getMockContactContent,
 } from './mock-data';
+import {
+  buildSanityImageUrl,
+  urlForImage,
+  isSanityImageSource,
+  getSanityImageDimensions,
+  hasHotspot,
+  type SanityImageOptions,
+} from './sanity-image';
 
-export { client as sanityClient, client, urlFor };
+export {
+  client as sanityClient,
+  client,
+  urlFor,
+  buildSanityImageUrl,
+  urlForImage,
+  isSanityImageSource,
+  getSanityImageDimensions,
+};
 
 export type SanityLocale = 'en' | 'fr' | 'esp';
 
@@ -45,11 +61,14 @@ export function normalizeLocale(locale?: string): SanityLocale {
 /**
  * Resolves a Sanity image object or URL to a string CDN URL.
  */
-export function resolveSanityImageUrl(source: any): string {
+export function resolveSanityImageUrl(source: any, options?: SanityImageOptions): string {
   if (!source) return '';
   if (typeof source === 'string') return source;
-  if (source.asset?.url) return source.asset.url;
+  if (source.asset?.url && !hasHotspot(source)) return source.asset.url;
   try {
+    if (hasHotspot(source)) {
+      return buildSanityImageUrl(source, options) || '';
+    }
     if (source.asset?._ref || source.asset?._id) {
       return urlFor(source).url() || '';
     }
