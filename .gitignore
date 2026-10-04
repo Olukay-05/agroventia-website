@@ -40,4 +40,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# BMAD & Agent orchestration
+.bmad/
+_bmad/
+_bmad-output/
+.bmad-core/
+.bmad-core-archive/
+bmad-custom-src/
+bmad-custom-modules-src/
+.agents/
+migrated-data/
+skills-lock.json
+AGENTS.md
