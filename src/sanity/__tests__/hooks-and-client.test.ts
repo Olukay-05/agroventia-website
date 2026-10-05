@@ -29,7 +29,22 @@ import {
   getContactContent,
   getCoreValues,
   getCarouselImages,
+  getBlogPosts,
+  getBlogPostBySlug,
 } from '@/lib/api/sanity-client';
+import {
+  shouldUseMockData,
+  getMockHeroContent,
+  getMockAboutContent,
+  getMockServicesContent,
+  getMockProductsContent,
+  getMockProductCatalogContent,
+  getMockContactContent,
+  getMockCoreValues,
+  getMockCarouselImages,
+  getMockBlogPosts,
+  getMockBlogPostBySlug,
+} from '@/lib/api/mock-data';
 import {
   useHeroContent,
   useAboutContent,
@@ -58,6 +73,8 @@ const mockClientFetch = client.fetch as jest.Mock;
 describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'test-sanity-project';
+    delete process.env.NEXT_PUBLIC_USE_MOCK_DATA;
   });
 
   describe('AC 1: GROQ query localization & fallback', () => {
@@ -143,6 +160,10 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       expect(transformed.ctaPrimary).toBe('Explore');
       expect(transformed.ctaSecondary).toBe('Contact');
       expect(transformed.overlayOpacity).toBe(40);
+      expect(transformed.displayMode).toBe('carousel');
+
+      const staticHero = transformHeroContent({ ...raw, displayMode: 'static' }, 'en');
+      expect(staticHero.displayMode).toBe('static');
     });
 
     it('transforms raw about payload with nested coreValues into AboutContent interface', () => {
@@ -370,29 +391,197 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
     });
   });
 
-  describe('Offline Fallback (CAP-5 compliance)', () => {
-    it('gracefully falls back to localized mock data when Sanity fetch fails', async () => {
+  describe('Story 5: Offline Fallback & Credential-less Operation (CAP-5 compliance)', () => {
+    const originalEnv = process.env;
+
+    beforeEach(() => {
+      process.env = { ...originalEnv };
       mockClientFetch.mockRejectedValue(new Error('Network error or offline'));
+    });
 
-      // Test English fallback
-      const heroEn = await getHeroContent('en');
-      expect(heroEn[0].title).toBe('Premium Agricultural Imports from West Africa');
+    afterAll(() => {
+      process.env = originalEnv;
+    });
 
-      // Test French fallback
-      const heroFr = await getHeroContent('fr');
-      expect(heroFr[0].title).toContain('Afrique de l\'Ouest');
+    it('evaluates shouldUseMockData correctly in various credential configurations', () => {
+      // Missing project ID
+      delete process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+      delete process.env.NEXT_PUBLIC_USE_MOCK_DATA;
+      expect(shouldUseMockData()).toBe(true);
 
-      // Test Spanish fallback
-      const heroEsp = await getHeroContent('esp');
-      expect(heroEsp[0].title).toContain('Simplificando el abastecimiento global');
+      // Empty project ID
+      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = '';
+      expect(shouldUseMockData()).toBe(true);
 
-      // Test Contact fallback
-      const contactEsp = await getContactContent('esp');
-      expect(contactEsp[0].sectionTitle).toBe('Contáctenos');
+      // Placeholder project ID
+      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'your_sanity_project_id_here';
+      expect(shouldUseMockData()).toBe(true);
 
-      // Test Products fallback
-      const productsEsp = await getProductsContent('esp');
-      expect(productsEsp[0].title).toBe('Nuez de Cola Seca');
+      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'agrov-production';
+      expect(shouldUseMockData()).toBe(true);
+
+      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'undefined';
+      expect(shouldUseMockData()).toBe(true);
+
+      // Valid project ID with explicit mock flag
+      process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'validproj123';
+      process.env.NEXT_PUBLIC_USE_MOCK_DATA = 'true';
+      expect(shouldUseMockData()).toBe(true);
+
+      // Valid project ID with live mode
+      delete process.env.NEXT_PUBLIC_USE_MOCK_DATA;
+      expect(shouldUseMockData()).toBe(false);
+    });
+
+    it('provides complete mock fallback across all 8 collections and blog in English', async () => {
+      const hero = await getMockHeroContent('en');
+      expect(hero[0].title).toBe('Premium Agricultural Imports from West Africa');
+      expect(hero[0].ctaPrimary).toBe('Explore Products');
+
+      const about = await getMockAboutContent('en');
+      expect(about[0].sectionTitle).toBe('About AgroVentia Inc.');
+      expect(about[0].coreValues.length).toBeGreaterThanOrEqual(4);
+
+      const services = await getMockServicesContent('en');
+      expect(services[0].sectionTitle).toBe('Our Services');
+
+      const products = await getMockProductsContent('en');
+      expect(products.length).toBeGreaterThanOrEqual(2);
+      expect(products[0].title).toBe('Dried Kolanut');
+
+      const catalog = await getMockProductCatalogContent('en');
+      expect(catalog.length).toBeGreaterThanOrEqual(2);
+      expect(catalog[0].inStock).toBe(true);
+
+      const contact = await getMockContactContent('en');
+      expect(contact[0].sectionTitle).toBe('Get In Touch');
+      expect(contact[0].businessEmail).toBe('info@agroventia.ca');
+
+      const coreValues = await getMockCoreValues('en');
+      expect(coreValues.length).toBeGreaterThanOrEqual(4);
+      expect(coreValues[0].title).toBe('Quality First');
+
+      const carousel = await getMockCarouselImages('en');
+      expect(carousel.length).toBeGreaterThanOrEqual(2);
+
+      const blogPosts = await getMockBlogPosts('en');
+      expect(blogPosts.length).toBeGreaterThanOrEqual(1);
+      expect(blogPosts[0].slug).toBe('bridging-industries-with-premium-produce');
+
+      const singlePost = await getMockBlogPostBySlug('bridging-industries-with-premium-produce', 'en');
+      expect(singlePost?.title).toBe('Bridging Industries with Premium Produce');
+    });
+
+    it('provides complete mock fallback across all collections and blog in French', async () => {
+      const hero = await getMockHeroContent('fr');
+      expect(hero[0].title).toContain('Afrique de l\'Ouest');
+      expect(hero[0].ctaPrimary).toBe('Explorer les Produits');
+
+      const about = await getMockAboutContent('fr');
+      expect(about[0].sectionTitle).toBe('À Propos d\'AgroVentia Inc.');
+
+      const services = await getMockServicesContent('fr');
+      expect(services[0].sectionTitle).toBe('Nos Services');
+
+      const products = await getMockProductsContent('fr');
+      expect(products[0].title).toBe('Noix de Cola Séchée');
+
+      const catalog = await getMockProductCatalogContent('fr');
+      expect(catalog[0].productName).toBe('Noix de Cola Séchée');
+
+      const contact = await getMockContactContent('fr');
+      expect(contact[0].sectionTitle).toBe('Contactez-nous');
+
+      const coreValues = await getMockCoreValues('fr');
+      expect(coreValues[0].title).toBe("Qualité d'Abord");
+
+      const carousel = await getMockCarouselImages('fr');
+      expect(carousel[0].tagline).toContain('Approvisionnement');
+
+      const blogPosts = await getMockBlogPosts('fr');
+      expect(blogPosts[0].title).toContain('Faire le pont');
+
+      const singlePost = await getMockBlogPostBySlug('bridging-industries-with-premium-produce', 'fr');
+      expect(singlePost?.title).toContain('Faire le pont');
+    });
+
+    it('provides complete mock fallback across all collections and blog in Spanish', async () => {
+      const hero = await getMockHeroContent('esp');
+      expect(hero[0].title).toContain('Simplificando el abastecimiento global');
+      expect(hero[0].ctaPrimary).toBe('Explorar Productos');
+
+      const about = await getMockAboutContent('esp');
+      expect(about[0].sectionTitle).toBe('Acerca de AgroVentia Inc.');
+
+      const services = await getMockServicesContent('esp');
+      expect(services[0].sectionTitle).toBe('Nuestros Servicios');
+
+      const products = await getMockProductsContent('esp');
+      expect(products[0].title).toBe('Nuez de Cola Seca');
+
+      const catalog = await getMockProductCatalogContent('esp');
+      expect(catalog[0].productName).toBe('Nuez de Cola Seca');
+
+      const contact = await getMockContactContent('esp');
+      expect(contact[0].sectionTitle).toBe('Contáctenos');
+
+      const coreValues = await getMockCoreValues('esp');
+      expect(coreValues[0].title).toBe('Calidad Primero');
+
+      const carousel = await getMockCarouselImages('esp');
+      expect(carousel[0].tagline).toContain('Abastecimiento');
+
+      const blogPosts = await getMockBlogPosts('esp');
+      expect(blogPosts[0].title).toContain('Uniendo industrias');
+
+      const singlePost = await getMockBlogPostBySlug('bridging-industries-with-premium-produce', 'esp');
+      expect(singlePost?.title).toContain('Uniendo industrias');
+    });
+
+    it('verifies that no fallback data across all collections contains legacy wix:image:// URIs', async () => {
+      const hero = await getMockHeroContent('en');
+      expect(hero[0].backgroundImage).not.toContain('wix:image://');
+      expect(hero[0].companyLogo).not.toContain('wix:image://');
+
+      const about = await getMockAboutContent('en');
+      expect(about[0].aboutImage).not.toContain('wix:image://');
+
+      const services = await getMockServicesContent('en');
+      expect(services[0].servicesImage).not.toContain('wix:image://');
+
+      const products = await getMockProductsContent('en');
+      for (const p of products) {
+        expect(p.image1).not.toContain('wix:image://');
+        p.images?.forEach(img => expect(img).not.toContain('wix:image://'));
+      }
+
+      const contact = await getMockContactContent('en');
+      expect(contact[0].contactImage).not.toContain('wix:image://');
+
+      const carousel = await getMockCarouselImages('en');
+      for (const c of carousel) {
+        expect(c.image).not.toContain('wix:image://');
+      }
+
+      const blogPosts = await getMockBlogPosts('en');
+      for (const post of blogPosts) {
+        expect(post.coverImage).not.toContain('wix:image://');
+      }
+    });
+
+    it('surfaces errors via sanity-client methods when client fetch fails in live mode', async () => {
+      mockClientFetch.mockRejectedValue(new Error('Sanity API offline or unauthorized'));
+
+      await expect(getHeroContent('en')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getAboutContent('fr')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getServicesContent('esp')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getProductsContent('en')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getProductCatalogContent('en')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getContactContent('esp')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getCoreValues('en')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getCarouselImages('fr')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getBlogPosts('en')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getBlogPostBySlug('bridging-industries-with-premium-produce', 'en')).rejects.toThrow('Sanity API offline or unauthorized');
     });
   });
 });

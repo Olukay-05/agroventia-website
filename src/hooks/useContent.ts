@@ -16,12 +16,10 @@ import type {
   ServiceContent,
   ProductContent,
   ContactContent,
-} from '@/types/wix';
-import type {
   ProductCatalogItem,
   CoreValuesContent,
   CarouselImageDisplayContent,
-} from '@/lib/api/wix-client';
+} from '@/types/wix';
 import { useLocale } from '@/contexts/LocaleContext';
 
 // Re-export content types for backward and forward compatibility

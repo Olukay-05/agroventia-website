@@ -116,9 +116,28 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
 
   if (isLoading) {
     return (
-      <SectionContainer id="about" background="muted">
-        <div className="flex justify-center">
-          <LoadingSpinner size="lg" text="Loading about content..." />
+      <SectionContainer id="about" background="muted" className="py-16 md:py-24">
+        <div className="max-w-6xl mx-auto space-y-12 animate-pulse">
+          <div className="text-center space-y-4">
+            <div className="h-10 bg-gray-200 rounded w-1/3 mx-auto" />
+            <div className="h-6 bg-gray-200 rounded w-1/2 mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="space-y-6">
+              <div className="h-8 bg-gray-200 rounded w-1/4" />
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-full" />
+                <div className="h-4 bg-gray-200 rounded w-5/6" />
+                <div className="h-4 bg-gray-200 rounded w-4/6" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="h-14 bg-gray-200 rounded-lg" />
+                ))}
+              </div>
+            </div>
+            <div className="h-80 bg-gray-200 rounded-2xl" />
+          </div>
         </div>
       </SectionContainer>
     );
@@ -146,9 +165,11 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 scroll-reveal">
-          <h2 className="heading-section text-[#281909]">
-            {data?.sectionTitle || data?.title || 'About AgroVentia Inc.'}
-          </h2>
+          {(data?.sectionTitle || data?.title) && (
+            <h2 className="heading-section text-[#281909]">
+              {data.sectionTitle || data.title}
+            </h2>
+          )}
 
           {/* Mission/Vision Carousel - Replaces static mission display */}
           {data?.mission && data?.vision && (
@@ -165,39 +186,43 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
         <div className="space-y-16 md:space-y-0 md:grid md:grid-cols-1 lg:grid-cols-2 md:gap-16">
           {/* Left Content - Centered on mobile */}
           <div className="space-y-16 scroll-reveal">
-            <div className="space-y-6 ">
-              <h3 className="heading-subsection text-center text-[#281909]">
-                Our Story
-              </h3>
-              <div
-                className={cn(
-                  'text-body-large leading-relaxed expandable-text text-center lg:text-left relative overflow-hidden text-[#281909]',
-                  isStoryExpanded
-                    ? 'expanded opacity-100'
-                    : 'collapsed opacity-90'
+            {fullStory && (
+              <div className="space-y-6 ">
+                <h3 className="heading-subsection text-center text-[#281909]">
+                  Our Story
+                </h3>
+                <div
+                  className={cn(
+                    'text-body-large leading-relaxed expandable-text text-center lg:text-left relative overflow-hidden text-[#281909]',
+                    isStoryExpanded
+                      ? 'expanded opacity-100'
+                      : 'collapsed opacity-90'
+                  )}
+                  dangerouslySetInnerHTML={{
+                    __html: isStoryExpanded ? fullStory : storyPreview,
+                  }}
+                />
+                {shouldShowReadMore && (
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => setIsStoryExpanded(!isStoryExpanded)}
+                      className="text-agro-primary-600 font-semibold hover:text-agro-primary-800 cursor-pointer focus:outline-none focus:underline transform hover:scale-105 transition-transform duration-200"
+                    >
+                      {isStoryExpanded ? 'Read Less' : 'Read More'}
+                    </button>
+                  </div>
                 )}
-                dangerouslySetInnerHTML={{
-                  __html: isStoryExpanded ? fullStory : storyPreview,
-                }}
-              />
-              {shouldShowReadMore && (
-                <div className="flex justify-center">
-                  <button
-                    onClick={() => setIsStoryExpanded(!isStoryExpanded)}
-                    className="text-agro-primary-600 font-semibold hover:text-agro-primary-800 cursor-pointer focus:outline-none focus:underline transform hover:scale-105 transition-transform duration-200"
-                  >
-                    {isStoryExpanded ? 'Read Less' : 'Read More'}
-                  </button>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
 
             {/* Core Values - Centered on mobile */}
-            <div className="space-y-6">
-              <h4 className="heading-card text-center">Core Values</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-                {data?.coreValues && Array.isArray(data.coreValues)
-                  ? data.coreValues.map((valueObj, index) => (
+            {data?.coreValues &&
+              Array.isArray(data.coreValues) &&
+              data.coreValues.length > 0 && (
+                <div className="space-y-6">
+                  <h4 className="heading-card text-center">Core Values</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                    {data.coreValues.map((valueObj, index) => (
                       <div
                         key={valueObj._id || index}
                         className="flex items-center space-x-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
@@ -210,28 +235,10 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                           {valueObj.title}
                         </span>
                       </div>
-                    ))
-                  : [
-                      'Quality Assurance',
-                      'Sustainable Practices',
-                      'Innovation Focus',
-                      'Customer Excellence',
-                    ].map((value, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center space-x-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <CheckCircle
-                          size={18}
-                          className="text-green-600 flex-shrink-0"
-                        />
-                        <span className="text-gray-800 font-medium text-base">
-                          {value}
-                        </span>
-                      </div>
                     ))}
-              </div>
-            </div>
+                  </div>
+                </div>
+              )}
           </div>
 
           {/* Right Content - Carousel for mobile, TiltedContainer for desktop */}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -9,8 +9,11 @@ import FooterSocialLinks from './FooterSocialLinks';
 import FooterLinkSection from './FooterLinkSection';
 import Image from 'next/image';
 import { LanguageSelector } from '@/components/common/LanguageSelector';
-import { ContactContent, ProductContent } from '@/services/wix-data.service';
-import { useLocale } from '@/contexts/LocaleContext';
+import {
+  useContactContent,
+  useProductCatalogContent,
+  useCoreValues,
+} from '@/hooks/useContent';
 
 const Footer: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(
@@ -22,68 +25,11 @@ const Footer: React.FC = () => {
     setCurrentYear(new Date().getFullYear());
   }, []);
 
-  const [contactData, setContactData] = useState<ContactContent | null>(null);
+  const { data: contactList } = useContactContent();
+  const { data: productCatalog } = useProductCatalogContent();
+  const { data: coreValuesList } = useCoreValues();
 
-  const [productsData, setProductsData] = useState<ProductContent[]>([]);
-
-  const { locale } = useLocale();
-
-  // Fetch contact data from Wix CMS
-  useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        // Fetch all collections in parallel
-        const [contactResponse, productsResponse] = await Promise.all([
-          fetch(`/api/collections/ContactContent?lang=${locale}`),
-          fetch(`/api/collections/Import2?lang=${locale}`), // Using Import2 for products
-        ]);
-
-        // Process contact data
-        if (contactResponse.ok) {
-          const contactData = await contactResponse.json();
-          if (contactData.items && contactData.items.length > 0) {
-            setContactData(contactData.items[0].data);
-          }
-        }
-
-        // Process products data (for categories)
-        if (productsResponse.ok) {
-          const productsData = await productsResponse.json();
-          if (productsData.items && productsData.items.length > 0) {
-            setProductsData(
-              productsData.items.map(
-                (item: { data: ProductContent }) => item.data
-              )
-            );
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching footer data:', error);
-      }
-    };
-
-    fetchAllData();
-  }, [locale]);
-
-  // Default fallback data
-  const defaultContactData = {
-    address: '403 - 65 Mutual Street, Toronto, M5B 0E5',
-    phone: '+1 (403) 477-6059',
-    email: 'info@agroventia.ca',
-    workingHours:
-      'Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed',
-  };
-
-  // Use fetched data or fallback to defaults
-  const contactInfo = contactData
-    ? {
-      address: contactData.businessAddress || defaultContactData.address,
-      phone: contactData.businessPhone || defaultContactData.phone,
-      email: contactData.businessEmail || defaultContactData.email,
-      workingHours:
-        contactData.businessHours || defaultContactData.workingHours,
-    }
-    : defaultContactData;
+  const contactData = contactList?.[0] || null;
 
   // Import router
   const router = useRouter();
@@ -112,28 +58,12 @@ const Footer: React.FC = () => {
     { label: 'Contact', href: '#contact' },
   ];
 
-
-
-  const productCategories =
-    productsData.length > 0
-      ? [
-        ...new Set(
-          productsData.map(
-            product =>
-              product.category ||
-              (product as unknown as { productCategory?: string })
-                .productCategory ||
-              'Agricultural Products'
-          )
-        ),
-      ].slice(0, 5)
-      : [
-        'Farm Equipment',
-        'Crop Protection',
-        'Fertilizers & Nutrients',
-        'Seeds & Planting',
-        'Irrigation Systems',
-      ];
+  const productCategories = useMemo(() => {
+    if (!productCatalog || productCatalog.length === 0) return [];
+    return Array.from(
+      new Set(productCatalog.map(product => product.category).filter(Boolean))
+    ).slice(0, 5);
+  }, [productCatalog]);
 
   // const handleServiceClick = (
   //   link: string | { label: string; href?: string }
@@ -218,33 +148,39 @@ const Footer: React.FC = () => {
             </p>
 
             <div className="space-y-4">
-              <div className="flex items-start space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
-                <MapPin
-                  size={16}
-                  className="text-[#FDF8F0] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-200"
-                />
-                <span>{contactInfo.address}</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
-                <Phone
-                  size={16}
-                  className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-                />
-                <span>{contactInfo.phone}</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
-                <Mail
-                  size={16}
-                  className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-                />
-                <span>{contactInfo.email}</span>
-              </div>
+              {contactData?.businessAddress && (
+                <div className="flex items-start space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
+                  <MapPin
+                    size={16}
+                    className="text-[#FDF8F0] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-200"
+                  />
+                  <span>{contactData.businessAddress}</span>
+                </div>
+              )}
+              {contactData?.businessPhone && (
+                <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
+                  <Phone
+                    size={16}
+                    className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+                  />
+                  <span>{contactData.businessPhone}</span>
+                </div>
+              )}
+              {contactData?.businessEmail && (
+                <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
+                  <Mail
+                    size={16}
+                    className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+                  />
+                  <span>{contactData.businessEmail}</span>
+                </div>
+              )}
             </div>
 
             {/* Social Links */}
             <div className="pt-4">
               <p className="text-sm text-[#F6F2E7] mb-3">Follow Us</p>
-              <FooterSocialLinks phoneNumber={contactInfo.phone} />
+              <FooterSocialLinks phoneNumber={contactData?.businessPhone || undefined} />
             </div>
           </div>
 
@@ -260,32 +196,32 @@ const Footer: React.FC = () => {
           />
 
           {/* Core Values */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-[#FDF8F0]">
-              Our Core Values
-            </h3>
-            <ul className="space-y-2">
-              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
-                <span>Quality First</span>
-              </li>
-              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
-                <span>Ethical Sourcing</span>
-              </li>
-              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
-                <span>Trust & Transparency</span>
-              </li>
-              <li className="flex items-center space-x-2 text-sm text-[#F6F2E7]">
-                <span>Reliability</span>
-              </li>
-            </ul>
-          </div>
+          {coreValuesList && coreValuesList.length > 0 && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-[#FDF8F0]">
+                Our Core Values
+              </h3>
+              <ul className="space-y-2">
+                {coreValuesList.map(cv => (
+                  <li
+                    key={cv._id}
+                    className="flex items-center space-x-2 text-sm text-[#F6F2E7]"
+                  >
+                    <span>{cv.title}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Products */}
-          <FooterLinkSection
-            title="Product Categories"
-            links={productCategories}
-            onLinkClick={handleProductClick}
-          />
+          {productCategories.length > 0 && (
+            <FooterLinkSection
+              title="Product Categories"
+              links={productCategories}
+              onLinkClick={handleProductClick}
+            />
+          )}
         </div>
 
         {/* Newsletter Signup */}

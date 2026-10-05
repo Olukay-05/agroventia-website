@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 import SectionContainer from '@/components/common/SectionContainer';
 import WixImage from '@/components/WixImage';
-import { getBlogPosts } from '@/lib/api/wix-client';
+import { getBlogPosts } from '@/lib/api/sanity-client';
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import { BlogPost, Category, Author } from '@/types/wix';

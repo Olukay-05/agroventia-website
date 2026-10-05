@@ -4,6 +4,10 @@ import { visionTool } from '@sanity/vision';
 import { apiVersion, dataset, projectId } from './env';
 import { schemaTypes, singletonTypes } from './schemas';
 import { structure } from './structure';
+import {
+  AutoTranslateAction,
+  LOCALIZED_SCHEMA_TYPES,
+} from './actions/autoTranslateAction';
 
 export default defineConfig({
   name: 'agroventia-studio',
@@ -27,12 +31,19 @@ export default defineConfig({
   },
   document: {
     // For singleton types, filter out actions that shouldn't be available (e.g. duplicate, delete)
-    actions: (input, context) =>
-      singletonTypes.has(context.schemaType)
+    actions: (input, context) => {
+      const filtered = singletonTypes.has(context.schemaType)
         ? input.filter(
             ({ action }) =>
               action && ['publish', 'discardChanges', 'restore'].includes(action)
           )
-        : input,
+        : input;
+
+      if (LOCALIZED_SCHEMA_TYPES.has(context.schemaType)) {
+        return [...filtered, AutoTranslateAction];
+      }
+
+      return filtered;
+    },
   },
 });

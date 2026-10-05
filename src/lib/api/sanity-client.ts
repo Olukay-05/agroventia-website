@@ -5,25 +5,31 @@ import type {
   AboutContent,
   ServiceContent,
   ProductContent,
+  ProductCatalogItem,
   ContactContent,
   CoreValue,
+  CoreValuesContent,
+  CarouselImageDisplayContent,
   BlogPost,
   Author,
   Category,
   WixBase,
-} from '@/types/wix';
-import type {
-  ProductCatalogItem,
-  CoreValuesContent,
-  CarouselImageDisplayContent,
   WixBaseItem,
-} from './wix-client';
+} from '@/types/wix';
 import {
+  shouldUseMockData,
   getMockHeroContent,
   getMockAboutContent,
   getMockServicesContent,
   getMockProductsContent,
+  getMockProductCatalogContent,
   getMockContactContent,
+  getMockCoreValues,
+  getMockCarouselImages,
+  getMockBlogPosts,
+  getMockBlogPostBySlug,
+  getMockAuthors,
+  getMockCategories,
 } from './mock-data';
 import {
   buildSanityImageUrl,
@@ -98,6 +104,7 @@ export const HERO_QUERY = `*[_type == "heroSection" && isActive != false][0]{
   _createdAt,
   _updatedAt,
   isActive,
+  "displayMode": coalesce(displayMode, "carousel"),
   "title": coalesce(title[$locale], title.en, ""),
   "subtitle": coalesce(subtitle[$locale], subtitle.en, ""),
   "description": coalesce(description[$locale], description.en, ""),
@@ -288,6 +295,7 @@ export function transformHeroContent(raw: any, locale: string = 'en'): HeroConte
     ctaPrimary: typeof raw.ctaPrimary === 'string' ? raw.ctaPrimary : extractLocalizedText(raw.ctaPrimary, locale),
     ctaSecondary: typeof raw.ctaSecondary === 'string' ? raw.ctaSecondary : extractLocalizedText(raw.ctaSecondary, locale),
     overlayOpacity: raw.overlayOpacity ?? 50,
+    displayMode: raw.displayMode || 'carousel',
   };
 }
 
@@ -391,12 +399,12 @@ export function transformContactContent(raw: any, locale: string = 'en'): Contac
     isActive: raw.isActive ?? true,
     sectionTitle: typeof raw.sectionTitle === 'string' ? raw.sectionTitle : extractLocalizedText(raw.sectionTitle, locale),
     sectionDescription: typeof raw.sectionDescription === 'string' ? raw.sectionDescription : extractLocalizedText(raw.sectionDescription, locale),
-    businessEmail: raw.businessEmail || 'info@agroventia.ca',
-    businessPhone: raw.businessPhone || '+1 (403) 477-6059',
+    businessEmail: raw.businessEmail || '',
+    businessPhone: raw.businessPhone || '',
     businessAddress: typeof raw.businessAddress === 'string' ? raw.businessAddress : extractLocalizedText(raw.businessAddress, locale),
     businessHours: typeof raw.businessHours === 'string' ? raw.businessHours : extractLocalizedText(raw.businessHours, locale),
     responseTime: typeof raw.responseTime === 'string' ? raw.responseTime : extractLocalizedText(raw.responseTime, locale),
-    socialLinks: raw.socialLinks || 'https://www.linkedin.com/company/agroventia-inc',
+    socialLinks: raw.socialLinks || '',
     contactImage: resolveSanityImageUrl(raw.contactImage),
     latitude: raw.latitude,
     longitude: raw.longitude,
@@ -418,333 +426,168 @@ export function transformCoreValuesContent(raw: any, locale: string = 'en'): Cor
 }
 
 export function transformCarouselSlide(raw: any, locale: string = 'en'): CarouselImageDisplayContent {
+  const normLocale = normalizeLocale(locale);
   return {
     _id: raw._id || 'carouselSlide',
     _owner: 'sanity',
     _createdDate: { $date: raw._createdAt || new Date().toISOString() },
     _updatedDate: { $date: raw._updatedAt || new Date().toISOString() },
+    title: typeof raw.title === 'string' ? raw.title : extractLocalizedText(raw.title, normLocale),
+    description: typeof raw.description === 'string' ? raw.description : extractLocalizedText(raw.description, normLocale),
     image: resolveSanityImageUrl(raw.image),
-    imageDescription: typeof raw.description === 'string' ? raw.description : extractLocalizedText(raw.description, locale),
-    tagline: typeof raw.tagline === 'string' ? raw.tagline : extractLocalizedText(raw.tagline || raw.title, locale),
+    imageDescription: typeof raw.description === 'string' ? raw.description : extractLocalizedText(raw.description, normLocale),
+    tagline: typeof raw.tagline === 'string' ? raw.tagline : extractLocalizedText(raw.tagline || raw.title, normLocale),
     displayOrder: raw.displayOrder ?? 0,
     isActive: raw.isActive ?? true,
   };
 }
 
 // ---------------------------------------------------------------------------
-// Localized Offline / Fallback Data Providers (CAP-5 compliance)
-// ---------------------------------------------------------------------------
-
-function getSpanishHeroFallback(): HeroContent[] {
-  return [
-    {
-      _id: '113d7e91-1b4e-4dfd-97a7-679c42f40118',
-      title: 'Simplificando el abastecimiento global con productos agrícolas confiables y de primera calidad.',
-      subtitle: 'Conectando Mercados Globales con Productos Agrícolas de Calidad',
-      description:
-        'AgroVentia Inc. se especializa en la importación de productos agrícolas de alta calidad, incluidos nuez de cola, jengibre, hibisco, cacao y más, de fuentes confiables de África Occidental.',
-      backgroundImage: '/images/hero-bg.jpg',
-      companyLogo: '/agroventia-logo.jpg',
-      ctaPrimary: 'Explorar Productos',
-      ctaSecondary: 'Solicitar Cotización',
-      isActive: true,
-      overlayOpacity: 50,
-      _owner: 'sanity',
-      _createdDate: { $date: '2025-08-21T13:19:21.561Z' },
-      _updatedDate: { $date: '2026-10-04T04:11:15.771Z' },
-    },
-  ];
-}
-
-function getSpanishAboutFallback(): AboutContent[] {
-  return [
-    {
-      _id: '1a26a2a6-3512-48c1-99ec-3e469d12d725',
-      sectionTitle: 'Acerca de AgroVentia Inc.',
-      mission:
-        'Hacer que el comercio agrícola sea más accesible y comercialmente efectivo conectando la oferta calificada con la demanda genuina del mercado.',
-      vision:
-        'Convertirse en una contraparte comercial internacional de confianza para productores, procesadores y compradores agrícolas.',
-      story:
-        'AgroVentia Inc. es una empresa canadiense con profundas raíces africanas, establecida para conectar los mercados globales con productos agrícolas de alta calidad. Cada envío lleva nuestro compromiso con la calidad, la transparencia y la entrega a tiempo.',
-      headquarters: 'Ontario, CA',
-      foundingYear: '2025',
-      certifications: 'ISO 14001, LEED Gold',
-      aboutImage: '/images/about.jpg',
-      isActive: true,
-      _owner: 'sanity',
-      _createdDate: { $date: '2025-08-21T14:40:20.146Z' },
-      _updatedDate: { $date: '2026-10-04T04:29:46.316Z' },
-      coreValues: [
-        {
-          _id: 'val-1',
-          reference: 'quality',
-          title: 'Calidad Primero',
-          description: 'Entregar productos agrícolas de primera calidad consistentes cada vez.',
-          isActive: true,
-          _owner: 'sanity',
-          _createdDate: { $date: '2025-08-21T16:49:51.374Z' },
-          _updatedDate: { $date: '2025-08-25T15:17:51.269Z' },
-        },
-        {
-          _id: 'val-2',
-          reference: 'ethical',
-          title: 'Abastecimiento Ético',
-          description: 'Asociación con agricultores africanos verificados para asegurar sostenibilidad.',
-          isActive: true,
-          _owner: 'sanity',
-          _createdDate: { $date: '2025-08-21T16:49:51.373Z' },
-          _updatedDate: { $date: '2025-08-22T16:04:49.828Z' },
-        },
-      ],
-    },
-  ];
-}
-
-function getSpanishServicesFallback(): ServiceContent[] {
-  return [
-    {
-      _id: 'e9f4cafe-e0c3-4763-8de5-8c442a28f654',
-      sectionTitle: 'Nuestros Servicios',
-      sectionDescription:
-        'Servicios integrales de importación agrícola que conectan a productores de África Occidental con mercados globales mediante una gestión confiable de la cadena de suministro.',
-      importServices: 'Abastecimiento directo, envíos a granel y contenedores, despacho aduanero.',
-      customSourcing: 'Búsqueda de productos especializados, precios por volumen, empaque personalizado.',
-      qualityAssurance: 'Pruebas rigurosas de calidad, certificación orgánica, garantías de frescura.',
-      logistics: 'Transporte a temperatura controlada, entrega flexible y seguimiento continuo.',
-      documentation: 'Documentación completa de cumplimiento, certificados de origen y aduanas.',
-      servicesImage: '/agroventia-logo.jpg',
-      isActive: true,
-      _owner: 'sanity',
-      _createdDate: { $date: '2025-08-22T18:38:22.040Z' },
-      _updatedDate: { $date: '2025-08-28T11:06:25.477Z' },
-    },
-  ];
-}
-
-function getSpanishProductsFallback(): ProductCatalogItem[] {
-  return [
-    {
-      _id: '98abb64d-29c3-48bf-8ae3-3f1b78320bec',
-      title: 'Nuez de Cola Seca',
-      productName: 'Nuez de Cola Seca',
-      description:
-        'Nuez de cola seca de primera calidad, cosechada cuidadosamente y secada al sol para preservar su sabor natural.',
-      category: 'Bebidas y Extractos Agrícolas',
-      image1: '/images/kolanut.jpg',
-      images: ['/images/kolanut.jpg'],
-      sku: 'AGV-KOLANUT',
-      inStock: true,
-      sortOrder: 0,
-      qualityStandards: 'Grade A Export',
-      isActive: true,
-      _owner: 'sanity',
-      _createdDate: { $date: '2025-08-22T15:44:46.755Z' },
-      _updatedDate: { $date: '2025-08-25T22:04:22.326Z' },
-    },
-    {
-      _id: '8d761993-db3f-4ea6-aedd-be09106242cb',
-      title: 'Jengibre Seco',
-      productName: 'Jengibre Seco',
-      description:
-        'Jengibre aromático secado al sol con rico sabor y pungencia natural para usos culinarios y medicinales.',
-      category: 'Raíces y Especias',
-      image1: '/images/ginger.jpg',
-      images: ['/images/ginger.jpg'],
-      sku: 'AGV-GINGER',
-      inStock: true,
-      sortOrder: 1,
-      qualityStandards: 'Export Standard',
-      isActive: true,
-      _owner: 'sanity',
-      _createdDate: { $date: '2025-08-22T15:44:46.753Z' },
-      _updatedDate: { $date: '2025-08-25T22:04:22.326Z' },
-    },
-  ];
-}
-
-function getSpanishContactFallback(): ContactContent[] {
-  return [
-    {
-      _id: '8db43fe2-adac-40cd-b90e-41909fd6beb4',
-      sectionTitle: 'Contáctenos',
-      sectionDescription: '¿Listo para discutir sus necesidades de productos? Póngase en contacto con nuestro equipo.',
-      businessEmail: 'info@agroventia.ca',
-      businessPhone: '+1 (403) 477-6059',
-      businessAddress: '403 - 65 Mutual Street, Toronto, M5B 0E5',
-      businessHours: 'Lunes - Viernes: 8:00 - 18:00 EST',
-      responseTime: 'Dentro de 24 horas',
-      socialLinks: 'https://www.linkedin.com/company/agroventia-inc',
-      contactImage: '/images/contact.jpg',
-      isActive: true,
-      _owner: 'sanity',
-      _createdDate: { $date: '2025-08-23T07:20:09.970Z' },
-      _updatedDate: { $date: '2025-08-26T23:44:10.634Z' },
-    },
-  ];
-}
-
-// ---------------------------------------------------------------------------
-// Client API Fetch Methods
+// Client API Fetch Methods (isolated mock fallback only for offline / test flags)
+// In production mode with valid credentials, errors are logged and surfaced.
 // ---------------------------------------------------------------------------
 
 export const getHeroContent = async (locale?: string): Promise<HeroContent[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockHeroContent(normLocale);
+  }
   try {
     const raw = await client.fetch(HERO_QUERY, { locale: normLocale });
     if (raw) {
       return [transformHeroContent(raw, normLocale)];
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Hero content query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] Hero content query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback
-  if (normLocale === 'esp') return getSpanishHeroFallback();
-  return getMockHeroContent(normLocale);
 };
 
 export const getAboutContent = async (locale?: string): Promise<AboutContent[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockAboutContent(normLocale);
+  }
   try {
     const raw = await client.fetch(ABOUT_QUERY, { locale: normLocale });
     if (raw) {
       return [transformAboutContent(raw, normLocale)];
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] About content query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] About content query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback
-  if (normLocale === 'esp') return getSpanishAboutFallback();
-  return getMockAboutContent(normLocale);
 };
 
 export const getServicesContent = async (locale?: string): Promise<ServiceContent[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockServicesContent(normLocale);
+  }
   try {
     const raw = await client.fetch(SERVICES_QUERY, { locale: normLocale });
     if (raw) {
       return [transformServiceContent(raw, normLocale)];
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Services content query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] Services content query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback
-  if (normLocale === 'esp') return getSpanishServicesFallback();
-  return getMockServicesContent(normLocale);
 };
 
 export const getProductsContent = async (locale?: string): Promise<ProductContent[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockProductsContent(normLocale);
+  }
   try {
     const rawList = await client.fetch<any[]>(PRODUCTS_QUERY, { locale: normLocale });
-    if (Array.isArray(rawList) && rawList.length > 0) {
+    if (Array.isArray(rawList)) {
       return rawList.map(item => transformProductContent(item, normLocale));
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Products query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] Products query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback
-  if (normLocale === 'esp') return getSpanishProductsFallback();
-  return getMockProductsContent(normLocale);
 };
 
 export const getProductCatalogContent = async (locale?: string): Promise<ProductCatalogItem[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockProductCatalogContent(normLocale);
+  }
   try {
     const rawList = await client.fetch<any[]>(PRODUCTS_QUERY, { locale: normLocale });
-    if (Array.isArray(rawList) && rawList.length > 0) {
+    if (Array.isArray(rawList)) {
       return rawList.map(item => transformProductContent(item, normLocale));
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Product catalog query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] Product catalog query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback
-  if (normLocale === 'esp') return getSpanishProductsFallback();
-  const mockProducts = await getMockProductsContent(normLocale);
-  return mockProducts.map(p => ({
-    ...p,
-    productName: p.title,
-    allProducts: [],
-  }));
 };
 
 export const getContactContent = async (locale?: string): Promise<ContactContent[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockContactContent(normLocale);
+  }
   try {
     const raw = await client.fetch(CONTACT_QUERY, { locale: normLocale });
     if (raw) {
       return [transformContactContent(raw, normLocale)];
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Contact content query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] Contact content query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback
-  if (normLocale === 'esp') return getSpanishContactFallback();
-  return getMockContactContent(normLocale);
 };
 
 export const getCoreValues = async (locale?: string): Promise<CoreValuesContent[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockCoreValues(normLocale);
+  }
   try {
     const rawList = await client.fetch<any[]>(CORE_VALUES_QUERY, { locale: normLocale });
-    if (Array.isArray(rawList) && rawList.length > 0) {
+    if (Array.isArray(rawList)) {
       return rawList.map(item => transformCoreValuesContent(item, normLocale));
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Core values query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] Core values query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback from about content coreValues
-  const aboutList = normLocale === 'esp' ? getSpanishAboutFallback() : await getMockAboutContent(normLocale);
-  const coreVals = aboutList[0]?.coreValues || [];
-  return coreVals.map(cv => ({
-    _id: cv._id,
-    _owner: 'sanity',
-    _createdDate: cv._createdDate,
-    _updatedDate: cv._updatedDate,
-    title: cv.title,
-    description: cv.description,
-    reference: cv.reference,
-    sortOrder: 0,
-    isActive: cv.isActive ?? true,
-  }));
 };
 
 export const getCarouselImages = async (locale?: string): Promise<CarouselImageDisplayContent[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockCarouselImages(normLocale);
+  }
   try {
     const rawList = await client.fetch<any[]>(CAROUSEL_IMAGES_QUERY, { locale: normLocale });
-    if (Array.isArray(rawList) && rawList.length > 0) {
+    if (Array.isArray(rawList)) {
       return rawList.map(item => transformCarouselSlide(item, normLocale));
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Carousel images query failed (${err?.message || err}). Using fallback.`);
+    console.error(`[Sanity] Carousel images query failed:`, err?.message || err);
+    throw err;
   }
-
-  // Fallback
-  return [
-    {
-      _id: '1',
-      _createdDate: { $date: new Date().toISOString() },
-      _updatedDate: { $date: new Date().toISOString() },
-      _owner: 'mock',
-      image: 'https://images.unsplash.com/photo-1649344739140-c71b2ee1005c',
-      imageDescription: normLocale === 'fr' ? 'Images carrousel' : normLocale === 'esp' ? 'Imágenes del carrusel' : 'Carousel image',
-      tagline: normLocale === 'fr' ? 'Qualité premium' : normLocale === 'esp' ? 'Calidad prémium' : 'Premium Quality',
-      displayOrder: 1,
-      isActive: true,
-    },
-  ];
 };
 
 export const getBlogPosts = async (locale?: string): Promise<BlogPost[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockBlogPosts(normLocale);
+  }
   try {
     const rawList = await client.fetch<any[]>(BLOG_POSTS_QUERY, { locale: normLocale });
     if (Array.isArray(rawList)) {
@@ -770,14 +613,18 @@ export const getBlogPosts = async (locale?: string): Promise<BlogPost[]> => {
         })) || [],
       }));
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Blog posts query failed: ${err?.message || err}`);
+    console.error(`[Sanity] Blog posts query failed:`, err?.message || err);
+    throw err;
   }
-  return [];
 };
 
 export const getBlogPostBySlug = async (slug: string, locale?: string): Promise<BlogPost | null> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockBlogPostBySlug(slug, normLocale);
+  }
   try {
     const raw = await client.fetch(BLOG_POST_BY_SLUG_QUERY, { slug, locale: normLocale });
     if (raw) {
@@ -803,14 +650,18 @@ export const getBlogPostBySlug = async (slug: string, locale?: string): Promise<
         })) || [],
       };
     }
+    return null;
   } catch (err: any) {
-    console.warn(`[Sanity] Blog post by slug failed: ${err?.message || err}`);
+    console.error(`[Sanity] Blog post by slug failed:`, err?.message || err);
+    throw err;
   }
-  return null;
 };
 
 export const getAuthors = async (locale?: string): Promise<Author[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockAuthors(normLocale);
+  }
   try {
     const rawList = await client.fetch<any[]>(AUTHORS_QUERY, { locale: normLocale });
     if (Array.isArray(rawList)) {
@@ -824,14 +675,18 @@ export const getAuthors = async (locale?: string): Promise<Author[]> => {
         profileImage: '',
       }));
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Authors query failed: ${err?.message || err}`);
+    console.error(`[Sanity] Authors query failed:`, err?.message || err);
+    throw err;
   }
-  return [];
 };
 
 export const getCategories = async (locale?: string): Promise<Category[]> => {
   const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockCategories(normLocale);
+  }
   try {
     const rawList = await client.fetch<any[]>(CATEGORIES_QUERY, { locale: normLocale });
     if (Array.isArray(rawList)) {
@@ -844,8 +699,9 @@ export const getCategories = async (locale?: string): Promise<Category[]> => {
         description: c.description || '',
       }));
     }
+    return [];
   } catch (err: any) {
-    console.warn(`[Sanity] Categories query failed: ${err?.message || err}`);
+    console.error(`[Sanity] Categories query failed:`, err?.message || err);
+    throw err;
   }
-  return [];
 };

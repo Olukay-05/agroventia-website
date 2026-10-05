@@ -282,6 +282,7 @@ export function transformWixSnapshot(
       ctaSecondary: toLocale(item.ctaSecondary || 'Request a Quote'),
       ctaLink: '/products',
       overlayOpacity: 50,
+      displayMode: 'carousel',
       isActive: item.isActive ?? true,
     };
 

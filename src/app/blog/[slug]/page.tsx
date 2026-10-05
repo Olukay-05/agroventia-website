@@ -15,7 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import SectionContainer from '@/components/common/SectionContainer';
 import WixImage from '@/components/WixImage';
-import { getBlogPosts, getBlogPostBySlug } from '@/lib/api/wix-client';
+import { getBlogPosts, getBlogPostBySlug } from '@/lib/api/sanity-client';
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import RichTextRenderer from '@/components/blog/RichTextRenderer';

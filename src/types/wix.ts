@@ -16,6 +16,7 @@ export interface HeroContent extends WixBase {
   ctaPrimary: string;
   ctaSecondary: string;
   overlayOpacity?: number; // Add the missing overlayOpacity property
+  displayMode?: 'carousel' | 'static';
 }
 
 export interface CoreValue extends WixBase {
@@ -102,4 +103,27 @@ export interface BlogPost extends WixBase {
   categories?: Category[] | string[];
   seoTitle?: string;
   seoDescription?: string;
+}
+
+export type WixBaseItem = WixBase;
+
+export interface ProductCatalogItem extends ProductContent {
+  allProducts?: ProductContent[];
+  productReferences_data?: ProductContent[];
+}
+
+export interface CoreValuesContent extends WixBase {
+  title: string;
+  description: string;
+  reference?: string;
+  sortOrder?: number;
+}
+
+export interface CarouselImageDisplayContent extends WixBase {
+  title?: string;
+  description?: string;
+  image: string;
+  imageDescription?: string;
+  tagline?: string;
+  displayOrder?: number;
 }

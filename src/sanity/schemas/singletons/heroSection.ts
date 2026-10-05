@@ -6,6 +6,21 @@ export const heroSection = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'displayMode',
+      title: 'Hero Display Mode',
+      description:
+        'Choose whether the homepage displays the dynamic carousel (from Carousel Slides) or the static custom hero banner.',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Dynamic Carousel (Default)', value: 'carousel' },
+          { title: 'Static Singleton Banner', value: 'static' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'carousel',
+    }),
+    defineField({
       name: 'title',
       title: 'Title / Heading',
       type: 'localeString',
@@ -34,6 +49,11 @@ export const heroSection = defineType({
       name: 'ctaLink',
       title: 'CTA Link URL',
       type: 'url',
+      validation: (Rule: any) =>
+        Rule.uri({
+          allowRelative: true,
+          scheme: ['http', 'https', 'mailto', 'tel'],
+        }),
     }),
     defineField({
       name: 'companyLogo',
@@ -68,20 +88,24 @@ export const heroSection = defineType({
     select: {
       title: 'title.en',
       subtitle: 'subtitle.en',
+      displayMode: 'displayMode',
       media: 'backgroundImage',
     },
     prepare({
       title,
       subtitle,
+      displayMode,
       media,
     }: {
       title?: string;
       subtitle?: string;
+      displayMode?: string;
       media?: any;
     }) {
+      const mode = displayMode === 'static' ? 'Static Banner' : 'Carousel Mode';
       return {
         title: title || 'Hero Banner',
-        subtitle: subtitle || 'Homepage Hero Section',
+        subtitle: `[${mode}] ${subtitle || 'Homepage Hero Section'}`,
         media,
       };
     },

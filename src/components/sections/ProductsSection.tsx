@@ -28,6 +28,8 @@ import QualityStandardsModal from '@/components/common/QualityStandardsModal';
 import { useInfiniteProducts } from '@/hooks/useInfiniteProducts';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
 
+import type { ProductCatalogItem } from '@/types/wix';
+
 interface Product {
   _id: string;
   title?: string;
@@ -54,7 +56,7 @@ interface CategoryWithProducts {
 }
 
 interface ProductsSectionProps {
-  data?: CategoryWithProducts[] | ProductCategory[];
+  data?: CategoryWithProducts[] | ProductCategory[] | ProductCatalogItem[] | Product[];
   isLoading: boolean;
 }
 
@@ -81,19 +83,20 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     isLoading: isInfiniteLoading,
   } = useInfiniteProducts(6); // Set limit to 6 products per page
 
-  const isDataLoading = isLoading || isInfiniteLoading;
+  const isDataLoading = data !== undefined ? isLoading : (isLoading || isInfiniteLoading);
 
   // Ensure we have a consistent data structure to prevent conditional hook issues
   const safeData = data || [];
 
   // Type guard to check if data is ProductCategory[]
   const isProductCategoryArray = (
-    data: CategoryWithProducts[] | ProductCategory[]
+    data: unknown[]
   ): data is ProductCategory[] => {
     return (
       data.length > 0 &&
-      (data as ProductCategory[])[0] &&
-      'categoryImage' in (data as ProductCategory[])[0]
+      Boolean(data[0]) &&
+      typeof data[0] === 'object' &&
+      'categoryImage' in (data[0] as object)
     );
   };
 
@@ -161,13 +164,17 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     );
   }
 
-  // Extract individual products from the allProducts array or use infinite data
+  // Check if safeData directly contains individual products (e.g. from useProductCatalogContent)
+  const isDirectProductArray =
+    Array.isArray(safeData) &&
+    safeData.length > 0 &&
+    !isProductCategoryArray(safeData);
+
+  // Extract individual products: prioritize direct product array (Sanity), then category products, then infinite query
   let individualProducts: Product[] = [];
 
-  // If we have infinite data, use it; otherwise fall back to existing data
-  if (infiniteData && infiniteData.pages && infiniteData.pages.length > 0) {
-    // Flatten all pages to get all loaded products
-    individualProducts = infiniteData.pages.flatMap(page => page.items);
+  if (isDirectProductArray) {
+    individualProducts = safeData as Product[];
   } else if (
     transformedData &&
     (transformedData as unknown as { allProducts?: Product[] }).allProducts
@@ -175,41 +182,36 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     individualProducts = (
       transformedData as unknown as { allProducts: Product[] }
     ).allProducts;
-  }
-  // Check if any category has allProducts
-  else if (transformedData && transformedData.length > 0) {
+  } else if (transformedData && transformedData.length > 0) {
     const categoryWithProducts = transformedData.find(cat => {
-      // Type guard to check if cat has allProducts property
       if ('allProducts' in cat && Array.isArray(cat.allProducts)) {
         return cat.allProducts.length > 0;
       }
       return false;
     });
-    if (categoryWithProducts) {
-      // Type guard to ensure categoryWithProducts has allProducts
-      if (
-        'allProducts' in categoryWithProducts &&
-        Array.isArray(categoryWithProducts.allProducts)
-      ) {
-        individualProducts = categoryWithProducts.allProducts || [];
-      }
+    if (categoryWithProducts && 'allProducts' in categoryWithProducts && Array.isArray(categoryWithProducts.allProducts)) {
+      individualProducts = categoryWithProducts.allProducts || [];
     }
+  } else if (infiniteData && infiniteData.pages && infiniteData.pages.length > 0) {
+    individualProducts = infiniteData.pages.flatMap(page => page.items);
   }
+
+  const effectiveIndividualProducts = individualProducts;
 
   // Define default empty products array
   const defaultProducts: Product[] = [];
 
+  // Check if we're displaying individual products or categories
+  const isDisplayingIndividualProducts =
+    effectiveIndividualProducts && effectiveIndividualProducts.length > 0;
+
   // Use individual products if available, otherwise fallback to categories or default
   const products =
-    individualProducts && individualProducts.length > 0
-      ? individualProducts
+    isDisplayingIndividualProducts
+      ? effectiveIndividualProducts
       : Array.isArray(transformedData)
         ? transformedData
         : defaultProducts;
-
-  // Check if we're displaying individual products or categories
-  const isDisplayingIndividualProducts =
-    individualProducts && individualProducts.length > 0;
 
   // Map data to display format
   const mappedProducts = products
@@ -258,8 +260,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         imageSource = potentialImages[0];
       }
 
-      // Handle title based on product type
-      let title = 'Agricultural Product';
+      // Handle title based on product type - no hardcoded dummy titles
+      let title = '';
       if (
         'name' in product &&
         typeof product.name === 'string' &&
@@ -320,7 +322,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       }
 
       // Handle category based on product type
-      let category = 'Not categorized';
+      let category = '';
       if (
         'category' in product &&
         typeof product.category === 'string' &&
@@ -340,9 +342,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         category = product.title;
       }
 
-      // Ensure description is a string
-      let description =
-        'Premium agricultural product sourced from trusted suppliers.';
+      // Ensure description is a string - no hardcoded filler descriptions
+      let description = '';
       if (typeof product.description === 'string') {
         description = product.description;
       } else if (
@@ -399,10 +400,16 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       qualityStandards: string; // Add quality standards to the type
     }[]; // Filter out null values
 
-  // Get unique categories for filter dropdown
+  // Get unique categories for filter dropdown (filter out empty strings or undefined)
   const categories = [
     'all',
-    ...new Set(mappedProducts.map(p => p.category.toLowerCase())),
+    ...Array.from(
+      new Set(
+        mappedProducts
+          .map(p => (p.category ? p.category.trim().toLowerCase() : ''))
+          .filter(cat => Boolean(cat) && cat.length > 0)
+      )
+    ),
   ];
 
   // Filter products by category
@@ -452,7 +459,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const handleRequestQuote = (productTitle: string, productId: string) => {
     // Set the requested product in context with both name and ID
     // Ensure we use the correctly mapped product title
-    const cleanProductTitle = productTitle || 'Agricultural Product';
+    const cleanProductTitle = productTitle || '';
     setRequestedProduct({ name: cleanProductTitle, id: productId });
 
     // Track product quote request
@@ -469,7 +476,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const handleCardClick = (product: Product) => {
     // Track button click
     trackButtonClick('product_card_click', {
-      product_name: product.title || product.name || 'Unknown Product',
+      product_name: product.title || product.name || '',
       product_id: product._id,
     });
 
@@ -543,7 +550,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                   All Categories
                 </SelectItem>
                 {categories
-                  .filter(cat => cat !== 'all')
+                  .filter(cat => Boolean(cat) && typeof cat === 'string' && cat.trim() !== '' && cat !== 'all')
                   .map(category => (
                     <SelectItem
                       key={category}
@@ -626,21 +633,21 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         />
                       </div>
                       <CardHeader className="pb-3">
-                        <CardTitle className="line-clamp-2">
-                          {product.title || 'Product Title'}
-                        </CardTitle>
+                        {product.title && (
+                          <CardTitle className="line-clamp-2">
+                            {product.title}
+                          </CardTitle>
+                        )}
                       </CardHeader>
                       <CardContent className="pb-3 flex-grow">
-                        {/* <p className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3">
-                          {product.description || 'Product description'}
-                        </p> */}
-                        <div
-                          className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3"
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              product.description || 'Product description',
-                          }}
-                        />
+                        {product.description && (
+                          <div
+                            className="text-gray-600 dark:text-agro-neutral-300 line-clamp-3"
+                            dangerouslySetInnerHTML={{
+                              __html: product.description,
+                            }}
+                          />
+                        )}
                       </CardContent>
                       <CardFooter className="pt-0">
                         <Button
@@ -692,7 +699,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               selectedProduct.title ||
               selectedProduct.name ||
               selectedProduct.productName ||
-              'Product'
+              ''
             }
             qualityStandards={selectedProduct.qualityStandards || ''} // Pass the quality standards data
             onRequestQuote={handleQuoteRequestFromModal} // Pass the quote request handler

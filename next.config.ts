@@ -1,7 +1,9 @@
 import type { NextConfig } from 'next';
+import path from 'path';
 
 const nextConfig: NextConfig = {
   turbopack: {
+    root: path.resolve('.'),
     resolveAlias: {
       'sanity/structure': './node_modules/sanity/lib/structure.js',
       'sanity/router': './node_modules/sanity/lib/router.js',

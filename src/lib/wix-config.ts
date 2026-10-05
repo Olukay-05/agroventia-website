@@ -36,8 +36,8 @@ if (process.env.NODE_ENV === 'production') {
       !wixConfig.baseUrl ||
       !wixConfig.clientId
     ) {
-      throw new Error(
-        'Missing required Wix configuration. Check your environment variables.'
+      console.warn(
+        'Wix configuration not configured. Using local fallback data.'
       );
     }
   }
