@@ -15,7 +15,8 @@
     "test:coverage": "jest --coverage",
     "query-collections": "tsx scripts/query-collections.ts",
     "seed-sanity": "tsx scripts/seed-sanity-from-snapshot.ts",
-    "seed-translations": "tsx scripts/seed-sanity-translations.ts"
+    "seed-translations": "tsx scripts/seed-sanity-translations.ts",
+    "seed:legal": "tsx scripts/seed-sanity-legal-and-chrome.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.72",
