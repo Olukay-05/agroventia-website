@@ -17,6 +17,7 @@ import { carouselSlide } from './documents/carouselSlide';
 import { category } from './documents/category';
 import { blogPost } from './documents/blogPost';
 import { author } from './documents/author';
+import { legalPage } from './documents/legalPage';
 
 export const schemaTypes = [
   // Objects
@@ -38,6 +39,7 @@ export const schemaTypes = [
   category,
   blogPost,
   author,
+  legalPage,
 ];
 
 export const singletonTypes = new Set([

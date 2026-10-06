@@ -9,6 +9,8 @@ import {
   getContactContent,
   getCoreValues,
   getCarouselImages,
+  getProductsSectionContent,
+  getLegalPageBySlug,
 } from '@/lib/api/sanity-client';
 import type {
   HeroContent,
@@ -19,6 +21,11 @@ import type {
   ProductCatalogItem,
   CoreValuesContent,
   CarouselImageDisplayContent,
+  ProductsSectionContent,
+  LegalPageContent,
+  HighlightItem,
+  LegalLinkItem,
+  PolicySectionItem,
 } from '@/types/wix';
 import { useLocale } from '@/contexts/LocaleContext';
 
@@ -32,6 +39,11 @@ export type {
   ContactContent,
   CoreValuesContent,
   CarouselImageDisplayContent,
+  ProductsSectionContent,
+  LegalPageContent,
+  HighlightItem,
+  LegalLinkItem,
+  PolicySectionItem,
 };
 
 // Common caching constants
@@ -173,3 +185,38 @@ export const useCarouselImages = () => {
     enabled: !isLocaleLoading,
   });
 };
+
+/**
+ * Hook for fetching localized products section header and CTA banner content
+ */
+export const useProductsSectionContent = () => {
+  const { locale, isLoading: isLocaleLoading } = useLocale();
+
+  return useQuery<ProductsSectionContent | null, Error>({
+    queryKey: ['productsSectionContent', locale],
+    queryFn: () => getProductsSectionContent(locale),
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+    retry: 2,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    enabled: !isLocaleLoading,
+  });
+};
+
+/**
+ * Hook for fetching a localized legal policy page by slug
+ */
+export const useLegalPage = (slug: string) => {
+  const { locale, isLoading: isLocaleLoading } = useLocale();
+
+  return useQuery<LegalPageContent | null, Error>({
+    queryKey: ['legalPage', slug, locale],
+    queryFn: () => getLegalPageBySlug(slug, locale),
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+    retry: 2,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    enabled: !isLocaleLoading && Boolean(slug),
+  });
+};
+

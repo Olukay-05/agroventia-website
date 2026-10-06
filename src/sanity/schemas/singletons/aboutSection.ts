@@ -49,6 +49,84 @@ export const aboutSection = defineType({
       },
     }),
     defineField({
+      name: 'whyChooseTitle',
+      title: 'Why Choose Section Title',
+      type: 'localeString',
+      description: 'e.g., "Why Choose AgroVentia Inc.?"',
+    }),
+    defineField({
+      name: 'highlights',
+      title: 'Company Highlights / Stat Cards',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'highlightItem',
+          title: 'Highlight Item',
+          fields: [
+            defineField({
+              name: 'metric',
+              title: 'Metric Badge Text',
+              type: 'string',
+              description: 'e.g., "10+", "20+", "100%"',
+              validation: (Rule: any) => Rule.required(),
+            }),
+            defineField({
+              name: 'title',
+              title: 'Card Title',
+              type: 'localeString',
+              validation: (Rule: any) => Rule.required(),
+            }),
+            defineField({
+              name: 'description',
+              title: 'Card Description',
+              type: 'localeText',
+              validation: (Rule: any) => Rule.required(),
+            }),
+            defineField({
+              name: 'colorVariant',
+              title: 'Color Accent Theme',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Primary Green (Primary 100)', value: 'primary' },
+                  { title: 'Golden Amber (Secondary 100)', value: 'secondary' },
+                  { title: 'Warm Bronze (Bronze 400)', value: 'bronze' },
+                  { title: 'Neutral Sage (Neutral 100)', value: 'neutral' },
+                  { title: 'Forest Emerald (Primary 200)', value: 'forest' },
+                ],
+              },
+              initialValue: 'primary',
+            }),
+            defineField({
+              name: 'sortOrder',
+              title: 'Sort Order',
+              type: 'number',
+              initialValue: 0,
+            }),
+            defineField({
+              name: 'isActive',
+              title: 'Is Active',
+              type: 'boolean',
+              initialValue: true,
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'title.en',
+              subtitle: 'metric',
+            },
+            prepare({ title, subtitle }: { title?: string; subtitle?: string }) {
+              return {
+                title: title || 'Highlight Item',
+                subtitle: subtitle ? `Metric: ${subtitle}` : undefined,
+              };
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: 'isActive',
       title: 'Is Active',
       type: 'boolean',

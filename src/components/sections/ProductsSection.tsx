@@ -26,6 +26,7 @@ import ProductSkeleton from '@/components/common/ProductSkeleton';
 import { ProductCategory } from '@/services/wix-data.service';
 import QualityStandardsModal from '@/components/common/QualityStandardsModal';
 import { useInfiniteProducts } from '@/hooks/useInfiniteProducts';
+import { useProductsSectionContent } from '@/hooks/useContent';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
 
 import type { ProductCatalogItem } from '@/types/wix';
@@ -73,6 +74,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const { scrollToSection } = useScrollToSection();
   const { setRequestedProduct, prefetchProductForQuote } = useQuoteRequest();
+  const { data: sectionConfig } = useProductsSectionContent();
 
   // Use the new infinite products hook
   const {
@@ -511,13 +513,15 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         <div className="text-center mb-16 scroll-reveal">
           <h2 className="heading-section text-[#281909]">
             {isDisplayingIndividualProducts
-              ? 'Our Premium Products'
-              : 'Product Categories'}
+              ? (sectionConfig?.sectionTitle || 'Our Premium Products')
+              : (sectionConfig?.categoriesTitle || 'Product Categories')}
           </h2>
           <p className="text-lead max-w-3xl mx-auto text-[#281909]">
             {isDisplayingIndividualProducts
-              ? 'Explore our complete collection of premium agricultural products, carefully sourced and selected for quality and authenticity'
-              : 'Discover our comprehensive range of premium agricultural products sourced from trusted global partners'}
+              ? (sectionConfig?.sectionDescription ||
+                'Explore our complete collection of premium agricultural products, carefully sourced and selected for quality and authenticity')
+              : (sectionConfig?.categoriesSubtitle ||
+                'Discover our comprehensive range of premium agricultural products sourced from trusted global partners')}
           </p>
         </div>
 
@@ -528,7 +532,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               type="text"
-              placeholder="Search products..."
+              placeholder={sectionConfig?.searchPlaceholder || 'Search products...'}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="pl-10 pr-4 py-2 w-full btn-agro-outline"
@@ -707,37 +711,38 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         )}
 
         {/* Call to Action */}
-        <div className="text-center scroll-reveal px-4 mt-[4rem]">
-          <div className="glass-card p-6 md:p-8 lg:p-12 max-w-4xl mx-auto">
-            <h3 className="heading-subsection mb-3 md:mb-4">
-              Quality You Can Trust. Supply You Can Rely On Always.
-            </h3>
-            <p className="text-body mb-6 md:mb-8 max-w-2xl mx-auto">
-              AgroVentia Inc. delivers Africa&#39;s best consistently,
-              transparently, and on time. Every shipment is managed with
-              precision, professionalism, and integrity; so you can focus on
-              scaling your business. Partner with us, and grow with confidence.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-              <Button
-                size="lg"
-                className="btn-agro-primary text-sm md:text-base py-3 md:py-4 cursor-pointer"
-                onClick={() => scrollToSection('contact')}
-              >
-                Request Product Catalog
-              </Button>
+        {sectionConfig?.ctaBanner?.isActive !== false && (
+          <div className="text-center scroll-reveal px-4 mt-[4rem]">
+            <div className="glass-card p-6 md:p-8 lg:p-12 max-w-4xl mx-auto">
+              <h3 className="heading-subsection mb-3 md:mb-4">
+                {sectionConfig?.ctaBanner?.heading ||
+                  'Quality You Can Trust. Supply You Can Rely On Always.'}
+              </h3>
+              <p className="text-body mb-6 md:mb-8 max-w-2xl mx-auto">
+                {sectionConfig?.ctaBanner?.description ||
+                  "AgroVentia Inc. delivers Africa's best consistently, transparently, and on time. Every shipment is managed with precision, professionalism, and integrity; so you can focus on scaling your business. Partner with us, and grow with confidence."}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+                <Button
+                  size="lg"
+                  className="btn-agro-primary text-sm md:text-base py-3 md:py-4 cursor-pointer"
+                  onClick={() => scrollToSection('contact')}
+                >
+                  {sectionConfig?.ctaBanner?.primaryButtonText || 'Request Product Catalog'}
+                </Button>
 
-              <Button
-                size="lg"
-                variant="outline"
-                className="btn-agro-outline text-sm md:text-base py-3 md:py-4 cursor-pointer"
-                onClick={() => scrollToSection('contact')}
-              >
-                Schedule a Call
-              </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="btn-agro-outline text-sm md:text-base py-3 md:py-4 cursor-pointer"
+                  onClick={() => scrollToSection('contact')}
+                >
+                  {sectionConfig?.ctaBanner?.secondaryButtonText || 'Schedule a Call'}
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </SectionContainer>
   );

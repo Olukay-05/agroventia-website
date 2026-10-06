@@ -28,15 +28,29 @@ export const LOCALIZED_SCHEMA_TYPES = new Set([
   'blogPost',
   'author',
   'serviceItem',
+  'legalPage',
 ]);
 
 // Map of schema type to fields that should be translated
 const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
   heroSection: ['title', 'subtitle', 'description', 'ctaPrimary', 'ctaSecondary'],
-  aboutSection: ['sectionTitle', 'mission', 'vision', 'story'],
+  aboutSection: ['sectionTitle', 'mission', 'vision', 'story', 'whyChooseTitle'],
   servicesSection: ['sectionTitle', 'subtitle', 'description'],
-  productsSection: ['sectionTitle', 'subtitle', 'description'],
-  contactInfo: ['title', 'subtitle', 'address', 'responsePromise'],
+  productsSection: ['sectionTitle', 'subtitle', 'description', 'categoriesTitle', 'categoriesSubtitle'],
+  contactInfo: [
+    'title',
+    'subtitle',
+    'address',
+    'responsePromise',
+    'companyTagline',
+    'companyBio',
+    'followUsTitle',
+    'quickLinksTitle',
+    'coreValuesTitle',
+    'productCategoriesTitle',
+    'copyrightNotice',
+    'backToTopText',
+  ],
   product: ['productName', 'productDescription'],
   coreValue: ['title', 'description'],
   carouselSlide: ['title', 'subtitle', 'description', 'ctaText'],
@@ -44,6 +58,7 @@ const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
   blogPost: ['title', 'excerpt'],
   author: ['name', 'bio'],
   serviceItem: ['title', 'description'],
+  legalPage: ['title', 'introduction', 'seoTitle', 'seoDescription'],
 };
 
 export const AutoTranslateAction: DocumentActionComponent = (

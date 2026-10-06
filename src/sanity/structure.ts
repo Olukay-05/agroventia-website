@@ -141,4 +141,14 @@ export const structure: StructureResolver = (S: any) =>
                 ),
             ])
         ),
+
+      S.divider(),
+
+      // Legal & Policies
+      S.listItem()
+        .title('Legal & Policies')
+        .icon(DocumentTextIcon)
+        .child(
+          S.documentTypeList('legalPage').title('Legal Pages')
+        ),
     ]);

@@ -136,15 +136,14 @@ const Footer: React.FC = () => {
                   AgroVentia Inc.
                 </h3>
                 <p className="text-sm text-[#F6F2E7] font-medium">
-                  Agricultural Solutions
+                  {contactData?.companyTagline || 'Agricultural Solutions'}
                 </p>
               </div>
             </div>
 
             <p className="text-[#F6F2E7] leading-relaxed">
-              Trusted agricultural export partner delivering premium products to
-              global markets with consistency, transparency, and on-time
-              delivery.
+              {contactData?.companyBio ||
+                'Trusted agricultural export partner delivering premium products to global markets with consistency, transparency, and on-time delivery.'}
             </p>
 
             <div className="space-y-4">
@@ -179,14 +178,16 @@ const Footer: React.FC = () => {
 
             {/* Social Links */}
             <div className="pt-4">
-              <p className="text-sm text-[#F6F2E7] mb-3">Follow Us</p>
+              <p className="text-sm text-[#F6F2E7] mb-3">
+                {contactData?.followUsTitle || 'Follow Us'}
+              </p>
               <FooterSocialLinks phoneNumber={contactData?.businessPhone || undefined} />
             </div>
           </div>
 
           {/* Quick Links */}
           <FooterLinkSection
-            title="Quick Links"
+            title={contactData?.quickLinksTitle || 'Quick Links'}
             links={navigationLinks}
             onLinkClick={link => {
               if (typeof link === 'object' && link.href) {
@@ -199,7 +200,7 @@ const Footer: React.FC = () => {
           {coreValuesList && coreValuesList.length > 0 && (
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-[#FDF8F0]">
-                Our Core Values
+                {contactData?.coreValuesTitle || 'Our Core Values'}
               </h3>
               <ul className="space-y-2">
                 {coreValuesList.map(cv => (
@@ -217,7 +218,7 @@ const Footer: React.FC = () => {
           {/* Products */}
           {productCategories.length > 0 && (
             <FooterLinkSection
-              title="Product Categories"
+              title={contactData?.productCategoriesTitle || 'Product Categories'}
               links={productCategories}
               onLinkClick={handleProductClick}
             />
@@ -236,26 +237,40 @@ const Footer: React.FC = () => {
       <div className="container-premium py-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-[#F6F2E7]">
-            <p>&copy; {currentYear} AgroVentia Inc. All rights reserved.</p>
+            <p>&copy; {currentYear} {contactData?.copyrightNotice || 'AgroVentia Inc. All rights reserved.'}</p>
             <div className="flex gap-6">
-              <button
-                onClick={() => (window.location.href = '/privacy-policy')}
-                className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
-              >
-                Privacy Policy
-              </button>
-              <button
-                onClick={() => (window.location.href = '/terms-of-service')}
-                className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
-              >
-                Terms of Service
-              </button>
-              <button
-                onClick={() => (window.location.href = '/cookie-policy')}
-                className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
-              >
-                Cookie Policy
-              </button>
+              {contactData?.legalLinks && contactData.legalLinks.length > 0 ? (
+                contactData.legalLinks.map((link, idx) => (
+                  <button
+                    key={link._key || idx}
+                    onClick={() => (window.location.href = link.url)}
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    {link.label}
+                  </button>
+                ))
+              ) : (
+                <>
+                  <button
+                    onClick={() => (window.location.href = '/privacy-policy')}
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    Privacy Policy
+                  </button>
+                  <button
+                    onClick={() => (window.location.href = '/terms-of-service')}
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    Terms of Service
+                  </button>
+                  <button
+                    onClick={() => (window.location.href = '/cookie-policy')}
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    Cookie Policy
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -281,7 +296,7 @@ const Footer: React.FC = () => {
                 size={16}
                 className="text-[#281909] group-hover:text-[#FDF8F0] transition-colors duration-200 mr-1"
               />
-              Back to Top
+              {contactData?.backToTopText || 'Back to Top'}
             </Button>
           </div>
         </div>

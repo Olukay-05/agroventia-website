@@ -11,10 +11,11 @@ import { carouselSlide } from '../schemas/documents/carouselSlide';
 import { category } from '../schemas/documents/category';
 import { blogPost } from '../schemas/documents/blogPost';
 import { author } from '../schemas/documents/author';
+import { legalPage } from '../schemas/documents/legalPage';
 
-describe('Sanity Studio Schemas (Story 1 / CAP-1)', () => {
-  it('should export all 14 schema types (2 objects, 5 singletons, 7 collections)', () => {
-    expect(schemaTypes).toHaveLength(14);
+describe('Sanity Studio Schemas (Story 1 / CAP-1 & Story 8 / CAP-8)', () => {
+  it('should export all 15 schema types (2 objects, 5 singletons, 8 collections)', () => {
+    expect(schemaTypes).toHaveLength(15);
     const names = schemaTypes.map((s: any) => s.name);
     
     // Objects
@@ -36,6 +37,7 @@ describe('Sanity Studio Schemas (Story 1 / CAP-1)', () => {
     expect(names).toContain('category');
     expect(names).toContain('blogPost');
     expect(names).toContain('author');
+    expect(names).toContain('legalPage');
   });
 
   it('should register exact 5 singleton types in singletonTypes set', () => {
@@ -61,6 +63,7 @@ describe('Sanity Studio Schemas (Story 1 / CAP-1)', () => {
       category,
       blogPost,
       author,
+      legalPage,
     ];
 
     for (const schema of documentSchemas as any[]) {

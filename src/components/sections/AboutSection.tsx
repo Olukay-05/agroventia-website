@@ -9,6 +9,7 @@ import TiltedContainer from '@/components/ui/TiltedContainer';
 import Carousel from '@/components/common/Carousel';
 import MissionVisionCarousel from '@/components/common/MissionVisionCarousel';
 import { cn } from '@/lib/utils';
+import type { HighlightItem } from '@/types/wix';
 
 interface CoreValue {
   title: string;
@@ -30,9 +31,89 @@ interface AboutSectionProps {
     vision?: string;
     story?: string;
     coreValues?: CoreValue[];
+    whyChooseTitle?: string;
+    highlights?: HighlightItem[];
   };
   isLoading: boolean;
 }
+
+const getVariantStyles = (variant?: string) => {
+  switch (variant) {
+    case 'secondary':
+      return {
+        bgColor: 'var(--agro-secondary-100)',
+        textColor: 'text-yellow-700',
+        textSize: 'text-[16px]',
+      };
+    case 'bronze':
+      return {
+        bgColor: 'var(--agro-accent-bronze-400)',
+        textColor: 'text-brown-700',
+        textSize: 'text-[14px]',
+      };
+    case 'neutral':
+      return {
+        bgColor: 'var(--agro-neutral-100)',
+        textColor: 'text-green-700',
+        textSize: 'text-[16px]',
+      };
+    case 'forest':
+      return {
+        bgColor: 'var(--agro-primary-200)',
+        textColor: 'text-green-800',
+        textSize: 'text-[14px]',
+      };
+    case 'primary':
+    default:
+      return {
+        bgColor: 'var(--agro-primary-100)',
+        textColor: 'text-green-600',
+        textSize: 'text-[16px]',
+      };
+  }
+};
+
+const defaultHighlights: HighlightItem[] = [
+  {
+    _key: 'hl-1',
+    metric: '10+',
+    title: 'Premium Products',
+    description: 'Comprehensive range of agricultural solutions.',
+    colorVariant: 'primary',
+  },
+  {
+    _key: 'hl-2',
+    metric: '20+',
+    title: 'Global Markets Served',
+    description:
+      'Connecting African producers with buyers across North America, Europe, and beyond.',
+    colorVariant: 'secondary',
+  },
+  {
+    _key: 'hl-3',
+    metric: '100%',
+    title: 'Quality Guaranteed',
+    description:
+      'Every shipment undergoes strict checks for freshness, purity, and compliance.',
+    colorVariant: 'bronze',
+  },
+  {
+    _key: 'hl-4',
+    metric: '10+',
+    title: 'Years of Trade Expertise',
+    description:
+      'Over a decade of building strong supply chains with African producers.',
+    colorVariant: 'neutral',
+  },
+  {
+    _key: 'hl-5',
+    metric: '100%',
+    title: 'Reliable Logistics',
+    description:
+      'Seamless supply chain and dependable shipping so you can source with confidence.',
+    colorVariant: 'forest',
+  },
+];
 
 const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
   const [isStoryExpanded, setIsStoryExpanded] = useState(false);
@@ -51,68 +132,26 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
     ? fullStory.substring(0, STORY_PREVIEW_LENGTH) + '...'
     : fullStory;
 
-  // Define carousel items for the mobile carousel using the same span components
-  const carouselItems = [
-    {
-      title: 'Premium Products',
-      description: 'Comprehensive range of agricultural solutions.',
-      id: 1,
+  const effectiveHighlights =
+    data?.highlights && data.highlights.length > 0
+      ? data.highlights
+      : defaultHighlights;
+
+  // Define carousel items for the mobile carousel using dynamic highlights
+  const carouselItems = effectiveHighlights.map((hl, index) => {
+    const styles = getVariantStyles(hl.colorVariant);
+    return {
+      title: hl.title,
+      description: hl.description,
+      id: index + 1,
       spanContent: {
-        text: '10+',
-        bgColor: 'var(--agro-primary-100)',
-        textColor: 'text-green-600',
+        text: hl.metric,
+        bgColor: styles.bgColor,
+        textColor: styles.textColor,
         textSize: 'text-[14px]',
       },
-    },
-    {
-      title: 'Global Markets Served',
-      description:
-        'Connecting African producers with buyers across North America, Europe, and beyond.',
-      id: 2,
-      spanContent: {
-        text: '20+',
-        bgColor: 'var(--agro-secondary-100)',
-        textColor: 'text-yellow-700',
-        textSize: 'text-[14px]',
-      },
-    },
-    {
-      title: 'Quality Guaranteed',
-      description:
-        'Every shipment undergoes strict checks for freshness, purity, and compliance.',
-      id: 3,
-      spanContent: {
-        text: '100%',
-        bgColor: 'var(--agro-accent-bronze-400)',
-        textColor: 'text-brown-700',
-        textSize: 'text-[14px]',
-      },
-    },
-    {
-      title: 'Years of Trade Expertise',
-      description:
-        'Over a decade of building strong supply chains with African producers.',
-      id: 4,
-      spanContent: {
-        text: '10+',
-        bgColor: 'var(--agro-neutral-100)',
-        textColor: 'text-green-700',
-        textSize: 'text-[14px]',
-      },
-    },
-    {
-      title: 'Reliable Logistics',
-      description:
-        'Seamless supply chain and dependable shipping — so you can source with confidence.',
-      id: 5,
-      spanContent: {
-        text: '100%',
-        bgColor: 'var(--agro-primary-200)',
-        textColor: 'text-green-800',
-        textSize: 'text-[14px]',
-      },
-    },
-  ];
+    };
+  });
 
   if (isLoading) {
     return (
@@ -246,7 +285,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
             {/* Mobile Carousel - Reduced bottom spacing */}
             <div className="md:hidden scroll-reveal flex flex-col items-center justify-center -mb-52">
               <h4 className="heading-card mb-10 text-center">
-                Why Choose AgroVentia Inc.?
+                {data?.whyChooseTitle || 'Why Choose AgroVentia Inc.?'}
               </h4>
               <div
                 style={{
@@ -278,107 +317,38 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                 <div className="space-y-8 h-full flex flex-col justify-center">
                   <div className="glass-card p-8 shadow-md">
                     <h4 className="heading-card mb-6 text-center">
-                      Why Choose AgroVentia Inc.?
+                      {data?.whyChooseTitle || 'Why Choose AgroVentia Inc.?'}
                     </h4>
 
                     <div className="space-y-6">
-                      {/* Premium Products */}
-                      <div className="flex items-start space-x-4">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-600 font-bold text-[16px]"
-                          style={{ backgroundColor: 'var(--agro-primary-100)' }}
-                        >
-                          10+
-                        </div>
-                        <div className="min-w-0">
-                          <h5 className="font-semibold text-gray-900 mb-1 text-base">
-                            Premium Products
-                          </h5>
-                          <p className="text-sm text-gray-600">
-                            Comprehensive range of agricultural solutions.
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Global Markets Served */}
-                      <div className="flex items-start space-x-4">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-yellow-700 font-bold text-[16px]"
-                          style={{
-                            backgroundColor: 'var(--agro-secondary-100)',
-                          }}
-                        >
-                          20+
-                        </div>
-                        <div className="min-w-0">
-                          <h5 className="font-semibold text-gray-900 mb-1 text-base">
-                            Global Markets Served
-                          </h5>
-                          <p className="text-sm text-gray-600">
-                            Connecting African producers with buyers across
-                            North America, Europe, and beyond.
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Quality Guaranteed */}
-                      <div className="flex items-start space-x-4">
-                        <div
-                          className="p-3 w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-brown-700 font-bold text-[14px]"
-                          style={{
-                            backgroundColor: 'var(--agro-accent-bronze-400)',
-                          }}
-                        >
-                          100%
-                        </div>
-                        <div className="min-w-0">
-                          <h5 className="font-semibold text-gray-900 mb-1 text-base">
-                            Quality Guaranteed
-                          </h5>
-                          <p className="text-sm text-gray-600">
-                            Every shipment undergoes strict checks for
-                            freshness, purity, and compliance.
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Years of Trade Expertise */}
-                      <div className="flex items-start space-x-4">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-700 font-bold text-[16px]"
-                          style={{ backgroundColor: 'var(--agro-neutral-100)' }}
-                        >
-                          10+
-                        </div>
-                        <div className="min-w-0">
-                          <h5 className="font-semibold text-gray-900 mb-1 text-base">
-                            Years of Trade Expertise
-                          </h5>
-                          <p className="text-sm text-gray-600">
-                            Over a decade of building strong supply chains with
-                            African producers.
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Reliable Logistics */}
-                      <div className="flex items-start space-x-4">
-                        <div
-                          className="p-3 w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-green-800 font-bold text-[14px]"
-                          style={{ backgroundColor: 'var(--agro-primary-200)' }}
-                        >
-                          100%
-                        </div>
-                        <div className="min-w-0">
-                          <h5 className="font-semibold text-gray-900 mb-1 text-base">
-                            Reliable Logistics
-                          </h5>
-                          <p className="text-sm text-gray-600">
-                            Seamless supply chain and dependable shipping — so
-                            you can source with confidence.
-                          </p>
-                        </div>
-                      </div>
+                      {effectiveHighlights.map((hl, index) => {
+                        const styles = getVariantStyles(hl.colorVariant);
+                        return (
+                          <div
+                            key={hl._key || index}
+                            className="flex items-start space-x-4"
+                          >
+                            <div
+                              className={cn(
+                                'w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 font-bold',
+                                styles.textColor,
+                                styles.textSize
+                              )}
+                              style={{ backgroundColor: styles.bgColor }}
+                            >
+                              {hl.metric}
+                            </div>
+                            <div className="min-w-0">
+                              <h5 className="font-semibold text-gray-900 mb-1 text-base">
+                                {hl.title}
+                              </h5>
+                              <p className="text-sm text-gray-600">
+                                {hl.description}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

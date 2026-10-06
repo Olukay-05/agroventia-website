@@ -25,6 +25,16 @@ export interface CoreValue extends WixBase {
   description: string;
 }
 
+export interface HighlightItem {
+  _key?: string;
+  metric: string;
+  title: string;
+  description: string;
+  colorVariant?: 'primary' | 'secondary' | 'bronze' | 'neutral' | 'forest';
+  sortOrder?: number;
+  isActive?: boolean;
+}
+
 export interface AboutContent extends WixBase {
   sectionTitle: string;
   mission: string;
@@ -35,6 +45,8 @@ export interface AboutContent extends WixBase {
   certifications: string;
   aboutImage: string;
   coreValues: CoreValue[];
+  whyChooseTitle?: string;
+  highlights?: HighlightItem[];
 }
 
 export interface ServiceContent extends WixBase {
@@ -46,6 +58,24 @@ export interface ServiceContent extends WixBase {
   logistics: string;
   documentation: string;
   servicesImage: string;
+}
+
+export interface ProductsCtaBanner {
+  heading?: string;
+  description?: string;
+  primaryButtonText?: string;
+  secondaryButtonText?: string;
+  isActive?: boolean;
+}
+
+export interface ProductsSectionContent extends WixBase {
+  sectionTitle?: string;
+  sectionDescription?: string;
+  categoriesTitle?: string;
+  categoriesSubtitle?: string;
+  searchPlaceholder?: string;
+  ctaBanner?: ProductsCtaBanner;
+  sectionImage?: string;
 }
 
 export interface ProductContent extends WixBase {
@@ -62,6 +92,30 @@ export interface ProductContent extends WixBase {
   price?: number;
 }
 
+export interface LegalLinkItem {
+  _key?: string;
+  label: string;
+  url: string;
+}
+
+export interface PolicySectionItem {
+  _key?: string;
+  sectionId?: string;
+  heading: string;
+  content: string;
+  sortOrder?: number;
+}
+
+export interface LegalPageContent extends WixBase {
+  title: string;
+  slug: string;
+  lastUpdated: string;
+  introduction?: string;
+  sections: PolicySectionItem[];
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
 export interface ContactContent extends WixBase {
   sectionTitle: string;
   sectionDescription: string;
@@ -74,6 +128,15 @@ export interface ContactContent extends WixBase {
   contactImage: string;
   latitude?: number;
   longitude?: number;
+  companyTagline?: string;
+  companyBio?: string;
+  followUsTitle?: string;
+  quickLinksTitle?: string;
+  coreValuesTitle?: string;
+  productCategoriesTitle?: string;
+  copyrightNotice?: string;
+  backToTopText?: string;
+  legalLinks?: LegalLinkItem[];
 }
 
 export interface WixContentResponse<T> {

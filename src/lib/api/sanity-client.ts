@@ -15,6 +15,11 @@ import type {
   Category,
   WixBase,
   WixBaseItem,
+  ProductsSectionContent,
+  LegalPageContent,
+  HighlightItem,
+  LegalLinkItem,
+  PolicySectionItem,
 } from '@/types/wix';
 import {
   shouldUseMockData,
@@ -30,6 +35,8 @@ import {
   getMockBlogPostBySlug,
   getMockAuthors,
   getMockCategories,
+  getMockProductsSectionContent,
+  getMockLegalPageBySlug,
 } from './mock-data';
 import {
   buildSanityImageUrl,
@@ -128,6 +135,16 @@ export const ABOUT_QUERY = `*[_type == "aboutSection" && isActive != false][0]{
   headquarters,
   foundingYear,
   certifications,
+  "whyChooseTitle": coalesce(whyChooseTitle[$locale], whyChooseTitle.en, ""),
+  "highlights": highlights[isActive != false] | order(sortOrder asc){
+    _key,
+    metric,
+    sortOrder,
+    colorVariant,
+    isActive,
+    "title": coalesce(title[$locale], title.en, ""),
+    "description": coalesce(description[$locale], description.en, "")
+  },
   "aboutImage": coalesce(aboutImage.asset->url, ""),
   "coreValues": *[_type == "coreValue" && isActive != false] | order(sortOrder asc){
     _id,
@@ -139,6 +156,26 @@ export const ABOUT_QUERY = `*[_type == "aboutSection" && isActive != false][0]{
     "title": coalesce(title[$locale], title.en, ""),
     "description": coalesce(description[$locale], description.en, "")
   }
+}`;
+
+export const PRODUCTS_SECTION_QUERY = `*[_type == "productsSection" && isActive != false][0]{
+  _id,
+  _createdAt,
+  _updatedAt,
+  isActive,
+  "sectionTitle": coalesce(sectionTitle[$locale], sectionTitle.en, ""),
+  "sectionDescription": coalesce(sectionDescription[$locale], sectionDescription.en, ""),
+  "categoriesTitle": coalesce(categoriesTitle[$locale], categoriesTitle.en, ""),
+  "categoriesSubtitle": coalesce(categoriesSubtitle[$locale], categoriesSubtitle.en, ""),
+  "searchPlaceholder": coalesce(searchPlaceholder[$locale], searchPlaceholder.en, ""),
+  "ctaBanner": {
+    "heading": coalesce(ctaBanner.heading[$locale], ctaBanner.heading.en, ""),
+    "description": coalesce(ctaBanner.description[$locale], ctaBanner.description.en, ""),
+    "primaryButtonText": coalesce(ctaBanner.primaryButtonText[$locale], ctaBanner.primaryButtonText.en, ""),
+    "secondaryButtonText": coalesce(ctaBanner.secondaryButtonText[$locale], ctaBanner.secondaryButtonText.en, ""),
+    "isActive": coalesce(ctaBanner.isActive, true)
+  },
+  "sectionImage": coalesce(sectionImage.asset->url, "")
 }`;
 
 export const SERVICES_QUERY = `*[_type == "servicesSection" && isActive != false][0]{
@@ -188,10 +225,43 @@ export const CONTACT_QUERY = `*[_type == "contactInfo" && isActive != false][0]{
   "businessHours": coalesce(businessHours[$locale], businessHours.en, ""),
   "responseTime": coalesce(responseTime[$locale], responseTime.en, ""),
   socialLinks,
+  "companyTagline": coalesce(companyTagline[$locale], companyTagline.en, ""),
+  "companyBio": coalesce(companyBio[$locale], companyBio.en, ""),
+  "followUsTitle": coalesce(followUsTitle[$locale], followUsTitle.en, ""),
+  "quickLinksTitle": coalesce(quickLinksTitle[$locale], quickLinksTitle.en, ""),
+  "coreValuesTitle": coalesce(coreValuesTitle[$locale], coreValuesTitle.en, ""),
+  "productCategoriesTitle": coalesce(productCategoriesTitle[$locale], productCategoriesTitle.en, ""),
+  "copyrightNotice": coalesce(copyrightNotice[$locale], copyrightNotice.en, ""),
+  "backToTopText": coalesce(backToTopText[$locale], backToTopText.en, ""),
+  "legalLinks": legalLinks[]{
+    _key,
+    url,
+    "label": coalesce(label[$locale], label.en, "")
+  },
   "contactImage": coalesce(contactImage.asset->url, ""),
   mapEmbedCode,
   latitude,
   longitude
+}`;
+
+export const LEGAL_PAGE_BY_SLUG_QUERY = `*[_type == "legalPage" && slug.current == $slug && isActive != false][0]{
+  _id,
+  _createdAt,
+  _updatedAt,
+  isActive,
+  "title": coalesce(title[$locale], title.en, ""),
+  "slug": slug.current,
+  lastUpdated,
+  "introduction": coalesce(introduction[$locale], introduction.en, ""),
+  "sections": sections[] | order(sortOrder asc){
+    _key,
+    sectionId,
+    sortOrder,
+    "heading": coalesce(heading[$locale], heading.en, ""),
+    "content": coalesce(content[$locale], content.en, "")
+  },
+  "seoTitle": coalesce(seoTitle[$locale], seoTitle.en, ""),
+  "seoDescription": coalesce(seoDescription[$locale], seoDescription.en, "")
 }`;
 
 export const CORE_VALUES_QUERY = `*[_type == "coreValue" && isActive != false] | order(sortOrder asc){
@@ -317,6 +387,18 @@ export function transformAboutContent(raw: any, locale: string = 'en'): AboutCon
     ? raw.coreValues.map((cv: any) => transformCoreValue(cv, locale))
     : [];
 
+  const highlights: HighlightItem[] = Array.isArray(raw.highlights)
+    ? raw.highlights.map((h: any) => ({
+        _key: h._key,
+        metric: h.metric || '',
+        title: typeof h.title === 'string' ? h.title : extractLocalizedText(h.title, locale),
+        description: typeof h.description === 'string' ? h.description : extractLocalizedText(h.description, locale),
+        colorVariant: h.colorVariant || 'forest',
+        sortOrder: h.sortOrder ?? 0,
+        isActive: h.isActive ?? true,
+      }))
+    : [];
+
   return {
     _id: raw._id || 'aboutSection',
     _owner: 'sanity',
@@ -332,6 +414,33 @@ export function transformAboutContent(raw: any, locale: string = 'en'): AboutCon
     certifications: raw.certifications || 'ISO 14001, LEED Gold',
     aboutImage: resolveSanityImageUrl(raw.aboutImage),
     coreValues,
+    whyChooseTitle: typeof raw.whyChooseTitle === 'string' ? raw.whyChooseTitle : extractLocalizedText(raw.whyChooseTitle, locale),
+    highlights,
+  };
+}
+
+export function transformProductsSectionContent(raw: any, locale: string = 'en'): ProductsSectionContent {
+  const ctaBanner = raw.ctaBanner ? {
+    heading: typeof raw.ctaBanner.heading === 'string' ? raw.ctaBanner.heading : extractLocalizedText(raw.ctaBanner.heading, locale),
+    description: typeof raw.ctaBanner.description === 'string' ? raw.ctaBanner.description : extractLocalizedText(raw.ctaBanner.description, locale),
+    primaryButtonText: typeof raw.ctaBanner.primaryButtonText === 'string' ? raw.ctaBanner.primaryButtonText : extractLocalizedText(raw.ctaBanner.primaryButtonText, locale),
+    secondaryButtonText: typeof raw.ctaBanner.secondaryButtonText === 'string' ? raw.ctaBanner.secondaryButtonText : extractLocalizedText(raw.ctaBanner.secondaryButtonText, locale),
+    isActive: raw.ctaBanner.isActive ?? true,
+  } : undefined;
+
+  return {
+    _id: raw._id || 'productsSection',
+    _owner: 'sanity',
+    _createdDate: { $date: raw._createdAt || new Date().toISOString() },
+    _updatedDate: { $date: raw._updatedAt || new Date().toISOString() },
+    isActive: raw.isActive ?? true,
+    sectionTitle: typeof raw.sectionTitle === 'string' ? raw.sectionTitle : extractLocalizedText(raw.sectionTitle, locale),
+    sectionDescription: typeof raw.sectionDescription === 'string' ? raw.sectionDescription : extractLocalizedText(raw.sectionDescription, locale),
+    categoriesTitle: typeof raw.categoriesTitle === 'string' ? raw.categoriesTitle : extractLocalizedText(raw.categoriesTitle, locale),
+    categoriesSubtitle: typeof raw.categoriesSubtitle === 'string' ? raw.categoriesSubtitle : extractLocalizedText(raw.categoriesSubtitle, locale),
+    searchPlaceholder: typeof raw.searchPlaceholder === 'string' ? raw.searchPlaceholder : extractLocalizedText(raw.searchPlaceholder, locale),
+    ctaBanner,
+    sectionImage: resolveSanityImageUrl(raw.sectionImage),
   };
 }
 
@@ -391,6 +500,14 @@ export function transformProductContent(raw: any, locale: string = 'en'): Produc
 }
 
 export function transformContactContent(raw: any, locale: string = 'en'): ContactContent {
+  const legalLinks: LegalLinkItem[] = Array.isArray(raw.legalLinks)
+    ? raw.legalLinks.map((ll: any) => ({
+        _key: ll._key,
+        url: ll.url || '',
+        label: typeof ll.label === 'string' ? ll.label : extractLocalizedText(ll.label, locale),
+      }))
+    : [];
+
   return {
     _id: raw._id || 'contactInfo',
     _owner: 'sanity',
@@ -408,6 +525,42 @@ export function transformContactContent(raw: any, locale: string = 'en'): Contac
     contactImage: resolveSanityImageUrl(raw.contactImage),
     latitude: raw.latitude,
     longitude: raw.longitude,
+    companyTagline: typeof raw.companyTagline === 'string' ? raw.companyTagline : extractLocalizedText(raw.companyTagline, locale),
+    companyBio: typeof raw.companyBio === 'string' ? raw.companyBio : extractLocalizedText(raw.companyBio, locale),
+    followUsTitle: typeof raw.followUsTitle === 'string' ? raw.followUsTitle : extractLocalizedText(raw.followUsTitle, locale),
+    quickLinksTitle: typeof raw.quickLinksTitle === 'string' ? raw.quickLinksTitle : extractLocalizedText(raw.quickLinksTitle, locale),
+    coreValuesTitle: typeof raw.coreValuesTitle === 'string' ? raw.coreValuesTitle : extractLocalizedText(raw.coreValuesTitle, locale),
+    productCategoriesTitle: typeof raw.productCategoriesTitle === 'string' ? raw.productCategoriesTitle : extractLocalizedText(raw.productCategoriesTitle, locale),
+    copyrightNotice: typeof raw.copyrightNotice === 'string' ? raw.copyrightNotice : extractLocalizedText(raw.copyrightNotice, locale),
+    backToTopText: typeof raw.backToTopText === 'string' ? raw.backToTopText : extractLocalizedText(raw.backToTopText, locale),
+    legalLinks,
+  };
+}
+
+export function transformLegalPageContent(raw: any, locale: string = 'en'): LegalPageContent {
+  const sections: PolicySectionItem[] = Array.isArray(raw.sections)
+    ? raw.sections.map((sec: any) => ({
+        _key: sec._key,
+        sectionId: sec.sectionId || '',
+        heading: typeof sec.heading === 'string' ? sec.heading : extractLocalizedText(sec.heading, locale),
+        content: typeof sec.content === 'string' ? sec.content : extractLocalizedText(sec.content, locale),
+        sortOrder: sec.sortOrder ?? 0,
+      }))
+    : [];
+
+  return {
+    _id: raw._id || 'legalPage',
+    _owner: 'sanity',
+    _createdDate: { $date: raw._createdAt || new Date().toISOString() },
+    _updatedDate: { $date: raw._updatedAt || new Date().toISOString() },
+    isActive: raw.isActive ?? true,
+    title: typeof raw.title === 'string' ? raw.title : extractLocalizedText(raw.title, locale),
+    slug: typeof raw.slug === 'string' ? raw.slug : (raw.slug?.current || ''),
+    lastUpdated: raw.lastUpdated || '',
+    introduction: typeof raw.introduction === 'string' ? raw.introduction : extractLocalizedText(raw.introduction, locale),
+    sections,
+    seoTitle: typeof raw.seoTitle === 'string' ? raw.seoTitle : extractLocalizedText(raw.seoTitle, locale),
+    seoDescription: typeof raw.seoDescription === 'string' ? raw.seoDescription : extractLocalizedText(raw.seoDescription, locale),
   };
 }
 
@@ -705,3 +858,38 @@ export const getCategories = async (locale?: string): Promise<Category[]> => {
     throw err;
   }
 };
+
+export const getProductsSectionContent = async (locale?: string): Promise<ProductsSectionContent | null> => {
+  const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockProductsSectionContent(normLocale);
+  }
+  try {
+    const raw = await client.fetch(PRODUCTS_SECTION_QUERY, { locale: normLocale });
+    if (raw) {
+      return transformProductsSectionContent(raw, normLocale);
+    }
+    return null;
+  } catch (err: any) {
+    console.error(`[Sanity] Products section content query failed:`, err?.message || err);
+    throw err;
+  }
+};
+
+export const getLegalPageBySlug = async (slug: string, locale?: string): Promise<LegalPageContent | null> => {
+  const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    return getMockLegalPageBySlug(slug, normLocale);
+  }
+  try {
+    const raw = await client.fetch(LEGAL_PAGE_BY_SLUG_QUERY, { slug, locale: normLocale });
+    if (raw) {
+      return transformLegalPageContent(raw, normLocale);
+    }
+    return null;
+  } catch (err: any) {
+    console.error(`[Sanity] Legal page query by slug failed:`, err?.message || err);
+    throw err;
+  }
+};
+

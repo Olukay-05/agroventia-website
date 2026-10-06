@@ -4,8 +4,11 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { useLegalPage } from '@/hooks/useContent';
 
 const TermsOfServicePage = () => {
+  const { data: pageData } = useLegalPage('terms-of-service');
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FDF8F0] to-[#F6F2E7] py-12">
       <div className="container-premium">
@@ -21,20 +24,48 @@ const TermsOfServicePage = () => {
           <Card className="bg-white/80 backdrop-blur-sm border border-[#281909]/10 shadow-xl rounded-3xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-[#225217] to-[#CD7E0D] text-[#FDF8F0]">
               <CardTitle className="text-3xl font-bold text-[#fdf8f0] p-4">
-                Terms of Service
+                {pageData?.title || 'Terms of Service'}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8">
               <div className="prose max-w-none">
                 <p className="text-lg text-[#281909]/80 mb-6">
                   Last updated:{' '}
-                  {new Date().toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
+                  {pageData?.lastUpdated
+                    ? new Date(pageData.lastUpdated).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })
+                    : new Date().toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
                 </p>
 
+                {pageData?.sections && pageData.sections.length > 0 ? (
+                  <>
+                    {pageData.introduction && (
+                      <div
+                        className="text-[#281909]/80 leading-relaxed space-y-4 mb-6"
+                        dangerouslySetInnerHTML={{ __html: pageData.introduction }}
+                      />
+                    )}
+                    {pageData.sections.map((section, idx) => (
+                      <div key={section._key || section.sectionId || idx} className="mb-6">
+                        <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
+                          {section.heading}
+                        </h2>
+                        <div
+                          className="text-[#281909]/80 leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: section.content }}
+                        />
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <>
                 <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
                   Introduction
                 </h2>
@@ -181,6 +212,8 @@ const TermsOfServicePage = () => {
                   <li>By phone: +1 (403) 477-6059</li>
                   <li>By mail: 403 - 65 Mutual Street, Toronto, M5B 0E5</li>
                 </ul>
+                  </>
+                )}
               </div>
             </CardContent>
           </Card>
