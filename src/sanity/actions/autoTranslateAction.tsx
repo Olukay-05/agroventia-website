@@ -27,7 +27,6 @@ export const LOCALIZED_SCHEMA_TYPES = new Set([
   'category',
   'blogPost',
   'author',
-  'serviceItem',
   'legalPage',
 ]);
 
@@ -57,7 +56,6 @@ const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
   category: ['title', 'description'],
   blogPost: ['title', 'excerpt'],
   author: ['name', 'bio'],
-  serviceItem: ['title', 'description'],
   legalPage: ['title', 'introduction', 'seoTitle', 'seoDescription'],
 };
 

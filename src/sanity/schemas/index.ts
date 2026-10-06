@@ -10,7 +10,6 @@ import { productsSection } from './singletons/productsSection';
 import { contactInfo } from './singletons/contactInfo';
 
 // Collections
-import { serviceItem } from './documents/serviceItem';
 import { product } from './documents/product';
 import { coreValue } from './documents/coreValue';
 import { carouselSlide } from './documents/carouselSlide';
@@ -32,7 +31,6 @@ export const schemaTypes = [
   contactInfo,
 
   // Collections
-  serviceItem,
   product,
   coreValue,
   carouselSlide,

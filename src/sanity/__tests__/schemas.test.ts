@@ -4,7 +4,6 @@ import { aboutSection } from '../schemas/singletons/aboutSection';
 import { servicesSection } from '../schemas/singletons/servicesSection';
 import { productsSection } from '../schemas/singletons/productsSection';
 import { contactInfo } from '../schemas/singletons/contactInfo';
-import { serviceItem } from '../schemas/documents/serviceItem';
 import { product } from '../schemas/documents/product';
 import { coreValue } from '../schemas/documents/coreValue';
 import { carouselSlide } from '../schemas/documents/carouselSlide';
@@ -14,8 +13,8 @@ import { author } from '../schemas/documents/author';
 import { legalPage } from '../schemas/documents/legalPage';
 
 describe('Sanity Studio Schemas (Story 1 / CAP-1 & Story 8 / CAP-8)', () => {
-  it('should export all 15 schema types (2 objects, 5 singletons, 8 collections)', () => {
-    expect(schemaTypes).toHaveLength(15);
+  it('should export all 14 schema types (2 objects, 5 singletons, 7 collections)', () => {
+    expect(schemaTypes).toHaveLength(14);
     const names = schemaTypes.map((s: any) => s.name);
     
     // Objects
@@ -30,7 +29,6 @@ describe('Sanity Studio Schemas (Story 1 / CAP-1 & Story 8 / CAP-8)', () => {
     expect(names).toContain('contactInfo');
 
     // Collections
-    expect(names).toContain('serviceItem');
     expect(names).toContain('product');
     expect(names).toContain('coreValue');
     expect(names).toContain('carouselSlide');
@@ -56,7 +54,6 @@ describe('Sanity Studio Schemas (Story 1 / CAP-1 & Story 8 / CAP-8)', () => {
       servicesSection,
       productsSection,
       contactInfo,
-      serviceItem,
       product,
       coreValue,
       carouselSlide,

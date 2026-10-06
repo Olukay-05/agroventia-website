@@ -11,7 +11,6 @@ import {
   UserIcon,
   DocumentTextIcon,
   EnvelopeIcon,
-  FolderIcon,
 } from '@sanity/icons';
 
 export const structure: StructureResolver = (S: any) =>
@@ -55,12 +54,6 @@ export const structure: StructureResolver = (S: any) =>
                     .schemaType('servicesSection')
                     .documentId('servicesSection')
                     .title('Services Intro')
-                ),
-              S.listItem()
-                .title('Service Items')
-                .icon(FolderIcon)
-                .child(
-                  S.documentTypeList('serviceItem').title('Service Items')
                 ),
               S.listItem()
                 .title('Products Intro')
