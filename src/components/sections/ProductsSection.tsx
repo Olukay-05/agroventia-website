@@ -31,6 +31,12 @@ import { useInfiniteProducts } from '@/hooks/useInfiniteProducts';
 import { useProductsSectionContent } from '@/hooks/useContent';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
 import { FLAGSHIP_FEATURED_SLUGS } from '@/lib/api/products-portfolio';
+import { useDebounce } from '@/hooks/useDebounce';
+import {
+  matchesCategory,
+  matchesKeyword,
+  formatCategoryLabel,
+} from '@/lib/product-filters';
 
 import type { ProductCatalogItem } from '@/types/wix';
 
@@ -79,6 +85,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const [sortBy, setSortBy] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   // State for modal
@@ -374,35 +381,27 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     })
     .filter(Boolean)) as Product[];
 
-  // Get unique categories for filter dropdown
+  // Get unique categories for filter dropdown preserving canonical title casing
   const categories = [
     'all',
     ...Array.from(
       new Set(
         mappedProducts
-          .map(p => (p.category ? p.category.trim().toLowerCase() : ''))
+          .map(p => (p.category ? p.category.trim() : ''))
           .filter(cat => Boolean(cat) && cat.length > 0)
       )
-    ),
+    ).sort((a, b) => a.localeCompare(b)),
   ];
 
-  // Filter products by category
+  // Filter products by category using slug/whitespace/case-resilient matching
   const categoryFilteredProducts =
     selectedCategory === 'all'
       ? mappedProducts
-      : mappedProducts.filter(
-        p => p.category && p.category.toLowerCase() === selectedCategory
-      );
+      : mappedProducts.filter(p => matchesCategory(p.category, selectedCategory));
 
-  // Filter products by search query
+  // Filter products by keyword using HTML-sanitized, debounced matching
   const searchFilteredProducts = categoryFilteredProducts.filter(product => {
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      (product.title && product.title.toLowerCase().includes(searchLower)) ||
-      (product.description && product.description.toLowerCase().includes(searchLower)) ||
-      (product.category && product.category.toLowerCase().includes(searchLower)) ||
-      (product.sourcingOrigin && product.sourcingOrigin.toLowerCase().includes(searchLower))
-    );
+    return matchesKeyword(product, debouncedSearchQuery);
   });
 
   // Sort products
@@ -556,7 +555,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                           value={category}
                           className="text-agro-primary-900 dark:text-agro-neutral-50 hover:text-gray-400 cursor-pointer"
                         >
-                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                          {formatCategoryLabel(category, categories)}
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -696,10 +695,20 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
               )}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <p className="text-lg text-gray-500 dark:text-agro-neutral-400">
+            <div className="text-center py-12 bg-white/80 dark:bg-agro-neutral-900/80 backdrop-blur-md rounded-2xl border border-dashed border-agro-primary-300 dark:border-agro-primary-700 p-8 max-w-lg mx-auto">
+              <p className="text-lg font-medium text-gray-600 dark:text-agro-neutral-300 mb-4">
                 No products found matching your criteria.
               </p>
+              <Button
+                variant="outline"
+                className="btn-agro-primary cursor-pointer"
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSearchQuery('');
+                }}
+              >
+                Clear All Filters
+              </Button>
             </div>
           )}
         </div>

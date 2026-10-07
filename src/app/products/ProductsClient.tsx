@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import {
   ArrowRight,
   ChevronRight,
@@ -35,13 +36,29 @@ import {
 } from '@/components/ui/select';
 import ProductSkeleton from '@/components/common/ProductSkeleton';
 import QualityStandardsModal from '@/components/common/QualityStandardsModal';
+import ProductPagination from '@/components/common/ProductPagination';
 import { useProductCatalogContent } from '@/hooks/useContent';
 import { useLocale } from '@/contexts/LocaleContext';
 import { QuoteRequestProvider, useQuoteRequest } from '@/contexts/QuoteRequestContext';
+import { useDebounce } from '@/hooks/useDebounce';
+import {
+  filterAndSortProducts,
+  paginateProducts,
+  parseFilterStateFromSearchParams,
+  buildFilterSearchParams,
+  formatCategoryLabel,
+  normalizeCategorySlug,
+  matchesCategory,
+  DEFAULT_PAGE_SIZE,
+} from '@/lib/product-filters';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
 import type { ProductCatalogItem } from '@/types/wix';
 
 function CatalogContent() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const { data: rawProducts, isLoading, error } = useProductCatalogContent({ all: true });
   const { locale } = useLocale();
   const { setRequestedProduct, prefetchProductForQuote } = useQuoteRequest();
@@ -49,18 +66,128 @@ function CatalogContent() {
   const isFrench = locale?.startsWith('fr');
   const isSpanish = locale?.startsWith('es') || locale === 'esp';
 
-  // Filters State
-  const [selectedCorridor, setSelectedCorridor] = useState<'all' | 'canada' | 'africa'>('all');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortBy, setSortBy] = useState<string>('name');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  // Extract unique categories from raw products
+  const availableCategories = useMemo(() => {
+    if (!rawProducts) return [];
+    const set = new Set<string>();
+    rawProducts.forEach(p => {
+      if (p.category && p.category.trim()) {
+        set.add(p.category.trim());
+      }
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [rawProducts]);
+
+  // Parse initial state from URL query parameters on initial render
+  const initialFilterParams = useMemo(() => {
+    return parseFilterStateFromSearchParams(searchParams, []);
+  }, []);
+
+  // State
+  const [selectedCorridor, setSelectedCorridor] = useState<'all' | 'canada' | 'africa'>(
+    initialFilterParams.corridor
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    initialFilterParams.category
+  );
+  const [searchQuery, setSearchQuery] = useState<string>(
+    initialFilterParams.searchQuery
+  );
+  const [sortBy, setSortBy] = useState<'name' | 'category'>(
+    initialFilterParams.sortBy
+  );
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(
+    initialFilterParams.sortOrder
+  );
+  const [currentPage, setCurrentPage] = useState<number>(
+    initialFilterParams.page
+  );
+
+  // Debounced search query for high-performance filtering without keystroke lag
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductCatalogItem | null>(null);
 
-  // Dynamic corridor counts
+  // Once categories load from CMS, map slug in selectedCategory to canonical display name if needed
+  useEffect(() => {
+    if (selectedCategory !== 'all' && availableCategories.length > 0) {
+      const canonical = availableCategories.find(
+        c => normalizeCategorySlug(c) === normalizeCategorySlug(selectedCategory)
+      );
+      if (canonical && canonical !== selectedCategory) {
+        setSelectedCategory(canonical);
+      }
+    }
+  }, [availableCategories]);
+
+  // Keep state synchronized if URL search parameters change externally (e.g. browser back/forward)
+  const prevSearchParamsStr = useRef(searchParams.toString());
+  useEffect(() => {
+    const currentStr = searchParams.toString();
+    if (prevSearchParamsStr.current !== currentStr) {
+      prevSearchParamsStr.current = currentStr;
+      const parsed = parseFilterStateFromSearchParams(searchParams, availableCategories);
+      setSelectedCorridor(parsed.corridor);
+      setSelectedCategory(parsed.category);
+      setSearchQuery(parsed.searchQuery);
+      setSortBy(parsed.sortBy);
+      setSortOrder(parsed.sortOrder);
+      setCurrentPage(parsed.page);
+    }
+  }, [searchParams, availableCategories]);
+
+  // Reset page to 1 whenever any filter or debounced search query changes
+  const isFirstFilterChange = useRef(true);
+  useEffect(() => {
+    if (isFirstFilterChange.current) {
+      isFirstFilterChange.current = false;
+      return;
+    }
+    setCurrentPage(1);
+  }, [selectedCorridor, selectedCategory, debouncedSearchQuery, sortBy, sortOrder]);
+
+  // Synchronize state changes to URL search parameters without full page reload
+  const isFirstUrlSync = useRef(true);
+  useEffect(() => {
+    if (isFirstUrlSync.current) {
+      isFirstUrlSync.current = false;
+      return;
+    }
+
+    const params = buildFilterSearchParams(
+      {
+        corridor: selectedCorridor,
+        category: selectedCategory,
+        searchQuery: debouncedSearchQuery,
+        sortBy,
+        sortOrder,
+      },
+      currentPage
+    );
+
+    const queryString = params.toString();
+    const newPath = queryString ? `${pathname}?${queryString}` : pathname;
+
+    if (typeof window !== 'undefined') {
+      const currentFullSearch = window.location.search.replace(/^\?/, '');
+      if (currentFullSearch !== queryString) {
+        router.replace(newPath, { scroll: false });
+      }
+    }
+  }, [
+    selectedCorridor,
+    selectedCategory,
+    debouncedSearchQuery,
+    sortBy,
+    sortOrder,
+    currentPage,
+    pathname,
+    router,
+  ]);
+
+  // Dynamic corridor counts computed across complete dataset
   const corridorCounts = useMemo(() => {
     if (!rawProducts) return { all: 0, canada: 0, africa: 0 };
     let canada = 0;
@@ -97,153 +224,96 @@ function CatalogContent() {
     return { all: rawProducts.length, canada, africa };
   }, [rawProducts]);
 
-  const labels = useMemo(() => ({
-    pageTitle: isFrench
-      ? 'Catalogue mondial des commodités agricoles'
-      : isSpanish
-        ? 'Catálogo global de productos agrícolas'
-        : 'Global Agricultural Commodity Catalog',
-    pageSubtitle: isFrench
-      ? "Répertoire B2B complet des grains canadiens, légumineuses, oléagineux et commodités tropicales d'Afrique de l'Ouest avec paramètres de qualité typiques."
-      : isSpanish
-        ? 'Directorio B2B completo de granos canadienses, legumbres, oleaginosas y productos tropicales de África Occidental con parámetros de calidad típicos.'
-        : 'Comprehensive B2B directory of Canadian Prairies grains, pulses, oilseeds, and West African tropical commodities with typical quality parameters.',
-    home: isFrench ? 'Accueil' : isSpanish ? 'Inicio' : 'Home',
-    catalog: isFrench ? 'Catalogue' : isSpanish ? 'Catálogo' : 'Catalog',
-    allCorridors: isFrench ? 'Tous les corridors' : isSpanish ? 'Todos los corredores' : 'All Corridors',
-    corridorCanada: isFrench
-      ? 'Prairies canadiennes et Est du Canada'
-      : isSpanish
-        ? 'Praderas canadienses y Este de Canadá'
-        : 'Canadian Prairies & Eastern Canada',
-    corridorAfrica: isFrench
-      ? "Afrique tropicale et de l'Ouest"
-      : isSpanish
-        ? 'África tropical y occidental'
-        : 'Tropical & West Africa',
-    searchPlaceholder: isFrench
-      ? 'Rechercher par nom, origine ou mot-clé...'
-      : isSpanish
-        ? 'Buscar por nombre, origen o palabra clave...'
-        : 'Search commodities by name, origin, or keyword...',
-    allCategories: isFrench ? 'Toutes les catégories' : isSpanish ? 'Todas las categorías' : 'All Categories',
-    sortByName: isFrench ? 'Nom' : isSpanish ? 'Nombre' : 'Name',
-    sortByCategory: isFrench ? 'Catégorie' : isSpanish ? 'Categoría' : 'Category',
-    showingCount: (count: number, total: number) =>
-      isFrench
-        ? `Affichage de ${count} sur ${total} commodités`
+  // Multilingual labels
+  const labels = useMemo(
+    () => ({
+      pageTitle: isFrench
+        ? 'Catalogue mondial des commodités agricoles'
         : isSpanish
-          ? `Mostrando ${count} de ${total} productos básicos`
-          : `Showing ${count} of ${total} commodities`,
-    noResults: isFrench
-      ? 'Aucune commodité ne correspond à vos filtres de recherche.'
-      : isSpanish
-        ? 'No se encontraron productos básicos que coincidan con sus filtros de búsqueda.'
-        : 'No commodities found matching your current filter criteria.',
-    resetFilters: isFrench ? 'Réinitialiser les filtres' : isSpanish ? 'Restablecer filtros' : 'Reset Filters',
-    viewSpecs: isFrench ? 'Détails et spécifications' : isSpanish ? 'Detalles y especificaciones' : 'View Details / Specs',
-    requestQuote: isFrench ? 'Demander un devis' : isSpanish ? 'Solicitar cotización' : 'Request Quote',
-    disclaimerText: isFrench
-      ? 'Toutes les commodités sont rigoureusement sourcées auprès de coopératives agricoles vérifiées et de terminaux de grains certifiés. Les spécifications indiquées représentent des repères contractuels typiques et sont adaptées aux exigences des acheteurs et aux certificats phytosanitaires de destination.'
-      : isSpanish
-        ? 'Todos los productos básicos provienen directamente de cooperativas agrícolas verificadas y terminales de granos certificados. Las especificaciones indicadas representan puntos de referencia contractuales típicos y se personalizan según los requisitos de compra y las certificaciones fitosanitarias de destino.'
-        : 'All commodities are sourced directly from verified farm cooperatives and certified grain terminals. Specifications represent typical contract benchmarks and are tailored to buyer purchase agreements and destination phytosanitary certifications.',
-  }), [isFrench, isSpanish]);
+          ? 'Catálogo global de productos agrícolas'
+          : 'Global Agricultural Commodity Catalog',
+      pageSubtitle: isFrench
+        ? "Répertoire B2B complet des grains canadiens, légumineuses, oléagineux et commodités tropicales d'Afrique de l'Ouest avec paramètres de qualité typiques."
+        : isSpanish
+          ? 'Directorio B2B completo de granos canadienses, legumbres, oleaginosas y productos tropicales de África Occidental con parámetros de calidad típicos.'
+          : 'Comprehensive B2B directory of Canadian Prairies grains, pulses, oilseeds, and West African tropical commodities with typical quality parameters.',
+      home: isFrench ? 'Accueil' : isSpanish ? 'Inicio' : 'Home',
+      catalog: isFrench ? 'Catalogue' : isSpanish ? 'Catálogo' : 'Catalog',
+      allCorridors: isFrench ? 'Tous les corridors' : isSpanish ? 'Todos los corredores' : 'All Corridors',
+      corridorCanada: isFrench
+        ? 'Prairies canadiennes et Est du Canada'
+        : isSpanish
+          ? 'Praderas canadienses y Este de Canadá'
+          : 'Canadian Prairies & Eastern Canada',
+      corridorAfrica: isFrench
+        ? "Afrique tropicale et de l'Ouest"
+        : isSpanish
+          ? 'África tropical y occidental'
+          : 'Tropical & West Africa',
+      searchPlaceholder: isFrench
+        ? 'Rechercher par nom, origine ou mot-clé...'
+        : isSpanish
+          ? 'Buscar por nombre, origen o palabra clave...'
+          : 'Search commodities by name, origin, or keyword...',
+      allCategories: isFrench ? 'Toutes les catégories' : isSpanish ? 'Todas las categorías' : 'All Categories',
+      sortByName: isFrench ? 'Nom' : isSpanish ? 'Nombre' : 'Name',
+      sortByCategory: isFrench ? 'Catégorie' : isSpanish ? 'Categoría' : 'Category',
+      showingCount: (count: number, total: number) =>
+        isFrench
+          ? `Affichage de ${count} sur ${total} commodités`
+          : isSpanish
+            ? `Mostrando ${count} de ${total} productos básicos`
+            : `Showing ${count} of ${total} commodities`,
+      noResults: isFrench
+        ? 'Aucune commodité ne correspond à vos filtres de recherche.'
+        : isSpanish
+          ? 'No se encontraron productos básicos que coincidan con sus filtros de búsqueda.'
+          : 'No commodities found matching your current filter criteria.',
+      resetFilters: isFrench ? 'Réinitialiser les filtres' : isSpanish ? 'Restablecer filtros' : 'Reset Filters',
+      clearAllFilters: isFrench ? 'Effacer tous les filtres' : isSpanish ? 'Borrar todos los filtros' : 'Clear All Filters',
+      viewSpecs: isFrench ? 'Détails et spécifications' : isSpanish ? 'Detalles y especificaciones' : 'View Details / Specs',
+      requestQuote: isFrench ? 'Demander un devis' : isSpanish ? 'Solicitar cotización' : 'Request Quote',
+      disclaimerText: isFrench
+        ? 'Toutes les commodités sont rigoureusement sourcées auprès de coopératives agricoles vérifiées et de terminaux de grains certifiés. Les spécifications indiquées représentent des repères contractuels typiques et sont adaptées aux exigences des acheteurs et aux certificats phytosanitaires de destination.'
+        : isSpanish
+          ? 'Todos los productos básicos provienen directamente de cooperativas agrícolas verificadas y terminales de granos certificados. Las especificaciones indicadas representan puntos de referencia contractuales típicos y se personalizan según los requisitos de compra y las certificaciones fitosanitarias de destino.'
+          : 'All commodities are sourced directly from verified farm cooperatives and certified grain terminals. Specifications represent typical contract benchmarks and are tailored to buyer purchase agreements and destination phytosanitary certifications.',
+    }),
+    [isFrench, isSpanish]
+  );
 
-  // Extract unique categories from raw products
-  const availableCategories = useMemo(() => {
-    if (!rawProducts) return [];
-    const set = new Set<string>();
-    rawProducts.forEach(p => {
-      if (p.category && p.category.trim()) {
-        set.add(p.category.trim());
-      }
-    });
-    return Array.from(set).sort((a, b) => a.localeCompare(b));
-  }, [rawProducts]);
-
-  // Multi-dimensional filtering logic
-  const filteredProducts = useMemo(() => {
-    if (!rawProducts) return [];
-
-    return rawProducts.filter(product => {
-      // 1. Corridor Filter
-      if (selectedCorridor === 'canada') {
-        const isCanada =
-          product.corridor === 'canada' ||
-          (() => {
-            const origin = (product.sourcingOrigin || '').toLowerCase();
-            return (
-              origin.includes('canada') ||
-              origin.includes('saskatchewan') ||
-              origin.includes('alberta') ||
-              origin.includes('manitoba') ||
-              origin.includes('ontario') ||
-              origin.includes('prairies')
-            );
-          })();
-        if (!isCanada) return false;
-      } else if (selectedCorridor === 'africa') {
-        const isAfrica =
-          product.corridor === 'africa' ||
-          (() => {
-            const origin = (product.sourcingOrigin || '').toLowerCase();
-            return (
-              origin.includes('africa') ||
-              origin.includes('nigeria') ||
-              origin.includes('ghana') ||
-              origin.includes('tropical') ||
-              origin.includes('ivoire')
-            );
-          })();
-        if (!isAfrica) return false;
-      }
-
-      // 2. Category Filter
-      if (selectedCategory !== 'all') {
-        const productCat = (product.category || '').toLowerCase();
-        if (productCat !== selectedCategory.toLowerCase()) {
-          return false;
-        }
-      }
-
-      // 3. Search Query Filter
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim();
-        const title = (product.title || product.productName || '').toLowerCase();
-        const desc = (product.description || '').toLowerCase();
-        const origin = (product.sourcingOrigin || '').toLowerCase();
-        const cat = (product.category || '').toLowerCase();
-
-        const matches =
-          title.includes(q) ||
-          desc.includes(q) ||
-          origin.includes(q) ||
-          cat.includes(q);
-        if (!matches) return false;
-      }
-
-      return true;
-    });
-  }, [rawProducts, selectedCorridor, selectedCategory, searchQuery]);
-
-  // Sorting
+  // Full-dataset in-memory multi-dimensional filtering & sorting
   const sortedProducts = useMemo(() => {
-    return [...filteredProducts].sort((a, b) => {
-      let cmp = 0;
-      const aTitle = a.title || a.productName || '';
-      const bTitle = b.title || b.productName || '';
-      const aCat = a.category || '';
-      const bCat = b.category || '';
-
-      if (sortBy === 'name') {
-        cmp = aTitle.localeCompare(bTitle);
-      } else if (sortBy === 'category') {
-        cmp = aCat.localeCompare(bCat);
-      }
-      return sortOrder === 'asc' ? cmp : -cmp;
+    return filterAndSortProducts(rawProducts || [], {
+      corridor: selectedCorridor,
+      category: selectedCategory,
+      searchQuery: debouncedSearchQuery,
+      sortBy,
+      sortOrder,
     });
-  }, [filteredProducts, sortBy, sortOrder]);
+  }, [
+    rawProducts,
+    selectedCorridor,
+    selectedCategory,
+    debouncedSearchQuery,
+    sortBy,
+    sortOrder,
+  ]);
+
+  // Client-side pagination slicing of filtered results
+  const { paginatedItems, pagination } = useMemo(() => {
+    return paginateProducts(sortedProducts, currentPage, DEFAULT_PAGE_SIZE);
+  }, [sortedProducts, currentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    if (typeof window !== 'undefined') {
+      const catalogEl = document.getElementById('catalog-browser');
+      if (catalogEl) {
+        catalogEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   const handleCardClick = (product: ProductCatalogItem) => {
     trackButtonClick('catalog_card_click', {
@@ -258,7 +328,6 @@ function CatalogContent() {
     setRequestedProduct({ name: productTitle, id: productId });
     trackProductQuoteRequest(productTitle, productId);
     prefetchProductForQuote(productId);
-    // Navigate smoothly to homepage contact section
     window.location.href = `/#contact`;
   };
 
@@ -268,7 +337,45 @@ function CatalogContent() {
     setSearchQuery('');
     setSortBy('name');
     setSortOrder('asc');
+    setCurrentPage(1);
+    router.replace(pathname, { scroll: false });
   };
+
+  // Contextual empty state text
+  const emptyContextText = useMemo(() => {
+    const parts: string[] = [];
+    if (debouncedSearchQuery.trim()) {
+      parts.push(`"${debouncedSearchQuery.trim()}"`);
+    }
+    if (selectedCategory !== 'all') {
+      parts.push(formatCategoryLabel(selectedCategory, availableCategories));
+    }
+    if (selectedCorridor !== 'all') {
+      parts.push(
+        selectedCorridor === 'canada'
+          ? 'Canadian Prairies'
+          : 'Tropical & West Africa'
+      );
+    }
+
+    if (parts.length > 0) {
+      return isFrench
+        ? `Aucune commodité ne correspond à vos critères (${parts.join(', ')}). ${labels.noResults}`
+        : isSpanish
+          ? `No se encontraron productos agrícolas con sus criterios (${parts.join(', ')}). ${labels.noResults}`
+          : `No commodities match your current search criteria (${parts.join(', ')}). ${labels.noResults}`;
+    }
+
+    return labels.noResults;
+  }, [
+    debouncedSearchQuery,
+    selectedCategory,
+    selectedCorridor,
+    availableCategories,
+    isFrench,
+    isSpanish,
+    labels.noResults,
+  ]);
 
   return (
     <div className="min-h-screen bg-[#FDF8F0] dark:bg-agro-neutral-950 text-[#281909] dark:text-agro-neutral-50 flex flex-col">
@@ -390,20 +497,23 @@ function CatalogContent() {
                   >
                     {labels.allCategories}
                   </button>
-                  {availableCategories.map(cat => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setSelectedCategory(cat === selectedCategory ? 'all' : cat)}
-                      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                        selectedCategory.toLowerCase() === cat.toLowerCase()
-                          ? 'bg-agro-primary-800 text-white shadow-sm'
-                          : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+                  {availableCategories.map(cat => {
+                    const isSelected = matchesCategory(selectedCategory, cat);
+                    return (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setSelectedCategory(isSelected ? 'all' : cat)}
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-agro-primary-800 text-white shadow-sm'
+                            : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
+                        }`}
+                      >
+                        {formatCategoryLabel(cat, availableCategories)}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -433,7 +543,14 @@ function CatalogContent() {
 
                 {/* Category Dropdown */}
                 <div className="w-full lg:w-64">
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <Select
+                    value={
+                      selectedCategory === 'all'
+                        ? 'all'
+                        : availableCategories.find(c => matchesCategory(c, selectedCategory)) || selectedCategory
+                    }
+                    onValueChange={setSelectedCategory}
+                  >
                     <SelectTrigger className="w-full btn-agro-outline bg-white dark:bg-agro-neutral-850 text-agro-primary-950 dark:text-agro-neutral-50">
                       <Filter size={14} className="mr-2" />
                       <SelectValue placeholder={labels.allCategories} />
@@ -442,7 +559,7 @@ function CatalogContent() {
                       <SelectItem value="all">{labels.allCategories}</SelectItem>
                       {availableCategories.map(cat => (
                         <SelectItem key={cat} value={cat}>
-                          {cat}
+                          {formatCategoryLabel(cat, availableCategories)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -451,7 +568,10 @@ function CatalogContent() {
 
                 {/* Sort Controls */}
                 <div className="flex gap-2">
-                  <Select value={sortBy} onValueChange={setSortBy}>
+                  <Select
+                    value={sortBy}
+                    onValueChange={val => setSortBy(val as 'name' | 'category')}
+                  >
                     <SelectTrigger className="w-36 btn-agro-outline bg-white dark:bg-agro-neutral-850 text-agro-primary-950 dark:text-agro-neutral-50">
                       <SortDesc size={14} className="mr-2" />
                       <SelectValue placeholder="Sort" />
@@ -512,7 +632,7 @@ function CatalogContent() {
                     )}
                     {selectedCategory !== 'all' && (
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-agro-primary-100 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border border-agro-primary-200 dark:border-agro-primary-700">
-                        <span>Category: {selectedCategory}</span>
+                        <span>Category: {formatCategoryLabel(selectedCategory, availableCategories)}</span>
                         <button
                           type="button"
                           onClick={() => setSelectedCategory('all')}
@@ -542,7 +662,7 @@ function CatalogContent() {
                       onClick={resetAllFilters}
                       className="text-xs h-7 px-2 text-agro-secondary-700 hover:text-agro-secondary-900 hover:bg-agro-secondary-50 dark:text-agro-secondary-400 dark:hover:bg-agro-neutral-800 cursor-pointer font-semibold"
                     >
-                      Clear All Filters
+                      {labels.clearAllFilters}
                     </Button>
                   </div>
                 )}
@@ -565,7 +685,7 @@ function CatalogContent() {
               </div>
             )}
 
-            {/* Empty State */}
+            {/* Empty State with Interactive Recovery */}
             {!isLoading && sortedProducts.length === 0 && (
               <div className="text-center py-16 bg-white/80 dark:bg-agro-neutral-900/80 backdrop-blur-md rounded-2xl border border-dashed border-agro-primary-300 dark:border-agro-primary-700 p-8 max-w-lg mx-auto shadow-sm">
                 <div className="mx-auto w-14 h-14 rounded-full bg-agro-primary-50 dark:bg-agro-neutral-800 flex items-center justify-center text-agro-primary-600 dark:text-agro-primary-400 mb-4">
@@ -575,21 +695,26 @@ function CatalogContent() {
                   No Commodities Found
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-agro-neutral-300 mb-6 max-w-md mx-auto">
-                  {labels.noResults}
+                  {emptyContextText}
                 </p>
-                <Button onClick={resetAllFilters} className="btn-agro-primary shadow-sm px-6">
-                  {labels.resetFilters}
-                </Button>
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  <Button onClick={resetAllFilters} className="btn-agro-primary shadow-sm px-6 cursor-pointer">
+                    {labels.resetFilters}
+                  </Button>
+                  <Button onClick={resetAllFilters} variant="outline" className="btn-agro-outline px-6 cursor-pointer">
+                    {labels.clearAllFilters}
+                  </Button>
+                </div>
               </div>
             )}
 
-            {/* Product Catalog Grid */}
-            {!isLoading && sortedProducts.length > 0 && (
+            {/* Product Catalog Grid (Paginated Slice) */}
+            {!isLoading && paginatedItems.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                {sortedProducts.map(product => {
+                {paginatedItems.map(product => {
                   const title = product.title || product.productName || 'Agricultural Commodity';
                   const origin = product.sourcingOrigin || '';
-                  const category = product.category || '';
+                  const category = formatCategoryLabel(product.category || '', availableCategories);
                   const image =
                     product.image ||
                     product.image1 ||
@@ -675,6 +800,18 @@ function CatalogContent() {
               </div>
             )}
 
+            {/* Pagination Controls */}
+            {!isLoading && sortedProducts.length > 0 && (
+              <ProductPagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                totalItems={pagination.totalItems}
+                startIndex={pagination.startIndex}
+                endIndex={pagination.endIndex}
+                onPageChange={handlePageChange}
+              />
+            )}
+
             {/* Footnote Compliance Disclaimer */}
             <div className="mt-16 p-6 rounded-2xl bg-white/60 dark:bg-agro-neutral-900/60 border border-agro-primary-100 dark:border-agro-primary-900/40 text-center">
               <p className="text-xs text-gray-500 dark:text-agro-neutral-400 max-w-3xl mx-auto leading-relaxed italic">
@@ -713,10 +850,32 @@ function CatalogContent() {
   );
 }
 
+function CatalogLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-[#FDF8F0] dark:bg-agro-neutral-950 flex flex-col">
+      <Header />
+      <main className="flex-grow pt-20">
+        <SectionContainer className="py-16">
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {Array.from({ length: 9 }).map((_, idx) => (
+                <ProductSkeleton key={idx} />
+              ))}
+            </div>
+          </div>
+        </SectionContainer>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
 export default function ProductsClient() {
   return (
     <QuoteRequestProvider>
-      <CatalogContent />
+      <Suspense fallback={<CatalogLoadingFallback />}>
+        <CatalogContent />
+      </Suspense>
     </QuoteRequestProvider>
   );
 }
