@@ -9,32 +9,16 @@ import TiltedContainer from '@/components/ui/TiltedContainer';
 import Carousel from '@/components/common/Carousel';
 import MissionVisionCarousel from '@/components/common/MissionVisionCarousel';
 import { cn } from '@/lib/utils';
-import type { HighlightItem } from '@/types/wix';
+import type { HighlightItem, CoreValue, AboutContent } from '@/types/content';
 import { useLocale } from '@/contexts/LocaleContext';
 
-interface CoreValue {
-  title: string;
-  description: string;
-  _id: string;
-  _owner: string;
-  _createdDate: { $date: string };
-  _updatedDate: { $date: string };
-  isActive?: boolean;
-  reference?: string;
+export interface AboutSectionData extends Partial<AboutContent> {
+  title?: string;
+  description?: string;
 }
 
 interface AboutSectionProps {
-  data?: {
-    title?: string;
-    sectionTitle?: string;
-    description?: string;
-    mission?: string;
-    vision?: string;
-    story?: string;
-    coreValues?: CoreValue[];
-    whyChooseTitle?: string;
-    highlights?: HighlightItem[];
-  };
+  data?: AboutSectionData | null;
   isLoading: boolean;
 }
 

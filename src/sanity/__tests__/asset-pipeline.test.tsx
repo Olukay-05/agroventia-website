@@ -14,8 +14,7 @@ import {
   DEFAULT_IMAGE_WIDTHS,
 } from '@/lib/api/sanity-image';
 import SanityImage from '@/components/SanityImage';
-import WixImage from '@/components/WixImage';
-import { convertWixImageUrl, isImageUrl, isImageField } from '@/lib/utils/image';
+import { isImageUrl, isImageField, getImageUrl } from '@/lib/utils/image';
 
 describe('Story 4: Modern Asset Pipeline Integration', () => {
   const mockAssetRef =
@@ -172,40 +171,37 @@ describe('Story 4: Modern Asset Pipeline Integration', () => {
       expect(formats).toContain('image/webp');
     });
 
-    it('preserves fallback domains in remotePatterns for backward compatibility', () => {
+    it('confirms retirement of legacy media domains from remotePatterns', () => {
       const remotePatterns = nextConfig.images?.remotePatterns || [];
       const hosts = remotePatterns.map((p: any) => p.hostname);
-      expect(hosts).toContain('static.wixstatic.com');
-      expect(hosts).toContain('images.unsplash.com');
+      expect(hosts).toEqual(['cdn.sanity.io', 'images.unsplash.com']);
     });
   });
 
-  describe('AC 4: Elimination of wix:image:// parsing and 403 failures', () => {
+  describe('AC 4: Elimination of proprietary URI parsing and 403 failures', () => {
     it('identifies Sanity image sources via isSanityImageSource', () => {
       expect(isSanityImageSource(mockImageWithHotspot)).toBe(true);
       expect(isSanityImageSource({ _ref: mockAssetRef })).toBe(true);
       expect(isSanityImageSource(mockAssetRef)).toBe(true);
       expect(isSanityImageSource(mockCdnUrl)).toBe(true);
-      expect(isSanityImageSource('wix:image://v1/test.jpg')).toBe(false);
+      expect(isSanityImageSource('legacy-proto://v1/test.jpg')).toBe(false);
       expect(isSanityImageSource('https://images.unsplash.com/test.jpg')).toBe(false);
       expect(isSanityImageSource(null)).toBe(false);
     });
 
-    it('builds Sanity CDN URL directly without invoking convertWixImageUrl', () => {
+    it('builds Sanity CDN URL directly', () => {
       const url = buildSanityImageUrl(mockImageWithHotspot);
-      expect(url).not.toContain('wix:image://');
-      expect(url).not.toContain('wixstatic.com');
+      expect(url.startsWith('https://cdn.sanity.io/')).toBe(true);
       expect(url).toContain('cdn.sanity.io');
     });
 
-    it('deprecates convertWixImageUrl while maintaining fallback for legacy wix:image:// strings', () => {
-      const legacyWixUrl =
-        'wix:image://v1/nsplsh_559a94c786044333bcfc26ccb4be438b~mv2.jpg/Image.jpg#originWidth=1200&originHeight=800';
-      const converted = convertWixImageUrl(legacyWixUrl);
+    it('resolves image URLs cleanly through getImageUrl using Sanity pipeline', () => {
+      const resolved = getImageUrl(mockCdnUrl);
+      expect(resolved).toContain('728b7e2e88cb98fae6a6df247ee0ca3f0a5ad744-1200x800.jpg');
+      expect(resolved).toContain('cdn.sanity.io');
 
-      expect(converted).not.toBeNull();
-      expect(converted?.primary).toContain('static.wixstatic.com');
-      expect(converted?.original).toBe(legacyWixUrl);
+      const fallback = getImageUrl(null, 'https://example.com/fallback.jpg');
+      expect(fallback).toBe('https://example.com/fallback.jpg');
     });
 
     it('recognizes cdn.sanity.io as a valid image URL in image utils', () => {
@@ -310,9 +306,9 @@ describe('Story 4: Modern Asset Pipeline Integration', () => {
       expect(srcAttr).toContain('crop=focalpoint');
     });
 
-    it('renders WixImage drop-in component with exact prop and layout parity', () => {
+    it('renders SanityImage drop-in component with exact prop and layout parity', () => {
       const { container } = render(
-        <WixImage
+        <SanityImage
           src={mockCdnUrl}
           alt="Product Card"
           width={400}
@@ -336,7 +332,7 @@ describe('Story 4: Modern Asset Pipeline Integration', () => {
 
     it('renders graceful error placeholder without throw on invalid or empty image source', () => {
       render(
-        <WixImage
+        <SanityImage
           src=""
           alt="Missing Product"
           width={400}

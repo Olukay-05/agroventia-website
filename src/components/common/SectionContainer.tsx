@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 
 interface SectionContainerProps {
   children: React.ReactNode;
@@ -54,9 +54,9 @@ const SectionContainer: React.FC<SectionContainerProps> = ({
     >
       {background === 'image' && backgroundImage && (
         <>
-          {/* Background image using WixImage component */}
+          {/* Background image using SanityImage component */}
           <div className="absolute inset-0 z-0">
-            <WixImage
+            <SanityImage
               src={backgroundImage}
               alt=""
               fill={true}

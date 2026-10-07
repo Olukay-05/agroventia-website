@@ -55,7 +55,7 @@ import {
   useCoreValues,
   useCarouselImages,
 } from '@/hooks/useContent';
-import * as useWixContentModule from '@/hooks/useWixContent';
+import * as useContentModule from '@/hooks/useContent';
 import { client } from '@/sanity/client';
 
 // Mock Sanity client for controlled unit testing
@@ -149,8 +149,10 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
 
       expect(transformed._id).toBe('hero-1');
       expect(transformed._owner).toBe('sanity');
-      expect(transformed._createdDate.$date).toBe('2026-10-04T12:00:00Z');
-      expect(transformed._updatedDate.$date).toBe('2026-10-04T12:00:00Z');
+      expect(transformed._createdDate).toBeDefined();
+      expect(transformed._updatedDate).toBeDefined();
+      expect((transformed._createdDate as { $date: string })?.$date).toBe('2026-10-04T12:00:00Z');
+      expect((transformed._updatedDate as { $date: string })?.$date).toBe('2026-10-04T12:00:00Z');
       expect(transformed.isActive).toBe(true);
       expect(transformed.title).toBe('Hero Title');
       expect(transformed.subtitle).toBe('Hero Subtitle');
@@ -336,7 +338,7 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       expect(queryState?.status).toBe('success');
     });
 
-    it('supports all required hook signatures from useContent and useWixContent alias', async () => {
+    it('supports all required hook signatures from canonical useContent module', async () => {
       const hooks = [
         'useHeroContent',
         'useAboutContent',
@@ -349,7 +351,7 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       ];
 
       hooks.forEach(hookName => {
-        expect(typeof (useWixContentModule as any)[hookName]).toBe('function');
+        expect(typeof (useContentModule as any)[hookName]).toBe('function');
       });
     });
 
@@ -538,34 +540,34 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       expect(singlePost?.title).toContain('Uniendo industrias');
     });
 
-    it('verifies that no fallback data across all collections contains legacy wix:image:// URIs', async () => {
+    it('verifies that all fallback data across all collections contains valid modern media paths', async () => {
       const hero = await getMockHeroContent('en');
-      expect(hero[0].backgroundImage).not.toContain('wix:image://');
-      expect(hero[0].companyLogo).not.toContain('wix:image://');
+      expect(hero[0].backgroundImage).toMatch(/^(\/|https?:\/\/)/);
+      expect(hero[0].companyLogo).toMatch(/^(\/|https?:\/\/)/);
 
       const about = await getMockAboutContent('en');
-      expect(about[0].aboutImage).not.toContain('wix:image://');
+      expect(about[0].aboutImage).toMatch(/^(\/|https?:\/\/)/);
 
       const services = await getMockServicesContent('en');
-      expect(services[0].servicesImage).not.toContain('wix:image://');
+      expect(services[0].servicesImage).toMatch(/^(\/|https?:\/\/)/);
 
       const products = await getMockProductsContent('en');
       for (const p of products) {
-        expect(p.image1).not.toContain('wix:image://');
-        p.images?.forEach(img => expect(img).not.toContain('wix:image://'));
+        expect(p.image1).toMatch(/^(\/|https?:\/\/)/);
+        p.images?.forEach(img => expect(img).toMatch(/^(\/|https?:\/\/)/));
       }
 
       const contact = await getMockContactContent('en');
-      expect(contact[0].contactImage).not.toContain('wix:image://');
+      expect(contact[0].contactImage).toMatch(/^(\/|https?:\/\/)/);
 
       const carousel = await getMockCarouselImages('en');
       for (const c of carousel) {
-        expect(c.image).not.toContain('wix:image://');
+        expect(c.image).toMatch(/^(\/|https?:\/\/)/);
       }
 
       const blogPosts = await getMockBlogPosts('en');
       for (const post of blogPosts) {
-        expect(post.coverImage).not.toContain('wix:image://');
+        expect(post.coverImage).toMatch(/^(\/|https?:\/\/)/);
       }
     });
 

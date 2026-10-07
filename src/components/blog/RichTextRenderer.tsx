@@ -293,16 +293,16 @@ function renderMarkdownString(markdown: string): React.ReactNode {
 }
 
 /**
- * Legacy Wix rich-text node renderer.
+ * AST rich-text node renderer.
  */
-function renderWixNode(node: RichTextNode, index: number): React.ReactNode {
+function renderAstNode(node: RichTextNode, index: number): React.ReactNode {
   switch (node.type) {
     case 'HEADING': {
       const level = node.headingData?.level || 2;
       const Tag = `h${level}` as React.ElementType;
       return (
         <Tag key={node.id || index} className="font-bold text-[#281909] mt-8 mb-4">
-          {node.nodes?.map((child, i) => renderWixNode(child, i))}
+          {node.nodes?.map((child, i) => renderAstNode(child, i))}
         </Tag>
       );
     }
@@ -310,7 +310,7 @@ function renderWixNode(node: RichTextNode, index: number): React.ReactNode {
     case 'PARAGRAPH':
       return (
         <p key={node.id || index} className="mb-4 leading-relaxed text-agro-neutral-700">
-          {node.nodes?.map((child, i) => renderWixNode(child, i))}
+          {node.nodes?.map((child, i) => renderAstNode(child, i))}
         </p>
       );
 
@@ -334,21 +334,21 @@ function renderWixNode(node: RichTextNode, index: number): React.ReactNode {
     case 'BULLETED_LIST':
       return (
         <ul key={node.id || index} className="list-disc pl-6 mb-6 space-y-2">
-          {node.nodes?.map((child, i) => renderWixNode(child, i))}
+          {node.nodes?.map((child, i) => renderAstNode(child, i))}
         </ul>
       );
 
     case 'ORDERED_LIST':
       return (
         <ol key={node.id || index} className="list-decimal pl-6 mb-6 space-y-2">
-          {node.nodes?.map((child, i) => renderWixNode(child, i))}
+          {node.nodes?.map((child, i) => renderAstNode(child, i))}
         </ol>
       );
 
     case 'LIST_ITEM':
       return (
         <li key={node.id || index}>
-          {node.nodes?.map((child, i) => renderWixNode(child, i))}
+          {node.nodes?.map((child, i) => renderAstNode(child, i))}
         </li>
       );
 
@@ -363,7 +363,7 @@ function renderWixNode(node: RichTextNode, index: number): React.ReactNode {
  * - Localized content objects ({ en, fr, esp })
  * - Markdown and formatted multiline strings
  * - HTML strings
- * - Legacy Wix RichContent node trees
+ * - Generic AST rich-content node trees
  */
 const RichTextRenderer: React.FC<RichTextRendererProps> = ({
   content,
@@ -439,12 +439,12 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({
     );
   }
 
-  // 4. Legacy Wix RichContent ({ nodes: [...] })
+  // 4. Structured AST nodes ({ nodes: [...] })
   if (typeof content === 'object' && Array.isArray(content.nodes)) {
     if (content.nodes.length === 0) return null;
     return (
       <div className={`rich-text-content ${className}`.trim()}>
-        {content.nodes.map((node: RichTextNode, i: number) => renderWixNode(node, i))}
+        {content.nodes.map((node: RichTextNode, i: number) => renderAstNode(node, i))}
       </div>
     );
   }

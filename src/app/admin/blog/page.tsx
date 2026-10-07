@@ -9,7 +9,7 @@ interface BlogPost {
     slug: string;
     excerpt: string;
     coverImage?: string;
-    linkedInStatus?: string; // Custom field in Wix
+    linkedInStatus?: string;
     publishedDate?: string;
 }
 

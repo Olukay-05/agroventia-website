@@ -491,19 +491,6 @@
     transition: transform 0.3s ease;
   }
 
-  /* Fix for WixImage component */
-  .wix-image-container {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .wix-image-container img {
-    object-fit: cover;
-    width: 100% !important;
-    height: 100% !important;
-  }
 
   /* Prevent layout shift */
   .aspect-ratio-16-9 {

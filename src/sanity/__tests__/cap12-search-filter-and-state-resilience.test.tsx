@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { LocaleProvider } from '@/contexts/LocaleContext';
+import { LocaleProvider, type Locale } from '@/contexts/LocaleContext';
 import { QuoteRequestProvider } from '@/contexts/QuoteRequestContext';
 import ProductsClient from '@/app/products/ProductsClient';
 import ProductsSection from '@/components/sections/ProductsSection';
@@ -20,7 +20,7 @@ import {
   buildFilterSearchParams,
 } from '@/lib/product-filters';
 import { getAllMockProductCatalogContent } from '@/lib/api/mock-data';
-import type { ProductCatalogItem } from '@/types/wix';
+import type { ProductCatalogItem } from '@/types/content';
 
 // Mock Leaflet and map components
 jest.mock('@/components/common/MapComponent', () => ({
@@ -61,7 +61,7 @@ describe('CAP-12: Robust Search, Multi-Dimensional Filtering & State Resilience'
 
   const renderWithProviders = (
     ui: React.ReactElement,
-    initialLocale: string = 'en'
+    initialLocale: Locale = 'en'
   ) => {
     queryClient = new QueryClient({
       defaultOptions: {

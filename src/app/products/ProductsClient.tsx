@@ -17,7 +17,7 @@ import {
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import SectionContainer from '@/components/common/SectionContainer';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -52,7 +52,7 @@ import {
   DEFAULT_PAGE_SIZE,
 } from '@/lib/product-filters';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
-import type { ProductCatalogItem } from '@/types/wix';
+import type { ProductCatalogItem } from '@/types/content';
 
 function CatalogContent() {
   const router = useRouter();
@@ -417,7 +417,7 @@ function CatalogContent() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight font-serif mb-4 text-[#FDF8F0]">
               {labels.pageTitle}
             </h1>
-            <p className="text-lead max-w-3xl text-agro-neutral-200">
+            <p className="text-lead max-w-3xl text-[#FDF8F0]">
               {labels.pageSubtitle}
             </p>
           </div>
@@ -690,7 +690,7 @@ function CatalogContent() {
 
             {/* Loading Skeletons */}
             {isLoading && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-8 mb-8">
                 {Array.from({ length: 9 }).map((_, idx) => (
                   <ProductSkeleton key={idx} />
                 ))}
@@ -722,7 +722,7 @@ function CatalogContent() {
 
             {/* Product Catalog Grid (Paginated Slice) */}
             {!isLoading && paginatedItems.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-16 mb-16">
                 {paginatedItems.map(product => {
                   const title = product.title || product.productName || 'Agricultural Commodity';
                   const origin = product.sourcingOrigin || '';
@@ -741,7 +741,7 @@ function CatalogContent() {
                       <div className="flex flex-col flex-grow">
                         {/* Pure white studio cutout canvas */}
                         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-white border-b border-agro-primary-100/60 dark:border-agro-primary-900/40 flex items-center justify-center p-3">
-                          <WixImage
+                          <SanityImage
                             src={image}
                             alt={title}
                             fill

@@ -13,9 +13,10 @@ const EnvironmentStatus: React.FC<EnvironmentStatusProps> = ({
 }) => {
   const [showEnvVars, setShowEnvVars] = React.useState(false);
 
-  // Check environment variables
-  const wixSiteId = process.env.NEXT_PUBLIC_WIX_SITE_ID;
-  const wixApiKey = process.env.NEXT_PUBLIC_WIX_API_KEY;
+  // Check Sanity environment variables
+  const sanityProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const sanityDataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+  const sanityApiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION;
   const nodeEnv = process.env.NODE_ENV;
 
   const envChecks = [
@@ -26,16 +27,22 @@ const EnvironmentStatus: React.FC<EnvironmentStatusProps> = ({
       description: 'Current Node.js environment mode',
     },
     {
-      name: 'Wix Site ID',
-      status: wixSiteId ? 'success' : 'error',
-      value: wixSiteId ? '***' + wixSiteId.slice(-4) : 'not configured',
-      description: 'Wix Studio site identifier',
+      name: 'Sanity Project ID',
+      status: sanityProjectId ? 'success' : 'error',
+      value: sanityProjectId ? '***' + sanityProjectId.slice(-4) : 'not configured',
+      description: 'Sanity Studio project identifier',
     },
     {
-      name: 'Wix API Key',
-      status: wixApiKey ? 'success' : 'error',
-      value: wixApiKey ? '***' + wixApiKey.slice(-4) : 'not configured',
-      description: 'Wix API authentication key',
+      name: 'Sanity Dataset',
+      status: sanityDataset ? 'success' : 'error',
+      value: sanityDataset || 'not configured',
+      description: 'Sanity dataset name',
+    },
+    {
+      name: 'Sanity API Version',
+      status: sanityApiVersion ? 'success' : 'warning',
+      value: sanityApiVersion || 'default (2024-01-01)',
+      description: 'Sanity API date version',
     },
   ];
 
@@ -110,15 +117,15 @@ const EnvironmentStatus: React.FC<EnvironmentStatusProps> = ({
           <div className="space-y-2 text-xs">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <strong>NEXT_PUBLIC_WIX_SITE_ID:</strong>
+                <strong>NEXT_PUBLIC_SANITY_PROJECT_ID:</strong>
                 <pre className="bg-white p-2 rounded border mt-1 overflow-hidden">
-                  {wixSiteId || 'undefined'}
+                  {sanityProjectId || 'undefined'}
                 </pre>
               </div>
               <div>
-                <strong>NEXT_PUBLIC_WIX_API_KEY:</strong>
+                <strong>NEXT_PUBLIC_SANITY_DATASET:</strong>
                 <pre className="bg-white p-2 rounded border mt-1 overflow-hidden">
-                  {wixApiKey ? wixApiKey.slice(0, 8) + '...' : 'undefined'}
+                  {sanityDataset || 'undefined'}
                 </pre>
               </div>
             </div>
@@ -130,7 +137,7 @@ const EnvironmentStatus: React.FC<EnvironmentStatusProps> = ({
         <div className="mt-4 p-3 bg-red-100 border border-red-200 rounded text-sm">
           <strong>Configuration Required:</strong>
           <p className="mt-1">
-            Please ensure your Wix environment variables are properly configured
+            Please ensure your Sanity environment variables are properly configured
             in your .env.local file for the CMS integration to work correctly.
           </p>
         </div>

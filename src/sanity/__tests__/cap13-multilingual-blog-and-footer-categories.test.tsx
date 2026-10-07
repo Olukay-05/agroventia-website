@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { LocaleProvider } from '@/contexts/LocaleContext';
+import { LocaleProvider, type Locale } from '@/contexts/LocaleContext';
 import { CookieConsentProvider } from '@/contexts/CookieConsentContext';
 import BlogListingClient from '@/app/blog/BlogListingClient';
 import BlogPostClient from '@/app/blog/[slug]/BlogPostClient';
@@ -43,7 +43,7 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
 
   const renderWithProviders = (
     ui: React.ReactElement,
-    initialLocale: string = 'en'
+    initialLocale: Locale = 'en'
   ) => {
     queryClient = new QueryClient({
       defaultOptions: {

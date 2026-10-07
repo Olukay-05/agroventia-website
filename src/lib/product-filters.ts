@@ -1,4 +1,4 @@
-import type { ProductCatalogItem } from '@/types/wix';
+import type { ProductCatalogItem } from '@/types/content';
 import type { Product } from '@/components/sections/ProductsSection';
 
 export type AnyProductItem = ProductCatalogItem | Product;

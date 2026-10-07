@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 import useScrollToSection from '@/hooks/useScrollToSection';
 import { useLocale } from '@/contexts/LocaleContext';
 
@@ -207,7 +207,7 @@ export const QualityStandardsModal: React.FC<QualityStandardsModalProps> = ({
           {/* Left Column: Visual Showcase (Clean White Studio Canvas) */}
           <div className="md:col-span-5 space-y-3">
             <div className="relative aspect-[4/3] md:aspect-square w-full rounded-2xl overflow-hidden bg-white border border-agro-primary-200/60 dark:border-agro-primary-800/40 p-4 shadow-sm flex items-center justify-center">
-              <WixImage
+              <SanityImage
                 src={productImage}
                 alt={displayName}
                 fill

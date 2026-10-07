@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ServiceFeatureCard from '@/components/ui/ServiceFeatureCard';
-import { ServiceContent } from '@/types/wix';
+import { ServiceContent } from '@/types/content';
 
 interface ServiceItem {
   id: string;
@@ -20,8 +20,8 @@ interface ServiceItem {
   icon: string;
 }
 
-// Interface for Wix services data structure
-interface WixServicesData {
+// Interface for CMS services data structure
+interface CmsServicesData {
   customSourcing?: string;
   documentation?: string;
   importServices?: string;
@@ -35,7 +35,7 @@ interface WixServicesData {
 }
 
 interface ServicesSectionProps {
-  data?: ServiceItem[] | WixServicesData | WixServicesData[] | ServiceContent;
+  data?: ServiceItem[] | CmsServicesData | CmsServicesData[] | ServiceContent;
   isLoading: boolean;
 }
 
@@ -125,52 +125,52 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
     );
   }
 
-  // Transform Wix data structure to component format
-  const transformWixData = (wixData: WixServicesData): ServiceItem[] => {
+  // Transform CMS data structure to component format
+  const transformServiceData = (cmsData: CmsServicesData): ServiceItem[] => {
     const services: ServiceItem[] = [];
 
-    // Map Wix fields to our service items
-    if (wixData.importServices) {
+    // Map CMS fields to our service items
+    if (cmsData.importServices) {
       services.push({
         id: 'import-services',
         title: 'Sourcing with Integrity', // Updated title to match the content
-        description: wixData.importServices.replace(/<[^>]*>/g, ''), // Strip HTML tags
+        description: cmsData.importServices.replace(/<[^>]*>/g, ''), // Strip HTML tags
         icon: 'sourcing',
       });
     }
 
-    if (wixData.customSourcing) {
+    if (cmsData.customSourcing) {
       services.push({
         id: 'custom-sourcing',
         title: 'On-Time Delivery', // Updated title to match the content
-        description: wixData.customSourcing,
+        description: cmsData.customSourcing,
         icon: 'delivery',
       });
     }
 
-    if (wixData.qualityAssurance) {
+    if (cmsData.qualityAssurance) {
       services.push({
         id: 'quality-assurance',
         title: 'Rigorous Quality Checks', // Updated title to match the content
-        description: wixData.qualityAssurance,
+        description: cmsData.qualityAssurance,
         icon: 'quality',
       });
     }
 
-    if (wixData.logistics) {
+    if (cmsData.logistics) {
       services.push({
         id: 'logistics',
         title: 'Seamless Logistics', // Updated title to match the content
-        description: wixData.logistics,
+        description: cmsData.logistics,
         icon: 'logistics',
       });
     }
 
-    if (wixData.documentation) {
+    if (cmsData.documentation) {
       services.push({
         id: 'documentation',
         title: 'Long-Term Partnerships', // Updated title to match the content
-        description: wixData.documentation,
+        description: cmsData.documentation,
         icon: 'partnership',
       });
     }
@@ -181,37 +181,37 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
   let services: ServiceItem[];
 
   // Handle different data formats
-  let servicesDataObject: WixServicesData | null = null;
+  let servicesDataObject: CmsServicesData | null = null;
 
   if (Array.isArray(data)) {
-    // Check if it's an array of ServiceItem or WixServicesData
+    // Check if it's an array of ServiceItem or CmsServicesData
     if (data.length > 0 && 'id' in data[0] && 'title' in data[0]) {
       // It's already in the correct ServiceItem format
       services = data as ServiceItem[];
     } else {
-      // It's an array of WixServicesData, transform the first one
+      // It's an array of CmsServicesData, transform the first one
       services =
         data.length > 0
-          ? transformWixData(data[0] as WixServicesData)
+          ? transformServiceData(data[0] as CmsServicesData)
           : defaultServices;
     }
   } else if (data && typeof data === 'object') {
-    // Check if this is a ServiceContent object (which extends WixBase)
+    // Check if this is a ServiceContent object (which extends ContentBase)
     if ('sectionTitle' in data && 'importServices' in data) {
-      // It's a ServiceContent object, cast it to WixServicesData
-      servicesDataObject = data as unknown as WixServicesData;
+      // It's a ServiceContent object, cast it to CmsServicesData
+      servicesDataObject = data as unknown as CmsServicesData;
     }
     // Special handling for services data - check if it has servicesImage directly
     else if ('servicesImage' in data) {
-      servicesDataObject = data as WixServicesData;
+      servicesDataObject = data as CmsServicesData;
     }
-    // Check if this is the direct WixServicesData object
+    // Check if this is the direct CmsServicesData object
     else if (
       'sectionTitle' in data ||
       'sectionDescription' in data ||
       'importServices' in data
     ) {
-      servicesDataObject = data as WixServicesData;
+      servicesDataObject = data as CmsServicesData;
     }
     // Check if this is a TransformedResponse with items array
     else if (
@@ -219,10 +219,10 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
       Array.isArray((data as unknown as { items: unknown[] }).items)
     ) {
       const items = (
-        data as unknown as { items: Array<{ data?: WixServicesData }> }
+        data as unknown as { items: Array<{ data?: CmsServicesData }> }
       ).items;
       if (items.length > 0 && items[0].data) {
-        servicesDataObject = items[0].data as WixServicesData;
+        servicesDataObject = items[0].data as CmsServicesData;
       }
     }
     // Check if this is an object with a services property containing the data
@@ -234,26 +234,26 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
           Array.isArray((servicesProp as { items: unknown[] }).items)
         ) {
           const items = (
-            servicesProp as { items: Array<{ data?: WixServicesData }> }
+            servicesProp as { items: Array<{ data?: CmsServicesData }> }
           ).items;
           if (items.length > 0 && items[0].data) {
-            servicesDataObject = items[0].data as WixServicesData;
+            servicesDataObject = items[0].data as CmsServicesData;
           }
         } else if (
           'sectionTitle' in servicesProp ||
           'sectionDescription' in servicesProp
         ) {
-          servicesDataObject = servicesProp as WixServicesData;
+          servicesDataObject = servicesProp as CmsServicesData;
         }
       }
     }
 
     // If we found a servicesDataObject, use it
     if (servicesDataObject) {
-      services = transformWixData(servicesDataObject);
+      services = transformServiceData(servicesDataObject);
     } else {
-      // Single WixServicesData object
-      services = transformWixData(data as WixServicesData);
+      // Single CmsServicesData object
+      services = transformServiceData(data as CmsServicesData);
     }
   } else {
     // No data provided, use defaults
@@ -269,14 +269,14 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
     //     <div className="text-center mb-16 scroll-reveal">
     //       <h2 className="heading-section text-[#281909] mb-4">
     //         {Array.isArray(data) && data.length > 0 && 'sectionTitle' in data[0]
-    //           ? (data[0] as WixServicesData).sectionTitle
+    //           ? (data[0] as CmsServicesData).sectionTitle
     //           : 'Our Process'}
     //       </h2>
     //       <p className="text-lead max-w-3xl mx-auto text-[#281909]">
     //         {Array.isArray(data) &&
     //         data.length > 0 &&
     //         'sectionDescription' in data[0]
-    //           ? (data[0] as WixServicesData).sectionDescription
+    //           ? (data[0] as CmsServicesData).sectionDescription
     //           : 'Comprehensive agricultural import services connecting West African producers with global markets through reliable supply chain management.'}
     //       </p>
     //     </div>
@@ -456,7 +456,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                     (data &&
                       typeof data === 'object' &&
                       !Array.isArray(data) &&
-                      (data as unknown as WixServicesData).sectionTitle) ||
+                      (data as unknown as CmsServicesData).sectionTitle) ||
                     'Our Process'}
                 </h2>
                 <div className="text-lead text-[#fdf8f0] max-w-3xl mx-auto">
@@ -464,11 +464,11 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                   (data &&
                     typeof data === 'object' &&
                     !Array.isArray(data) &&
-                    (data as unknown as WixServicesData).sectionDescription) ? (
+                    (data as unknown as CmsServicesData).sectionDescription) ? (
                     <div
                       dangerouslySetInnerHTML={{
                         __html: (servicesDataObject?.sectionDescription ||
-                          (data as unknown as WixServicesData)
+                          (data as unknown as CmsServicesData)
                             .sectionDescription)!
                           .replace(/<[^>]*>/g, '') // Strip all HTML tags
                           .replace(/\s+/g, ' ') // Normalize whitespace
@@ -629,7 +629,7 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                   (data &&
                     typeof data === 'object' &&
                     !Array.isArray(data) &&
-                    (data as unknown as WixServicesData).sectionTitle) ||
+                    (data as unknown as CmsServicesData).sectionTitle) ||
                   'Our Services'}
               </h2>
               <div className="text-lead text-[#fdf8f0] max-w-3xl mx-auto">
@@ -637,11 +637,11 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                 (data &&
                   typeof data === 'object' &&
                   !Array.isArray(data) &&
-                  (data as unknown as WixServicesData).sectionDescription) ? (
+                  (data as unknown as CmsServicesData).sectionDescription) ? (
                   <div
                     dangerouslySetInnerHTML={{
                       __html: (servicesDataObject?.sectionDescription ||
-                        (data as unknown as WixServicesData)
+                        (data as unknown as CmsServicesData)
                           .sectionDescription)!
                         .replace(/<[^>]*>/g, '') // Strip all HTML tags
                         .replace(/\s+/g, ' ') // Normalize whitespace

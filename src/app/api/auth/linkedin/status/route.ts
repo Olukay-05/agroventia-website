@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { getLinkedInTokens } from '@/lib/wix-system-settings';
+import { getLinkedInTokens } from '@/lib/system-settings';
 
 export async function GET() {
     try {

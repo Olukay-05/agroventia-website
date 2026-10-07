@@ -1,6 +1,6 @@
 // src/lib/seo.ts
 import { Metadata } from 'next';
-import { ProductContent } from '@/types/wix';
+import { ProductContent } from '@/types/content';
 
 // SEO constants
 export const DEFAULT_SITE_NAME = 'AgroVentia Inc.';

@@ -122,24 +122,24 @@ AgroVentia connects North American growers with international distribution chann
       expect(screen.getByText('Rigorous lot inspection certified.')).toBeInTheDocument();
     });
 
-    it('preserves legacy Wix rich text node structure', () => {
-      const wixRichContent = {
+    it('preserves structured AST rich text node structure', () => {
+      const astRichContent = {
         nodes: [
           {
             type: 'HEADING',
             headingData: { level: 3 },
-            nodes: [{ type: 'TEXT', textData: { text: 'Wix Architecture Legacy Node' } }],
+            nodes: [{ type: 'TEXT', textData: { text: 'Structured Content Heading Node' } }],
           },
           {
             type: 'PARAGRAPH',
-            nodes: [{ type: 'TEXT', textData: { text: 'Legacy content displays without regressions.' } }],
+            nodes: [{ type: 'TEXT', textData: { text: 'Structured content displays without regressions.' } }],
           },
         ],
       };
 
-      render(<RichTextRenderer content={wixRichContent} />);
-      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('Wix Architecture Legacy Node');
-      expect(screen.getByText('Legacy content displays without regressions.')).toBeInTheDocument();
+      render(<RichTextRenderer content={astRichContent} />);
+      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent('Structured Content Heading Node');
+      expect(screen.getByText('Structured content displays without regressions.')).toBeInTheDocument();
     });
 
     it('handles empty, null, or undefined content gracefully without crashing', () => {

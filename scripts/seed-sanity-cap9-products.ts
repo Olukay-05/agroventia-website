@@ -33,7 +33,7 @@ const parseArgs = (): ScriptOptions => {
   };
 };
 
-// Obsolete placeholder IDs from legacy Wix category mapping
+// Obsolete placeholder IDs from legacy category mapping
 const LEGACY_PLACEHOLDER_IDS = [
   'product-agricultural-beverages-extracts',
   'product-grains-cereals',
@@ -47,7 +47,7 @@ const LEGACY_PLACEHOLDER_IDS = [
   'product-fibers-industrial',
   'product-medicinal-aromatic',
   'product-specialty-organic',
-  // Legacy Wix import placeholder categories with SKUs
+  // Legacy import placeholder categories with SKUs
   'product-agricultural-industrial-products',
   'product-feed-animal-nutrition',
   'product-food-agricultural-ingredients',
