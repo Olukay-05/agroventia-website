@@ -6,13 +6,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import useCookieConsent from '@/hooks/useCookieConsent';
 import { useLegalPage } from '@/hooks/useContent';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLegalUiLabels, formatLegalDate } from '@/lib/legal-i18n';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 const CookiePolicyPage = () => {
+  const { locale } = useLocale();
   const { consent, setConsent } = useCookieConsent();
   const [, setShowSettings] = useState(false);
   const { data: pageData } = useLegalPage('cookie-policy');
+  const labels = getLegalUiLabels(locale);
+
+  const isFrench = locale.startsWith('fr');
+  const isSpanish = locale.startsWith('es') || locale === 'esp';
+  const alwaysActiveText = isFrench ? 'Toujours actif' : isSpanish ? 'Siempre activo' : 'Always Active';
+  const enabledText = isFrench ? 'Activé' : isSpanish ? 'Activado' : 'Enabled';
+  const enableText = isFrench ? 'Activer' : isSpanish ? 'Activar' : 'Enable';
 
   const handleConsentChange = (
     category: keyof typeof consent,
@@ -46,21 +56,20 @@ const CookiePolicyPage = () => {
   const renderCookiePreferencesPanel = () => (
     <div className="bg-[#F6F2E7] rounded-2xl p-6 my-8">
       <h3 className="text-xl font-bold text-[#225217] mb-4">
-        Your Current Cookie Preferences
+        {labels.cookiePage.preferencesHeading}
       </h3>
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h4 className="font-semibold text-[#281909]">
-              Necessary Cookies
+              {labels.cookiePage.necessaryTitle}
             </h4>
             <p className="text-sm text-[#281909]/70">
-              These cookies are essential for the website to
-              function properly.
+              {labels.cookiePage.necessaryDesc}
             </p>
           </div>
           <span className="px-3 py-1 bg-[#225217] text-[#FDF8F0] rounded-full text-sm font-medium">
-            Always Active
+            {alwaysActiveText}
           </span>
         </div>
 
@@ -69,11 +78,10 @@ const CookiePolicyPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h4 className="font-semibold text-[#281909]">
-              Analytics Cookies
+              {labels.cookiePage.analyticsTitle}
             </h4>
             <p className="text-sm text-[#281909]/70">
-              These cookies help us understand how visitors interact
-              with our website.
+              {labels.cookiePage.analyticsDesc}
             </p>
           </div>
           <Button
@@ -87,7 +95,7 @@ const CookiePolicyPage = () => {
                 : 'border-[#281909] text-[#281909]'
             }
           >
-            {consent.analytics ? 'Enabled' : 'Enable'}
+            {consent.analytics ? enabledText : enableText}
           </Button>
         </div>
 
@@ -96,11 +104,10 @@ const CookiePolicyPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h4 className="font-semibold text-[#281909]">
-              Marketing Cookies
+              {labels.cookiePage.marketingTitle}
             </h4>
             <p className="text-sm text-[#281909]/70">
-              These cookies are used to make advertising messages
-              more relevant to you.
+              {labels.cookiePage.marketingDesc}
             </p>
           </div>
           <Button
@@ -114,7 +121,7 @@ const CookiePolicyPage = () => {
                 : 'border-[#281909] text-[#281909]'
             }
           >
-            {consent.marketing ? 'Enabled' : 'Enable'}
+            {consent.marketing ? enabledText : enableText}
           </Button>
         </div>
 
@@ -123,11 +130,10 @@ const CookiePolicyPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h4 className="font-semibold text-[#281909]">
-              Functional Cookies
+              {labels.cookiePage.functionalTitle}
             </h4>
             <p className="text-sm text-[#281909]/70">
-              These cookies enable the website to provide enhanced
-              functionality and personalization.
+              {labels.cookiePage.functionalDesc}
             </p>
           </div>
           <Button
@@ -141,7 +147,7 @@ const CookiePolicyPage = () => {
                 : 'border-[#281909] text-[#281909]'
             }
           >
-            {consent.functional ? 'Enabled' : 'Enable'}
+            {consent.functional ? enabledText : enableText}
           </Button>
         </div>
       </div>
@@ -151,21 +157,21 @@ const CookiePolicyPage = () => {
           onClick={handleAcceptAll}
           className="bg-[#225217] hover:bg-[#CD7E0D] text-[#FDF8F0]"
         >
-          Accept All
+          {labels.cookiePage.acceptAll}
         </Button>
         <Button
           onClick={handleRejectAll}
           variant="outline"
           className="border-[#281909] text-[#281909] hover:bg-[#281909] hover:text-[#FDF8F0]"
         >
-          Reject All
+          {labels.cookiePage.rejectAll}
         </Button>
         <Button
           onClick={handleSavePreferences}
           variant="ghost"
           className="text-[#281909]"
         >
-          Save Preferences
+          {labels.cookiePage.savePreferences}
         </Button>
       </div>
     </div>
@@ -180,30 +186,20 @@ const CookiePolicyPage = () => {
             className="inline-flex items-center text-[#225217] hover:text-[#CD7E0D] mb-8 transition-colors"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
+            {labels.backToHome}
           </Link>
 
           <Card className="bg-white/80 backdrop-blur-sm border border-[#281909]/10 shadow-xl rounded-3xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-[#225217] to-[#CD7E0D] text-[#FDF8F0]">
               <CardTitle className="text-3xl font-bold text-[#fdf8f0] p-4">
-                {pageData?.title || 'Cookie Policy'}
+                {pageData?.title || labels.defaultTitles.cookies}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8">
               <div className="prose max-w-none">
                 <p className="text-lg text-[#281909]/80 mb-6">
-                  Last updated:{' '}
-                  {pageData?.lastUpdated
-                    ? new Date(pageData.lastUpdated).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                    : new Date().toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                  {labels.lastUpdated}{' '}
+                  {formatLegalDate(pageData?.lastUpdated, locale)}
                 </p>
 
                 {pageData?.sections && pageData.sections.length > 0 ? (

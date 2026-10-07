@@ -12,6 +12,8 @@ import {
   getProductsSectionContent,
   getLegalPageBySlug,
   getProductBySlug,
+  getBlogPosts,
+  getBlogPostBySlug,
 } from '@/lib/api/sanity-client';
 import type {
   HeroContent,
@@ -27,6 +29,7 @@ import type {
   HighlightItem,
   LegalLinkItem,
   PolicySectionItem,
+  BlogPost,
 } from '@/types/wix';
 import { useLocale } from '@/contexts/LocaleContext';
 
@@ -45,6 +48,7 @@ export type {
   HighlightItem,
   LegalLinkItem,
   PolicySectionItem,
+  BlogPost,
 };
 
 // Common caching constants
@@ -255,6 +259,40 @@ export const useLegalPage = (slug: string) => {
   return useQuery<LegalPageContent | null, Error>({
     queryKey: ['legalPage', slug, locale],
     queryFn: () => getLegalPageBySlug(slug, locale),
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+    retry: 2,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    enabled: !isLocaleLoading && Boolean(slug),
+  });
+};
+
+/**
+ * Hook for fetching localized blog posts list
+ */
+export const useBlogPosts = () => {
+  const { locale, isLoading: isLocaleLoading } = useLocale();
+
+  return useQuery<BlogPost[], Error>({
+    queryKey: ['blogPosts', locale],
+    queryFn: () => getBlogPosts(locale),
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+    retry: 2,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    enabled: !isLocaleLoading,
+  });
+};
+
+/**
+ * Hook for fetching a single localized blog post by slug
+ */
+export const useBlogPostBySlug = (slug: string) => {
+  const { locale, isLoading: isLocaleLoading } = useLocale();
+
+  return useQuery<BlogPost | null, Error>({
+    queryKey: ['blogPost', slug, locale],
+    queryFn: () => getBlogPostBySlug(slug, locale),
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
     retry: 2,

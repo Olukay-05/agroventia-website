@@ -5,9 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { useLegalPage } from '@/hooks/useContent';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLegalUiLabels, formatLegalDate } from '@/lib/legal-i18n';
 
 const TermsOfServicePage = () => {
+  const { locale } = useLocale();
   const { data: pageData } = useLegalPage('terms-of-service');
+  const labels = getLegalUiLabels(locale);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FDF8F0] to-[#F6F2E7] py-12">
@@ -18,30 +22,20 @@ const TermsOfServicePage = () => {
             className="inline-flex items-center text-[#225217] hover:text-[#CD7E0D] mb-8 transition-colors"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
+            {labels.backToHome}
           </Link>
 
           <Card className="bg-white/80 backdrop-blur-sm border border-[#281909]/10 shadow-xl rounded-3xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-[#225217] to-[#CD7E0D] text-[#FDF8F0]">
               <CardTitle className="text-3xl font-bold text-[#fdf8f0] p-4">
-                {pageData?.title || 'Terms of Service'}
+                {pageData?.title || labels.defaultTitles.terms}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8">
               <div className="prose max-w-none">
                 <p className="text-lg text-[#281909]/80 mb-6">
-                  Last updated:{' '}
-                  {pageData?.lastUpdated
-                    ? new Date(pageData.lastUpdated).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                    : new Date().toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                  {labels.lastUpdated}{' '}
+                  {formatLegalDate(pageData?.lastUpdated, locale)}
                 </p>
 
                 {pageData?.sections && pageData.sections.length > 0 ? (

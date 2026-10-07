@@ -1461,20 +1461,62 @@ export const getMockCarouselImages = async (locale?: string): Promise<CarouselIm
 
 export const getMockBlogPosts = async (locale?: string): Promise<BlogPost[]> => {
   const loc = (locale || 'en').toLowerCase().trim();
+  const isFr = loc.startsWith('fr');
+  const isEs = loc.startsWith('es') || loc === 'esp';
 
-  const title =
-    loc.startsWith('fr')
-      ? 'Faire le pont entre les industries avec des produits agricoles de qualité'
-      : loc.startsWith('es') || loc === 'esp'
-        ? 'Uniendo industrias con productos agrícolas prémium'
-        : 'Bridging Industries with Premium Produce';
+  const post1Title = isFr
+    ? 'Faire le pont entre les industries avec des produits agricoles de qualité'
+    : isEs
+      ? 'Uniendo industrias con productos agrícolas prémium'
+      : 'Bridging Industries with Premium Produce';
 
-  const excerpt =
-    loc.startsWith('fr')
-      ? "Découvrez comment l'approvisionnement éthique transforme le commerce agricole entre l'Afrique de l'Ouest et les marchés mondiaux."
-      : loc.startsWith('es') || loc === 'esp'
-        ? 'Descubra cómo el abastecimiento ético transforma el comercio agrícola entre África Occidental y los mercados globales.'
-        : 'Explore how ethical sourcing transforms agricultural trade between West Africa and global markets.';
+  const post1Excerpt = isFr
+    ? "Découvrez comment l'approvisionnement éthique transforme le commerce agricole entre l'Afrique de l'Ouest et les marchés mondiaux."
+    : isEs
+      ? 'Descubra cómo el abastecimiento ético transforma el comercio agrícola entre África Occidental y los mercados globales.'
+      : 'Explore how ethical sourcing transforms agricultural trade between West Africa and global markets.';
+
+  const post1Content = isFr
+    ? '<p>Chez AgroVentia, notre engagement envers une qualité constante et des partenariats éthiques assure un approvisionnement agricole fluide entre les continents. Nous travaillons directement avec des producteurs vérifiés pour garantir la traçabilité complète de chaque cargaison.</p><p>De la validation phytosanitaire à la logistique maritime, nos protocoles stricts protègent la pureté des commodités tout au long de la chaîne d\'approvisionnement.</p>'
+    : isEs
+      ? '<p>En AgroVentia, nuestro compromiso con la calidad constante y las alianzas éticas garantiza un suministro agrícola confiable entre continentes. Colaboramos directamente con productores certificados para asegurar la trazabilidad integral de cada cargamento.</p><p>Desde la certificación fitosanitaria hasta la logística marítima, nuestros protocolos rigurosos protegen la pureza de los productos en cada etapa de la cadena de suministro.</p>'
+      : '<p>At AgroVentia, our commitment to consistent quality and ethical partnerships ensures seamless agricultural sourcing across continents. We collaborate directly with verified growers to maintain rigorous lot-level traceability.</p><p>From phytosanitary inspection to ocean freight coordination, our disciplined trade protocols guarantee commodity integrity and timely delivery worldwide.</p>';
+
+  const post1CatTitle = isFr
+    ? 'Analyses du secteur'
+    : isEs
+      ? 'Perspectivas del sector'
+      : 'Industry Insights';
+
+  const post2Title = isFr
+    ? "L'approvisionnement durable en légumineuses canadiennes pour les marchés mondiaux"
+    : isEs
+      ? 'Abastecimiento sostenible de legumbres canadienses para mercados globales'
+      : 'Sustainable Sourcing of Canadian Pulses for Global Markets';
+
+  const post2Excerpt = isFr
+    ? 'Analyse des corridors d\'exportation des Prairies canadiennes et des spécifications de grade pour les lentilles et pois jaunes.'
+    : isEs
+      ? 'Análisis de los corredores de exportación de las praderas canadienses y especificaciones de grado para lentejas y guisantes amarillos.'
+      : 'An in-depth analysis of Canadian Prairies export corridors and grade specifications for red lentils and yellow peas.';
+
+  const post2Content = isFr
+    ? '<p>Le Canada demeure le chef de file mondial de la production et de l\'exportation de légumineuses de haute qualité. Grâce à des conditions de culture optimales en Saskatchewan et en Alberta, nos lentilles rouges et pois jaunes répondent aux normes de pureté les plus strictes.</p><p>AgroVentia fournit aux transformateurs alimentaires et aux négociants internationaux des spécifications personnalisées et des expéditions maritimes conteneurisées régulières.</p>'
+    : isEs
+      ? '<p>Canadá se mantiene como el líder mundial en la producción y exportación de legumbres de alta calidad. Gracias a condiciones de cultivo ideales en Saskatchewan y Alberta, nuestras lentejas rojas y guisantes amarillos cumplen con los estándares de pureza más rigurosos.</p><p>AgroVentia abastece a procesadores industriales y distribuidores internacionales con especificaciones personalizadas y despachos marítimos regulares.</p>'
+      : '<p>Canada remains the global benchmark for high-protein pulse production and export reliability. Cultivated across prime agricultural soils in Saskatchewan and Alberta, our red lentils and yellow peas deliver exceptional purity and cooking performance.</p><p>AgroVentia supports international food manufacturers and commodity distributors with custom lot grading, containerized ocean logistics, and dependable shipment schedules.</p>';
+
+  const post2CatTitle = isFr
+    ? 'Chaîne d\'approvisionnement'
+    : isEs
+      ? 'Cadena de suministro'
+      : 'Supply Chain & Logistics';
+
+  const authorName = isFr
+    ? 'Équipe éditoriale AgroVentia'
+    : isEs
+      ? 'Equipo editorial AgroVentia'
+      : 'AgroVentia Editorial';
 
   return [
     {
@@ -1482,22 +1524,52 @@ export const getMockBlogPosts = async (locale?: string): Promise<BlogPost[]> => 
       _owner: 'sanity',
       _createdDate: { $date: '2025-09-01T10:00:00.000Z' },
       _updatedDate: { $date: '2026-10-04T12:00:00.000Z' },
-      title,
+      title: post1Title,
       slug: 'bridging-industries-with-premium-produce',
-      excerpt,
-      content:
-        '<p>At AgroVentia, our commitment to consistent quality and ethical partnerships ensures seamless agricultural sourcing across continents.</p>',
+      excerpt: post1Excerpt,
+      content: post1Content,
       coverImage: 'https://images.unsplash.com/photo-1542838132-92c53300491e',
       publishedDate: '2025-09-01T10:00:00.000Z',
-      author: 'AgroVentia Editorial',
+      author: authorName,
       categories: [
         {
           _id: 'cat-1',
           _owner: 'sanity',
           _createdDate: { $date: '2025-09-01T10:00:00.000Z' },
           _updatedDate: { $date: '2026-10-04T12:00:00.000Z' },
-          title: 'Industry Insights',
-          description: 'Updates on global agricultural trade and supply chains.',
+          title: post1CatTitle,
+          description: isFr
+            ? 'Analyses du commerce agricole mondial et des filières.'
+            : isEs
+              ? 'Actualizaciones sobre el comercio agrícola global y cadenas de suministro.'
+              : 'Updates on global agricultural trade and supply chains.',
+        },
+      ],
+    },
+    {
+      _id: 'mock-post-2',
+      _owner: 'sanity',
+      _createdDate: { $date: '2025-09-15T10:00:00.000Z' },
+      _updatedDate: { $date: '2026-10-05T12:00:00.000Z' },
+      title: post2Title,
+      slug: 'sustainable-sourcing-canadian-pulses-global-markets',
+      excerpt: post2Excerpt,
+      content: post2Content,
+      coverImage: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b',
+      publishedDate: '2025-09-15T10:00:00.000Z',
+      author: authorName,
+      categories: [
+        {
+          _id: 'cat-2',
+          _owner: 'sanity',
+          _createdDate: { $date: '2025-09-15T10:00:00.000Z' },
+          _updatedDate: { $date: '2026-10-05T12:00:00.000Z' },
+          title: post2CatTitle,
+          description: isFr
+            ? 'Normes de qualité et logistique d\'exportation des légumineuses.'
+            : isEs
+              ? 'Estándares de calidad y logística de exportación de legumbres.'
+              : 'Quality standards and export logistics for pulse crops.',
         },
       ],
     },

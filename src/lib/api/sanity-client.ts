@@ -324,20 +324,21 @@ export const BLOG_POSTS_QUERY = `*[_type == "blogPost"] | order(publishedDate de
   _id,
   _createdAt,
   _updatedAt,
-  "title": coalesce(title[$locale], title.en, ""),
+  title,
   "slug": slug.current,
-  "excerpt": coalesce(excerpt[$locale], excerpt.en, ""),
-  "content": coalesce(content[$locale], content.en, ""),
-  "coverImage": coalesce(coverImage.asset->url, ""),
+  excerpt,
+  content,
+  "coverImage": coalesce(coverImage.asset->url, coverImage, ""),
   publishedDate,
   author->{
     _id,
     name,
-    "bio": coalesce(bio[$locale], bio.en, "")
+    "bio": coalesce(bio[$locale], bio[$altLocale], bio.en, bio.fr, bio.es, bio.esp, bio, "")
   },
   categories[]->{
     _id,
-    "title": coalesce(title[$locale], title.en, "")
+    title,
+    description
   }
 }`;
 
@@ -345,20 +346,21 @@ export const BLOG_POST_BY_SLUG_QUERY = `*[_type == "blogPost" && slug.current ==
   _id,
   _createdAt,
   _updatedAt,
-  "title": coalesce(title[$locale], title.en, ""),
+  title,
   "slug": slug.current,
-  "excerpt": coalesce(excerpt[$locale], excerpt.en, ""),
-  "content": coalesce(content[$locale], content.en, ""),
-  "coverImage": coalesce(coverImage.asset->url, ""),
+  excerpt,
+  content,
+  "coverImage": coalesce(coverImage.asset->url, coverImage, ""),
   publishedDate,
   author->{
     _id,
     name,
-    "bio": coalesce(bio[$locale], bio.en, "")
+    "bio": coalesce(bio[$locale], bio[$altLocale], bio.en, bio.fr, bio.es, bio.esp, bio, "")
   },
   categories[]->{
     _id,
-    "title": coalesce(title[$locale], title.en, "")
+    title,
+    description
   }
 }`;
 
@@ -676,6 +678,140 @@ export function transformCarouselSlide(raw: any, locale: string = 'en'): Carouse
   };
 }
 
+export function transformBlogPost(raw: any, locale: string = 'en'): BlogPost {
+  const normLocale = normalizeLocale(locale);
+  const altLocale = normLocale === 'fr' ? 'fr-CA' : normLocale === 'esp' ? 'es' : 'en-CA';
+
+  // Helper to extract non-empty localized text with fallbacks
+  const resolveNonEmptyText = (val: any): string => {
+    if (!val) return '';
+    if (typeof val === 'string') return val.trim();
+    if (typeof val === 'object') {
+      const target = val[normLocale]?.trim() || val[altLocale]?.trim();
+      if (target) return target;
+      const fallback = val.en?.trim() || val.fr?.trim() || val.esp?.trim() || val.es?.trim();
+      if (fallback) return fallback;
+    }
+    return '';
+  };
+
+  // 1. Resolve Title
+  const title = resolveNonEmptyText(raw.title) || 'AgroVentia Blog';
+
+  // 2. Resolve Excerpt
+  const excerpt = resolveNonEmptyText(raw.excerpt) || '';
+
+  // 3. Resolve Content (Portable Text block array, localized object, string, or Wix nodes)
+  let content = raw.content;
+  if (
+    content &&
+    typeof content === 'object' &&
+    !Array.isArray(content) &&
+    !content.nodes &&
+    !content._type
+  ) {
+    const pickNonEmpty = (val: any) => {
+      if (!val) return null;
+      if (typeof val === 'string' && val.trim().length === 0) return null;
+      return val;
+    };
+
+    content =
+      pickNonEmpty(content[normLocale]) ??
+      pickNonEmpty(content[altLocale]) ??
+      pickNonEmpty(content.en) ??
+      pickNonEmpty(content.fr) ??
+      pickNonEmpty(content.esp) ??
+      pickNonEmpty(content.es) ??
+      content;
+  }
+
+  // 4. Resolve Slug
+  const slug =
+    typeof raw.slug === 'string'
+      ? raw.slug
+      : raw.slug?.current || '';
+
+  // 5. Resolve Cover Image
+  const coverImage =
+    resolveSanityImageUrl(raw.coverImage) ||
+    (typeof raw.coverImage === 'string' ? raw.coverImage : '');
+
+  // 6. Resolve Author
+  let author = 'AgroVentia Editorial';
+  if (raw.author) {
+    if (typeof raw.author === 'string') {
+      author = raw.author;
+    } else if (raw.author.name) {
+      author =
+        typeof raw.author.name === 'string'
+          ? raw.author.name
+          : resolveNonEmptyText(raw.author.name) || 'AgroVentia Editorial';
+    }
+  }
+
+  // 7. Resolve Categories
+  const categories: Category[] = Array.isArray(raw.categories)
+    ? raw.categories.map((c: any) => {
+        if (typeof c === 'string') {
+          return {
+            _id: c,
+            _owner: 'sanity',
+            _createdDate: { $date: new Date().toISOString() },
+            _updatedDate: { $date: new Date().toISOString() },
+            title: c,
+            description: '',
+          };
+        }
+        const catTitle =
+          typeof c.title === 'string' && c.title.trim().length > 0
+            ? c.title.trim()
+            : resolveNonEmptyText(c.title) || c.title?.en || '';
+        return {
+          _id: c._id || 'cat',
+          _owner: 'sanity',
+          _createdDate: { $date: c._createdAt || new Date().toISOString() },
+          _updatedDate: { $date: c._updatedAt || new Date().toISOString() },
+          title: catTitle,
+          description:
+            typeof c.description === 'string'
+              ? c.description
+              : resolveNonEmptyText(c.description),
+        };
+      })
+    : [];
+
+  const publishedDate =
+    typeof raw.publishedDate === 'object' && raw.publishedDate?.$date
+      ? raw.publishedDate.$date
+      : typeof raw.publishedDate === 'string' && raw.publishedDate
+      ? raw.publishedDate
+      : new Date().toISOString();
+
+  return {
+    _id: raw._id || 'blogPost',
+    _owner: 'sanity',
+    _createdDate: { $date: raw._createdAt || new Date().toISOString() },
+    _updatedDate: { $date: raw._updatedAt || new Date().toISOString() },
+    title,
+    slug,
+    excerpt,
+    content,
+    coverImage,
+    publishedDate,
+    author,
+    categories,
+    seoTitle:
+      typeof raw.seoTitle === 'string'
+        ? raw.seoTitle
+        : extractLocalizedText(raw.seoTitle, normLocale),
+    seoDescription:
+      typeof raw.seoDescription === 'string'
+        ? raw.seoDescription
+        : extractLocalizedText(raw.seoDescription, normLocale),
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Client API Fetch Methods (isolated mock fallback only for offline / test flags)
 // In production mode with valid credentials, errors are logged and surfaced.
@@ -848,30 +984,11 @@ export const getBlogPosts = async (locale?: string): Promise<BlogPost[]> => {
   if (shouldUseMockData()) {
     return getMockBlogPosts(normLocale);
   }
+  const altLocale = normLocale === 'fr' ? 'fr-CA' : normLocale === 'esp' ? 'es' : 'en-CA';
   try {
-    const rawList = await client.fetch<any[]>(BLOG_POSTS_QUERY, { locale: normLocale });
+    const rawList = await client.fetch<any[]>(BLOG_POSTS_QUERY, { locale: normLocale, altLocale });
     if (Array.isArray(rawList)) {
-      return rawList.map(item => ({
-        _id: item._id,
-        _owner: 'sanity',
-        _createdDate: { $date: item._createdAt || new Date().toISOString() },
-        _updatedDate: { $date: item._updatedAt || new Date().toISOString() },
-        title: item.title,
-        slug: item.slug,
-        excerpt: item.excerpt,
-        content: item.content,
-        coverImage: item.coverImage,
-        publishedDate: item.publishedDate,
-        author: item.author?.name || 'AgroVentia Editorial',
-        categories: item.categories?.map((c: any) => ({
-          _id: c._id,
-          _owner: 'sanity',
-          _createdDate: { $date: new Date().toISOString() },
-          _updatedDate: { $date: new Date().toISOString() },
-          title: c.title,
-          description: '',
-        })) || [],
-      }));
+      return rawList.map(item => transformBlogPost(item, normLocale));
     }
     return [];
   } catch (err: any) {
@@ -885,30 +1002,11 @@ export const getBlogPostBySlug = async (slug: string, locale?: string): Promise<
   if (shouldUseMockData()) {
     return getMockBlogPostBySlug(slug, normLocale);
   }
+  const altLocale = normLocale === 'fr' ? 'fr-CA' : normLocale === 'esp' ? 'es' : 'en-CA';
   try {
-    const raw = await client.fetch(BLOG_POST_BY_SLUG_QUERY, { slug, locale: normLocale });
+    const raw = await client.fetch(BLOG_POST_BY_SLUG_QUERY, { slug, locale: normLocale, altLocale });
     if (raw) {
-      return {
-        _id: raw._id,
-        _owner: 'sanity',
-        _createdDate: { $date: raw._createdAt || new Date().toISOString() },
-        _updatedDate: { $date: raw._updatedAt || new Date().toISOString() },
-        title: raw.title,
-        slug: raw.slug,
-        excerpt: raw.excerpt,
-        content: raw.content,
-        coverImage: raw.coverImage,
-        publishedDate: raw.publishedDate,
-        author: raw.author?.name || 'AgroVentia Editorial',
-        categories: raw.categories?.map((c: any) => ({
-          _id: c._id,
-          _owner: 'sanity',
-          _createdDate: { $date: new Date().toISOString() },
-          _updatedDate: { $date: new Date().toISOString() },
-          title: c.title,
-          description: '',
-        })) || [],
-      };
+      return transformBlogPost(raw, normLocale);
     }
     return null;
   } catch (err: any) {

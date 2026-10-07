@@ -460,7 +460,12 @@ export function transformWixSnapshot(
       slug: { _type: 'slug', current: slug },
       excerpt: toLocale(item.excerpt || ''),
       content: toLocale(extractRichText(item.content)),
-      publishedDate: item.publishedDate || new Date().toISOString(),
+      publishedDate:
+        typeof item.publishedDate === 'object' && item.publishedDate?.$date
+          ? item.publishedDate.$date
+          : typeof item.publishedDate === 'string' && item.publishedDate
+          ? item.publishedDate
+          : new Date().toISOString(),
       author: {
         _type: 'reference',
         _ref: 'author-agroventia-inc',

@@ -50,11 +50,16 @@ const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
     'copyrightNotice',
     'backToTopText',
   ],
-  product: ['productName', 'productDescription'],
+  product: [
+    'productName',
+    'productDescription',
+    'sourcingOrigin',
+    'typicalQualityParameters',
+  ],
   coreValue: ['title', 'description'],
   carouselSlide: ['title', 'subtitle', 'description', 'ctaText'],
   category: ['title', 'description'],
-  blogPost: ['title', 'excerpt'],
+  blogPost: ['title', 'excerpt', 'content', 'seoTitle', 'seoDescription'],
   author: ['name', 'bio'],
   legalPage: ['title', 'introduction', 'seoTitle', 'seoDescription'],
 };

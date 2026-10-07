@@ -10,6 +10,7 @@ import Carousel from '@/components/common/Carousel';
 import MissionVisionCarousel from '@/components/common/MissionVisionCarousel';
 import { cn } from '@/lib/utils';
 import type { HighlightItem } from '@/types/wix';
+import { useLocale } from '@/contexts/LocaleContext';
 
 interface CoreValue {
   title: string;
@@ -73,7 +74,7 @@ const getVariantStyles = (variant?: string) => {
   }
 };
 
-const defaultHighlights: HighlightItem[] = [
+const defaultHighlightsEn: HighlightItem[] = [
   {
     _key: 'hl-1',
     metric: '10+',
@@ -115,8 +116,129 @@ const defaultHighlights: HighlightItem[] = [
   },
 ];
 
+const defaultHighlightsFr: HighlightItem[] = [
+  {
+    _key: 'hl-1',
+    metric: '10+',
+    title: 'Produits haut de gamme',
+    description: 'Gamme complète de commodités agricoles certifiées.',
+    colorVariant: 'primary',
+  },
+  {
+    _key: 'hl-2',
+    metric: '20+',
+    title: 'Marchés mondiaux desservis',
+    description:
+      'Connexion directe des producteurs aux acheteurs en Amérique du Nord et à l’international.',
+    colorVariant: 'secondary',
+  },
+  {
+    _key: 'hl-3',
+    metric: '100%',
+    title: 'Qualité garantie',
+    description:
+      'Contrôles rigoureux de pureté, fraîcheur et conformité réglementaire sur chaque lot.',
+    colorVariant: 'bronze',
+  },
+  {
+    _key: 'hl-4',
+    metric: '10+',
+    title: 'Années d’expertise commerciale',
+    description:
+      'Plus d’une décennie d’expertise dans le développement de chaînes d’approvisionnement durables.',
+    colorVariant: 'neutral',
+  },
+  {
+    _key: 'hl-5',
+    metric: '100%',
+    title: 'Logistique fiable',
+    description:
+      'Gestion logistique intégrée et traçabilité complète pour un approvisionnement sans risque.',
+    colorVariant: 'forest',
+  },
+];
+
+const defaultHighlightsEsp: HighlightItem[] = [
+  {
+    _key: 'hl-1',
+    metric: '10+',
+    title: 'Productos prémium',
+    description:
+      'Portafolio integral de productos agrícolas certificados para importación y exportación.',
+    colorVariant: 'primary',
+  },
+  {
+    _key: 'hl-2',
+    metric: '20+',
+    title: 'Mercados internacionales',
+    description:
+      'Conectando productores agrícolas con compradores estratégicos en Norteamérica y Europa.',
+    colorVariant: 'secondary',
+  },
+  {
+    _key: 'hl-3',
+    metric: '100%',
+    title: 'Calidad garantizada',
+    description:
+      'Inspecciones técnicas de pureza, humedad y cumplimiento de estándares internacionales.',
+    colorVariant: 'bronze',
+  },
+  {
+    _key: 'hl-4',
+    metric: '10+',
+    title: 'Años de experiencia comercial',
+    description:
+      'Más de diez años construyendo alianzas sólidas en cadenas de suministro agroalimentarias.',
+    colorVariant: 'neutral',
+  },
+  {
+    _key: 'hl-5',
+    metric: '100%',
+    title: 'Logística confiable',
+    description:
+      'Flujo logístico integral y entregas puntuales para asegurar su abastecimiento continuo.',
+    colorVariant: 'forest',
+  },
+];
+
+const ABOUT_UI = {
+  en: {
+    ourStory: 'Our Story',
+    readMore: 'Read More',
+    readLess: 'Read Less',
+    coreValues: 'Core Values',
+    whyChoose: 'Why Choose AgroVentia Inc.?',
+    highlights: defaultHighlightsEn,
+  },
+  fr: {
+    ourStory: 'Notre histoire',
+    readMore: 'En savoir plus',
+    readLess: 'Moins de détails',
+    coreValues: 'Nos valeurs fondamentales',
+    whyChoose: 'Pourquoi choisir AgroVentia Inc. ?',
+    highlights: defaultHighlightsFr,
+  },
+  esp: {
+    ourStory: 'Nuestra historia',
+    readMore: 'Leer más',
+    readLess: 'Leer menos',
+    coreValues: 'Nuestros valores fundamentales',
+    whyChoose: '¿Por qué elegir AgroVentia Inc.?',
+    highlights: defaultHighlightsEsp,
+  },
+};
+
 const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
+  const { locale } = useLocale();
   const [isStoryExpanded, setIsStoryExpanded] = useState(false);
+
+  const cleanLocale = (locale || 'en').toLowerCase().trim();
+  const langKey = cleanLocale.startsWith('fr')
+    ? 'fr'
+    : cleanLocale.startsWith('es') || cleanLocale === 'esp'
+      ? 'esp'
+      : 'en';
+  const ui = ABOUT_UI[langKey];
 
   // Set the character limit for the story text preview
   const STORY_PREVIEW_LENGTH = 300;
@@ -135,7 +257,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
   const effectiveHighlights =
     data?.highlights && data.highlights.length > 0
       ? data.highlights
-      : defaultHighlights;
+      : ui.highlights;
 
   // Define carousel items for the mobile carousel using dynamic highlights
   const carouselItems = effectiveHighlights.map((hl, index) => {
@@ -228,7 +350,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
             {fullStory && (
               <div className="space-y-6 ">
                 <h3 className="heading-subsection text-center text-[#281909]">
-                  Our Story
+                  {ui.ourStory}
                 </h3>
                 <div
                   className={cn(
@@ -247,7 +369,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                       onClick={() => setIsStoryExpanded(!isStoryExpanded)}
                       className="text-agro-primary-600 font-semibold hover:text-agro-primary-800 cursor-pointer focus:outline-none focus:underline transform hover:scale-105 transition-transform duration-200"
                     >
-                      {isStoryExpanded ? 'Read Less' : 'Read More'}
+                      {isStoryExpanded ? ui.readLess : ui.readMore}
                     </button>
                   </div>
                 )}
@@ -259,7 +381,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
               Array.isArray(data.coreValues) &&
               data.coreValues.length > 0 && (
                 <div className="space-y-6">
-                  <h4 className="heading-card text-center">Core Values</h4>
+                  <h4 className="heading-card text-center">{ui.coreValues}</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
                     {data.coreValues.map((valueObj, index) => (
                       <div
@@ -285,7 +407,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
             {/* Mobile Carousel - Reduced bottom spacing */}
             <div className="md:hidden scroll-reveal flex flex-col items-center justify-center -mb-52">
               <h4 className="heading-card mb-10 text-center">
-                {data?.whyChooseTitle || 'Why Choose AgroVentia Inc.?'}
+                {data?.whyChooseTitle || ui.whyChoose}
               </h4>
               <div
                 style={{
@@ -302,7 +424,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                   autoplayDelay={5000}
                   pauseOnHover={true}
                   loop={true}
-                  round={false}
+                  round={true}
                 />
               </div>
             </div>
@@ -317,7 +439,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
                 <div className="space-y-8 h-full flex flex-col justify-center">
                   <div className="glass-card p-8 shadow-md">
                     <h4 className="heading-card mb-6 text-center">
-                      {data?.whyChooseTitle || 'Why Choose AgroVentia Inc.?'}
+                      {data?.whyChooseTitle || ui.whyChoose}
                     </h4>
 
                     <div className="space-y-6">
