@@ -19,6 +19,10 @@
 
 # production
 /build
+/dist/
+
+# Sanity CLI build/cache output
+/.sanity/
 
 # misc
 .DS_Store
