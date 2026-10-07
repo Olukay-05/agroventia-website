@@ -81,11 +81,19 @@ export interface ProductsSectionContent extends WixBase {
 export interface ProductContent extends WixBase {
   title: string;
   productName?: string;
+  slug?: string;
   description: string;
   category: string;
+  corridor?: 'canada' | 'africa';
+  sourcingOrigin?: string;
+  typicalQualityParameters?: string;
+  qualityStandards?: string; // Legacy alias for backward compatibility
+  isFeatured?: boolean;
+  displayLogistics?: boolean;
+  packagingLogistics?: string;
   images?: string[];
+  image?: string;
   image1: string;
-  qualityStandards?: string;
   sku?: string;
   inStock?: boolean;
   sortOrder?: number;

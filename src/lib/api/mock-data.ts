@@ -14,6 +14,7 @@ import type {
   ProductsSectionContent,
   LegalPageContent,
 } from '@/types/wix';
+import { getPortfolioProducts } from './products-portfolio';
 
 /**
  * Determines if mock data should be used instead of real Sanity API calls.
@@ -550,8 +551,37 @@ export const getMockServicesContent = async (locale?: string): Promise<ServiceCo
 export const getMockProductsContent = async (locale?: string): Promise<ProductContent[]> => {
   const loc = (locale || 'en').toLowerCase().trim();
 
+  const enrich = (list: ProductContent[]): ProductContent[] => {
+    const isFrench = loc.startsWith('fr');
+    const isSpanish = loc.startsWith('es') || loc === 'esp';
+    const defaultOrigin = isFrench
+      ? "Afrique de l'Ouest"
+      : isSpanish
+        ? 'África Occidental'
+        : 'West Africa';
+
+    return list.map(p => ({
+      ...p,
+      slug: p.slug || p._id.replace(/^prod-/, ''),
+      sourcingOrigin: p.sourcingOrigin || defaultOrigin,
+      typicalQualityParameters: p.typicalQualityParameters || p.qualityStandards || '',
+      qualityStandards: p.typicalQualityParameters || p.qualityStandards || '',
+      isFeatured: p.isFeatured ?? ['prod-ginger', 'prod-sesame', 'prod-shea', 'prod-cocoa'].includes(p._id),
+      displayLogistics: p.displayLogistics ?? (p._id === 'prod-ginger'),
+      packagingLogistics:
+        p.packagingLogistics ||
+        (p._id === 'prod-ginger'
+          ? isFrench
+            ? 'Sacs export en PP de 50 kg, conteneur FCL 20 pi environ 14 tonnes'
+            : isSpanish
+              ? 'Sacos de polipropileno de 50 kg, capacidad FCL 20 pies aprox 14 TM'
+              : '50kg export grade PP bags, 20ft FCL capacity approx 14 MT'
+          : ''),
+    }));
+  };
+
   if (loc.startsWith('fr')) {
-    return [
+    return enrich([
       {
         _id: 'prod-kolanut',
         title: 'Noix de Cola Séchée',
@@ -768,11 +798,11 @@ export const getMockProductsContent = async (locale?: string): Promise<ProductCo
         _createdDate: { $date: '2025-08-22T15:44:46.743Z' },
         _updatedDate: { $date: '2026-10-05T20:00:00.000Z' },
       },
-    ];
+    ]);
   }
 
   if (loc.startsWith('es') || loc === 'esp') {
-    return [
+    return enrich([
       {
         _id: 'prod-kolanut',
         title: 'Nuez de Cola Seca',
@@ -989,10 +1019,10 @@ export const getMockProductsContent = async (locale?: string): Promise<ProductCo
         _createdDate: { $date: '2025-08-22T15:44:46.743Z' },
         _updatedDate: { $date: '2026-10-05T20:00:00.000Z' },
       },
-    ];
+    ]);
   }
 
-  return [
+  return enrich([
     {
       _id: 'prod-kolanut',
       title: 'Dried Kolanut',
@@ -1209,17 +1239,34 @@ export const getMockProductsContent = async (locale?: string): Promise<ProductCo
       _createdDate: { $date: '2025-08-22T15:44:46.743Z' },
       _updatedDate: { $date: '2026-10-05T20:00:00.000Z' },
     },
-  ];
+  ]);
 };
 
 
-export const getMockProductCatalogContent = async (locale?: string): Promise<ProductCatalogItem[]> => {
+export const getMockProductCatalogContent = async (
+  locale?: string,
+  all: boolean = false
+): Promise<ProductCatalogItem[]> => {
+  if (all) {
+    const products = getPortfolioProducts(locale);
+    return products.map(p => ({
+      ...p,
+      productName: p.title,
+      allProducts: [],
+    }));
+  }
   const products = await getMockProductsContent(locale);
   return products.map(p => ({
     ...p,
     productName: p.title,
     allProducts: [],
   }));
+};
+
+export const getAllMockProductCatalogContent = async (
+  locale?: string
+): Promise<ProductCatalogItem[]> => {
+  return getMockProductCatalogContent(locale, true);
 };
 
 // ---------------------------------------------------------------------------

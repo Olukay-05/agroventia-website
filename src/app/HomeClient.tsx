@@ -43,6 +43,7 @@ export default function HomeClient() {
           <ProductsSection
             data={productCatalogList}
             isLoading={isProductsLoading}
+            featuredOnly={true}
           />
           <AboutSection
             data={aboutData}

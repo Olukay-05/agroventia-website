@@ -3,12 +3,12 @@ import Providers from './providers';
 import CookieBanner from '@/components/common/CookieBanner';
 import GoogleAnalyticsScript from '@/components/common/GoogleAnalyticsScript';
 import { Metadata } from 'next';
-import { DEFAULT_DESCRIPTION, DEFAULT_KEYWORDS, BASE_URL } from '@/lib/seo';
+import { DEFAULT_TITLE, DEFAULT_DESCRIPTION, DEFAULT_KEYWORDS, BASE_URL } from '@/lib/seo';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'AgroVentia Inc.',
+    default: DEFAULT_TITLE,
     template: '%s | AgroVentia Inc.',
   },
   description: DEFAULT_DESCRIPTION,
@@ -18,6 +18,8 @@ export const metadata: Metadata = {
     locale: 'en_CA',
     url: BASE_URL,
     siteName: 'AgroVentia Inc.',
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
     images: [
       {
         url: `${BASE_URL}/agroventia-logo.jpg`,
@@ -29,6 +31,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
     site: '@agroventia',
     creator: '@agroventia',
   },

@@ -201,11 +201,41 @@ export const PRODUCTS_QUERY = `*[_type == "product" && isActive != false] | orde
   isActive,
   "title": coalesce(productName[$locale], productName.en, ""),
   "productName": coalesce(productName[$locale], productName.en, ""),
+  "slug": coalesce(slug.current, ""),
   "description": coalesce(productDescription[$locale], productDescription.en, ""),
   "productImage": coalesce(productImage.asset->url, ""),
   "images": images[].asset->url,
   price,
   "category": coalesce(category->title[$locale], category->title.en, category->title, ""),
+  "sourcingOrigin": coalesce(sourcingOrigin[$locale], sourcingOrigin.en, sourcingOrigin, ""),
+  "typicalQualityParameters": coalesce(typicalQualityParameters[$locale], typicalQualityParameters.en, typicalQualityParameters, qualityStandards, ""),
+  "isFeatured": coalesce(isFeatured, false),
+  "displayLogistics": coalesce(displayLogistics, false),
+  "packagingLogistics": coalesce(packagingLogistics[$locale], packagingLogistics.en, packagingLogistics, ""),
+  sku,
+  inStock,
+  sortOrder,
+  qualityStandards
+}`;
+
+export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && (slug.current == $slug || _id == $slug) && isActive != false][0]{
+  _id,
+  _createdAt,
+  _updatedAt,
+  isActive,
+  "title": coalesce(productName[$locale], productName.en, ""),
+  "productName": coalesce(productName[$locale], productName.en, ""),
+  "slug": coalesce(slug.current, ""),
+  "description": coalesce(productDescription[$locale], productDescription.en, ""),
+  "productImage": coalesce(productImage.asset->url, ""),
+  "images": images[].asset->url,
+  price,
+  "category": coalesce(category->title[$locale], category->title.en, category->title, ""),
+  "sourcingOrigin": coalesce(sourcingOrigin[$locale], sourcingOrigin.en, sourcingOrigin, ""),
+  "typicalQualityParameters": coalesce(typicalQualityParameters[$locale], typicalQualityParameters.en, typicalQualityParameters, qualityStandards, ""),
+  "isFeatured": coalesce(isFeatured, false),
+  "displayLogistics": coalesce(displayLogistics, false),
+  "packagingLogistics": coalesce(packagingLogistics[$locale], packagingLogistics.en, packagingLogistics, ""),
   sku,
   inStock,
   sortOrder,
@@ -478,6 +508,22 @@ export function transformProductContent(raw: any, locale: string = 'en'): Produc
     ? raw.images.map(resolveSanityImageUrl).filter(Boolean)
     : (imageUrl ? [imageUrl] : []);
 
+  const slug = typeof raw.slug === 'string'
+    ? raw.slug
+    : (raw.slug?.current || '');
+
+  const sourcingOrigin = typeof raw.sourcingOrigin === 'string'
+    ? raw.sourcingOrigin
+    : (raw.sourcingOrigin ? extractLocalizedText(raw.sourcingOrigin, locale) : '');
+
+  const typicalQualityParameters = typeof raw.typicalQualityParameters === 'string' && raw.typicalQualityParameters.length > 0
+    ? raw.typicalQualityParameters
+    : (raw.typicalQualityParameters ? extractLocalizedText(raw.typicalQualityParameters, locale) : (raw.qualityStandards || ''));
+
+  const packagingLogistics = typeof raw.packagingLogistics === 'string'
+    ? raw.packagingLogistics
+    : (raw.packagingLogistics ? extractLocalizedText(raw.packagingLogistics, locale) : '');
+
   return {
     _id: raw._id || 'product',
     _owner: 'sanity',
@@ -486,11 +532,17 @@ export function transformProductContent(raw: any, locale: string = 'en'): Produc
     isActive: raw.isActive ?? true,
     title,
     productName: title,
+    slug,
     description,
     category: categoryTitle,
+    sourcingOrigin,
+    typicalQualityParameters,
+    qualityStandards: typicalQualityParameters || raw.qualityStandards || '',
+    isFeatured: Boolean(raw.isFeatured),
+    displayLogistics: Boolean(raw.displayLogistics),
+    packagingLogistics,
     image1: imageUrl,
     images: imagesList,
-    qualityStandards: raw.qualityStandards || '',
     price: raw.price,
     sku: raw.sku || '',
     inStock: raw.inStock ?? true,
@@ -668,10 +720,13 @@ export const getProductsContent = async (locale?: string): Promise<ProductConten
   }
 };
 
-export const getProductCatalogContent = async (locale?: string): Promise<ProductCatalogItem[]> => {
+export const getProductCatalogContent = async (
+  locale?: string,
+  options?: { all?: boolean }
+): Promise<ProductCatalogItem[]> => {
   const normLocale = normalizeLocale(locale);
   if (shouldUseMockData()) {
-    return getMockProductCatalogContent(normLocale);
+    return getMockProductCatalogContent(normLocale, options?.all);
   }
   try {
     const rawList = await client.fetch<any[]>(PRODUCTS_QUERY, { locale: normLocale });
@@ -681,6 +736,27 @@ export const getProductCatalogContent = async (locale?: string): Promise<Product
     return [];
   } catch (err: any) {
     console.error(`[Sanity] Product catalog query failed:`, err?.message || err);
+    throw err;
+  }
+};
+
+export const getProductBySlug = async (
+  slug: string,
+  locale?: string
+): Promise<ProductCatalogItem | null> => {
+  const normLocale = normalizeLocale(locale);
+  if (shouldUseMockData()) {
+    const list = await getMockProductCatalogContent(normLocale, true);
+    return list.find(p => p.slug === slug || p._id === slug) || null;
+  }
+  try {
+    const raw = await client.fetch(PRODUCT_BY_SLUG_QUERY, { slug, locale: normLocale });
+    if (raw) {
+      return transformProductContent(raw, normLocale);
+    }
+    return null;
+  } catch (err: any) {
+    console.error(`[Sanity] Product by slug query failed (${slug}):`, err?.message || err);
     throw err;
   }
 };

@@ -11,6 +11,7 @@ import {
   getCarouselImages,
   getProductsSectionContent,
   getLegalPageBySlug,
+  getProductBySlug,
 } from '@/lib/api/sanity-client';
 import type {
   HeroContent,
@@ -121,12 +122,54 @@ export const useProductsContent = () => {
 /**
  * Hook for fetching localized product catalog item list
  */
-export const useProductCatalogContent = () => {
+export const useProductCatalogContent = (options?: { all?: boolean }) => {
   const { locale, isLoading: isLocaleLoading } = useLocale();
 
   return useQuery<ProductCatalogItem[], Error>({
-    queryKey: ['productCatalogContent', locale],
-    queryFn: () => getProductCatalogContent(locale),
+    queryKey: ['productCatalogContent', locale, options?.all],
+    queryFn: () => getProductCatalogContent(locale, options),
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+    retry: 2,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    enabled: !isLocaleLoading,
+  });
+};
+
+/**
+ * Hook for fetching a single localized product by its slug or ID
+ */
+export const useProductBySlug = (slug: string) => {
+  const { locale, isLoading: isLocaleLoading } = useLocale();
+
+  return useQuery<ProductCatalogItem | null, Error>({
+    queryKey: ['product', slug, locale],
+    queryFn: () => getProductBySlug(slug, locale),
+    staleTime: STALE_TIME,
+    gcTime: GC_TIME,
+    retry: 2,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+    enabled: !isLocaleLoading && Boolean(slug),
+  });
+};
+
+/**
+ * Hook for fetching the 9 featured products for homepage 3x3 grid
+ */
+export const useFeaturedProducts = () => {
+  const { locale, isLoading: isLocaleLoading } = useLocale();
+
+  return useQuery<ProductCatalogItem[], Error>({
+    queryKey: ['featuredProducts', locale],
+    queryFn: async () => {
+      const all = await getProductCatalogContent(locale);
+      const featured = all.filter(p => p.isFeatured);
+      if (featured.length >= 9) {
+        return featured.slice(0, 9);
+      }
+      // If fewer than 9 are explicitly featured, fill with top commodities
+      return all.slice(0, 9);
+    },
     staleTime: STALE_TIME,
     gcTime: GC_TIME,
     retry: 2,

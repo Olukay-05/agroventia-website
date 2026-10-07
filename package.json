@@ -16,7 +16,10 @@
     "query-collections": "tsx scripts/query-collections.ts",
     "seed-sanity": "tsx scripts/seed-sanity-from-snapshot.ts",
     "seed-translations": "tsx scripts/seed-sanity-translations.ts",
-    "seed:legal": "tsx scripts/seed-sanity-legal-and-chrome.ts"
+    "seed:legal": "tsx scripts/seed-sanity-legal-and-chrome.ts",
+    "seed:cap9": "tsx scripts/seed-sanity-cap9-products.ts",
+    "build:canadian-assets": "tsx scripts/build-canadian-studio-assets.ts",
+    "sync:canadian-assets": "tsx scripts/sync-canadian-assets-to-sanity.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.72",

@@ -12,6 +12,15 @@ export const product = defineType({
       validation: (Rule: any) => Rule.required(),
     }),
     defineField({
+      name: 'slug',
+      title: 'URL Slug',
+      type: 'slug',
+      options: {
+        source: 'productName.en',
+        maxLength: 96,
+      },
+    }),
+    defineField({
       name: 'productDescription',
       title: 'Product Description',
       type: 'localeText',
@@ -49,6 +58,42 @@ export const product = defineType({
       to: [{ type: 'category' }],
     }),
     defineField({
+      name: 'sourcingOrigin',
+      title: 'Sourcing Origin',
+      type: 'localeString',
+      description: 'Regional sourcing corridor (e.g., Canadian Prairies, West Africa)',
+    }),
+    defineField({
+      name: 'typicalQualityParameters',
+      title: 'Typical Quality Parameters',
+      type: 'localeText',
+      description: 'Representative quality parameters matrix and specifications',
+    }),
+    defineField({
+      name: 'qualityStandards',
+      title: 'Quality Standards (Legacy / Fallback)',
+      type: 'string',
+    }),
+    defineField({
+      name: 'isFeatured',
+      title: 'Featured on Homepage (3x3 Grid)',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'displayLogistics',
+      title: 'Display Export & Packaging Logistics',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Toggle button to display export and packaging logistics on product details',
+    }),
+    defineField({
+      name: 'packagingLogistics',
+      title: 'Export & Packaging Logistics',
+      type: 'localeText',
+      description: 'Standard bag weights, container capacities, and supported Incoterms',
+    }),
+    defineField({
       name: 'sku',
       title: 'SKU / Product Code',
       type: 'string',
@@ -64,11 +109,6 @@ export const product = defineType({
       title: 'Sort Order',
       type: 'number',
       initialValue: 0,
-    }),
-    defineField({
-      name: 'qualityStandards',
-      title: 'Quality Standards & Certifications',
-      type: 'string',
     }),
     defineField({
       name: 'isActive',
