@@ -57,13 +57,14 @@ export interface SanitySrcSetOptions {
 export const DEFAULT_IMAGE_WIDTHS = [320, 480, 640, 768, 1024, 1280, 1536, 1920];
 
 /**
- * Robust image builder instance fallback.
- * Uses client if configured with clientConfig, else falls back to explicit environment config.
+ * Use the configured Sanity client. If configuration is missing, the client
+ * contains a non-existent placeholder project and requests fail visibly
+ * instead of resolving assets from an unrelated project.
  */
 const configuredClient =
   client && typeof (client as any).clientConfig === 'object' && (client as any).clientConfig.projectId
     ? client
-    : { projectId: projectId || '343j74om', dataset: dataset || 'production' };
+    : { projectId, dataset };
 
 export const imageBuilder: ImageUrlBuilder = imageUrlBuilder(configuredClient);
 
