@@ -46,6 +46,7 @@ import {
   hasHotspot,
   type SanityImageOptions,
 } from './sanity-image';
+import { COMMODITY_PORTFOLIO } from './products-portfolio';
 
 export {
   client as sanityClient,
@@ -206,7 +207,8 @@ export const PRODUCTS_QUERY = `*[_type == "product" && isActive != false] | orde
   "productImage": coalesce(productImage.asset->url, ""),
   "images": images[].asset->url,
   price,
-  "category": coalesce(category->title[$locale], category->title.en, category->title, ""),
+  "category": coalesce(category->title[$locale], category->title.en, category->title, category, ""),
+  "corridor": coalesce(corridor, ""),
   "sourcingOrigin": coalesce(sourcingOrigin[$locale], sourcingOrigin.en, sourcingOrigin, ""),
   "typicalQualityParameters": coalesce(typicalQualityParameters[$locale], typicalQualityParameters.en, typicalQualityParameters, qualityStandards, ""),
   "isFeatured": coalesce(isFeatured, false),
@@ -230,7 +232,8 @@ export const PRODUCT_BY_SLUG_QUERY = `*[_type == "product" && (slug.current == $
   "productImage": coalesce(productImage.asset->url, ""),
   "images": images[].asset->url,
   price,
-  "category": coalesce(category->title[$locale], category->title.en, category->title, ""),
+  "category": coalesce(category->title[$locale], category->title.en, category->title, category, ""),
+  "corridor": coalesce(corridor, ""),
   "sourcingOrigin": coalesce(sourcingOrigin[$locale], sourcingOrigin.en, sourcingOrigin, ""),
   "typicalQualityParameters": coalesce(typicalQualityParameters[$locale], typicalQualityParameters.en, typicalQualityParameters, qualityStandards, ""),
   "isFeatured": coalesce(isFeatured, false),
@@ -524,6 +527,31 @@ export function transformProductContent(raw: any, locale: string = 'en'): Produc
     ? raw.packagingLogistics
     : (raw.packagingLogistics ? extractLocalizedText(raw.packagingLogistics, locale) : '');
 
+  // Look up canonical portfolio match for complete fallback resilience
+  const portfolioMatch = COMMODITY_PORTFOLIO.find(
+    c => c.slug === slug || c.id === raw._id || `product-${c.slug}` === raw._id
+  );
+
+  const locKey = (locale?.startsWith('fr') ? 'fr' : (locale?.startsWith('es') ? 'esp' : 'en')) as 'en' | 'fr' | 'esp';
+  const resolvedCategory = (categoryTitle && categoryTitle.trim().length > 0)
+    ? categoryTitle.trim()
+    : (portfolioMatch ? (portfolioMatch[locKey]?.category || portfolioMatch.en.category) : '');
+
+  const rawCorridor = typeof raw.corridor === 'string' && (raw.corridor === 'canada' || raw.corridor === 'africa')
+    ? (raw.corridor as 'canada' | 'africa')
+    : undefined;
+
+  const resolvedCorridor: 'canada' | 'africa' = rawCorridor || portfolioMatch?.corridor || (
+    sourcingOrigin?.toLowerCase().includes('canada') ||
+    sourcingOrigin?.toLowerCase().includes('saskatchewan') ||
+    sourcingOrigin?.toLowerCase().includes('alberta') ||
+    sourcingOrigin?.toLowerCase().includes('manitoba') ||
+    sourcingOrigin?.toLowerCase().includes('ontario') ||
+    sourcingOrigin?.toLowerCase().includes('prairies')
+      ? 'canada'
+      : 'africa'
+  );
+
   return {
     _id: raw._id || 'product',
     _owner: 'sanity',
@@ -534,7 +562,8 @@ export function transformProductContent(raw: any, locale: string = 'en'): Produc
     productName: title,
     slug,
     description,
-    category: categoryTitle,
+    category: resolvedCategory,
+    corridor: resolvedCorridor,
     sourcingOrigin,
     typicalQualityParameters,
     qualityStandards: typicalQualityParameters || raw.qualityStandards || '',
@@ -731,7 +760,9 @@ export const getProductCatalogContent = async (
   try {
     const rawList = await client.fetch<any[]>(PRODUCTS_QUERY, { locale: normLocale });
     if (Array.isArray(rawList)) {
-      return rawList.map(item => transformProductContent(item, normLocale));
+      return rawList
+        .filter(item => !(item.sku && typeof item.sku === 'string' && item.sku.startsWith('AGV-')))
+        .map(item => transformProductContent(item, normLocale));
     }
     return [];
   } catch (err: any) {

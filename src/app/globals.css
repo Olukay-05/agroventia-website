@@ -1,6 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Lato:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
+@theme {
+  --color-agro-primary-50: #f0f9f0;
+  --color-agro-primary-100: #dcf2dc;
+  --color-agro-primary-200: #bae5ba;
+  --color-agro-primary-300: #8dd38d;
+  --color-agro-primary-400: #5cb85c;
+  --color-agro-primary-500: #225217;
+  --color-agro-primary-600: #225217;
+  --color-agro-primary-700: #1e4714;
+  --color-agro-primary-800: #1a3b11;
+  --color-agro-primary-900: #16320f;
+  --color-agro-primary-950: #0f220a;
+
+  --color-agro-secondary-50: #fdf8f2;
+  --color-agro-secondary-100: #f9ede0;
+  --color-agro-secondary-200: #f1d8be;
+  --color-agro-secondary-300: #e7bb92;
+  --color-agro-secondary-400: #db9864;
+  --color-agro-secondary-500: #cd7e0d;
+  --color-agro-secondary-600: #cd7e0d;
+  --color-agro-secondary-700: #a9650b;
+  --color-agro-secondary-800: #884f09;
+  --color-agro-secondary-900: #6e4008;
+  --color-agro-secondary-950: #3b2004;
+
+  --color-agro-neutral-25: #fdf8f0;
+  --color-agro-neutral-50: #f6f2e7;
+  --color-agro-neutral-100: #f0ebe0;
+  --color-agro-neutral-200: #e6ddd0;
+  --color-agro-neutral-300: #d1c5b3;
+  --color-agro-neutral-400: #a69580;
+  --color-agro-neutral-500: #8a7865;
+  --color-agro-neutral-600: #6b5d4f;
+  --color-agro-neutral-700: #4a3e33;
+  --color-agro-neutral-800: #332822;
+  --color-agro-neutral-850: #201407;
+  --color-agro-neutral-900: #281909;
+  --color-agro-neutral-950: #1a0f06;
+}
+
 :root {
   --radius: 16px;
   --background: oklch(1 0 0);

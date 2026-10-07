@@ -47,6 +47,17 @@ const LEGACY_PLACEHOLDER_IDS = [
   'product-fibers-industrial',
   'product-medicinal-aromatic',
   'product-specialty-organic',
+  // Legacy Wix import placeholder categories with SKUs
+  'product-agricultural-industrial-products',
+  'product-feed-animal-nutrition',
+  'product-food-agricultural-ingredients',
+  'product-fruits-berries',
+  'product-natural-sweeteners-extracts',
+  'product-oils-butters',
+  'product-oilseeds-nuts-specialty-seeds',
+  'product-processed-value-added-foods',
+  'product-pulses-legumes',
+  'product-spices-botanicals-specialty-crops',
 ];
 
 async function main() {
@@ -168,6 +179,8 @@ async function main() {
       },
       // Backward compatibility fallback string
       qualityStandards: commodity.en.typicalQualityParameters,
+      category: commodity.en.category,
+      corridor: commodity.corridor,
       isFeatured,
       displayLogistics: Boolean(commodity.displayLogistics),
       isActive: true,

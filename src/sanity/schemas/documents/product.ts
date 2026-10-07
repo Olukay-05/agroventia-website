@@ -53,9 +53,30 @@ export const product = defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Category',
-      type: 'reference',
-      to: [{ type: 'category' }],
+      title: 'Commodity Category',
+      type: 'string',
+      description: 'Commodity sector classification',
+      options: {
+        list: [
+          { title: 'Grains & Cereals', value: 'Grains & Cereals' },
+          { title: 'Pulses & Legumes', value: 'Pulses & Legumes' },
+          { title: 'Oilseeds, Nuts & Seeds', value: 'Oilseeds, Nuts & Seeds' },
+          { title: 'Spices & Botanicals', value: 'Spices & Botanicals' },
+          { title: 'Horticultural & Ingredients', value: 'Horticultural & Ingredients' },
+        ],
+      },
+    }),
+    defineField({
+      name: 'corridor',
+      title: 'Trade Corridor',
+      type: 'string',
+      description: 'Primary trade corridor origin',
+      options: {
+        list: [
+          { title: 'Canadian Prairies & Eastern Canada', value: 'canada' },
+          { title: 'Tropical & West Africa', value: 'africa' },
+        ],
+      },
     }),
     defineField({
       name: 'sourcingOrigin',
@@ -132,21 +153,26 @@ export const product = defineType({
   preview: {
     select: {
       title: 'productName.en',
-      subtitle: 'sku',
+      category: 'category',
+      corridor: 'corridor',
       media: 'productImage',
     },
     prepare({
       title,
-      subtitle,
+      category,
+      corridor,
       media,
     }: {
       title?: string;
-      subtitle?: string;
+      category?: string;
+      corridor?: string;
       media?: any;
     }) {
+      const corridorLabel = corridor === 'africa' ? 'West Africa' : corridor === 'canada' ? 'Canadian Prairies' : '';
+      const subtitleParts = [category, corridorLabel].filter(Boolean);
       return {
         title: title || 'Untitled Product',
-        subtitle: subtitle ? `SKU: ${subtitle}` : '',
+        subtitle: subtitleParts.join(' • ') || 'Commodity',
         media,
       };
     },
