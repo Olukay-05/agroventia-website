@@ -722,7 +722,7 @@ function CatalogContent() {
 
             {/* Product Catalog Grid (Paginated Slice) */}
             {!isLoading && paginatedItems.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-8 mb-8">
                 {paginatedItems.map(product => {
                   const title = product.title || product.productName || 'Agricultural Commodity';
                   const origin = product.sourcingOrigin || '';
