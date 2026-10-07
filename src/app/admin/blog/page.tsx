@@ -1,15 +1,7 @@
 
 "use client";
 import { useState, useEffect } from 'react';
-import { createClient, OAuthStrategy } from '@wix/sdk';
-import { items } from '@wix/data';
-
-// Initialize Wix Client using Public ID for retrieving blog posts (Read-Only usually fine for this context)
-// For writing back status, we rely on the API routes which have server-side secrets
-const wixClient = createClient({
-    modules: { items },
-    auth: OAuthStrategy({ clientId: process.env.NEXT_PUBLIC_WIX_CLIENT_ID || 'your-client-id' }),
-});
+import { getBlogPosts } from '@/lib/api/sanity-client';
 
 interface BlogPost {
     _id: string;
@@ -55,21 +47,20 @@ export default function AdminBlogPage() {
     useEffect(() => {
         if (!isAuthenticated) return;
 
-        // Using 'Import3' as identified in previous conversation for "BlogPosts"
-        wixClient.items.query('Import5')
-            .descending('publishedDate')
-            .find()
-            .then(res => {
-                // Map Wix items to our interface
-                setPosts(res.items.map(item => ({
-                    _id: item._id as string,
-                    title: item.title as string,
-                    slug: item.slug as string,
-                    excerpt: item.excerpt as string,
-                    coverImage: item.coverImage as string,
-                    linkedInStatus: item.linkedInStatus as string,
-                    publishedDate: item.publishedDate as string
+        getBlogPosts()
+            .then(blogPosts => {
+                setPosts(blogPosts.map(item => ({
+                    _id: item._id,
+                    title: item.title,
+                    slug: item.slug,
+                    excerpt: item.excerpt,
+                    coverImage: item.coverImage,
+                    linkedInStatus: 'Ready',
+                    publishedDate: typeof item.publishedDate === 'string' ? item.publishedDate : item.publishedDate?.$date || ''
                 })));
+                setLoading(false);
+            })
+            .catch(() => {
                 setLoading(false);
             });
 

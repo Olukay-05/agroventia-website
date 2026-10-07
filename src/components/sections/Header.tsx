@@ -2,9 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import PillNav from '@/components/common/PillNav';
+import { LanguageSelector } from '@/components/common/LanguageSelector';
+import { useLocale } from '@/contexts/LocaleContext';
+
+const NAV_LABELS: Record<string, { home: string; products: string; about: string; blog: string; contact: string }> = {
+  en: { home: 'Home', products: 'Products', about: 'About', blog: 'Blog', contact: 'Contact' },
+  fr: { home: 'Accueil', products: 'Produits', about: 'À Propos', blog: 'Blogue', contact: 'Contact' },
+  esp: { home: 'Inicio', products: 'Productos', about: 'Nosotros', blog: 'Blog', contact: 'Contacto' },
+};
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { locale } = useLocale();
 
   useEffect(() => {
     // Check if we're in a browser environment
@@ -20,14 +29,21 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const langKey = locale.startsWith('fr')
+    ? 'fr'
+    : locale.startsWith('es') || locale === 'esp'
+      ? 'esp'
+      : 'en';
+  const labels = NAV_LABELS[langKey] || NAV_LABELS.en;
+
   const navigationItems = [
-    { label: 'Home', href: '/' },
-    { label: 'Products', href: '/#products' },
-    { label: 'About', href: '/#about' },
-    { label: 'Blog', href: '/blog' },
-    // { label: 'Process', href: '/#services' },
-    { label: 'Contact', href: '/#contact' },
+    { label: labels.home, href: '/' },
+    { label: labels.products, href: '/#products' },
+    { label: labels.about, href: '/#about' },
+    { label: labels.blog, href: '/blog' },
+    { label: labels.contact, href: '/#contact' },
   ];
+
 
   return (
     <header
@@ -50,7 +66,9 @@ const Header: React.FC = () => {
           initialLoadAnimation={false}
         />
         {/* Language selector only visible on desktop (hidden on mobile and tablet) */}
-
+        <div className="ml-4 hidden lg:block">
+          <LanguageSelector className="w-[180px]" />
+        </div>
       </div>
     </header>
   );

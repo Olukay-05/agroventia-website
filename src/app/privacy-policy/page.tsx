@@ -4,8 +4,15 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { useLegalPage } from '@/hooks/useContent';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLegalUiLabels, formatLegalDate } from '@/lib/legal-i18n';
 
 const PrivacyPolicyPage = () => {
+  const { locale } = useLocale();
+  const { data: pageData, isLoading } = useLegalPage('privacy-policy');
+  const labels = getLegalUiLabels(locale);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FDF8F0] to-[#F6F2E7] py-12">
       <div className="container-premium">
@@ -15,26 +22,44 @@ const PrivacyPolicyPage = () => {
             className="inline-flex items-center text-[#225217] hover:text-[#CD7E0D] mb-8 transition-colors"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
+            {labels.backToHome}
           </Link>
 
           <Card className="bg-white/80 backdrop-blur-sm border border-[#281909]/10 shadow-xl rounded-3xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-[#225217] to-[#CD7E0D] text-[#FDF8F0]">
               <CardTitle className="text-3xl font-bold text-[#fdf8f0] p-4">
-                Privacy Policy
+                {pageData?.title || labels.defaultTitles.privacy}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8">
               <div className="prose max-w-none">
                 <p className="text-lg text-[#281909]/80 mb-6">
-                  Last updated:{' '}
-                  {new Date().toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
+                  {labels.lastUpdated}{' '}
+                  {formatLegalDate(pageData?.lastUpdated, locale)}
                 </p>
 
+                {pageData?.sections && pageData.sections.length > 0 ? (
+                  <>
+                    {pageData.introduction && (
+                      <div
+                        className="text-[#281909]/80 leading-relaxed space-y-4 mb-6"
+                        dangerouslySetInnerHTML={{ __html: pageData.introduction }}
+                      />
+                    )}
+                    {pageData.sections.map((section, idx) => (
+                      <div key={section._key || section.sectionId || idx} className="mb-6">
+                        <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
+                          {section.heading}
+                        </h2>
+                        <div
+                          className="text-[#281909]/80 leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: section.content }}
+                        />
+                      </div>
+                    ))}
+                  </>
+                ) : locale === 'en' ? (
+                  <>
                 <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
                   Introduction
                 </h2>
@@ -259,6 +284,12 @@ const PrivacyPolicyPage = () => {
                   <li>By phone: +1 (403) 477-6059</li>
                   <li>By mail: 403 - 65 Mutual Street, Toronto, M5B 0E5</li>
                 </ul>
+                  </>
+                ) : (
+                  <p className="text-[#281909]/80 py-8" role="status">
+                    {isLoading ? labels.loading : labels.unavailable}
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>

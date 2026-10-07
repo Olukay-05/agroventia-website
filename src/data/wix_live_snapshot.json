@@ -1,0 +1,2424 @@
+{
+  "HeroContent": {
+    "success": true,
+    "count": 1,
+    "totalCount": 1,
+    "items": [
+      {
+        "subtitle": "AgroVentia connects qualified agricultural supply with commercial buyers across Canada, West Africa and international markets.",
+        "companyLogo": "wix:image://v1/a3b8a8_425766322d194e70817446fa58efb113~mv2.jpg/agroventia-logo.jpg#originWidth=1536&originHeight=1024",
+        "backgroundImage": "wix:image://v1/nsplsh_559a94c786044333bcfc26ccb4be438b~mv2.jpg/Image%20by%20James%20Baltz.jpg#originWidth=5464&originHeight=3070",
+        "description": "<p class=\"font_8\">AgroVentia Inc. specializes in high-quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted sources.</p>",
+        "_id": "113d7e91-1b4e-4dfd-97a7-679c42f40118",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T13:19:21.561Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:11:15.771Z"
+        },
+        "isActive": true,
+        "ctaPrimary": "Explore Products",
+        "title": "Simplifying global sourcing with reliable, premium agricultural products.",
+        "ctaSecondary": "Request a Quote"
+      }
+    ]
+  },
+  "AboutContent": {
+    "success": true,
+    "count": 1,
+    "totalCount": 1,
+    "items": [
+      {
+        "mission": "<p class=\"font_8\">To make agricultural trade more accessible and commercially effective by connecting qualified supply with genuine market demand.</p>",
+        "_id": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T14:40:20.146Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:29:46.316Z"
+        },
+        "certifications": "ISO 14001, LEED Gold",
+        "sectionTitle": "About AgroVentia Inc.",
+        "vision": "<p class=\"font_8\">To become a trusted international trading counterparty for agricultural producers, processors and buyers seeking reliable access to new markets and supply opportunities.</p>",
+        "headquarters": "Ontario, CA",
+        "story": "<p class=\"font_8\">AgroVentia Inc. is a Canadian agricultural trading company built to connect reliable agricultural supply with genuine international demand. From our base in Canada and our developing sourcing relationships across West Africa, we identify and develop commercially viable trade opportunities between producers, processors and buyers.</p>\n<p class=\"font_8\"><br></p>\n<p class=\"font_8\">Our business operates in both directions. We develop West African agricultural and botanical supply for international markets while originating Canadian agricultural commodities for qualified buyers abroad. Transactions may begin with a buyer requirement or with competitive supply identified at origin.</p>\n<p class=\"font_8\"><br></p>\n<p class=\"font_8\">Our focus is practical: understand the commercial requirement, identify suitable counterparties, align specifications and terms, and coordinate the transaction through to shipment.</p>",
+        "foundingYear": "2025",
+        "isActive": true,
+        "aboutImage": "wix:image://v1/4381ce_1e279e8335374e1296da6c185f394e35~mv2.jpg/a0082d0f-8a9e-4bf7-b848-20ecda856e62.jfif#originWidth=768&originHeight=1020"
+      }
+    ]
+  },
+  "ServicesContent": {
+    "success": true,
+    "count": 1,
+    "totalCount": 1,
+    "items": [
+      {
+        "servicesImage": "wix:image://v1/a3b8a8_425766322d194e70817446fa58efb113~mv2.jpg/agroventia-logo.jpg#originWidth=1536&originHeight=1024",
+        "_id": "e9f4cafe-e0c3-4763-8de5-8c442a28f654",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T18:38:22.040Z"
+        },
+        "documentation": "More than a supplier, we’re committed to building lasting relationships based on trust and value.",
+        "_updatedDate": {
+          "$date": "2025-09-07T11:37:13.125Z"
+        },
+        "imageBackground": "wix:image://v1/nsplsh_0fe3c1aacb2f45859fcc82654e0fe6fc~mv2.jpg/Image%20by%20Steven%20Weeks.jpg#originWidth=6000&originHeight=4000",
+        "sectionTitle": "Our Process",
+        "importServices": "We identify Africa’s finest agricultural producers, prioritizing ethical practices and sustainable farming.",
+        "logistics": "Our experienced team manages the entire supply chain, ensuring efficiency and transparency.",
+        "sectionDescription": "<p class=\"font_8\">From farm to market, our process ensures every product is sourced responsibly, inspected carefully, and delivered reliably to global buyers.</p>",
+        "isActive": true,
+        "customSourcing": "We deliver as promised, shipments arrive on schedule so you can focus on growing your business.",
+        "qualityAssurance": "Every product is carefully inspected and verified to meet international standards before export."
+      }
+    ]
+  },
+  "ProductsContent": {
+    "success": true,
+    "count": 1,
+    "totalCount": 1,
+    "items": [
+      {
+        "_id": "e28d4b65-690a-41e6-b01c-07e6edb2795b",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-22T10:01:12.184Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:54:04.552Z"
+        },
+        "sectionTitle": "Products & Trade Origins",
+        "sectionDescription": "Our product portfolio reflects the agricultural commodities and ingredients for which AgroVentia develops supply and market opportunities. Availability, specifications and commercial terms are confirmed against individual requirements.",
+        "isActive": true,
+        "sectionImage": "wix:image://v1/nsplsh_f6796d8c9f4c472d9be9cd8804f888ad~mv2.jpg/Image%20by%20Shelley%20Pauls.jpg#originWidth=8256&originHeight=5504"
+      }
+    ]
+  },
+  "Import1": {
+    "success": true,
+    "count": 12,
+    "totalCount": 12,
+    "items": [
+      {
+        "_id": "ea9ca2ed-897d-4b52-ba2a-e2eaa716fb86",
+        "_owner": "125fa2e7-2b4c-4b23-ad6b-f47b689e6398",
+        "_createdDate": {
+          "$date": "2026-10-04T05:34:07.139Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:34:07.139Z"
+        },
+        "title": "Natural Sweeteners & Extracts"
+      },
+      {
+        "_id": "72fb7e3e-9208-4c6a-b131-6a75c53fc608",
+        "_owner": "125fa2e7-2b4c-4b23-ad6b-f47b689e6398",
+        "_createdDate": {
+          "$date": "2026-10-04T05:33:13.277Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:33:13.277Z"
+        },
+        "title": "Processed & Value-Added Foods"
+      },
+      {
+        "_id": "c56a65a7-0500-430b-af63-4e4ae0985b2f",
+        "_owner": "125fa2e7-2b4c-4b23-ad6b-f47b689e6398",
+        "_createdDate": {
+          "$date": "2026-10-04T05:33:04.728Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:33:04.728Z"
+        },
+        "title": "Feed & Animal Nutrition"
+      },
+      {
+        "_id": "041d9624-7f73-44bf-bd22-becd94864ce1",
+        "_owner": "125fa2e7-2b4c-4b23-ad6b-f47b689e6398",
+        "_createdDate": {
+          "$date": "2026-10-04T05:32:55.577Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:32:55.577Z"
+        },
+        "title": "Food & Agricultural Ingredients"
+      },
+      {
+        "_id": "ebb8c3f4-2930-41e3-bca6-cc86013b89fe",
+        "_owner": "125fa2e7-2b4c-4b23-ad6b-f47b689e6398",
+        "_createdDate": {
+          "$date": "2026-10-04T05:32:44.402Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:32:44.402Z"
+        },
+        "title": "Fruits & Berries"
+      },
+      {
+        "_id": "8467e29d-e4c9-4dea-83ff-b6ba87940c34",
+        "_owner": "125fa2e7-2b4c-4b23-ad6b-f47b689e6398",
+        "_createdDate": {
+          "$date": "2026-10-04T05:31:12.046Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:31:12.046Z"
+        },
+        "title": "Pulses & Legumes"
+      },
+      {
+        "_id": "0e02a448-ee45-47c8-83fc-6ada26897383",
+        "_owner": "125fa2e7-2b4c-4b23-ad6b-f47b689e6398",
+        "_createdDate": {
+          "$date": "2026-10-04T05:31:00.318Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:31:00.318Z"
+        },
+        "title": "Grains & Cereals"
+      },
+      {
+        "image": "wix:image://v1/nsplsh_ec99d493c1be45a5a5b244c890788b24~mv2.jpg/Image%20by%20Jacqueline%20O'Gara.jpg#originWidth=4192&originHeight=2789",
+        "_id": "de624b6f-7fe2-491c-84ea-fdf2ccf74562",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Nuts & Seeds",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.027Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:32:02.635Z"
+        },
+        "slug": "nuts-and-seeds",
+        "categoryDescription": "Natural, high-quality nuts and seeds known for their nutritional benefits and wide culinary applications.",
+        "title": "Oilseeds, Nuts & Specialty Seeds"
+      },
+      {
+        "image": "wix:image://v1/nsplsh_e7f00a09d37b42af88b1e0856e1288ce~mv2.jpg/Image%20by%20Golam%20Kibria.jpg#originWidth=4032&originHeight=3024",
+        "_id": "644dc6d4-48b8-41f9-918e-0d6889bab630",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Roots & Spices",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.026Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T05:32:28.060Z"
+        },
+        "slug": "roots-and-spices",
+        "categoryDescription": "Fresh and dried roots and spices with rich flavor and medicinal properties.",
+        "title": "Spices, Botanicals & Specialty Crops"
+      },
+      {
+        "image": "wix:image://v1/nsplsh_38ebbddea79b469eb895ba57f1c9224c~mv2.jpg/Image%20by%20novila%20misastra.jpg#originWidth=6016&originHeight=4016",
+        "_id": "61e50bbc-ee29-4be7-af15-302fd94217f8",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Agricultural Beverages & Extracts",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.025Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T16:19:00.934Z"
+        },
+        "slug": "beverages-and-extracts",
+        "categoryDescription": "Natural plants and flowers ideal for teas, cultural beverages, and natural extracts.",
+        "title": "Agricultural Beverages & Extracts"
+      },
+      {
+        "image": "wix:image://v1/nsplsh_603c7cfc70b0473dbefb368e2a8ab06f~mv2.jpg/Image%20by%20Quin%20Engle.jpg#originWidth=3702&originHeight=2626",
+        "_id": "86508c5f-8ff6-4c4b-ba20-1526e69009c3",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Oils & Butters",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.024Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T16:19:31.558Z"
+        },
+        "slug": "oils-and-butters",
+        "categoryDescription": "100% natural oils and butters used in skincare, cosmetics, and culinary applications.",
+        "title": "Oils & Butters"
+      },
+      {
+        "image": "wix:image://v1/nsplsh_59704be56d44474ab7221825d6cb1be2~mv2.jpg/Image%20by%20Geio%20Tischler.jpg#originWidth=3394&originHeight=2149",
+        "_id": "e472d9cb-006c-4ebb-a8f0-87659244054b",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "categoryName": "Agricultural & Industrial Products",
+        "_createdDate": {
+          "$date": "2025-08-22T14:15:43.023Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-08-25T16:20:04.992Z"
+        },
+        "slug": "agricultural-and-industrial-products",
+        "categoryDescription": "Sustainably sourced raw materials for culinary, industrial, and artisanal uses.",
+        "title": "Agricultural & Industrial Products"
+      }
+    ]
+  },
+  "ContactContent": {
+    "success": true,
+    "count": 1,
+    "totalCount": 1,
+    "items": [
+      {
+        "businessPhone": "+1 (403) 477-6049",
+        "socialLinks": "LinkedIn: /company/agroventia Twitter: @agroventia Facebook: /agroventiainc",
+        "businessAddress": "<p class=\"font_8\">41 Kirkland Pl, Whitby, ON L1P 1X3</p>",
+        "_id": "8db43fe2-adac-40cd-b90e-41909fd6beb4",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-23T07:20:09.970Z"
+        },
+        "contactImage": "wix:image://v1/nsplsh_af43421e30ce4856a7bc199e4f3cbab1~mv2.jpg/Image%20by%20Mathyas%20Kurmann.jpg#originWidth=5847&originHeight=3898",
+        "_updatedDate": {
+          "$date": "2026-10-04T05:01:54.903Z"
+        },
+        "sectionTitle": "Get In Touch",
+        "responseTime": "24 hours for all inquiries",
+        "sectionDescription": "<h6 class=\"font_6\">Whether you are sourcing agricultural products or seeking international markets for available supply, share your requirement with our team and we will assess the opportunity.</h6>",
+        "isActive": true,
+        "businessHours": "Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed",
+        "businessEmail": "info@agroventia.ca"
+      }
+    ]
+  },
+  "OurCoreValues": {
+    "success": true,
+    "count": 4,
+    "totalCount": 4,
+    "items": [
+      {
+        "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+        "description": "<p class=\"font_8\">Products and opportunities are evaluated against defined buyer, market and commercial requirements.</p>",
+        "_id": "85b1197b-d538-43e7-879b-21003ec8aaab",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T16:49:51.374Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:45:42.951Z"
+        },
+        "isActive": true,
+        "title": "Specification Discipline"
+      },
+      {
+        "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+        "description": "<p class=\"font_8\">We seek credible counterparties and transparent sourcing relationships across the markets in which we operate.</p>",
+        "_id": "4ab83339-fd43-4466-b0d4-e45a88bb49db",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T16:49:51.373Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:46:07.485Z"
+        },
+        "isActive": true,
+        "title": "Responsible Sourcing"
+      },
+      {
+        "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+        "description": "<p class=\"font_8\">Clear communication around origin, specifications, availability, commercial terms and transaction requirements.</p>",
+        "_id": "4da26982-fc4c-45c3-b0bb-10084b7273f0",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T16:49:51.372Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:46:33.751Z"
+        },
+        "isActive": true,
+        "title": "Transparency"
+      },
+      {
+        "reference": "1a26a2a6-3512-48c1-99ec-3e469d12d725",
+        "description": "<p class=\"font_8\">Opportunities are evaluated for specification, volume, pricing, counterparty fit and execution requirements before commitment.</p>",
+        "_id": "226a834a-7dc8-408d-8a48-9d32a043813e",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-21T16:49:51.371Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:46:56.862Z"
+        },
+        "isActive": true,
+        "title": "Reliability"
+      }
+    ]
+  },
+  "CarouselImageDisplay": {
+    "success": true,
+    "count": 4,
+    "totalCount": 4,
+    "items": [
+      {
+        "tagline": "Quality you can count on, partnerships that last.",
+        "description": "Your Trusted Partner in Global Agricultural Trade",
+        "_id": "c41868b3-ee1b-4023-9ca5-71698b179b9b",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-29T11:36:28.594Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-09-11T19:56:55.137Z"
+        },
+        "isActive": true,
+        "title": "Your Trusted Partner in Global Agricultural Trade",
+        "displayOrder": 4,
+        "imageUrl": "wix:image://v1/4381ce_1e279e8335374e1296da6c185f394e35~mv2.jpg/a0082d0f-8a9e-4bf7-b848-20ecda856e62.jfif#originWidth=768&originHeight=1020"
+      },
+      {
+        "tagline": "AgroVentia connects qualified agricultural supply with commercial buyers across Canada, West Africa and international markets.",
+        "description": "Premium Agricultural Produce from Africa",
+        "_id": "14a1f73c-397d-4cd6-8f69-fd35ec97390e",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-29T11:16:56.704Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:15:06.748Z"
+        },
+        "isActive": true,
+        "title": "Global Agricultural Trade. Canadian Counterparty.",
+        "displayOrder": 1,
+        "imageUrl": "wix:image://v1/nsplsh_559a94c786044333bcfc26ccb4be438b~mv2.jpg/Image%20by%20James%20Baltz.jpg#originWidth=5464&originHeight=3070"
+      },
+      {
+        "tagline": "Ethically sourced. Globally delivered.",
+        "description": "From Africa’s Finest Fields to You",
+        "_id": "255d64fc-36fd-49c2-bbe4-2f10d3470fe2",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-29T11:16:56.703Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:13:17.463Z"
+        },
+        "isActive": true,
+        "title": "From Fields to You",
+        "displayOrder": 2,
+        "imageUrl": "wix:image://v1/nsplsh_7692f28646574f7da2f8fc47a02c9c96~mv2.jpg/Image%20by%20PROJETO%20CAF%C3%89%20GATO-MOURISCO.jpg#originWidth=5616&originHeight=3744"
+      },
+      {
+        "tagline": "Every shipment, a promise kept.",
+        "description": "Redefining Agricultural Trade with Integrity",
+        "_id": "6be1924a-1330-4e98-ad22-e0e69a1f2772",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-08-29T11:16:56.702Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-10-04T04:12:34.489Z"
+        },
+        "isActive": true,
+        "title": "Redefining Agricultural Trade",
+        "displayOrder": 3,
+        "imageUrl": "wix:image://v1/nsplsh_4cf496edf8394fc3ab5e169a32ea57a7~mv2.jpg/Image%20by%20Loren%20King.jpg#originWidth=4000&originHeight=2250"
+      }
+    ]
+  },
+  "Import5": {
+    "success": true,
+    "count": 1,
+    "totalCount": 1,
+    "items": [
+      {
+        "author": "97ecd297-aa8c-4bae-a321-55cd2eeb1e26",
+        "excerpt": "AgroVentia bridges the gap between global industries and premium agricultural producers, delivering reliable sourcing, consistent quality, and seamless supply chain solutions.",
+        "_id": "9daa4a4a-88fe-4eae-9ffa-b82dba3461b6",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2026-04-19T23:43:24.316Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-04-26T22:00:56.521Z"
+        },
+        "slug": "bridging-industries-with-premium-produce",
+        "coverImage": "wix:image://v1/nsplsh_0115df7ec6be4d9388a272e39de55083~mv2.jpg/Image%20by%20Sumeet%20Singh.jpg#originWidth=6000&originHeight=4000",
+        "publishedDate": {
+          "$date": "2026-04-20T00:00:00Z"
+        },
+        "content": {
+          "documentStyle": {},
+          "nodes": [
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "po4jr396",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Bridging the Gap Between Global Demand and African Agricultural Supply"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "344ha398",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Across global industries—from food and beverage to nutraceuticals, cosmetics, and manufacturing—one challenge continues to persist:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "yfd63400",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "access to reliable, high-quality agricultural raw materials."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "qfrf0402",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "At the same time, thousands of producers across Africa cultivate premium crops with limited access to structured, high-value international markets."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "zy9tb404",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "This imbalance creates a critical gap between "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "consistent industrial demand"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": " and "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "underutilized agricultural supply"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "89n421286",
+              "nodes": [],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "bzuqh410",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "AgroVentia Inc. was built to close that gap."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "7b81l1386",
+              "nodes": [],
+              "paragraphData": {},
+              "type": "PARAGRAPH"
+            },
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "2980l412",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "A Smarter Model for Agricultural Sourcing"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "0702d414",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "AgroVentia is not a traditional exporter."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "ibajv416",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "We operate as a "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "strategic sourcing partner"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": ", connecting businesses directly with vetted agricultural producers across Africa."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "z3irp420",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Our approach is simple:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "blockquoteData": {
+                "indentation": 0
+              },
+              "id": "4ercn422",
+              "nodes": [
+                {
+                  "id": "n9jgt423",
+                  "nodes": [
+                    {
+                      "id": "",
+                      "nodes": [],
+                      "textData": {
+                        "decorations": [],
+                        "text": "Align real market demand with reliable, high-quality supply."
+                      },
+                      "type": "TEXT"
+                    }
+                  ],
+                  "paragraphData": {
+                    "indentation": 0,
+                    "textStyle": {
+                      "textAlignment": "AUTO"
+                    }
+                  },
+                  "type": "PARAGRAPH"
+                }
+              ],
+              "type": "BLOCKQUOTE"
+            },
+            {
+              "id": "xsk89425",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "By doing so, we transform fragmented, uncertain supply chains into "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "efficient, dependable sourcing ecosystems"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "uvfkt429",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Supplying the Right Product — Not Just Any Product"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "ka3o0431",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Different industries require different standards.Yet many businesses struggle to source "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "the right quality at the right scale, consistently"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "mva8h435",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "AgroVentia works with companies across:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "bulletedListData": {
+                "indentation": 0
+              },
+              "id": "rhwvb437",
+              "nodes": [
+                {
+                  "id": "c9qwb438",
+                  "nodes": [
+                    {
+                      "id": "i47nk439",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Food & beverage manufacturing"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "oljx5441",
+                  "nodes": [
+                    {
+                      "id": "3evun442",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Nutraceutical and wellness brands"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "ayj2z444",
+                  "nodes": [
+                    {
+                      "id": "f7nuc445",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Cosmetics and personal care"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "zb8yn447",
+                  "nodes": [
+                    {
+                      "id": "j2kms448",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Agro-processing and commodity trading"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                }
+              ],
+              "type": "BULLETED_LIST"
+            },
+            {
+              "id": "48ur4450",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "We don’t offer generic supply."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "pclue452",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "We deliver "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "products tailored to your specifications"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "—ensuring consistency, performance, and reliability in your end products."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "ea4hh456",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Premium African Sourcing, Built on Trust"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "3sy8v458",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Our strength lies in a carefully developed sourcing network across Africa, supplying products such as:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "bulletedListData": {
+                "indentation": 0
+              },
+              "id": "z0k8d460",
+              "nodes": [
+                {
+                  "id": "1sz4r461",
+                  "nodes": [
+                    {
+                      "id": "0a6j2462",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Sesame seeds"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "ao5s1464",
+                  "nodes": [
+                    {
+                      "id": "658b2465",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Hibiscus flowers"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "4889o467",
+                  "nodes": [
+                    {
+                      "id": "wsqq5468",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Ginger and garlic"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "hlgd1470",
+                  "nodes": [
+                    {
+                      "id": "hveza471",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Shea butter"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "uglqj473",
+                  "nodes": [
+                    {
+                      "id": "5bwes474",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Soybeans and specialty crops"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                }
+              ],
+              "type": "BULLETED_LIST"
+            },
+            {
+              "id": "b5nkb476",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "But the real value is not just in "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "italicData": true,
+                        "type": "ITALIC"
+                      }
+                    ],
+                    "text": "what"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": " we supply—it’s in "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "italicData": true,
+                        "type": "ITALIC"
+                      }
+                    ],
+                    "text": "how"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": " we supply it."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "4jupn482",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "AgroVentia is built on:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "bulletedListData": {
+                "indentation": 0
+              },
+              "id": "xqefk484",
+              "nodes": [
+                {
+                  "id": "bai0f485",
+                  "nodes": [
+                    {
+                      "id": "rmnw9486",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [
+                              {
+                                "fontWeightValue": 700,
+                                "type": "BOLD"
+                              }
+                            ],
+                            "text": "Consistent quality standards"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "ftm3l488",
+                  "nodes": [
+                    {
+                      "id": "0mofu489",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [
+                              {
+                                "fontWeightValue": 700,
+                                "type": "BOLD"
+                              }
+                            ],
+                            "text": "Ethical and responsible sourcing"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "6gh8j491",
+                  "nodes": [
+                    {
+                      "id": "en297492",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [
+                              {
+                                "fontWeightValue": 700,
+                                "type": "BOLD"
+                              }
+                            ],
+                            "text": "Long-term supplier partnerships"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "2ii4a494",
+                  "nodes": [
+                    {
+                      "id": "ggwz3495",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [
+                              {
+                                "fontWeightValue": 700,
+                                "type": "BOLD"
+                              }
+                            ],
+                            "text": "End-to-end traceability"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                }
+              ],
+              "type": "BULLETED_LIST"
+            },
+            {
+              "id": "5xge7497",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Every shipment is backed by a system designed for "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "trust, transparency, and repeatability"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "2fysc501",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Removing Friction from Global Trade"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "i57kx503",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Global sourcing is often slowed by inefficiencies—miscommunication, inconsistent quality, and unreliable delivery timelines."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "d2kux505",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "AgroVentia simplifies the process by acting as your "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "single, accountable sourcing partner"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "6e46u509",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "We handle:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "bulletedListData": {
+                "indentation": 0
+              },
+              "id": "ltz9c511",
+              "nodes": [
+                {
+                  "id": "z83lu512",
+                  "nodes": [
+                    {
+                      "id": "0kgtl513",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Supplier coordination on the ground"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "lldrm515",
+                  "nodes": [
+                    {
+                      "id": "3sktc516",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Quality control before export"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "xy8lg518",
+                  "nodes": [
+                    {
+                      "id": "kak7o519",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Documentation and compliance"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "faadb521",
+                  "nodes": [
+                    {
+                      "id": "jigid522",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Logistics and delivery execution"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                }
+              ],
+              "type": "BULLETED_LIST"
+            },
+            {
+              "id": "lp5o5524",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "The result is a "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "streamlined, low-risk supply chain"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": " you can depend on."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "s4500528",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Why It Matters for Your Business"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "jf0w4530",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Sourcing is not just an operational task—it directly impacts:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "bulletedListData": {
+                "indentation": 0
+              },
+              "id": "zna56532",
+              "nodes": [
+                {
+                  "id": "iykgo533",
+                  "nodes": [
+                    {
+                      "id": "m16at534",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Product quality"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "m24tf536",
+                  "nodes": [
+                    {
+                      "id": "qgjn7537",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Brand reputation"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "ozk14539",
+                  "nodes": [
+                    {
+                      "id": "qceam540",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Cost efficiency"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "ye00m542",
+                  "nodes": [
+                    {
+                      "id": "bjgea543",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Ability to scale"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                }
+              ],
+              "type": "BULLETED_LIST"
+            },
+            {
+              "id": "5ogy6545",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "With AgroVentia, you can:"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "bulletedListData": {
+                "indentation": 0
+              },
+              "id": "wpdyi547",
+              "nodes": [
+                {
+                  "id": "vbroz548",
+                  "nodes": [
+                    {
+                      "id": "e5tm3549",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Secure "
+                          },
+                          "type": "TEXT"
+                        },
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [
+                              {
+                                "fontWeightValue": 700,
+                                "type": "BOLD"
+                              }
+                            ],
+                            "text": "consistent, high-quality raw materials"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "2l1jb552",
+                  "nodes": [
+                    {
+                      "id": "rk3u5553",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Reduce sourcing uncertainty"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "k2z9l555",
+                  "nodes": [
+                    {
+                      "id": "g7554556",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Build a "
+                          },
+                          "type": "TEXT"
+                        },
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [
+                              {
+                                "fontWeightValue": 700,
+                                "type": "BOLD"
+                              }
+                            ],
+                            "text": "scalable, reliable supply chain"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                },
+                {
+                  "id": "611l7559",
+                  "nodes": [
+                    {
+                      "id": "grxtp560",
+                      "nodes": [
+                        {
+                          "id": "",
+                          "nodes": [],
+                          "textData": {
+                            "decorations": [],
+                            "text": "Focus on growth, not procurement challenges"
+                          },
+                          "type": "TEXT"
+                        }
+                      ],
+                      "paragraphData": {},
+                      "type": "PARAGRAPH"
+                    }
+                  ],
+                  "type": "LIST_ITEM"
+                }
+              ],
+              "type": "BULLETED_LIST"
+            },
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "smmma562",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Building the Future of Agricultural Trade"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "spuin564",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "As global industries evolve, the demand for "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "transparent, reliable, and high-quality sourcing"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": " will only intensify."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "b6f3w568",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "AgroVentia sits at the center of this shift—connecting "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "producers with opportunity"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": " and "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "businesses with execution"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "j2wnh574",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "The future of agricultural trade is not just about supply."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "j68ih576",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "It’s about "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "connection, alignment, and trust"
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "x04it580",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "And AgroVentia is making that connection possible."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "headingData": {
+                "level": 2,
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "id": "knlok582",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Partner With AgroVentia"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "type": "HEADING"
+            },
+            {
+              "id": "jrn14584",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "Looking for a dependable source of premium agricultural products?"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "3mxku586",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "fontWeightValue": 700,
+                        "type": "BOLD"
+                      }
+                    ],
+                    "text": "Work with AgroVentia Inc. to build a supply chain you can trust."
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            },
+            {
+              "id": "2k7iy588",
+              "nodes": [
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [],
+                    "text": "📞 +1 (403) 477-6059📧 "
+                  },
+                  "type": "TEXT"
+                },
+                {
+                  "id": "",
+                  "nodes": [],
+                  "textData": {
+                    "decorations": [
+                      {
+                        "linkData": {
+                          "link": {
+                            "rel": {
+                              "noreferrer": true
+                            },
+                            "target": "BLANK",
+                            "url": "mailto:info@agroventia.ca"
+                          }
+                        },
+                        "type": "LINK"
+                      }
+                    ],
+                    "text": "info@agroventia.ca"
+                  },
+                  "type": "TEXT"
+                }
+              ],
+              "paragraphData": {
+                "textStyle": {
+                  "textAlignment": "AUTO"
+                }
+              },
+              "type": "PARAGRAPH"
+            }
+          ]
+        },
+        "title": "Bridging the Gap Between Industries and Premium Agricultural Supply",
+        "handleId": "post-8"
+      }
+    ]
+  },
+  "Import3": {
+    "success": true,
+    "count": 1,
+    "totalCount": 1,
+    "items": [
+      {
+        "name": "AgroVentia Inc.",
+        "_id": "97ecd297-aa8c-4bae-a321-55cd2eeb1e26",
+        "_owner": "4381ce0f-ff60-411a-92cb-c5b09661ab68",
+        "_createdDate": {
+          "$date": "2026-04-26T21:57:12.097Z"
+        },
+        "_updatedDate": {
+          "$date": "2026-04-26T21:57:12.097Z"
+        },
+        "title": "AgroVentia Inc."
+      }
+    ]
+  },
+  "Import4": {
+    "success": true,
+    "count": 6,
+    "totalCount": 6,
+    "items": [
+      {
+        "description": "Practices for long-term agricultural health.",
+        "_id": "5cb34e77-6b4f-41d9-a952-f3fdf9f098fc",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-12-31T22:20:48.795Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-12-31T22:20:48.795Z"
+        },
+        "title": "Sustainability",
+        "handleId": "cat-1"
+      },
+      {
+        "description": "Insights into market demands and opportunities.",
+        "_id": "273c6039-b112-4239-9cf0-2ad5fa56bc51",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-12-31T22:20:48.794Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-12-31T22:20:48.794Z"
+        },
+        "title": "Market Trends",
+        "handleId": "cat-2"
+      },
+      {
+        "description": "Logistics, farm-to-table courses.",
+        "_id": "24465631-c41d-4aca-8efe-1942070dabb3",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-12-31T22:20:48.793Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-12-31T22:20:48.793Z"
+        },
+        "title": "Supply Chain",
+        "handleId": "cat-3"
+      },
+      {
+        "description": "Innovations in farming.",
+        "_id": "f7bd6f48-0cb7-4391-8ab2-f57615653a20",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-12-31T22:20:48.792Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-12-31T22:20:48.792Z"
+        },
+        "title": "Technology",
+        "handleId": "cat-4"
+      },
+      {
+        "description": "Standards and regulations.",
+        "_id": "e2063d24-2b61-4941-b2e7-9ecfffbb693f",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-12-31T22:20:48.791Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-12-31T22:20:48.791Z"
+        },
+        "title": "Compliance",
+        "handleId": "cat-5"
+      },
+      {
+        "description": "Social impact and people in agriculture.",
+        "_id": "8bea74d7-ce62-4fb7-982f-0691434776a5",
+        "_owner": "a3b8a8da-383d-4f87-ade8-a9def3277b58",
+        "_createdDate": {
+          "$date": "2025-12-31T22:20:48.790Z"
+        },
+        "_updatedDate": {
+          "$date": "2025-12-31T22:20:48.790Z"
+        },
+        "title": "Community",
+        "handleId": "cat-6"
+      }
+    ]
+  }
+}

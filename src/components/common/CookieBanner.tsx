@@ -2,13 +2,23 @@
 
 import React, { useState, useEffect } from 'react';
 import useCookieConsent from '@/hooks/useCookieConsent';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLegalUiLabels } from '@/lib/legal-i18n';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 const CookieBanner: React.FC = () => {
   const { consent, setConsent, hasMadeChoice } = useCookieConsent();
+  const { locale } = useLocale();
   const [isVisible, setIsVisible] = useState(false);
+  const [draftConsent, setDraftConsent] = useState(consent);
+  const labels = getLegalUiLabels(locale);
+
+  useEffect(() => {
+    setDraftConsent(consent);
+  }, [consent]);
 
   // Check if we should show the banner
   useEffect(() => {
@@ -21,7 +31,6 @@ const CookieBanner: React.FC = () => {
 
     // Show the banner if the user hasn't made an explicit choice and not on legal pages
     if (!hasMadeChoice && !isLegalPage) {
-      // Small delay to ensure page is loaded
       const timer = setTimeout(() => {
         setIsVisible(true);
       }, 1000);
@@ -49,12 +58,15 @@ const CookieBanner: React.FC = () => {
   };
 
   const handleAcceptSelection = () => {
-    // Only necessary cookies are always enabled
+    setConsent({
+      analytics: draftConsent.analytics,
+      marketing: draftConsent.marketing,
+      functional: draftConsent.functional,
+    });
     setIsVisible(false);
   };
 
   const handleClose = () => {
-    // This will keep the current consent state (which defaults to only necessary)
     setIsVisible(false);
   };
 
@@ -62,29 +74,29 @@ const CookieBanner: React.FC = () => {
     return null;
   }
 
+  const b = labels.cookieBanner;
+
   return (
     <div
       className={cn(
         'fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 transition-all duration-2000',
-        'bg-[#281909] text-[#FDF8F0]', // Bistre background with Floral White text (color role reversal)
-        'border-t-4 border-[#CD7E0D]' // Bronze accent border
+        'bg-[#281909] text-[#FDF8F0]',
+        'border-t-4 border-[#CD7E0D]'
       )}
     >
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold mb-2">Cookie Consent</h3>
+            <h3 className="text-lg font-semibold mb-2">{b.title}</h3>
             <p className="text-sm md:text-base mb-4">
-              We use cookies to improve your experience, analyze traffic, and
-              for marketing purposes. You can choose which cookies to allow.
-              Read our{' '}
-              <a
+              {b.description}
+              <Link
                 href="/privacy-policy"
                 className="underline hover:text-[#CD7E0D]"
               >
-                Privacy Policy
-              </a>{' '}
-              for more information.
+                {b.privacyLinkText}
+              </Link>
+              {b.descriptionSuffix}
             </p>
 
             <div className="flex flex-wrap gap-2 mb-4">
@@ -97,7 +109,7 @@ const CookieBanner: React.FC = () => {
                   className="mr-2"
                 />
                 <label htmlFor="necessary" className="text-sm">
-                  Necessary (always required)
+                  {b.necessary}
                 </label>
               </div>
 
@@ -105,12 +117,12 @@ const CookieBanner: React.FC = () => {
                 <input
                   type="checkbox"
                   id="analytics"
-                  checked={consent.analytics}
-                  onChange={e => setConsent({ analytics: e.target.checked })}
+                  checked={draftConsent.analytics}
+                  onChange={e => setDraftConsent(prev => ({ ...prev, analytics: e.target.checked }))}
                   className="mr-2"
                 />
                 <label htmlFor="analytics" className="text-sm">
-                  Analytics
+                  {b.analytics}
                 </label>
               </div>
 
@@ -118,12 +130,12 @@ const CookieBanner: React.FC = () => {
                 <input
                   type="checkbox"
                   id="marketing"
-                  checked={consent.marketing}
-                  onChange={e => setConsent({ marketing: e.target.checked })}
+                  checked={draftConsent.marketing}
+                  onChange={e => setDraftConsent(prev => ({ ...prev, marketing: e.target.checked }))}
                   className="mr-2"
                 />
                 <label htmlFor="marketing" className="text-sm">
-                  Marketing
+                  {b.marketing}
                 </label>
               </div>
 
@@ -131,12 +143,12 @@ const CookieBanner: React.FC = () => {
                 <input
                   type="checkbox"
                   id="functional"
-                  checked={consent.functional}
-                  onChange={e => setConsent({ functional: e.target.checked })}
+                  checked={draftConsent.functional}
+                  onChange={e => setDraftConsent(prev => ({ ...prev, functional: e.target.checked }))}
                   className="mr-2"
                 />
                 <label htmlFor="functional" className="text-sm">
-                  Functional
+                  {b.functional}
                 </label>
               </div>
             </div>
@@ -147,27 +159,28 @@ const CookieBanner: React.FC = () => {
               onClick={handleAcceptAll}
               className="bg-[#CD7E0D] hover:bg-[#225217] text-[#281909]"
             >
-              Accept All
+              {b.acceptAll}
             </Button>
             <Button
               onClick={handleAcceptSelection}
               variant="outline"
               className="border-[#FDF8F0] text-[#FDF8F0] hover:bg-[#FDF8F0] hover:text-[#281909]"
             >
-              Accept Selection
+              {b.acceptSelection}
             </Button>
             <Button
               onClick={handleRejectAll}
               variant="outline"
               className="border-[#FDF8F0] text-[#FDF8F0] hover:bg-[#FDF8F0] hover:text-[#281909]"
             >
-              Reject All
+              {b.rejectAll}
             </Button>
             <Button
               onClick={handleClose}
               variant="ghost"
               size="icon"
               className="ml-2 md:ml-0 text-[#FDF8F0] hover:bg-[#225217]"
+              aria-label={b.close}
             >
               <X className="h-5 w-5" />
             </Button>
@@ -175,10 +188,7 @@ const CookieBanner: React.FC = () => {
         </div>
 
         <div className="mt-4 text-xs text-[#FDF8F0]/80">
-          <p>
-            Your privacy is important to us. You can change your cookie
-            preferences at any time.
-          </p>
+          <p>{b.footerNote}</p>
         </div>
       </div>
     </div>

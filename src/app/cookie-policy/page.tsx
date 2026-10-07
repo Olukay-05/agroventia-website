@@ -5,12 +5,24 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import useCookieConsent from '@/hooks/useCookieConsent';
+import { useLegalPage } from '@/hooks/useContent';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getLegalUiLabels, formatLegalDate } from '@/lib/legal-i18n';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 const CookiePolicyPage = () => {
+  const { locale } = useLocale();
   const { consent, setConsent } = useCookieConsent();
   const [, setShowSettings] = useState(false);
+  const { data: pageData, isLoading } = useLegalPage('cookie-policy');
+  const labels = getLegalUiLabels(locale);
+
+  const isFrench = locale.startsWith('fr');
+  const isSpanish = locale.startsWith('es') || locale === 'esp';
+  const alwaysActiveText = isFrench ? 'Toujours actif' : isSpanish ? 'Siempre activo' : 'Always Active';
+  const enabledText = isFrench ? 'Activé' : isSpanish ? 'Activado' : 'Enabled';
+  const enableText = isFrench ? 'Activer' : isSpanish ? 'Activar' : 'Enable';
 
   const handleConsentChange = (
     category: keyof typeof consent,
@@ -41,6 +53,130 @@ const CookiePolicyPage = () => {
     setShowSettings(false);
   };
 
+  const renderCookiePreferencesPanel = () => (
+    <div className="bg-[#F6F2E7] rounded-2xl p-6 my-8">
+      <h3 className="text-xl font-bold text-[#225217] mb-4">
+        {labels.cookiePage.preferencesHeading}
+      </h3>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="font-semibold text-[#281909]">
+              {labels.cookiePage.necessaryTitle}
+            </h4>
+            <p className="text-sm text-[#281909]/70">
+              {labels.cookiePage.necessaryDesc}
+            </p>
+          </div>
+          <span className="px-3 py-1 bg-[#225217] text-[#FDF8F0] rounded-full text-sm font-medium">
+            {alwaysActiveText}
+          </span>
+        </div>
+
+        <Separator className="bg-[#281909]/10" />
+
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="font-semibold text-[#281909]">
+              {labels.cookiePage.analyticsTitle}
+            </h4>
+            <p className="text-sm text-[#281909]/70">
+              {labels.cookiePage.analyticsDesc}
+            </p>
+          </div>
+          <Button
+            variant={consent.analytics ? 'default' : 'outline'}
+            onClick={() =>
+              handleConsentChange('analytics', !consent.analytics)
+            }
+            className={
+              consent.analytics
+                ? 'bg-[#225217] hover:bg-[#CD7E0D] text-[#FDF8F0]'
+                : 'border-[#281909] text-[#281909]'
+            }
+          >
+            {consent.analytics ? enabledText : enableText}
+          </Button>
+        </div>
+
+        <Separator className="bg-[#281909]/10" />
+
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="font-semibold text-[#281909]">
+              {labels.cookiePage.marketingTitle}
+            </h4>
+            <p className="text-sm text-[#281909]/70">
+              {labels.cookiePage.marketingDesc}
+            </p>
+          </div>
+          <Button
+            variant={consent.marketing ? 'default' : 'outline'}
+            onClick={() =>
+              handleConsentChange('marketing', !consent.marketing)
+            }
+            className={
+              consent.marketing
+                ? 'bg-[#225217] hover:bg-[#CD7E0D] text-[#FDF8F0]'
+                : 'border-[#281909] text-[#281909]'
+            }
+          >
+            {consent.marketing ? enabledText : enableText}
+          </Button>
+        </div>
+
+        <Separator className="bg-[#281909]/10" />
+
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="font-semibold text-[#281909]">
+              {labels.cookiePage.functionalTitle}
+            </h4>
+            <p className="text-sm text-[#281909]/70">
+              {labels.cookiePage.functionalDesc}
+            </p>
+          </div>
+          <Button
+            variant={consent.functional ? 'default' : 'outline'}
+            onClick={() =>
+              handleConsentChange('functional', !consent.functional)
+            }
+            className={
+              consent.functional
+                ? 'bg-[#225217] hover:bg-[#CD7E0D] text-[#FDF8F0]'
+                : 'border-[#281909] text-[#281909]'
+            }
+          >
+            {consent.functional ? enabledText : enableText}
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-3 mt-6">
+        <Button
+          onClick={handleAcceptAll}
+          className="bg-[#225217] hover:bg-[#CD7E0D] text-[#FDF8F0]"
+        >
+          {labels.cookiePage.acceptAll}
+        </Button>
+        <Button
+          onClick={handleRejectAll}
+          variant="outline"
+          className="border-[#281909] text-[#281909] hover:bg-[#281909] hover:text-[#FDF8F0]"
+        >
+          {labels.cookiePage.rejectAll}
+        </Button>
+        <Button
+          onClick={handleSavePreferences}
+          variant="ghost"
+          className="text-[#281909]"
+        >
+          {labels.cookiePage.savePreferences}
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FDF8F0] to-[#F6F2E7] py-12">
       <div className="container-premium">
@@ -50,17 +186,45 @@ const CookiePolicyPage = () => {
             className="inline-flex items-center text-[#225217] hover:text-[#CD7E0D] mb-8 transition-colors"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
+            {labels.backToHome}
           </Link>
 
           <Card className="bg-white/80 backdrop-blur-sm border border-[#281909]/10 shadow-xl rounded-3xl overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-[#225217] to-[#CD7E0D] text-[#FDF8F0]">
               <CardTitle className="text-3xl font-bold text-[#fdf8f0] p-4">
-                Cookie Policy
+                {pageData?.title || labels.defaultTitles.cookies}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8">
               <div className="prose max-w-none">
+                <p className="text-lg text-[#281909]/80 mb-6">
+                  {labels.lastUpdated}{' '}
+                  {formatLegalDate(pageData?.lastUpdated, locale)}
+                </p>
+
+                {pageData?.sections && pageData.sections.length > 0 ? (
+                  <>
+                    {pageData.introduction && (
+                      <div
+                        className="text-[#281909]/80 leading-relaxed space-y-4 mb-6"
+                        dangerouslySetInnerHTML={{ __html: pageData.introduction }}
+                      />
+                    )}
+                    {renderCookiePreferencesPanel()}
+                    {pageData.sections.map((section, idx) => (
+                      <div key={section._key || section.sectionId || idx} className="mb-6">
+                        <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
+                          {section.heading}
+                        </h2>
+                        <div
+                          className="text-[#281909]/80 leading-relaxed space-y-4"
+                          dangerouslySetInnerHTML={{ __html: section.content }}
+                        />
+                      </div>
+                    ))}
+                  </>
+                ) : locale === 'en' ? (
+                  <>
                 <p className="text-lg text-[#281909]/80 mb-6">
                   This Cookie Policy explains how AgroVentia Inc.
                   (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) uses
@@ -330,6 +494,12 @@ const CookiePolicyPage = () => {
                   The date at the top of this Cookie Policy indicates when it
                   was last updated.
                 </p>
+                  </>
+                ) : (
+                  <p className="text-[#281909]/80 py-8" role="status">
+                    {isLoading ? labels.loading : labels.unavailable}
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>
