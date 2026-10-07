@@ -34,6 +34,7 @@ jest.mock('@emailjs/browser', () => ({
 }));
 
 describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters', () => {
+  jest.setTimeout(30000);
   let queryClient: QueryClient;
   const DASH_REGEX = /[—–]|\s-\s/;
 

@@ -112,6 +112,17 @@ function ProductDetailContent({
               <Link href="/products" className="hover:text-agro-primary-800 transition-colors">
                 {labels.catalog}
               </Link>
+              {product.category && (
+                <>
+                  <ChevronRight size={14} />
+                  <Link
+                    href={`/products?category=${encodeURIComponent(product.category)}`}
+                    className="hover:text-agro-primary-800 transition-colors hidden sm:inline"
+                  >
+                    {product.category}
+                  </Link>
+                </>
+              )}
               <ChevronRight size={14} />
               <span className="text-agro-primary-900 dark:text-agro-neutral-100 font-semibold truncate max-w-xs">
                 {title}
@@ -132,19 +143,23 @@ function ProductDetailContent({
         <SectionContainer id="product-dossier" className="py-10 md:py-16">
           <div className="max-w-6xl mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-              {/* Left Column: Visual Showcase */}
-              <div className="lg:col-span-5 space-y-4">
-                <div className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden bg-white dark:bg-agro-neutral-900 border border-agro-primary-200/70 dark:border-agro-primary-800/70 shadow-lg">
+              {/* Left Column: Visual Showcase (Studio Cutout on White Canvas) */}
+              <div className="lg:col-span-5 space-y-5">
+                <div className="relative aspect-[4/3] sm:aspect-square w-full rounded-2xl overflow-hidden bg-white border border-agro-primary-200/70 dark:border-agro-primary-800/70 shadow-lg p-6 flex items-center justify-center">
                   <WixImage
                     src={image}
                     alt={title}
                     fill
-                    className="object-contain p-6 hover:scale-105 transition-transform duration-500"
+                    className="object-contain w-full h-full max-h-full hover:scale-105 transition-transform duration-500"
                   />
                   {product.sourcingOrigin && (
                     <div className="absolute top-4 left-4 z-10">
                       <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-900 dark:text-agro-primary-200 shadow-sm backdrop-blur-sm border border-agro-primary-200 dark:border-agro-primary-800">
-                        <Globe size={13} className="text-agro-secondary-600" />
+                        {product.sourcingOrigin.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? (
+                          <span aria-hidden="true">🍁</span>
+                        ) : (
+                          <Globe size={13} className="text-agro-secondary-600" />
+                        )}
                         {product.sourcingOrigin}
                       </span>
                     </div>
@@ -152,21 +167,46 @@ function ProductDetailContent({
                 </div>
 
                 {/* Sourcing corridor info card */}
-                <div className="p-4 rounded-xl bg-agro-primary-50/70 dark:bg-agro-neutral-900 border border-agro-primary-200/60 dark:border-agro-primary-800/60 text-xs sm:text-sm text-gray-600 dark:text-agro-neutral-300 space-y-1">
+                <div className="p-4 rounded-xl bg-white/80 dark:bg-agro-neutral-900 border border-agro-primary-200/60 dark:border-agro-primary-800/60 text-xs sm:text-sm text-gray-600 dark:text-agro-neutral-300 space-y-2 shadow-sm">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-agro-primary-900 dark:text-agro-neutral-100">
                       {labels.originLabel}:
                     </span>
-                    <span>{product.sourcingOrigin || 'Direct Cooperative Origin'}</span>
+                    <span className="font-medium">{product.sourcingOrigin || 'Direct Cooperative Origin'}</span>
                   </div>
                   {product.category && (
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between border-t border-dashed border-agro-primary-100 dark:border-agro-primary-900/50 pt-2">
                       <span className="font-semibold text-agro-primary-900 dark:text-agro-neutral-100">
                         Category:
                       </span>
-                      <span>{product.category}</span>
+                      <span className="font-medium">{product.category}</span>
                     </div>
                   )}
+                </div>
+
+                {/* Sourcing Corridor Context Dossier Box */}
+                <div className="p-5 rounded-2xl bg-agro-primary-50/70 dark:bg-agro-neutral-900 border border-agro-primary-200/60 dark:border-agro-primary-800/60 shadow-sm space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-5 w-5 text-agro-primary-700 dark:text-agro-primary-400" />
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-agro-primary-950 dark:text-agro-primary-100">
+                      Sourcing Corridor Context
+                    </h3>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-agro-neutral-300 leading-relaxed">
+                    {product.sourcingOrigin?.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/)
+                      ? 'Harvested across the fertile Canadian Prairies under optimal continental conditions. Rigorous Canadian Grain Commission (CGC) inspection standards ensure industry-leading purity, moisture consistency, and test weight.'
+                      : 'Aggregated directly through vetted regional cooperatives in West Africa. Sun-dried under natural equatorial solar conditions with comprehensive phytosanitary tracing for international export.'}
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-agro-primary-200/40 dark:border-agro-primary-800/40 text-[11px] text-gray-600 dark:text-agro-neutral-300">
+                    <div>
+                      <span className="block font-semibold text-agro-primary-900 dark:text-agro-neutral-200">Harvest Window:</span>
+                      <span>{product.sourcingOrigin?.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? 'Aug - Oct' : 'Year-Round / Dec - Mar'}</span>
+                    </div>
+                    <div>
+                      <span className="block font-semibold text-agro-primary-900 dark:text-agro-neutral-200">Export Readiness:</span>
+                      <span>Bulk Vessel / Containerized</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -238,7 +278,7 @@ function ProductDetailContent({
                   <Button
                     size="lg"
                     onClick={handleRequestQuote}
-                    className="btn-agro-primary flex-1 py-4 text-base flex items-center justify-center gap-2 shadow-lg"
+                    className="btn-agro-primary flex-1 py-4 text-base flex items-center justify-center gap-2 shadow-lg font-semibold"
                   >
                     {labels.requestQuote}
                     <ArrowRight size={18} />
@@ -247,7 +287,7 @@ function ProductDetailContent({
                     <Button
                       size="lg"
                       variant="outline"
-                      className="btn-agro-outline w-full py-4 text-base"
+                      className="btn-agro-outline w-full py-4 text-base font-semibold"
                     >
                       {labels.backToCatalog}
                     </Button>
@@ -256,13 +296,13 @@ function ProductDetailContent({
               </div>
             </div>
 
-            {/* Related Commodities Section */}
+            {/* Related Commodities Section (3-card grid from complementary corridor) */}
             {relatedProducts && relatedProducts.length > 0 && (
               <div className="mt-20 pt-12 border-t border-agro-primary-200/60 dark:border-agro-primary-800/60">
                 <h3 className="text-2xl font-bold font-serif text-agro-primary-950 dark:text-agro-neutral-50 mb-8">
                   {labels.relatedTitle}
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                   {relatedProducts.slice(0, 3).map(rel => {
                     const relTitle = rel.title || rel.productName || '';
                     const relImage =
@@ -276,36 +316,55 @@ function ProductDetailContent({
                         href={`/products/${rel.slug || rel._id}`}
                         className="group"
                       >
-                        <Card className="h-full flex flex-col overflow-hidden border border-agro-primary-200 dark:border-agro-primary-800 bg-white dark:bg-agro-neutral-900 group-hover:shadow-lg transition-all duration-300">
-                          <div className="relative h-44 w-full overflow-hidden bg-white/50 dark:bg-agro-neutral-800">
-                            <WixImage
-                              src={relImage}
-                              alt={relTitle}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            {rel.sourcingOrigin && (
-                              <div className="absolute top-2.5 left-2.5 z-10">
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-800 shadow-sm">
-                                  <Globe size={10} />
-                                  {rel.sourcingOrigin}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-base font-bold text-agro-primary-950 dark:text-agro-neutral-50 line-clamp-1 group-hover:text-agro-primary-700 transition-colors">
-                              {relTitle}
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent className="pb-4 flex-grow">
-                            {rel.description && (
-                              <div
-                                className="text-xs text-gray-600 dark:text-agro-neutral-300 line-clamp-2"
-                                dangerouslySetInnerHTML={{ __html: rel.description }}
+                        <Card className="h-full flex flex-col justify-between overflow-hidden rounded-2xl border border-agro-primary-200/60 dark:border-agro-primary-800/40 bg-white/90 dark:bg-agro-neutral-900/90 backdrop-blur-md group-hover:shadow-xl group-hover:border-agro-primary-400 group-hover:-translate-y-1 transition-all duration-300">
+                          <div className="flex flex-col flex-grow">
+                            {/* Pure white studio cutout canvas */}
+                            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-white border-b border-agro-primary-100/60 dark:border-agro-primary-900/40 p-3 flex items-center justify-center">
+                              <WixImage
+                                src={relImage}
+                                alt={relTitle}
+                                fill
+                                className="object-contain w-full h-full max-h-full group-hover:scale-105 transition-transform duration-500"
                               />
-                            )}
-                          </CardContent>
+                              {rel.sourcingOrigin && (
+                                <div className="absolute top-2.5 left-2.5 z-10">
+                                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-900 dark:text-agro-primary-200 shadow-sm border border-agro-primary-200/60 dark:border-agro-primary-800/60">
+                                    {rel.sourcingOrigin.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? (
+                                      <span aria-hidden="true">🍁</span>
+                                    ) : (
+                                      <Globe size={10} className="text-agro-secondary-600" />
+                                    )}
+                                    <span>{rel.sourcingOrigin}</span>
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+
+                            <CardHeader className="pb-2 pt-4 px-5">
+                              {rel.category && (
+                                <span className="text-xs font-bold uppercase tracking-wider text-agro-secondary-600 dark:text-agro-secondary-400">
+                                  {rel.category}
+                                </span>
+                              )}
+                              <CardTitle className="text-base font-bold text-agro-primary-950 dark:text-agro-neutral-50 line-clamp-1 group-hover:text-agro-primary-700 transition-colors">
+                                {relTitle}
+                              </CardTitle>
+                            </CardHeader>
+
+                            <CardContent className="pb-4 px-5 flex-grow">
+                              {rel.description && (
+                                <div
+                                  className="text-xs text-gray-600 dark:text-agro-neutral-300 line-clamp-2 leading-relaxed"
+                                  dangerouslySetInnerHTML={{ __html: rel.description }}
+                                />
+                              )}
+                            </CardContent>
+                          </div>
+
+                          <div className="px-5 pb-4 pt-1 flex items-center text-xs font-semibold text-agro-primary-700 dark:text-agro-primary-300 group-hover:underline gap-1">
+                            <span>{labels.viewDetails}</span>
+                            <ArrowRight size={12} />
+                          </div>
                         </Card>
                       </Link>
                     );

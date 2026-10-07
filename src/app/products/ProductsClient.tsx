@@ -9,7 +9,9 @@ import {
   Globe,
   RotateCcw,
   Search,
+  SearchX,
   SortDesc,
+  X,
 } from 'lucide-react';
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
@@ -57,6 +59,43 @@ function CatalogContent() {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductCatalogItem | null>(null);
+
+  // Dynamic corridor counts
+  const corridorCounts = useMemo(() => {
+    if (!rawProducts) return { all: 0, canada: 0, africa: 0 };
+    let canada = 0;
+    let africa = 0;
+    rawProducts.forEach(product => {
+      const isCan =
+        product.corridor === 'canada' ||
+        (() => {
+          const origin = (product.sourcingOrigin || '').toLowerCase();
+          return (
+            origin.includes('canada') ||
+            origin.includes('saskatchewan') ||
+            origin.includes('alberta') ||
+            origin.includes('manitoba') ||
+            origin.includes('ontario') ||
+            origin.includes('prairies')
+          );
+        })();
+      if (isCan) canada++;
+      const isAfr =
+        product.corridor === 'africa' ||
+        (() => {
+          const origin = (product.sourcingOrigin || '').toLowerCase();
+          return (
+            origin.includes('africa') ||
+            origin.includes('nigeria') ||
+            origin.includes('ghana') ||
+            origin.includes('tropical') ||
+            origin.includes('ivoire')
+          );
+        })();
+      if (isAfr) africa++;
+    });
+    return { all: rawProducts.length, canada, africa };
+  }, [rawProducts]);
 
   const labels = useMemo(() => ({
     pageTitle: isFrench
@@ -268,8 +307,8 @@ function CatalogContent() {
         {/* Catalog Browser Section */}
         <SectionContainer id="catalog-browser" className="py-12 md:py-16">
           <div className="max-w-6xl mx-auto px-4">
-            {/* Multi-Dimensional Filter Control Bar */}
-            <div className="bg-white/80 dark:bg-agro-neutral-900 border border-agro-primary-200/60 dark:border-agro-primary-800/60 rounded-2xl p-4 sm:p-6 shadow-sm mb-8 space-y-5">
+            {/* Multi-Dimensional Filter Control Bar (Sticky Unified Toolbar) */}
+            <div className="sticky top-20 z-20 backdrop-blur-md bg-white/95 dark:bg-agro-neutral-900/95 border border-agro-primary-200/60 dark:border-agro-primary-800/60 rounded-2xl p-4 sm:p-5 shadow-sm mb-8 space-y-4">
               {/* Corridor Origin Tab Selector */}
               <div>
                 <span className="block text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-agro-neutral-400 mb-2">
@@ -279,44 +318,98 @@ function CatalogContent() {
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('all')}
-                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 ${
                       selectedCorridor === 'all'
                         ? 'bg-agro-primary-700 text-white shadow-md'
                         : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
                     }`}
                   >
-                    {labels.allCorridors}
+                    <span>{labels.allCorridors}</span>
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 dark:bg-black/20">
+                      {corridorCounts.all}
+                    </span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('canada')}
-                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                       selectedCorridor === 'canada'
                         ? 'bg-agro-primary-700 text-white shadow-md'
                         : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
                     }`}
                   >
-                    <Globe size={13} />
-                    {labels.corridorCanada}
+                    <span aria-hidden="true">🍁</span>
+                    <span>{labels.corridorCanada}</span>
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 dark:bg-black/20">
+                      {corridorCounts.canada}
+                    </span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('africa')}
-                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                       selectedCorridor === 'africa'
                         ? 'bg-agro-primary-700 text-white shadow-md'
                         : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
                     }`}
                   >
-                    <Globe size={13} />
-                    {labels.corridorAfrica}
+                    <span aria-hidden="true">🌍</span>
+                    <span>{labels.corridorAfrica}</span>
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 dark:bg-black/20">
+                      {corridorCounts.africa}
+                    </span>
                   </button>
                 </div>
               </div>
 
-              {/* Search, Category, and Sort Row */}
-              <div className="flex flex-col lg:flex-row gap-3 pt-2 border-t border-agro-primary-100 dark:border-agro-primary-900/50">
-                {/* Real-time Search Input */}
+              {/* Category Filter Pills (Horizontal scroll on mobile, flex wrap on desktop) */}
+              <div className="pt-2 border-t border-agro-primary-100 dark:border-agro-primary-900/50">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-agro-neutral-400">
+                    Commodity Category
+                  </span>
+                  {selectedCategory !== 'all' && (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCategory('all')}
+                      className="text-xs text-agro-secondary-600 hover:underline cursor-pointer"
+                    >
+                      Reset Category
+                    </button>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0 flex-nowrap sm:flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategory('all')}
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                      selectedCategory === 'all'
+                        ? 'bg-agro-primary-800 text-white shadow-sm'
+                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
+                    }`}
+                  >
+                    {labels.allCategories}
+                  </button>
+                  {availableCategories.map(cat => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setSelectedCategory(cat === selectedCategory ? 'all' : cat)}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                        selectedCategory.toLowerCase() === cat.toLowerCase()
+                          ? 'bg-agro-primary-800 text-white shadow-sm'
+                          : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Search, Category Dropdown, and Sort Row */}
+              <div className="flex flex-col lg:flex-row gap-3 pt-3 border-t border-agro-primary-100 dark:border-agro-primary-900/50">
+                {/* Real-time Search Input with clear button */}
                 <div className="relative flex-1">
                   <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
@@ -324,8 +417,18 @@ function CatalogContent() {
                     placeholder={labels.searchPlaceholder}
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-4 py-2.5 w-full btn-agro-outline bg-white dark:bg-agro-neutral-850"
+                    className="pl-10 pr-9 py-2.5 w-full btn-agro-outline bg-white dark:bg-agro-neutral-850"
                   />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
+                      aria-label="Clear search input"
+                    >
+                      <X size={15} />
+                    </button>
+                  )}
                 </div>
 
                 {/* Category Dropdown */}
@@ -384,11 +487,66 @@ function CatalogContent() {
               </div>
             </div>
 
-            {/* Live Result Counter */}
-            <div className="flex justify-between items-center mb-6 px-1">
-              <p className="text-sm font-medium text-gray-600 dark:text-agro-neutral-300">
-                {labels.showingCount(sortedProducts.length, rawProducts?.length || 0)}
-              </p>
+            {/* Live Result Counter & Active Filter Chips */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 px-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-sm font-semibold text-gray-700 dark:text-agro-neutral-300">
+                  {labels.showingCount(sortedProducts.length, rawProducts?.length || 0)}
+                </p>
+
+                {/* Removable active filter tags */}
+                {(selectedCorridor !== 'all' || selectedCategory !== 'all' || searchQuery.trim()) && (
+                  <div className="flex flex-wrap items-center gap-1.5 ml-1">
+                    {selectedCorridor !== 'all' && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-agro-primary-100 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border border-agro-primary-200 dark:border-agro-primary-700">
+                        <span>Corridor: {selectedCorridor === 'canada' ? 'Canadian Prairies' : 'Tropical & West Africa'}</span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedCorridor('all')}
+                          className="hover:text-red-600 ml-0.5 cursor-pointer"
+                          aria-label="Remove corridor filter"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    )}
+                    {selectedCategory !== 'all' && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-agro-primary-100 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border border-agro-primary-200 dark:border-agro-primary-700">
+                        <span>Category: {selectedCategory}</span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedCategory('all')}
+                          className="hover:text-red-600 ml-0.5 cursor-pointer"
+                          aria-label="Remove category filter"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    )}
+                    {searchQuery.trim() && (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-agro-primary-100 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border border-agro-primary-200 dark:border-agro-primary-700">
+                        <span>Search: &ldquo;{searchQuery}&rdquo;</span>
+                        <button
+                          type="button"
+                          onClick={() => setSearchQuery('')}
+                          className="hover:text-red-600 ml-0.5 cursor-pointer"
+                          aria-label="Clear search filter"
+                        >
+                          <X size={12} />
+                        </button>
+                      </span>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={resetAllFilters}
+                      className="text-xs h-7 px-2 text-agro-secondary-700 hover:text-agro-secondary-900 hover:bg-agro-secondary-50 dark:text-agro-secondary-400 dark:hover:bg-agro-neutral-800 cursor-pointer font-semibold"
+                    >
+                      Clear All Filters
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Error Message */}
@@ -400,7 +558,7 @@ function CatalogContent() {
 
             {/* Loading Skeletons */}
             {isLoading && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {Array.from({ length: 9 }).map((_, idx) => (
                   <ProductSkeleton key={idx} />
                 ))}
@@ -409,11 +567,17 @@ function CatalogContent() {
 
             {/* Empty State */}
             {!isLoading && sortedProducts.length === 0 && (
-              <div className="text-center py-16 bg-white/60 dark:bg-agro-neutral-900 rounded-2xl border border-dashed border-agro-primary-200 dark:border-agro-primary-800 p-8">
-                <p className="text-base text-gray-600 dark:text-agro-neutral-300 mb-4">
+              <div className="text-center py-16 bg-white/80 dark:bg-agro-neutral-900/80 backdrop-blur-md rounded-2xl border border-dashed border-agro-primary-300 dark:border-agro-primary-700 p-8 max-w-lg mx-auto shadow-sm">
+                <div className="mx-auto w-14 h-14 rounded-full bg-agro-primary-50 dark:bg-agro-neutral-800 flex items-center justify-center text-agro-primary-600 dark:text-agro-primary-400 mb-4">
+                  <SearchX size={28} />
+                </div>
+                <h3 className="text-lg font-bold text-agro-primary-950 dark:text-agro-neutral-50 mb-2">
+                  No Commodities Found
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-agro-neutral-300 mb-6 max-w-md mx-auto">
                   {labels.noResults}
                 </p>
-                <Button onClick={resetAllFilters} variant="outline" className="btn-agro-outline">
+                <Button onClick={resetAllFilters} className="btn-agro-primary shadow-sm px-6">
                   {labels.resetFilters}
                 </Button>
               </div>
@@ -421,7 +585,7 @@ function CatalogContent() {
 
             {/* Product Catalog Grid */}
             {!isLoading && sortedProducts.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {sortedProducts.map(product => {
                   const title = product.title || product.productName || 'Agricultural Commodity';
                   const origin = product.sourcingOrigin || '';
@@ -434,51 +598,58 @@ function CatalogContent() {
                   return (
                     <Card
                       key={product._id}
-                      className="group flex flex-col overflow-hidden border border-agro-primary-200 dark:border-agro-primary-800 bg-white dark:bg-agro-neutral-900 hover:shadow-xl hover:bg-[#FDF8F0] dark:hover:bg-agro-neutral-850 transition-all duration-300 cursor-pointer"
+                      className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-agro-primary-200/60 dark:border-agro-primary-800/40 bg-white/90 dark:bg-agro-neutral-900/90 backdrop-blur-md hover:shadow-xl hover:bg-white dark:hover:bg-agro-neutral-850 hover:-translate-y-1 hover:border-agro-primary-400 dark:hover:border-agro-primary-600 transition-all duration-300 cursor-pointer"
                       onClick={() => handleCardClick(product)}
                     >
-                      <div className="relative h-52 w-full overflow-hidden bg-white/50 dark:bg-agro-neutral-800">
-                        <WixImage
-                          src={image}
-                          alt={title}
-                          fill
-                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                        />
-                        {origin && (
-                          <div className="absolute top-3 left-3 z-10">
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-800 dark:text-agro-primary-300 shadow-sm backdrop-blur-sm border border-agro-primary-100 dark:border-agro-primary-800">
-                              <Globe size={11} className="text-agro-secondary-600" />
-                              {origin}
+                      <div className="flex flex-col flex-grow">
+                        {/* Pure white studio cutout canvas */}
+                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-white border-b border-agro-primary-100/60 dark:border-agro-primary-900/40 flex items-center justify-center p-3">
+                          <WixImage
+                            src={image}
+                            alt={title}
+                            fill
+                            className="object-contain w-full h-full max-h-full group-hover:scale-105 transition-transform duration-500"
+                          />
+                          {origin && (
+                            <div className="absolute top-3 left-3 z-10">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-900 dark:text-agro-primary-200 shadow-sm backdrop-blur-md border border-agro-primary-200/60 dark:border-agro-primary-800/60">
+                                {origin.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? (
+                                  <span aria-hidden="true">🍁</span>
+                                ) : (
+                                  <Globe size={11} className="text-agro-secondary-600" />
+                                )}
+                                <span>{origin}</span>
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <CardHeader className="pb-2 pt-4 px-5">
+                          {category && (
+                            <span className="text-xs font-bold uppercase tracking-wider text-agro-secondary-600 dark:text-agro-secondary-400">
+                              {category}
                             </span>
-                          </div>
-                        )}
+                          )}
+                          <CardTitle className="text-lg font-bold text-agro-primary-950 dark:text-agro-neutral-50 line-clamp-1 group-hover:text-agro-primary-700 dark:group-hover:text-agro-primary-300 transition-colors">
+                            {title}
+                          </CardTitle>
+                        </CardHeader>
+
+                        <CardContent className="pb-3 px-5 flex-grow">
+                          {product.description && (
+                            <div
+                              className="text-sm text-gray-600 dark:text-agro-neutral-300 line-clamp-2 leading-relaxed"
+                              dangerouslySetInnerHTML={{ __html: product.description }}
+                            />
+                          )}
+                        </CardContent>
                       </div>
 
-                      <CardHeader className="pb-2">
-                        {category && (
-                          <span className="text-xs font-semibold uppercase tracking-wider text-agro-secondary-600 dark:text-agro-secondary-400">
-                            {category}
-                          </span>
-                        )}
-                        <CardTitle className="text-lg font-bold text-agro-primary-950 dark:text-agro-neutral-50 line-clamp-1">
-                          {title}
-                        </CardTitle>
-                      </CardHeader>
-
-                      <CardContent className="pb-4 flex-grow">
-                        {product.description && (
-                          <div
-                            className="text-sm text-gray-600 dark:text-agro-neutral-300 line-clamp-2 leading-relaxed"
-                            dangerouslySetInnerHTML={{ __html: product.description }}
-                          />
-                        )}
-                      </CardContent>
-
-                      <CardFooter className="pt-0 flex items-center gap-2">
+                      <CardFooter className="pt-2 pb-5 px-5 flex items-center gap-2.5">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="flex-1 btn-agro-outline text-xs h-9 cursor-pointer"
+                          className="flex-1 btn-agro-outline text-xs h-9 font-semibold cursor-pointer"
                           onClick={e => {
                             e.stopPropagation();
                             handleCardClick(product);
@@ -488,7 +659,7 @@ function CatalogContent() {
                         </Button>
                         <Button
                           size="sm"
-                          className="flex-1 btn-agro-primary text-xs h-9 cursor-pointer flex items-center justify-center gap-1"
+                          className="flex-1 btn-agro-primary text-xs h-9 font-semibold cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                           onClick={e => {
                             e.stopPropagation();
                             handleRequestQuote(title, product._id);

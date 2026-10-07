@@ -94,10 +94,15 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
   const labels = {
     featuredTitle: isFrench
-      ? 'Commodités agricoles phares'
+      ? 'Commodités phares et origines commerciales'
       : isSpanish
-        ? 'Productos agrícolas destacados'
-        : 'Featured Commodities',
+        ? 'Productos agrícolas destacados y orígenes comerciales'
+        : 'Featured Commodities & Trade Origins',
+    featuredEyebrow: isFrench
+      ? 'PORTEFEUILLE MONDIAL D’ORIGINATION'
+      : isSpanish
+        ? 'PORTAFOLIO GLOBAL DE ORIGINACIÓN'
+        : 'GLOBAL ORIGINATION PORTFOLIO',
     featuredSubtitle: isFrench
       ? 'Sélection rigoureuse de produits agricoles haut de gamme issus des corridors canadien et ouest-africain.'
       : isSpanish
@@ -124,10 +129,10 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         ? 'Explore nuestro directorio completo de más de 40 productos básicos con especificaciones técnicas y trazabilidad.'
         : 'Explore our complete 40+ commodity directory with detailed quality parameters and transparent corridor origin.',
     exploreCatalog: isFrench
-      ? 'Explorer le catalogue complet'
+      ? 'Explorer le catalogue complet (43+ commodités) →'
       : isSpanish
-        ? 'Explorar el catálogo completo'
-        : 'Explore Full Product Catalog',
+        ? 'Explorar el catálogo completo (43+ productos) →'
+        : 'Explore Full Product Catalog (43+ Commodities) →',
   };
 
   // Use the infinite products hook
@@ -492,14 +497,19 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16 scroll-reveal">
-          <h2 className="heading-section text-[#281909]">
+          {featuredOnly && (
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-agro-secondary-600 dark:text-agro-secondary-400 mb-2 block">
+              {labels.featuredEyebrow}
+            </span>
+          )}
+          <h2 className="heading-section text-agro-primary-950 dark:text-agro-neutral-50">
             {featuredOnly
               ? labels.featuredTitle
               : isDisplayingIndividualProducts
                 ? (sectionConfig?.sectionTitle || 'Our Premium Products')
                 : (sectionConfig?.categoriesTitle || 'Product Categories')}
           </h2>
-          <p className="text-lead max-w-3xl mx-auto text-[#281909]">
+          <p className="text-lead max-w-3xl mx-auto text-gray-700 dark:text-agro-neutral-300">
             {featuredOnly
               ? labels.featuredSubtitle
               : isDisplayingIndividualProducts
@@ -596,66 +606,72 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         {/* Products Grid (3x3 on desktop) */}
         <div className="scroll-reveal mb-8 md:mb-12 px-4">
           {displayProducts && displayProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {displayProducts.map(
                 product =>
                   product &&
                   product._id && (
                     <Card
                       key={`${product._id}-${product.image}-${sortBy}-${sortOrder}`}
-                      className="group flex cursor-pointer flex-col overflow-hidden gap-3 border-[#281909] hover:shadow-xl transition-all duration-300 border border-agro-primary-200 dark:border-agro-primary-700 bg-white dark:bg-agro-neutral-900 hover:bg-[#FDF8F0] dark:hover:bg-agro-neutral-800"
+                      className="group flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-agro-primary-200/60 dark:border-agro-primary-800/40 bg-white/90 dark:bg-agro-neutral-900/90 backdrop-blur-md hover:bg-white dark:hover:bg-agro-neutral-850 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-agro-primary-400 dark:hover:border-agro-primary-600 transition-all duration-300"
                       onClick={() => handleCardClick(product)}
                     >
-                      <div
-                        className="overflow-hidden rounded-t-lg relative wix-image-container"
-                        style={{ height: '14rem' }}
-                      >
-                        <WixImage
-                          key={product.image}
-                          src={
-                            product.image ||
-                            'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop&crop=center&auto=format'
-                          }
-                          alt={product.title || 'Product image'}
-                          fill
-                          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                        />
-                        {product.sourcingOrigin && (
-                          <div className="absolute top-3 left-3 z-10">
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-800 dark:text-agro-primary-300 shadow-sm backdrop-blur-sm border border-agro-primary-100 dark:border-agro-primary-850">
-                              <Globe size={11} className="text-agro-secondary-600" />
-                              {product.sourcingOrigin}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      <CardHeader className="pb-2">
-                        {product.category && (
-                          <span className="text-xs font-semibold uppercase tracking-wider text-agro-secondary-600 dark:text-agro-secondary-400">
-                            {product.category}
-                          </span>
-                        )}
-                        {product.title && (
-                          <CardTitle className="line-clamp-2 text-lg font-bold text-agro-primary-950 dark:text-agro-neutral-50">
-                            {product.title}
-                          </CardTitle>
-                        )}
-                      </CardHeader>
-                      <CardContent className="pb-3 flex-grow">
-                        {product.description && (
-                          <div
-                            className="text-gray-600 dark:text-agro-neutral-300 text-sm line-clamp-3 leading-relaxed"
-                            dangerouslySetInnerHTML={{
-                              __html: product.description,
-                            }}
+                      <div className="flex flex-col flex-grow">
+                        {/* Image Canvas: Fixed 4:3 Aspect Container with pure white background */}
+                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-white border-b border-agro-primary-100/60 dark:border-agro-primary-900/40 flex items-center justify-center p-3">
+                          <WixImage
+                            key={product.image}
+                            src={
+                              product.image ||
+                              'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=300&fit=crop&crop=center&auto=format'
+                            }
+                            alt={product.title || 'Product image'}
+                            fill
+                            className="object-contain w-full h-full max-h-full group-hover:scale-105 transition-transform duration-500"
                           />
-                        )}
-                      </CardContent>
-                      <CardFooter className="pt-0 flex items-center gap-2">
+                          {product.sourcingOrigin && (
+                            <div className="absolute top-3 left-3 z-10">
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-900 dark:text-agro-primary-200 shadow-sm backdrop-blur-md border border-agro-primary-200/60 dark:border-agro-primary-800/60">
+                                {product.sourcingOrigin.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? (
+                                  <span aria-hidden="true">🍁</span>
+                                ) : (
+                                  <Globe size={11} className="text-agro-secondary-600" />
+                                )}
+                                <span>{product.sourcingOrigin}</span>
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
+                        <CardHeader className="pb-2 pt-4 px-5">
+                          {product.category && (
+                            <span className="text-xs font-bold uppercase tracking-wider text-agro-secondary-600 dark:text-agro-secondary-400">
+                              {product.category}
+                            </span>
+                          )}
+                          {product.title && (
+                            <CardTitle className="line-clamp-1 text-lg font-bold text-agro-primary-950 dark:text-agro-neutral-50 group-hover:text-agro-primary-700 dark:group-hover:text-agro-primary-300 transition-colors">
+                              {product.title}
+                            </CardTitle>
+                          )}
+                        </CardHeader>
+                        <CardContent className="pb-3 px-5 flex-grow">
+                          {product.description && (
+                            <div
+                              className="text-gray-600 dark:text-agro-neutral-300 text-sm line-clamp-2 leading-relaxed"
+                              dangerouslySetInnerHTML={{
+                                __html: product.description,
+                              }}
+                            />
+                          )}
+                        </CardContent>
+                      </div>
+
+                      <CardFooter className="pt-2 pb-5 px-5 flex items-center gap-2.5">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="flex-1 btn-agro-outline text-xs h-9 cursor-pointer"
+                          className="flex-1 btn-agro-outline text-xs h-9 font-semibold cursor-pointer"
                           onClick={e => {
                             e.stopPropagation();
                             handleCardClick(product);
@@ -665,7 +681,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         </Button>
                         <Button
                           size="sm"
-                          className="flex-1 btn-agro-primary text-xs h-9 cursor-pointer flex items-center justify-center gap-1"
+                          className="flex-1 btn-agro-primary text-xs h-9 font-semibold cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                           onClick={e => {
                             e.stopPropagation();
                             handleRequestQuote(product.title || '', product._id);
@@ -703,8 +719,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
 
         {/* Anchor CTA Banner to Dedicated /products Catalog (Homepage Featured Mode) */}
         {featuredOnly && (
-          <div className="text-center px-4 mt-8 mb-4 scroll-reveal">
-            <div className="bg-[#281909]/5 dark:bg-agro-neutral-850 border border-agro-primary-200/60 dark:border-agro-primary-800/60 rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
+          <div className="text-center px-4 mt-12 mb-4 scroll-reveal">
+            <div className="bg-white/80 dark:bg-agro-neutral-900/90 backdrop-blur-md border border-agro-primary-200/60 dark:border-agro-primary-800/60 rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
               <div className="text-left max-w-xl">
                 <h4 className="text-lg sm:text-xl font-bold text-agro-primary-950 dark:text-agro-neutral-50 mb-1">
                   {labels.anchorTitle}
@@ -714,7 +730,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                 </p>
               </div>
               <Link href="/products" className="shrink-0 w-full sm:w-auto">
-                <Button size="lg" className="btn-agro-primary w-full sm:w-auto flex items-center justify-center gap-2 px-6">
+                <Button size="lg" className="btn-agro-primary w-full sm:w-auto flex items-center justify-center gap-2 px-6 shadow-md hover:shadow-lg">
                   {labels.exploreCatalog}
                   <ArrowRight size={16} />
                 </Button>

@@ -95,7 +95,7 @@ describe('Tri-Provider Translation Engine - Core & Cache Tests', () => {
       expect(result.cached).toBe(true);
       expect(result.fr).toBe("Noix d'anacarde brutes (en coque)");
       expect(result.esp).toBe('Nueces de anacardo crudas (con cáscara)');
-      expect(duration).toBeLessThan(10); // Cache retrieval under 10ms (typically <2ms in memory)
+      expect(duration).toBeLessThan(50); // Cache retrieval under 50ms (typically <2ms in memory, safe for parallel runs)
     });
 
     it('honors forceFresh to bypass cache when requested', async () => {

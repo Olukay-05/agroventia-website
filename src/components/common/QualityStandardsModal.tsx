@@ -169,18 +169,22 @@ export const QualityStandardsModal: React.FC<QualityStandardsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl rounded-xl max-h-[85vh] overflow-y-auto bg-[#FDF8F0] dark:bg-agro-neutral-900 text-[#281909] dark:text-agro-neutral-50 backdrop-blur-xl border border-agro-primary-200/40 dark:border-agro-primary-800/40 shadow-2xl p-6 sm:p-8">
-        <DialogHeader className="pb-4 border-b border-agro-primary-100 dark:border-agro-primary-900/40">
-          <div className="flex flex-wrap items-center gap-2 mb-2">
+      <DialogContent className="max-w-4xl w-[95vw] sm:w-full rounded-2xl max-h-[90vh] overflow-y-auto bg-[#FDF8F0] dark:bg-agro-neutral-900 text-[#281909] dark:text-agro-neutral-50 backdrop-blur-xl border border-agro-primary-200/60 dark:border-agro-primary-800/60 shadow-2xl p-5 sm:p-8">
+        <DialogHeader className="pb-3 border-b border-agro-primary-100 dark:border-agro-primary-900/40">
+          <div className="flex flex-wrap items-center gap-2 mb-1.5">
             {product?.category && (
-              <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-agro-primary-100 text-agro-primary-800 dark:bg-agro-primary-950 dark:text-agro-primary-300">
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-agro-primary-100 text-agro-primary-900 dark:bg-agro-primary-950 dark:text-agro-primary-300">
                 {product.category}
               </span>
             )}
             {product?.sourcingOrigin && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-agro-secondary-100 text-agro-secondary-900 dark:bg-agro-secondary-950 dark:text-agro-secondary-300">
-                <Globe size={11} />
-                {product.sourcingOrigin}
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/95 dark:bg-agro-neutral-800 text-agro-primary-800 dark:text-agro-primary-300 shadow-sm border border-agro-primary-200/60 dark:border-agro-primary-700">
+                {product.sourcingOrigin.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? (
+                  <span aria-hidden="true">🍁</span>
+                ) : (
+                  <Globe size={11} className="text-agro-secondary-600" />
+                )}
+                <span>{product.sourcingOrigin}</span>
               </span>
             )}
           </div>
@@ -189,77 +193,103 @@ export const QualityStandardsModal: React.FC<QualityStandardsModalProps> = ({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="mt-4 space-y-6">
-          {/* Visual Showcase */}
-          <div className="relative h-56 sm:h-64 w-full rounded-lg overflow-hidden bg-white/60 dark:bg-agro-neutral-800/60 border border-agro-primary-100 dark:border-agro-primary-900/30">
-            <WixImage
-              src={productImage}
-              alt={displayName}
-              fill
-              className="object-contain p-4 hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-
-          {/* Description overview if available */}
-          {product?.description && (
-            <div
-              className="text-sm text-gray-700 dark:text-agro-neutral-300 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.description) }}
-            />
-          )}
-
-          {/* Typical Quality Parameters Section */}
-          <div className="rounded-lg bg-white/80 dark:bg-agro-neutral-850 p-4 sm:p-5 border border-agro-primary-100 dark:border-agro-primary-900/50 shadow-sm">
-            <div className="flex items-center gap-2 mb-3">
-              <ShieldCheck className="h-5 w-5 text-agro-primary-600 dark:text-agro-primary-400" />
-              <h4 className="text-base sm:text-lg font-semibold text-agro-primary-900 dark:text-agro-primary-200">
-                {labels.sectionTitle}
-              </h4>
+        {/* Two-Column Split Layout on Desktop (Left 45% visual, Right 55% specifications dossier) */}
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Visual Showcase (Clean White Studio Canvas) */}
+          <div className="md:col-span-5 space-y-3">
+            <div className="relative aspect-[4/3] md:aspect-square w-full rounded-2xl overflow-hidden bg-white border border-agro-primary-200/60 dark:border-agro-primary-800/40 p-4 shadow-sm flex items-center justify-center">
+              <WixImage
+                src={productImage}
+                alt={displayName}
+                fill
+                className="object-contain w-full h-full max-h-full hover:scale-105 transition-transform duration-500"
+              />
+              {product?.sourcingOrigin && (
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/95 dark:bg-agro-neutral-900/95 text-agro-primary-900 dark:text-agro-primary-200 shadow-sm backdrop-blur-md border border-agro-primary-200/60 dark:border-agro-primary-800/60">
+                    {product.sourcingOrigin.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? (
+                      <span aria-hidden="true">🍁</span>
+                    ) : (
+                      <Globe size={10} className="text-agro-secondary-600" />
+                    )}
+                    <span>{product.sourcingOrigin}</span>
+                  </span>
+                </div>
+              )}
             </div>
 
-            {parametersText ? (
-              <div
-                className="prose prose-sm max-w-none text-gray-700 dark:text-agro-neutral-300 prose-headings:text-agro-primary-900 prose-ul:list-disc prose-li:ml-4"
-                dangerouslySetInnerHTML={{ __html: sanitizeHtml(parametersText) }}
-              />
-            ) : (
-              <p className="text-sm text-gray-500 dark:text-agro-neutral-400 italic">
-                {labels.emptyParameters}
-              </p>
-            )}
-
-            {/* Footnote Disclaimer */}
-            <p className="mt-4 pt-3 border-t border-dashed border-agro-primary-200/50 dark:border-agro-primary-800/50 text-xs text-gray-500 dark:text-agro-neutral-400 leading-normal italic">
-              {labels.disclaimer}
-            </p>
+            {/* Quick Sourcing Overview pill */}
+            <div className="p-3 rounded-xl bg-agro-primary-50/70 dark:bg-agro-neutral-850 border border-agro-primary-100 dark:border-agro-primary-900/50 text-xs text-gray-600 dark:text-agro-neutral-300 flex items-center justify-between">
+              <span className="font-semibold text-agro-primary-900 dark:text-agro-neutral-100">
+                {labels.originLabel}:
+              </span>
+              <span>{product?.sourcingOrigin || 'Direct Cooperative Origin'}</span>
+            </div>
           </div>
 
-          {/* Export & Packaging Logistics (Toggleable - rendered only if displayLogistics is true) */}
-          {Boolean(product?.displayLogistics && product?.packagingLogistics) && (
-            <div className="rounded-lg bg-agro-primary-50/70 dark:bg-agro-neutral-850 p-4 sm:p-5 border border-agro-primary-200/60 dark:border-agro-primary-800/60">
-              <div className="flex items-center gap-2 mb-2">
-                <PackageCheck className="h-5 w-5 text-agro-primary-700 dark:text-agro-primary-400" />
-                <h4 className="text-base font-semibold text-agro-primary-900 dark:text-agro-primary-200">
-                  {labels.logisticsTitle}
-                </h4>
-              </div>
+          {/* Right Column: Identity, Quality Parameters & Logistics */}
+          <div className="md:col-span-7 space-y-5">
+            {/* Description overview if available */}
+            {product?.description && (
               <div
                 className="text-sm text-gray-700 dark:text-agro-neutral-300 leading-relaxed"
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHtml(product?.packagingLogistics || ''),
-                }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.description) }}
               />
+            )}
+
+            {/* Typical Quality Parameters Section */}
+            <div className="rounded-xl bg-white/90 dark:bg-agro-neutral-850 p-4 sm:p-5 border border-agro-primary-200/60 dark:border-agro-primary-800/60 shadow-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <ShieldCheck className="h-5 w-5 text-agro-primary-600 dark:text-agro-primary-400" />
+                <h4 className="text-base sm:text-lg font-semibold text-agro-primary-900 dark:text-agro-primary-200">
+                  {labels.sectionTitle}
+                </h4>
+              </div>
+
+              {parametersText ? (
+                <div
+                  className="prose prose-sm max-w-none text-gray-700 dark:text-agro-neutral-300 prose-headings:text-agro-primary-900 dark:prose-headings:text-agro-primary-200 prose-ul:list-disc prose-li:ml-4"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(parametersText) }}
+                />
+              ) : (
+                <p className="text-sm text-gray-500 dark:text-agro-neutral-400 italic">
+                  {labels.emptyParameters}
+                </p>
+              )}
+
+              {/* Footnote Disclaimer */}
+              <p className="mt-4 pt-3 border-t border-dashed border-agro-primary-200/50 dark:border-agro-primary-800/50 text-xs text-gray-500 dark:text-agro-neutral-400 leading-normal italic">
+                {labels.disclaimer}
+              </p>
             </div>
-          )}
+
+            {/* Export & Packaging Logistics (Toggleable - rendered only if displayLogistics is true) */}
+            {Boolean(product?.displayLogistics && product?.packagingLogistics) && (
+              <div className="rounded-xl bg-agro-primary-50/70 dark:bg-agro-neutral-850 p-4 sm:p-5 border border-agro-primary-200/60 dark:border-agro-primary-800/60">
+                <div className="flex items-center gap-2 mb-2">
+                  <PackageCheck className="h-5 w-5 text-agro-primary-700 dark:text-agro-primary-400" />
+                  <h4 className="text-base font-semibold text-agro-primary-900 dark:text-agro-primary-200">
+                    {labels.logisticsTitle}
+                  </h4>
+                </div>
+                <div
+                  className="text-sm text-gray-700 dark:text-agro-neutral-300 leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeHtml(product?.packagingLogistics || ''),
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Modal Actions */}
-        <div className="mt-6 pt-4 border-t border-agro-primary-100 dark:border-agro-primary-900/40 flex flex-col sm:flex-row gap-3 justify-end items-center">
+        {/* Modal Actions (Sticky bottom bar on mobile for touch accessibility) */}
+        <div className="mt-6 pt-4 border-t border-agro-primary-100 dark:border-agro-primary-900/40 sticky bottom-0 bg-[#FDF8F0]/95 dark:bg-agro-neutral-900/95 backdrop-blur-md z-10 flex flex-col sm:flex-row gap-3 justify-end items-center">
           {product?.slug && (
             <Link
               href={`/products/${product.slug}`}
               onClick={onClose}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-md border border-agro-primary-300 dark:border-agro-primary-700 text-sm font-medium text-agro-primary-800 dark:text-agro-primary-200 hover:bg-agro-primary-100/50 transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-agro-primary-300 dark:border-agro-primary-700 text-sm font-semibold text-agro-primary-800 dark:text-agro-primary-200 hover:bg-agro-primary-100/50 transition-colors"
             >
               {labels.viewSpecPage}
               <ExternalLink size={14} />
@@ -268,7 +298,7 @@ export const QualityStandardsModal: React.FC<QualityStandardsModalProps> = ({
 
           <Button
             onClick={handleRequestQuote}
-            className="w-full sm:w-auto btn-agro-primary flex items-center justify-center gap-2 py-2.5 px-5"
+            className="w-full sm:w-auto btn-agro-primary flex items-center justify-center gap-2 py-2.5 px-6 font-semibold shadow-md"
           >
             {labels.requestQuote}
             <ArrowRight size={14} />
