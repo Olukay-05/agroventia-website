@@ -17,28 +17,11 @@ import type {
 import { getPortfolioProducts } from './products-portfolio';
 
 /**
- * Determines if mock data should be used instead of real Sanity API calls.
- * Operates seamlessly without credentials in development, CI, or offline environments.
+ * Mock data is opt-in only. Missing Sanity configuration must never silently
+ * make the homepage or production pages look healthy with stale content.
  */
 export const shouldUseMockData = (): boolean => {
-  if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true') {
-    return true;
-  }
-
-  const sanityProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-  const hasValidProjectId =
-    !!sanityProjectId &&
-    sanityProjectId !== 'your_sanity_project_id_here' &&
-    sanityProjectId !== 'undefined' &&
-    sanityProjectId !== 'agrov-production' &&
-    sanityProjectId.trim().length > 0;
-
-  // Always use mock data fallback if Sanity project ID is not properly configured
-  if (!hasValidProjectId) {
-    return true;
-  }
-
-  return false;
+  return process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
 };
 
 /**

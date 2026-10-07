@@ -6,6 +6,8 @@ export const dataset =
 
 const rawProjectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 export const projectId =
-  rawProjectId && /^[a-z0-9-]+$/.test(rawProjectId) ? rawProjectId : 'hn79lbvx';
+  rawProjectId && /^[a-z0-9-]+$/.test(rawProjectId) ? rawProjectId : '';
+
+export const hasSanityConfig = Boolean(projectId && dataset);
 
 export const useCdn = process.env.NODE_ENV === 'production';

@@ -406,24 +406,24 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
     });
 
     it('evaluates shouldUseMockData correctly in various credential configurations', () => {
-      // Missing project ID
+      // Missing project ID must not silently switch the application to mocks.
       delete process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
       delete process.env.NEXT_PUBLIC_USE_MOCK_DATA;
-      expect(shouldUseMockData()).toBe(true);
+      expect(shouldUseMockData()).toBe(false);
 
       // Empty project ID
       process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = '';
-      expect(shouldUseMockData()).toBe(true);
+      expect(shouldUseMockData()).toBe(false);
 
       // Placeholder project ID
       process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'your_sanity_project_id_here';
-      expect(shouldUseMockData()).toBe(true);
+      expect(shouldUseMockData()).toBe(false);
 
       process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'agrov-production';
-      expect(shouldUseMockData()).toBe(true);
+      expect(shouldUseMockData()).toBe(false);
 
       process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'undefined';
-      expect(shouldUseMockData()).toBe(true);
+      expect(shouldUseMockData()).toBe(false);
 
       // Valid project ID with explicit mock flag
       process.env.NEXT_PUBLIC_SANITY_PROJECT_ID = 'validproj123';
