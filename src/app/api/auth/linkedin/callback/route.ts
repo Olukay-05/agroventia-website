@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { saveLinkedInTokens } from '@/lib/wix-system-settings';
+import { saveLinkedInTokens } from '@/lib/system-settings';
 
 export async function GET(request: Request) {
     const origin = new URL(request.url).origin;
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
             throw new Error(tokenData.error_description || 'Failed to exchange token');
         }
 
-        // Save tokens securely to Wix
+        // Save tokens securely
         await saveLinkedInTokens({
             access_token: tokenData.access_token,
             refresh_token: tokenData.refresh_token, // LinkedIn v2 returns this for w_member_social

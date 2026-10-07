@@ -11,7 +11,7 @@ const ProductSkeleton: React.FC = () => {
     <Card className="flex flex-col overflow-hidden" data-testid="card">
       {/* Image skeleton with shimmer effect */}
       <div
-        className="overflow-hidden rounded-t-lg relative wix-image-container bg-gray-200 animate-shimmer"
+        className="overflow-hidden rounded-t-lg relative bg-gray-200 animate-shimmer"
         style={{ height: '12rem' }}
       />
 

@@ -13,14 +13,12 @@ import type {
   BlogPost,
   Author,
   Category,
-  WixBase,
-  WixBaseItem,
   ProductsSectionContent,
   LegalPageContent,
   HighlightItem,
   LegalLinkItem,
   PolicySectionItem,
-} from '@/types/wix';
+} from '@/types/content';
 import {
   shouldUseMockData,
   getMockHeroContent,
@@ -706,7 +704,7 @@ export function transformBlogPost(raw: any, locale: string = 'en'): BlogPost {
   // 2. Resolve Excerpt
   const excerpt = resolveNonEmptyText(raw.excerpt) || '';
 
-  // 3. Resolve Content (Portable Text block array, localized object, string, or Wix nodes)
+  // 3. Resolve Content (Portable Text block array, localized object, string, or rich text nodes)
   let content = raw.content;
   if (
     content &&

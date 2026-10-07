@@ -11,7 +11,6 @@ import {
   type SanityImageFitMode,
   type SanityImageCropMode,
 } from '@/lib/api/sanity-image';
-import { convertWixImageUrl } from '@/lib/utils/image';
 
 export interface SanityImageProps {
   src: SanityImageSource | string;
@@ -54,7 +53,7 @@ export default function SanityImage({
   onLoadSuccess,
   onLoadError,
 }: SanityImageProps) {
-  // Resolve image URL from Sanity image source, legacy Wix URL, or standard web URL
+  // Resolve image URL from Sanity image source or standard web URL
   const resolvedUrl = useMemo(() => {
     if (!src) return '';
 
@@ -75,12 +74,6 @@ export default function SanityImage({
     if (typeof src === 'string') {
       const trimmed = src.trim();
       if (!trimmed) return '';
-
-      // Legacy Wix image URI: convert gracefully for backwards compatibility
-      if (trimmed.startsWith('wix:image://')) {
-        const converted = convertWixImageUrl(trimmed);
-        return converted?.primary || '';
-      }
 
       // Standard HTTP/HTTPS or local relative URL
       return trimmed;

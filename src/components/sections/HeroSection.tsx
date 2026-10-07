@@ -4,14 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play } from 'lucide-react';
 import BlurredHeroSkeleton from '@/components/common/BlurredHeroSkeleton';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 import { cn } from '@/lib/utils';
-import {
-  carouselService,
-  CarouselItem,
-  WixCarouselItem,
-} from '@/services/carousel.service';
-import { HeroContent } from '@/types/wix';
+import { HeroContent } from '@/types/content';
 import { useHeroContent, useCarouselImages } from '@/hooks/useContent';
 import useScrollToSection from '@/hooks/useScrollToSection';
 import { trackButtonClick } from '@/lib/analytics';
@@ -19,19 +14,21 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
 
+export interface CarouselItem {
+  imageUrl: string;
+  title: string;
+  description: string;
+  tagline?: string;
+  displayOrder?: number;
+}
+
 interface HeroSectionProps {
   data?: HeroContent;
-  collectionsData?: {
-    carouselImages?: {
-      items: Array<{ data: WixCarouselItem }>;
-    };
-  };
   isLoading?: boolean;
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   data,
-  collectionsData,
   isLoading,
 }) => {
   // Hooks for fetching hero singleton and carousel slides from Sanity
@@ -75,12 +72,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   // Fetch carousel data from Sanity carouselSlide collection or fallback
   useEffect(() => {
     // If not in carousel mode, no need to process or wait for carousel data
+    // If not in carousel mode, no need to process or wait for carousel data
     if (!isCarouselMode) {
       setCarouselLoading(false);
       return;
     }
 
-    // 1. Prioritize live Sanity Carousel Slides
+    // Prioritize live Sanity Carousel Slides
     if (sanityCarouselSlides && sanityCarouselSlides.length > 0) {
       const items: CarouselItem[] = sanityCarouselSlides.map(slide => ({
         imageUrl: slide.image,
@@ -94,73 +92,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       return;
     }
 
-    // 2. If collectionsData is provided, use it as fallback once Sanity loading completes
-    if (
-      !isCarouselSlidesLoading &&
-      collectionsData &&
-      collectionsData.carouselImages &&
-      collectionsData.carouselImages.items
-    ) {
-      try {
-        const items = collectionsData.carouselImages.items
-          .map(item => ({
-            imageUrl: item.data.imageUrl,
-            title: item.data.title,
-            description: item.data.description,
-            tagline: item.data.tagline,
-          }))
-          .sort((a: CarouselItem, b: CarouselItem) => {
-            const itemA = collectionsData.carouselImages?.items.find(
-              item => item.data.title === a.title
-            );
-            const itemB = collectionsData.carouselImages?.items.find(
-              item => item.data.title === b.title
-            );
-            const orderA = itemA?.data?.displayOrder || 0;
-            const orderB = itemB?.data?.displayOrder || 0;
-            return (orderA || 0) - (orderB || 0);
-          });
-
-        if (items.length > 0) {
-          setCarouselItems(items);
-        }
-        setCarouselLoading(false);
-        return;
-      } catch (err) {
-        console.error('Error processing carousel data:', err);
-      }
+    if (!isCarouselSlidesLoading) {
+      setCarouselLoading(false);
     }
-
-    const fetchCarouselData = async () => {
-      try {
-        setCarouselLoading(true);
-        setCarouselError(null);
-
-        const items = await carouselService.fetchCarouselItems();
-
-        if (items.length > 0) {
-          setCarouselItems(items);
-        } else {
-          // If no carousel data, fall back to original implementation
-          console.debug('No carousel data found, using fallback');
-        }
-      } catch (error) {
-        console.error('Error fetching carousel data:', error);
-        setCarouselError(
-          error instanceof Error
-            ? error.message
-            : 'Failed to load carousel data'
-        );
-        // Fall back to original implementation on error
-      } finally {
-        setCarouselLoading(false);
-      }
-    };
-
-    if (!isCarouselSlidesLoading && (!sanityCarouselSlides || sanityCarouselSlides.length === 0)) {
-      fetchCarouselData();
-    }
-  }, [collectionsData, isCarouselMode, sanityCarouselSlides, isCarouselSlidesLoading]);
+  }, [isCarouselMode, sanityCarouselSlides, isCarouselSlidesLoading]);
 
   // Handle carousel selection changes
   useEffect(() => {
@@ -256,7 +191,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   key={index}
                   className="flex-[0_0_100%] min-w-0 relative w-full h-full"
                 >
-                  <WixImage
+                  <SanityImage
                     src={item.imageUrl}
                     alt={`Carousel background ${index + 1}`}
                     fill={true}
@@ -273,7 +208,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         heroContent?.backgroundImage &&
           heroContent.backgroundImage.trim() !== '' ? (
           <div className="responsive-image w-full h-full">
-            <WixImage
+            <SanityImage
               src={heroContent.backgroundImage || ''}
               alt="Agricultural landscape background"
               fill={true}

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { prefetchProduct } from '@/hooks/useProduct';
+import { prefetchProduct } from '@/hooks/useContent';
 
 interface QuoteRequestContextType {
   requestedProduct: string | null;

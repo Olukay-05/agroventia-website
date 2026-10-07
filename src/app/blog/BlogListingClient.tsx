@@ -6,13 +6,13 @@ import { ArrowRight, Calendar, User, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import SectionContainer from '@/components/common/SectionContainer';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import { useBlogPosts } from '@/hooks/useContent';
 import { useLocale } from '@/contexts/LocaleContext';
 import { getBlogUiLabels } from '@/lib/blog-i18n';
-import { Category, Author, BlogPost } from '@/types/wix';
+import { Category, Author, BlogPost } from '@/types/content';
 import { formatDate } from '@/lib/utils/date';
 import { extractLocalizedText } from '@/lib/api/sanity-client';
 
@@ -137,7 +137,7 @@ export default function BlogListingClient({ initialPosts = [], initialLocale = '
                     <article className="h-full flex flex-col bg-white rounded-3xl overflow-hidden shadow-md group-hover:shadow-2xl border border-agro-neutral-100 transition-all duration-300 transform group-hover:-translate-y-1">
                       {/* Image Container */}
                       <div className="relative h-64 w-full overflow-hidden">
-                        <WixImage
+                        <SanityImage
                           src={post.coverImage}
                           alt={resolveTitle(post.title)}
                           fill

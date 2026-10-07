@@ -29,13 +29,6 @@ jest.mock('next/image', () => ({
   },
 }));
 
-jest.mock('@/components/WixImage', () => ({
-  __esModule: true,
-  default: ({ src, alt, ...props }: any) => {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={alt || ''} data-testid="wix-image" {...props} />;
-  },
-}));
 
 // Mock embla carousel
 jest.mock('embla-carousel-react', () => ({

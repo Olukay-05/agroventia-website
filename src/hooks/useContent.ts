@@ -1,5 +1,5 @@
 // hooks/useContent.ts
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, type QueryClient } from '@tanstack/react-query';
 import {
   getHeroContent,
   getAboutContent,
@@ -30,7 +30,7 @@ import type {
   LegalLinkItem,
   PolicySectionItem,
   BlogPost,
-} from '@/types/wix';
+} from '@/types/content';
 import { useLocale } from '@/contexts/LocaleContext';
 
 // Re-export content types for backward and forward compatibility
@@ -154,6 +154,22 @@ export const useProductBySlug = (slug: string) => {
     retry: 2,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
     enabled: !isLocaleLoading && Boolean(slug),
+  });
+};
+
+/**
+ * Prefetch a single product for fast RFQ/quote modal rendering
+ */
+export const prefetchProduct = async (
+  queryClient: QueryClient,
+  slugOrId: string,
+  locale = 'en'
+) => {
+  if (!slugOrId) return;
+  await queryClient.prefetchQuery({
+    queryKey: ['product', slugOrId, locale],
+    queryFn: () => getProductBySlug(slugOrId, locale),
+    staleTime: STALE_TIME,
   });
 };
 

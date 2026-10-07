@@ -46,8 +46,5 @@ jest.mock('next/navigation', () => ({
     return '/';
   },
 }));
-
-// Mock environment variables for tests
-process.env.NEXT_PUBLIC_WIX_CLIENT_ID = 'test-client-id';
-process.env.WIX_API_TOKEN = 'test-api-token';
-process.env.WIX_SITE_ID = 'test-site-id';
+// Ensure offline mock data is used by default in Jest environment
+process.env.NEXT_PUBLIC_USE_MOCK_DATA = 'true';

@@ -16,14 +16,14 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SectionContainer from '@/components/common/SectionContainer';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import RichTextRenderer from '@/components/blog/RichTextRenderer';
 import { useBlogPostBySlug, useBlogPosts } from '@/hooks/useContent';
 import { useLocale } from '@/contexts/LocaleContext';
 import { getBlogUiLabels } from '@/lib/blog-i18n';
-import { Category, Author, BlogPost } from '@/types/wix';
+import { Category, Author, BlogPost } from '@/types/content';
 import { formatDate } from '@/lib/utils/date';
 import { extractLocalizedText } from '@/lib/api/sanity-client';
 
@@ -210,7 +210,7 @@ export default function BlogPostClient({
         <div className="container-premium max-w-5xl mx-auto -mt-24 md:-mt-32 relative z-20 px-4 sm:px-6 mb-12">
           <div className="aspect-[16/9] md:aspect-[21/9] w-full relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10 bg-agro-neutral-900 border-4 border-white dark:border-[#281909]">
             <div className="absolute inset-0 bg-agro-neutral-200 animate-pulse" />
-            <WixImage
+            <SanityImage
               src={post.coverImage}
               alt={resolveTitle(post.title)}
               fill
@@ -330,7 +330,7 @@ export default function BlogPostClient({
                   >
                     <article className="h-full flex flex-col bg-[#f8f4e9] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-1 group-hover:bg-[#fcfaf6] border border-transparent group-hover:border-agro-primary-100">
                       <div className="aspect-[4/3] relative overflow-hidden">
-                        <WixImage
+                        <SanityImage
                           src={relatedPost.coverImage}
                           alt={resolveTitle(relatedPost.title)}
                           fill

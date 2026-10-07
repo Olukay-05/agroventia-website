@@ -15,6 +15,8 @@ import {
   getLocaleFromUrl,
 } from '@/lib/locale';
 
+export type { Locale } from '@/lib/locale';
+
 interface LocaleContextType {
   locale: Locale;
   setLocale: (locale: Locale) => void;

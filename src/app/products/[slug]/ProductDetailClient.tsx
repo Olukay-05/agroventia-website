@@ -13,7 +13,7 @@ import {
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import SectionContainer from '@/components/common/SectionContainer';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLocale } from '@/contexts/LocaleContext';
@@ -21,7 +21,7 @@ import { QuoteRequestProvider, useQuoteRequest } from '@/contexts/QuoteRequestCo
 import { useProductBySlug, useProductCatalogContent } from '@/hooks/useContent';
 import { normalizeCategorySlug } from '@/lib/product-filters';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
-import type { ProductCatalogItem } from '@/types/wix';
+import type { ProductCatalogItem } from '@/types/content';
 
 interface ProductDetailClientProps {
   product: ProductCatalogItem;
@@ -194,7 +194,7 @@ function ProductDetailContent({
               {/* Left Column: Visual Showcase (Studio Cutout on White Canvas) */}
               <div className="lg:col-span-5 space-y-5">
                 <div className="relative aspect-[4/3] sm:aspect-square w-full rounded-2xl overflow-hidden bg-white border border-agro-primary-200/70 dark:border-agro-primary-800/70 shadow-lg p-6 flex items-center justify-center">
-                  <WixImage
+                  <SanityImage
                     src={image}
                     alt={title}
                     fill
@@ -368,7 +368,7 @@ function ProductDetailContent({
                           <div className="flex flex-col flex-grow">
                             {/* Pure white studio cutout canvas */}
                             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-white border-b border-agro-primary-100/60 dark:border-agro-primary-900/40 p-3 flex items-center justify-center">
-                              <WixImage
+                              <SanityImage
                                 src={relImage}
                                 alt={relTitle}
                                 fill

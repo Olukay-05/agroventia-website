@@ -6,10 +6,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import SectionContainer from '@/components/common/SectionContainer';
 import MapComponent from '@/components/common/MapComponent';
-import { ContactContent } from '@/types/wix';
+import { ContactContent } from '@/types/content';
 import emailjs from '@emailjs/browser';
 import { useQuoteRequest } from '@/contexts/QuoteRequestContext';
-import { useProduct } from '@/hooks/useProduct';
+import { useProductBySlug } from '@/hooks/useContent';
 import {
   Toast,
   ToastProvider,
@@ -171,7 +171,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
   const { requestedProduct, requestedProductId } = useQuoteRequest();
 
   // If we have a requested product ID, we can fetch detailed product information
-  const { data: productDetails } = useProduct(requestedProductId);
+  const { data: productDetails } = useProductBySlug(requestedProductId || '');
 
   const [formData, setFormData] = useState<ContactFormData>({
     firstName: '',
@@ -199,7 +199,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
     if (requestedProduct) {
       // Use detailed product information if available, otherwise fallback to basic product name
       const productName =
-        productDetails?.title || requestedProduct || 'Agricultural Product';
+        productDetails?.title || productDetails?.productName || requestedProduct || 'Agricultural Product';
 
       setFormData(prev => ({
         ...prev,
@@ -229,9 +229,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
     hours: data?.businessHours || '',
   };
 
-  // Function to sanitize and render HTML content from Wix CMS
-  const renderWixHtmlContent = (htmlContent: string) => {
-    // Remove or replace Wix-specific classes that might interfere with Tailwind
+  // Function to sanitize and render HTML content
+  const renderSanitizedHtml = (htmlContent: string) => {
     const cleanHtml = htmlContent.replace(/class="[^"]*"/g, '');
     return { __html: cleanHtml };
   };
@@ -490,7 +489,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
             <div className="text-lead max-w-3xl mx-auto">
               {contactInfo.description.startsWith('<') ? (
                 <div
-                  dangerouslySetInnerHTML={renderWixHtmlContent(
+                  dangerouslySetInnerHTML={renderSanitizedHtml(
                     contactInfo.description
                   )}
                 />

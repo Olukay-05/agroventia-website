@@ -13,7 +13,7 @@ import type {
   Category,
   ProductsSectionContent,
   LegalPageContent,
-} from '@/types/wix';
+} from '@/types/content';
 import { getPortfolioProducts } from './products-portfolio';
 
 /**

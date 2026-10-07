@@ -18,7 +18,7 @@ import {
   getAllMockProductCatalogContent,
 } from '@/lib/api/mock-data';
 import type { Locale } from '@/lib/locale';
-import type { ProductCatalogItem } from '@/types/wix';
+import type { ProductCatalogItem } from '@/types/content';
 
 // Mock Leaflet and map components
 jest.mock('@/components/common/MapComponent', () => ({

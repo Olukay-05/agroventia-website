@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { deleteLinkedInTokens } from '@/lib/wix-system-settings';
+import { deleteLinkedInTokens } from '@/lib/system-settings';
 
 export async function POST() {
     try {

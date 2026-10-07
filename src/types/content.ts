@@ -1,13 +1,15 @@
-// types/wix.ts
-export interface WixBase {
+// types/content.ts
+export interface ContentBase {
   _id: string;
-  _owner: string;
-  _createdDate: { $date: string };
-  _updatedDate: { $date: string };
+  _owner?: string;
+  _createdDate?: { $date: string } | string;
+  _updatedDate?: { $date: string } | string;
+  _createdAt?: string;
+  _updatedAt?: string;
   isActive?: boolean;
 }
 
-export interface HeroContent extends WixBase {
+export interface HeroContent extends ContentBase {
   title: string;
   subtitle: string;
   description: string;
@@ -15,11 +17,11 @@ export interface HeroContent extends WixBase {
   companyLogo: string;
   ctaPrimary: string;
   ctaSecondary: string;
-  overlayOpacity?: number; // Add the missing overlayOpacity property
+  overlayOpacity?: number;
   displayMode?: 'carousel' | 'static';
 }
 
-export interface CoreValue extends WixBase {
+export interface CoreValue extends ContentBase {
   reference: string;
   title: string;
   description: string;
@@ -35,7 +37,7 @@ export interface HighlightItem {
   isActive?: boolean;
 }
 
-export interface AboutContent extends WixBase {
+export interface AboutContent extends ContentBase {
   sectionTitle: string;
   mission: string;
   vision: string;
@@ -49,7 +51,7 @@ export interface AboutContent extends WixBase {
   highlights?: HighlightItem[];
 }
 
-export interface ServiceContent extends WixBase {
+export interface ServiceContent extends ContentBase {
   sectionTitle: string;
   sectionDescription: string;
   importServices: string;
@@ -68,7 +70,7 @@ export interface ProductsCtaBanner {
   isActive?: boolean;
 }
 
-export interface ProductsSectionContent extends WixBase {
+export interface ProductsSectionContent extends ContentBase {
   sectionTitle?: string;
   sectionDescription?: string;
   categoriesTitle?: string;
@@ -78,7 +80,7 @@ export interface ProductsSectionContent extends WixBase {
   sectionImage?: string;
 }
 
-export interface ProductContent extends WixBase {
+export interface ProductContent extends ContentBase {
   title: string;
   productName?: string;
   slug?: string;
@@ -114,7 +116,7 @@ export interface PolicySectionItem {
   sortOrder?: number;
 }
 
-export interface LegalPageContent extends WixBase {
+export interface LegalPageContent extends ContentBase {
   title: string;
   slug: string;
   lastUpdated: string;
@@ -124,7 +126,7 @@ export interface LegalPageContent extends WixBase {
   seoDescription?: string;
 }
 
-export interface ContactContent extends WixBase {
+export interface ContactContent extends ContentBase {
   sectionTitle: string;
   sectionDescription: string;
   businessEmail: string;
@@ -147,50 +149,57 @@ export interface ContactContent extends WixBase {
   legalLinks?: LegalLinkItem[];
 }
 
-export interface WixContentResponse<T> {
+export interface ContentResponse<T> {
   items: T[];
   totalCount: number;
 }
 
-export interface Author extends WixBase {
+export interface Author extends ContentBase {
   name: string;
   bio: string;
   profileImage: string;
 }
 
-export interface Category extends WixBase {
+export interface Category extends ContentBase {
   title: string;
   description: string;
 }
 
-export interface BlogPost extends WixBase {
+export interface BlogPost extends ContentBase {
   title: string;
   slug: string; // The URL slug
   excerpt: string;
-  content: any; // Rich text HTML string or Rich Content Object
+  content?: any; // Rich text HTML string, Portable Text blocks, or Rich Content Object
   coverImage: string;
   publishedDate: { $date: string } | string;
-  author?: Author[] | string; // Note: Even single refs often come as array in expansion or simple ID string
+  author?: Author[] | string;
   categories?: Category[] | string[];
   seoTitle?: string;
   seoDescription?: string;
 }
 
-export type WixBaseItem = WixBase;
+export interface ProductCategory extends ContentBase {
+  title: string;
+  description: string;
+  categoryImage: string;
+  productReferences?: string[];
+  allProducts?: ProductContent[];
+  productReferences_data?: ProductContent[];
+}
 
 export interface ProductCatalogItem extends ProductContent {
   allProducts?: ProductContent[];
   productReferences_data?: ProductContent[];
 }
 
-export interface CoreValuesContent extends WixBase {
+export interface CoreValuesContent extends ContentBase {
   title: string;
   description: string;
   reference?: string;
   sortOrder?: number;
 }
 
-export interface CarouselImageDisplayContent extends WixBase {
+export interface CarouselImageDisplayContent extends ContentBase {
   title?: string;
   description?: string;
   image: string;

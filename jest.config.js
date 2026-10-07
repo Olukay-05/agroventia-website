@@ -14,8 +14,8 @@ const customJestConfig = {
     '^nanoid$': require.resolve('nanoid'),
     '^get-random-values-esm$': '<rootDir>/node_modules/get-random-values-esm/index.cjs',
   },
-  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/.kilo/'],
-  modulePathIgnorePatterns: ['<rootDir>/.kilo/'],
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/.kilo/', '<rootDir>/archive/'],
+  modulePathIgnorePatterns: ['<rootDir>/.kilo/', '<rootDir>/archive/'],
   collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };

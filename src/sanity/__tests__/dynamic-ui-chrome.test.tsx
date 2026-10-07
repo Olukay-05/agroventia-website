@@ -51,12 +51,6 @@ jest.mock('next/image', () => {
   );
 });
 
-// Mock WixImage
-jest.mock('@/components/WixImage', () => {
-  return ({ src, alt, ...rest }: any) => (
-    <img src={src} alt={alt} {...rest} />
-  );
-});
 
 // Mock DotGrid
 jest.mock('@/components/ui/DotGrid', () => {

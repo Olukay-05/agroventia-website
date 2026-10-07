@@ -13,8 +13,7 @@ const eslintConfig = [
       'public/**',
       '.kilo/**',
       '**/*.d.ts',
-      'src/product-category.json',
-      'src/wix-collections.data.json',
+      'archive/**',
     ],
   },
   {

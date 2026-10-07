@@ -20,14 +20,12 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import SectionContainer from '@/components/common/SectionContainer';
-import WixImage from '@/components/WixImage';
+import SanityImage from '@/components/SanityImage';
 import useScrollToSection from '@/hooks/useScrollToSection';
 import { useQuoteRequest } from '@/contexts/QuoteRequestContext';
 import { useLocale } from '@/contexts/LocaleContext';
 import ProductSkeleton from '@/components/common/ProductSkeleton';
-import { ProductCategory } from '@/services/wix-data.service';
 import QualityStandardsModal from '@/components/common/QualityStandardsModal';
-import { useInfiniteProducts } from '@/hooks/useInfiniteProducts';
 import { useProductsSectionContent } from '@/hooks/useContent';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
 import { FLAGSHIP_FEATURED_SLUGS } from '@/lib/api/products-portfolio';
@@ -38,7 +36,7 @@ import {
   formatCategoryLabel,
 } from '@/lib/product-filters';
 
-import type { ProductCatalogItem } from '@/types/wix';
+import type { ProductCatalogItem, ProductCategory } from '@/types/content';
 
 export interface Product {
   _id: string;
@@ -142,16 +140,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         : 'Explore Full Product Catalog (43+ Commodities) →',
   };
 
-  // Use the infinite products hook
-  const {
-    data: infiniteData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading: isInfiniteLoading,
-  } = useInfiniteProducts(6);
-
-  const isDataLoading = data !== undefined ? isLoading : (isLoading || isInfiniteLoading);
+  const isDataLoading = Boolean(isLoading);
 
   // Ensure consistent data structure to prevent conditional hook issues
   const safeData = data || [];
@@ -260,8 +249,6 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     if (categoryWithProducts && 'allProducts' in categoryWithProducts && Array.isArray(categoryWithProducts.allProducts)) {
       individualProducts = categoryWithProducts.allProducts || [];
     }
-  } else if (infiniteData && infiniteData.pages && infiniteData.pages.length > 0) {
-    individualProducts = infiniteData.pages.flatMap(page => page.items);
   }
 
   const effectiveIndividualProducts = individualProducts;
@@ -288,7 +275,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
         return p !== null && typeof p === 'object' && 'categoryImage' in p;
       };
 
-      const wixProduct = product as unknown as {
+      const rawProduct = product as unknown as {
         name?: string;
         image1?: string;
         categoryImage?: string;
@@ -302,7 +289,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       const potentialImages = [
         'image' in product && typeof product.image === 'string' && product.image,
         productObj.image1 && typeof productObj.image1 === 'string' && productObj.image1,
-        wixProduct.categoryImage && typeof wixProduct.categoryImage === 'string' && wixProduct.categoryImage,
+        rawProduct.categoryImage && typeof rawProduct.categoryImage === 'string' && rawProduct.categoryImage,
         isProductCategory(product) && product.categoryImage && typeof product.categoryImage === 'string' && product.categoryImage,
       ].filter(Boolean) as string[];
 
@@ -313,8 +300,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       let title = '';
       if ('name' in product && typeof product.name === 'string' && product.name) {
         title = product.name;
-      } else if (wixProduct.name && typeof wixProduct.name === 'string') {
-        title = wixProduct.name;
+      } else if (rawProduct.name && typeof rawProduct.name === 'string') {
+        title = rawProduct.name;
       } else if ('title' in product && typeof product.title === 'string' && product.title) {
         title = product.title;
       } else if (productObj.productName && typeof productObj.productName === 'string') {
@@ -339,8 +326,8 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
       let category = '';
       if ('category' in product && typeof product.category === 'string' && product.category) {
         category = product.category;
-      } else if (wixProduct.category && typeof wixProduct.category === 'string') {
-        category = wixProduct.category;
+      } else if (rawProduct.category && typeof rawProduct.category === 'string') {
+        category = rawProduct.category;
       } else if (isProductCategory(product) && product.title && typeof product.title === 'string') {
         category = product.title;
       }
@@ -487,10 +474,6 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
     setSelectedProduct(null);
   };
 
-  const handleLoadMore = () => {
-    fetchNextPage();
-  };
-
   return (
     <SectionContainer id="products" className="py-16 md:py-24">
       <div className="max-w-6xl mx-auto">
@@ -618,7 +601,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                       <div className="flex flex-col flex-grow">
                         {/* Image Canvas: Fixed 4:3 Aspect Container with pure white background */}
                         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-white border-b border-agro-primary-100/60 dark:border-agro-primary-900/40 flex items-center justify-center p-3">
-                          <WixImage
+                          <SanityImage
                             key={product.image}
                             src={
                               product.image ||
@@ -713,18 +696,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
           )}
         </div>
 
-        {/* Load More Button (only for infinite query mode when not in featuredOnly) */}
-        {!featuredOnly && hasNextPage && (
-          <div className="text-center mb-8">
-            <Button
-              onClick={handleLoadMore}
-              disabled={isFetchingNextPage}
-              className="btn-agro-primary cursor-pointer"
-            >
-              {isFetchingNextPage ? 'Loading more...' : 'Load More Products'}
-            </Button>
-          </div>
-        )}
+
 
         {/* Anchor CTA Banner to Dedicated /products Catalog (Homepage Featured Mode) */}
         {featuredOnly && (

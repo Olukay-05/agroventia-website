@@ -8,7 +8,7 @@
  * Adheres strictly to CAP-7 anti-slop rules, no em-dashes, and standardized
  * "Typical Quality Parameters" trade terminology across en, fr, and esp.
  */
-import type { ProductContent } from '@/types/wix';
+import type { ProductContent } from '@/types/content';
 
 export const FLAGSHIP_FEATURED_SLUGS = [
   'milling-wheat',
