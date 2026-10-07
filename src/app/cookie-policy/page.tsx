@@ -15,7 +15,7 @@ const CookiePolicyPage = () => {
   const { locale } = useLocale();
   const { consent, setConsent } = useCookieConsent();
   const [, setShowSettings] = useState(false);
-  const { data: pageData } = useLegalPage('cookie-policy');
+  const { data: pageData, isLoading } = useLegalPage('cookie-policy');
   const labels = getLegalUiLabels(locale);
 
   const isFrench = locale.startsWith('fr');
@@ -223,7 +223,7 @@ const CookiePolicyPage = () => {
                       </div>
                     ))}
                   </>
-                ) : (
+                ) : locale === 'en' ? (
                   <>
                 <p className="text-lg text-[#281909]/80 mb-6">
                   This Cookie Policy explains how AgroVentia Inc.
@@ -495,6 +495,10 @@ const CookiePolicyPage = () => {
                   was last updated.
                 </p>
                   </>
+                ) : (
+                  <p className="text-[#281909]/80 py-8" role="status">
+                    {isLoading ? labels.loading : labels.unavailable}
+                  </p>
                 )}
               </div>
             </CardContent>

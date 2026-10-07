@@ -74,11 +74,14 @@ const Footer: React.FC = () => {
   ];
 
   const productCategories: FooterLinkItem[] = useMemo(() => {
+    const categoryHref = (slug: string) =>
+      `/products?category=${encodeURIComponent(slug)}&lang=${encodeURIComponent(locale)}`;
+
     // Canonical categories guarantee 5 items are always displayed and localized
     const canonicalList: FooterLinkItem[] = uiLabels.categories.map(c => ({
       label: c.label,
       slug: c.slug,
-      href: `/products?category=${c.slug}`,
+      href: categoryHref(c.slug),
     }));
 
     if (productCatalog && productCatalog.length > 0) {
@@ -91,7 +94,7 @@ const Footer: React.FC = () => {
             canonicalList.push({
               label: product.category,
               slug,
-              href: `/products?category=${slug}`,
+              href: categoryHref(slug),
             });
           }
         }
@@ -99,7 +102,7 @@ const Footer: React.FC = () => {
     }
 
     return canonicalList;
-  }, [uiLabels, productCatalog]);
+  }, [uiLabels, productCatalog, locale]);
 
   const handleProductClick = (
     link: string | FooterLinkItem
@@ -112,19 +115,10 @@ const Footer: React.FC = () => {
       sessionStorage.setItem('selectedProductCategory', slug);
     }
 
-    // If on homepage and the section exists, smooth scroll and broadcast event
-    const element = document.getElementById('products');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      window.dispatchEvent(
-        new CustomEvent('productCategorySelected', {
-          detail: { category: slug },
-        })
-      );
-    } else {
-      // On subpages (/blog, /privacy-policy, /products), navigate directly to products page
-      router.push(`/products?category=${slug}`);
-    }
+    // Always use a deterministic catalog URL so the same category works from every route.
+    router.push(
+      `/products?category=${encodeURIComponent(slug)}&lang=${encodeURIComponent(locale)}`
+    );
   };
 
   return (

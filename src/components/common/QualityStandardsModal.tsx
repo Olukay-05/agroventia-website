@@ -6,6 +6,7 @@ import { ArrowRight, ExternalLink, Globe, PackageCheck, ShieldCheck } from 'luci
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -137,6 +138,11 @@ export const QualityStandardsModal: React.FC<QualityStandardsModalProps> = ({
         ? 'Ver página de especificaciones'
         : 'View Full Spec Page',
     originLabel: isFrench ? 'Origine' : isSpanish ? 'Origen' : 'Origin',
+    dialogDescription: isFrench
+      ? 'Dossier technique de spécifications et paramètres de qualité.'
+      : isSpanish
+        ? 'Dossier técnico de especificaciones y parámetros de calidad.'
+        : 'Technical specifications dossier and typical quality parameters.',
   };
 
   const displayName =
@@ -191,6 +197,9 @@ export const QualityStandardsModal: React.FC<QualityStandardsModalProps> = ({
           <DialogTitle className="text-2xl sm:text-3xl font-bold tracking-tight text-[#281909] dark:text-agro-neutral-50 font-serif">
             {displayName}
           </DialogTitle>
+          <DialogDescription className="text-xs text-agro-neutral-600 dark:text-agro-neutral-400 mt-1">
+            {labels.dialogDescription}
+          </DialogDescription>
         </DialogHeader>
 
         {/* Two-Column Split Layout on Desktop (Left 45% visual, Right 55% specifications dossier) */}

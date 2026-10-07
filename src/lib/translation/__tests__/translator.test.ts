@@ -160,6 +160,23 @@ describe('Tri-Provider Translation Engine - Core & Cache Tests', () => {
       expect(result.fr).toBe('');
       expect(result.esp).toBe('');
     });
+
+    it('uses canonical Core Value and carousel translations even when a provider is configured', async () => {
+      process.env.OPENAI_API_KEY = 'sk-mock-key';
+
+      const coreValue = await translateText({ text: 'Specification Discipline' });
+      const carousel = await translateText({ text: 'From Fields to You' });
+
+      expect(coreValue).toMatchObject({
+        fr: 'Discipline en matière de spécifications',
+        esp: 'Disciplina de especificaciones',
+      });
+      expect(carousel).toMatchObject({
+        fr: 'Des champs jusqu’à vous',
+        esp: 'Del campo a usted',
+      });
+      expect(generateObject).not.toHaveBeenCalled();
+    });
   });
 
   describe('Remote LLM Execution & Provider Cascading', () => {

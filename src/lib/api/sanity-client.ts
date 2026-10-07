@@ -328,6 +328,8 @@ export const BLOG_POSTS_QUERY = `*[_type == "blogPost"] | order(publishedDate de
   "slug": slug.current,
   excerpt,
   content,
+  "seoTitle": coalesce(seoTitle[$locale], seoTitle[$altLocale], seoTitle.en, seoTitle, ""),
+  "seoDescription": coalesce(seoDescription[$locale], seoDescription[$altLocale], seoDescription.en, seoDescription, ""),
   "coverImage": coalesce(coverImage.asset->url, coverImage, ""),
   publishedDate,
   author->{
@@ -350,6 +352,8 @@ export const BLOG_POST_BY_SLUG_QUERY = `*[_type == "blogPost" && slug.current ==
   "slug": slug.current,
   excerpt,
   content,
+  "seoTitle": coalesce(seoTitle[$locale], seoTitle[$altLocale], seoTitle.en, seoTitle, ""),
+  "seoDescription": coalesce(seoDescription[$locale], seoDescription[$altLocale], seoDescription.en, seoDescription, ""),
   "coverImage": coalesce(coverImage.asset->url, coverImage, ""),
   publishedDate,
   author->{
@@ -572,6 +576,7 @@ export function transformProductContent(raw: any, locale: string = 'en'): Produc
     isFeatured: Boolean(raw.isFeatured),
     displayLogistics: Boolean(raw.displayLogistics),
     packagingLogistics,
+    image: imageUrl,
     image1: imageUrl,
     images: imagesList,
     price: raw.price,

@@ -10,7 +10,7 @@ import { getLegalUiLabels, formatLegalDate } from '@/lib/legal-i18n';
 
 const TermsOfServicePage = () => {
   const { locale } = useLocale();
-  const { data: pageData } = useLegalPage('terms-of-service');
+  const { data: pageData, isLoading } = useLegalPage('terms-of-service');
   const labels = getLegalUiLabels(locale);
 
   return (
@@ -58,7 +58,7 @@ const TermsOfServicePage = () => {
                       </div>
                     ))}
                   </>
-                ) : (
+                ) : locale === 'en' ? (
                   <>
                 <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
                   Introduction
@@ -207,6 +207,10 @@ const TermsOfServicePage = () => {
                   <li>By mail: 403 - 65 Mutual Street, Toronto, M5B 0E5</li>
                 </ul>
                   </>
+                ) : (
+                  <p className="text-[#281909]/80 py-8" role="status">
+                    {isLoading ? labels.loading : labels.unavailable}
+                  </p>
                 )}
               </div>
             </CardContent>

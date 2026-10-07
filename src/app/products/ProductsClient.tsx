@@ -166,6 +166,7 @@ function CatalogContent() {
       },
       currentPage
     );
+    params.set('lang', locale);
 
     const queryString = params.toString();
     const newPath = queryString ? `${pathname}?${queryString}` : pathname;
@@ -183,6 +184,7 @@ function CatalogContent() {
     sortBy,
     sortOrder,
     currentPage,
+    locale,
     pathname,
     router,
   ]);
@@ -258,6 +260,14 @@ function CatalogContent() {
       allCategories: isFrench ? 'Toutes les catégories' : isSpanish ? 'Todas las categorías' : 'All Categories',
       sortByName: isFrench ? 'Nom' : isSpanish ? 'Nombre' : 'Name',
       sortByCategory: isFrench ? 'Catégorie' : isSpanish ? 'Categoría' : 'Category',
+      commodityCategory: isFrench ? 'Catégorie de commodité' : isSpanish ? 'Categoría de producto' : 'Commodity Category',
+      resetCategory: isFrench ? 'Réinitialiser la catégorie' : isSpanish ? 'Restablecer categoría' : 'Reset Category',
+      categoryPrefix: isFrench ? 'Catégorie' : isSpanish ? 'Categoría' : 'Category',
+      corridorPrefix: isFrench ? 'Corridor' : isSpanish ? 'Corredor' : 'Corridor',
+      removeCategory: isFrench ? 'Retirer le filtre de catégorie' : isSpanish ? 'Quitar filtro de categoría' : 'Remove category filter',
+      removeCorridor: isFrench ? 'Retirer le filtre de corridor' : isSpanish ? 'Quitar filtro de corredor' : 'Remove corridor filter',
+      toggleSort: isFrench ? 'Inverser le tri' : isSpanish ? 'Cambiar orden' : 'Toggle sort order',
+      loadError: isFrench ? 'Impossible de charger le catalogue de produits.' : isSpanish ? 'No se pudo cargar el catálogo de productos.' : 'Failed to load product catalog.',
       showingCount: (count: number, total: number) =>
         isFrench
           ? `Affichage de ${count} sur ${total} commodités`
@@ -353,8 +363,8 @@ function CatalogContent() {
     if (selectedCorridor !== 'all') {
       parts.push(
         selectedCorridor === 'canada'
-          ? 'Canadian Prairies'
-          : 'Tropical & West Africa'
+          ? labels.corridorCanada
+          : labels.corridorAfrica
       );
     }
 
@@ -375,6 +385,8 @@ function CatalogContent() {
     isFrench,
     isSpanish,
     labels.noResults,
+    labels.corridorCanada,
+    labels.corridorAfrica,
   ]);
 
   return (
@@ -473,7 +485,7 @@ function CatalogContent() {
               <div className="pt-2 border-t border-agro-primary-100 dark:border-agro-primary-900/50">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-agro-neutral-400">
-                    Commodity Category
+                    {labels.commodityCategory}
                   </span>
                   {selectedCategory !== 'all' && (
                     <button
@@ -481,7 +493,7 @@ function CatalogContent() {
                       onClick={() => setSelectedCategory('all')}
                       className="text-xs text-agro-secondary-600 hover:underline cursor-pointer"
                     >
-                      Reset Category
+                      {labels.resetCategory}
                     </button>
                   )}
                 </div>
@@ -587,7 +599,7 @@ function CatalogContent() {
                     size="icon"
                     onClick={() => setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'))}
                     className="btn-agro-outline bg-white dark:bg-agro-neutral-850 cursor-pointer"
-                    aria-label="Toggle sort order"
+                    aria-label={labels.toggleSort}
                   >
                     {sortOrder === 'asc' ? '↑' : '↓'}
                   </Button>
@@ -619,12 +631,12 @@ function CatalogContent() {
                   <div className="flex flex-wrap items-center gap-1.5 ml-1">
                     {selectedCorridor !== 'all' && (
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-agro-primary-100 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border border-agro-primary-200 dark:border-agro-primary-700">
-                        <span>Corridor: {selectedCorridor === 'canada' ? 'Canadian Prairies' : 'Tropical & West Africa'}</span>
+                        <span>{labels.corridorPrefix}: {selectedCorridor === 'canada' ? labels.corridorCanada : labels.corridorAfrica}</span>
                         <button
                           type="button"
                           onClick={() => setSelectedCorridor('all')}
                           className="hover:text-red-600 ml-0.5 cursor-pointer"
-                          aria-label="Remove corridor filter"
+                          aria-label={labels.removeCorridor}
                         >
                           <X size={12} />
                         </button>
@@ -632,12 +644,12 @@ function CatalogContent() {
                     )}
                     {selectedCategory !== 'all' && (
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-agro-primary-100 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border border-agro-primary-200 dark:border-agro-primary-700">
-                        <span>Category: {formatCategoryLabel(selectedCategory, availableCategories)}</span>
+                        <span>{labels.categoryPrefix}: {formatCategoryLabel(selectedCategory, availableCategories)}</span>
                         <button
                           type="button"
                           onClick={() => setSelectedCategory('all')}
                           className="hover:text-red-600 ml-0.5 cursor-pointer"
-                          aria-label="Remove category filter"
+                          aria-label={labels.removeCategory}
                         >
                           <X size={12} />
                         </button>
@@ -672,7 +684,7 @@ function CatalogContent() {
             {/* Error Message */}
             {error && (
               <div className="p-4 mb-6 rounded-xl bg-red-50 text-red-800 border border-red-200">
-                <p className="text-sm font-semibold">Failed to load product catalog.</p>
+                <p className="text-sm font-semibold">{labels.loadError}</p>
               </div>
             )}
 
@@ -770,11 +782,11 @@ function CatalogContent() {
                         </CardContent>
                       </div>
 
-                      <CardFooter className="pt-2 pb-5 px-5 flex items-center gap-2.5">
+                      <CardFooter className="pt-2 pb-5 px-5 flex flex-wrap items-stretch gap-2.5">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="flex-1 btn-agro-outline text-xs h-9 font-semibold cursor-pointer"
+                          className="flex-[1_1_10rem] min-w-0 btn-agro-outline text-xs h-auto min-h-9 py-2 whitespace-normal text-center leading-tight font-semibold cursor-pointer"
                           onClick={e => {
                             e.stopPropagation();
                             handleCardClick(product);
@@ -784,7 +796,7 @@ function CatalogContent() {
                         </Button>
                         <Button
                           size="sm"
-                          className="flex-1 btn-agro-primary text-xs h-9 font-semibold cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                          className="flex-[1_1_10rem] min-w-0 btn-agro-primary text-xs h-auto min-h-9 py-2 whitespace-normal text-center leading-tight font-semibold cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                           onClick={e => {
                             e.stopPropagation();
                             handleRequestQuote(title, product._id);

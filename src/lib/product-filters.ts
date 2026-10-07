@@ -41,12 +41,29 @@ export const DEFAULT_FILTER_STATE: ProductFilterState = {
  */
 export function normalizeCategorySlug(category?: string | null): string {
   if (!category) return '';
-  return category
+  const normalized = category
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim()
     .replace(/&/g, 'and')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+
+  const localizedAliases: Record<string, string> = {
+    'grains-et-cereales': 'grains-and-cereals',
+    'granos-y-cereales': 'grains-and-cereals',
+    legumineuses: 'pulses-and-legumes',
+    legumbres: 'pulses-and-legumes',
+    'oleagineux-et-cultures-speciales': 'oilseeds-and-special-crops',
+    'oleaginosas-y-cultivos-especiales': 'oilseeds-and-special-crops',
+    'epices-et-plantes-medicinales': 'spices-and-botanicals',
+    'especias-y-botanicos': 'spices-and-botanicals',
+    'horticulture-et-produits-de-specialite': 'horticulture-and-specialty',
+    'horticultura-y-productos-especiales': 'horticulture-and-specialty',
+  };
+
+  return localizedAliases[normalized] || normalized;
 }
 
 /**

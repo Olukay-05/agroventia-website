@@ -65,13 +65,12 @@ export const blogPost = defineType({
     defineField({
       name: 'seoTitle',
       title: 'SEO Meta Title',
-      type: 'string',
+      type: 'localeString',
     }),
     defineField({
       name: 'seoDescription',
       title: 'SEO Meta Description',
-      type: 'text',
-      rows: 2,
+      type: 'localeText',
     }),
   ],
   orderings: [

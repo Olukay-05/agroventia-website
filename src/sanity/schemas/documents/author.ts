@@ -8,7 +8,7 @@ export const author = defineType({
     defineField({
       name: 'name',
       title: 'Author Name',
-      type: 'string',
+      type: 'localeString',
       validation: (Rule: any) => Rule.required(),
     }),
     defineField({
@@ -27,7 +27,7 @@ export const author = defineType({
   ],
   preview: {
     select: {
-      title: 'name',
+      title: 'name.en',
       subtitle: 'bio.en',
       media: 'avatar',
     },

@@ -203,6 +203,9 @@ const defaultHighlightsEsp: HighlightItem[] = [
 
 const ABOUT_UI = {
   en: {
+    mission: 'Our Mission',
+    vision: 'Our Vision',
+    slideLabel: (index: number) => `Go to slide ${index + 1}`,
     ourStory: 'Our Story',
     readMore: 'Read More',
     readLess: 'Read Less',
@@ -211,6 +214,9 @@ const ABOUT_UI = {
     highlights: defaultHighlightsEn,
   },
   fr: {
+    mission: 'Notre mission',
+    vision: 'Notre vision',
+    slideLabel: (index: number) => `Aller à la diapositive ${index + 1}`,
     ourStory: 'Notre histoire',
     readMore: 'En savoir plus',
     readLess: 'Moins de détails',
@@ -219,6 +225,9 @@ const ABOUT_UI = {
     highlights: defaultHighlightsFr,
   },
   esp: {
+    mission: 'Nuestra misión',
+    vision: 'Nuestra visión',
+    slideLabel: (index: number) => `Ir a la diapositiva ${index + 1}`,
     ourStory: 'Nuestra historia',
     readMore: 'Leer más',
     readLess: 'Leer menos',
@@ -338,6 +347,8 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
               <MissionVisionCarousel
                 mission={data.mission}
                 vision={data.vision}
+                missionLabel={ui.mission}
+                visionLabel={ui.vision}
               />
             </div>
           )}
@@ -419,6 +430,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ data, isLoading }) => {
               >
                 <Carousel
                   items={carouselItems}
+                  slideLabel={ui.slideLabel}
                   baseWidth={300}
                   autoplay={true}
                   autoplayDelay={5000}

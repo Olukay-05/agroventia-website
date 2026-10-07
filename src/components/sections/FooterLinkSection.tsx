@@ -61,7 +61,12 @@ const FooterLinkSection: React.FC<FooterLinkSectionProps> = ({
               <Link
                 key={index}
                 href={href}
-                onClick={() => onLinkClick?.(link)}
+                onClick={event => {
+                  if (onLinkClick) {
+                    event.preventDefault();
+                    onLinkClick(link);
+                  }
+                }}
                 className={className}
               >
                 {innerContent}

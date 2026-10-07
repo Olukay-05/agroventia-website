@@ -18,6 +18,11 @@ export interface BlogTranslations {
   defaultCategory: string;
   defaultAuthor: string;
   relatedExcerptFallback: string;
+  breadcrumbLabel: string;
+  publishedDateLabel: string;
+  estimatedReadingTimeLabel: string;
+  loading: string;
+  unavailable: string;
   shareLabels: {
     twitter: string;
     facebook: string;
@@ -32,6 +37,11 @@ export interface BlogTranslations {
 
 export const BLOG_UI: Record<'en' | 'fr' | 'esp', BlogTranslations> = {
   en: {
+    breadcrumbLabel: 'Breadcrumb',
+    publishedDateLabel: 'Published date',
+    estimatedReadingTimeLabel: 'Estimated reading time',
+    loading: 'Loading localized articles…',
+    unavailable: 'Localized articles are temporarily unavailable.',
     eyebrow: 'Our Blog',
     heroTitle: 'Latest Insights & News',
     heroSubtitle:
@@ -59,6 +69,11 @@ export const BLOG_UI: Record<'en' | 'fr' | 'esp', BlogTranslations> = {
     },
   },
   fr: {
+    breadcrumbLabel: 'Fil d’Ariane',
+    publishedDateLabel: 'Date de publication',
+    estimatedReadingTimeLabel: 'Temps de lecture estimé',
+    loading: 'Chargement des articles localisés…',
+    unavailable: 'Les articles localisés sont temporairement indisponibles.',
     eyebrow: 'Notre Blogue',
     heroTitle: 'Actualités et perspectives du marché',
     heroSubtitle:
@@ -86,6 +101,11 @@ export const BLOG_UI: Record<'en' | 'fr' | 'esp', BlogTranslations> = {
     },
   },
   esp: {
+    breadcrumbLabel: 'Ruta de navegación',
+    publishedDateLabel: 'Fecha de publicación',
+    estimatedReadingTimeLabel: 'Tiempo estimado de lectura',
+    loading: 'Cargando artículos localizados…',
+    unavailable: 'Los artículos localizados no están disponibles temporalmente.',
     eyebrow: 'Nuestro Blog',
     heroTitle: 'Últimas perspectivas y noticias',
     heroSubtitle:

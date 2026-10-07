@@ -10,7 +10,7 @@ import { getLegalUiLabels, formatLegalDate } from '@/lib/legal-i18n';
 
 const PrivacyPolicyPage = () => {
   const { locale } = useLocale();
-  const { data: pageData } = useLegalPage('privacy-policy');
+  const { data: pageData, isLoading } = useLegalPage('privacy-policy');
   const labels = getLegalUiLabels(locale);
 
   return (
@@ -58,7 +58,7 @@ const PrivacyPolicyPage = () => {
                       </div>
                     ))}
                   </>
-                ) : (
+                ) : locale === 'en' ? (
                   <>
                 <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
                   Introduction
@@ -285,6 +285,10 @@ const PrivacyPolicyPage = () => {
                   <li>By mail: 403 - 65 Mutual Street, Toronto, M5B 0E5</li>
                 </ul>
                   </>
+                ) : (
+                  <p className="text-[#281909]/80 py-8" role="status">
+                    {isLoading ? labels.loading : labels.unavailable}
+                  </p>
                 )}
               </div>
             </CardContent>

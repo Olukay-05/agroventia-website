@@ -1416,6 +1416,18 @@ export const getMockCarouselImages = async (locale?: string): Promise<CarouselIm
       _createdDate: { $date: '2025-08-21T00:00:00.000Z' },
       _updatedDate: { $date: '2026-10-04T00:00:00.000Z' },
       image: '/background-image-mobile.jpg',
+      title:
+        loc.startsWith('fr')
+          ? 'Qualité agricole supérieure'
+          : loc.startsWith('es') || loc === 'esp'
+            ? 'Calidad agrícola superior'
+            : 'Premium Agricultural Quality',
+      description:
+        loc.startsWith('fr')
+          ? 'Des produits agricoles traçables, préparés selon les exigences des acheteurs internationaux.'
+          : loc.startsWith('es') || loc === 'esp'
+            ? 'Productos agrícolas trazables, preparados según los requisitos de compradores internacionales.'
+            : 'Traceable agricultural products prepared to international buyer requirements.',
       imageDescription:
         loc.startsWith('fr')
           ? 'Qualité agricole premium'
@@ -1437,6 +1449,18 @@ export const getMockCarouselImages = async (locale?: string): Promise<CarouselIm
       _createdDate: { $date: '2025-08-21T00:00:00.000Z' },
       _updatedDate: { $date: '2026-10-04T00:00:00.000Z' },
       image: 'https://images.unsplash.com/photo-1649344739140-c71b2ee1005c',
+      title:
+        loc.startsWith('fr')
+          ? 'Chaînes d’approvisionnement durables'
+          : loc.startsWith('es') || loc === 'esp'
+            ? 'Cadenas de suministro sostenibles'
+            : 'Sustainable Supply Chains',
+      description:
+        loc.startsWith('fr')
+          ? 'Des partenariats responsables qui relient les producteurs aux marchés mondiaux.'
+          : loc.startsWith('es') || loc === 'esp'
+            ? 'Alianzas responsables que conectan a los productores con mercados globales.'
+            : 'Responsible partnerships connecting producers with global markets.',
       imageDescription:
         loc.startsWith('fr')
           ? 'Filières agricoles durables'

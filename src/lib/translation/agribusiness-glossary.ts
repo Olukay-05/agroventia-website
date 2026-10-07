@@ -292,6 +292,162 @@ export const DETERMINISTIC_FALLBACK_DICTIONARY: Record<
     esp: 'Servicio puntual, riguroso y confiable en cualquier escala de volumen.',
   },
 
+  'Specification Discipline': {
+    fr: 'Discipline en matière de spécifications',
+    esp: 'Disciplina de especificaciones',
+  },
+  'Products and opportunities are evaluated against defined buyer, market and commercial requirements.': {
+    fr: 'Les produits et les occasions commerciales sont évalués selon les exigences définies des acheteurs, des marchés et des opérations commerciales.',
+    esp: 'Los productos y las oportunidades se evalúan conforme a requisitos definidos de compradores, mercados y operaciones comerciales.',
+  },
+  'Responsible Sourcing': {
+    fr: 'Approvisionnement responsable',
+    esp: 'Abastecimiento responsable',
+  },
+  'We seek credible counterparties and transparent sourcing relationships across the markets in which we operate.': {
+    fr: 'Nous recherchons des contreparties crédibles et des relations d’approvisionnement transparentes dans tous nos marchés.',
+    esp: 'Buscamos contrapartes confiables y relaciones de abastecimiento transparentes en todos los mercados donde operamos.',
+  },
+  Transparency: {
+    fr: 'Transparence',
+    esp: 'Transparencia',
+  },
+  'Clear communication around origin, specifications, availability, commercial terms and transaction requirements.': {
+    fr: 'Une communication claire sur l’origine, les spécifications, la disponibilité, les conditions commerciales et les exigences transactionnelles.',
+    esp: 'Comunicación clara sobre el origen, las especificaciones, la disponibilidad, las condiciones comerciales y los requisitos de cada transacción.',
+  },
+  'Opportunities are evaluated for specification, volume, pricing, counterparty fit and execution requirements before commitment.': {
+    fr: 'Avant tout engagement, les occasions sont évaluées selon les spécifications, le volume, le prix, l’adéquation de la contrepartie et les exigences d’exécution.',
+    esp: 'Antes de asumir un compromiso, las oportunidades se evalúan según las especificaciones, el volumen, el precio, la idoneidad de la contraparte y los requisitos de ejecución.',
+  },
+
+  // Homepage carousel
+  'Your Trusted Partner in Global Agricultural Trade': {
+    fr: 'Votre partenaire de confiance dans le commerce agricole mondial',
+    esp: 'Su socio de confianza en el comercio agrícola mundial',
+  },
+  'Quality you can count on, partnerships that last.': {
+    fr: 'Une qualité fiable, des partenariats durables.',
+    esp: 'Calidad en la que puede confiar, alianzas que perduran.',
+  },
+  'Global Agricultural Trade. Canadian Counterparty.': {
+    fr: 'Commerce agricole mondial. Contrepartie canadienne.',
+    esp: 'Comercio agrícola mundial. Contraparte canadiense.',
+  },
+  'AgroVentia connects qualified agricultural supply with commercial buyers across Canada, West Africa and international markets.': {
+    fr: 'AgroVentia met en relation une offre agricole qualifiée avec des acheteurs commerciaux au Canada, en Afrique de l’Ouest et sur les marchés internationaux.',
+    esp: 'AgroVentia conecta una oferta agrícola calificada con compradores comerciales en Canadá, África Occidental y los mercados internacionales.',
+  },
+  'Premium Agricultural Produce from Africa': {
+    fr: 'Produits agricoles haut de gamme d’Afrique',
+    esp: 'Productos agrícolas prémium de África',
+  },
+  'From Fields to You': {
+    fr: 'Des champs jusqu’à vous',
+    esp: 'Del campo a usted',
+  },
+  'Ethically sourced. Globally delivered.': {
+    fr: 'Approvisionnement éthique. Livraison mondiale.',
+    esp: 'Abastecimiento ético. Entrega mundial.',
+  },
+  'From Africa’s Finest Fields to You': {
+    fr: 'Des meilleurs champs d’Afrique jusqu’à vous',
+    esp: 'De los mejores campos de África hasta usted',
+  },
+  'Redefining Agricultural Trade': {
+    fr: 'Redéfinir le commerce agricole',
+    esp: 'Redefiniendo el comercio agrícola',
+  },
+  'Every shipment, a promise kept.': {
+    fr: 'Chaque expédition, une promesse tenue.',
+    esp: 'Cada envío, una promesa cumplida.',
+  },
+  'Redefining Agricultural Trade with Integrity': {
+    fr: 'Redéfinir le commerce agricole avec intégrité',
+    esp: 'Redefiniendo el comercio agrícola con integridad',
+  },
+
+  'AgroVentia Inc. specializes in high-quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted sources.': {
+    fr: 'AgroVentia Inc. se spécialise dans les produits agricoles de haute qualité, notamment la noix de kola, le gingembre, l’hibiscus, le cacao et d’autres produits issus de sources fiables.',
+    esp: 'AgroVentia Inc. se especializa en productos agrícolas de alta calidad, como nuez de kola, jengibre, hibisco, cacao y otros productos de fuentes confiables.',
+  },
+  'About AgroVentia Inc.': {
+    fr: 'À propos d’AgroVentia Inc.',
+    esp: 'Acerca de AgroVentia Inc.',
+  },
+  'To make agricultural trade more accessible and commercially effective by connecting qualified supply with genuine market demand.': {
+    fr: 'Rendre le commerce agricole plus accessible et efficace sur le plan commercial en reliant une offre qualifiée à une demande réelle du marché.',
+    esp: 'Hacer que el comercio agrícola sea más accesible y comercialmente eficaz conectando una oferta calificada con una demanda real del mercado.',
+  },
+  'To become a trusted international trading counterparty for agricultural producers, processors and buyers seeking reliable access to new markets and supply opportunities.': {
+    fr: 'Devenir une contrepartie commerciale internationale de confiance pour les producteurs, les transformateurs et les acheteurs agricoles qui recherchent un accès fiable à de nouveaux marchés et à de nouvelles possibilités d’approvisionnement.',
+    esp: 'Convertirnos en una contraparte comercial internacional de confianza para productores, procesadores y compradores agrícolas que buscan acceso confiable a nuevos mercados y oportunidades de abastecimiento.',
+  },
+  'Our Process': {
+    fr: 'Notre processus',
+    esp: 'Nuestro proceso',
+  },
+  'Products & Trade Origins': {
+    fr: 'Produits et origines commerciales',
+    esp: 'Productos y orígenes comerciales',
+  },
+  'Whether you are sourcing agricultural products or seeking international markets for available supply, share your requirement with our team and we will assess the opportunity.': {
+    fr: 'Que vous recherchiez des produits agricoles ou des marchés internationaux pour une offre disponible, communiquez vos besoins à notre équipe et nous évaluerons l’occasion.',
+    esp: 'Tanto si busca productos agrícolas como mercados internacionales para una oferta disponible, comunique sus requisitos a nuestro equipo y evaluaremos la oportunidad.',
+  },
+  '24 hours for all inquiries': {
+    fr: 'Dans les 24 heures pour toutes les demandes',
+    esp: 'En un plazo de 24 horas para todas las consultas',
+  },
+  Community: {
+    fr: 'Communauté',
+    esp: 'Comunidad',
+  },
+  'Social impact and people in agriculture.': {
+    fr: 'L’impact social et les personnes qui œuvrent dans le secteur agricole.',
+    esp: 'El impacto social y las personas que trabajan en la agricultura.',
+  },
+  Compliance: {
+    fr: 'Conformité',
+    esp: 'Cumplimiento normativo',
+  },
+  'Standards and regulations.': {
+    fr: 'Normes et réglementation.',
+    esp: 'Normas y reglamentos.',
+  },
+  'Market Trends': {
+    fr: 'Tendances du marché',
+    esp: 'Tendencias del mercado',
+  },
+  'Insights into market demands and opportunities.': {
+    fr: 'Analyses de la demande et des occasions du marché.',
+    esp: 'Análisis de la demanda y las oportunidades del mercado.',
+  },
+  'Logistics, farm-to-table courses.': {
+    fr: 'Logistique et parcours de la ferme à la table.',
+    esp: 'Logística y recorridos de la granja a la mesa.',
+  },
+  Sustainability: {
+    fr: 'Durabilité',
+    esp: 'Sostenibilidad',
+  },
+  'Practices for long-term agricultural health.': {
+    fr: 'Pratiques favorisant la santé à long terme du secteur agricole.',
+    esp: 'Prácticas que favorecen la salud agrícola a largo plazo.',
+  },
+  Technology: {
+    fr: 'Technologie',
+    esp: 'Tecnología',
+  },
+  'Innovations in farming.': {
+    fr: 'Innovations dans le secteur agricole.',
+    esp: 'Innovaciones en la agricultura.',
+  },
+  'AgroVentia Editorial & Sourcing Desk': {
+    fr: 'Bureau éditorial et approvisionnement d’AgroVentia',
+    esp: 'Equipo editorial y de abastecimiento de AgroVentia',
+  },
+
   // Categories
   'Spices & Aromatics': {
     fr: 'Épices et aromates',

@@ -7,6 +7,8 @@
 export interface LegalUiLabels {
   backToHome: string;
   lastUpdated: string;
+  loading: string;
+  unavailable: string;
   defaultTitles: {
     privacy: string;
     terms: string;
@@ -24,6 +26,7 @@ export interface LegalUiLabels {
     acceptAll: string;
     acceptSelection: string;
     rejectAll: string;
+    close: string;
     footerNote: string;
   };
   cookiePage: {
@@ -44,6 +47,8 @@ export interface LegalUiLabels {
 
 export const LEGAL_UI: Record<'en' | 'fr' | 'esp', LegalUiLabels> = {
   en: {
+    loading: 'Loading localized legal content…',
+    unavailable: 'Localized legal content is temporarily unavailable.',
     backToHome: 'Back to Home',
     lastUpdated: 'Last updated:',
     defaultTitles: {
@@ -62,8 +67,9 @@ export const LEGAL_UI: Record<'en' | 'fr' | 'esp', LegalUiLabels> = {
       marketing: 'Marketing',
       functional: 'Functional',
       acceptAll: 'Accept All',
-      acceptSelection: 'Accept Selection',
+      acceptSelection: 'Save Preferences',
       rejectAll: 'Reject All',
+      close: 'Close cookie preferences',
       footerNote:
         'Your privacy is important to us. You can change your cookie preferences at any time.',
     },
@@ -83,6 +89,8 @@ export const LEGAL_UI: Record<'en' | 'fr' | 'esp', LegalUiLabels> = {
     },
   },
   fr: {
+    loading: 'Chargement du contenu juridique localisé…',
+    unavailable: 'Le contenu juridique localisé est temporairement indisponible.',
     backToHome: 'Retour à l’accueil',
     lastUpdated: 'Dernière mise à jour :',
     defaultTitles: {
@@ -101,8 +109,9 @@ export const LEGAL_UI: Record<'en' | 'fr' | 'esp', LegalUiLabels> = {
       marketing: 'Marketing',
       functional: 'Fonctionnels',
       acceptAll: 'Tout accepter',
-      acceptSelection: 'Accepter la sélection',
+      acceptSelection: 'Enregistrer les préférences',
       rejectAll: 'Tout refuser',
+      close: 'Fermer les préférences de témoins',
       footerNote:
         'Votre confidentialité est essentielle. Vous pouvez modifier vos préférences de témoins en tout temps.',
     },
@@ -122,6 +131,8 @@ export const LEGAL_UI: Record<'en' | 'fr' | 'esp', LegalUiLabels> = {
     },
   },
   esp: {
+    loading: 'Cargando contenido legal localizado…',
+    unavailable: 'El contenido legal localizado no está disponible temporalmente.',
     backToHome: 'Volver al inicio',
     lastUpdated: 'Última actualización:',
     defaultTitles: {
@@ -140,8 +151,9 @@ export const LEGAL_UI: Record<'en' | 'fr' | 'esp', LegalUiLabels> = {
       marketing: 'Marketing',
       functional: 'Funcionales',
       acceptAll: 'Aceptar todas',
-      acceptSelection: 'Aceptar selección',
+      acceptSelection: 'Guardar preferencias',
       rejectAll: 'Rechazar todas',
+      close: 'Cerrar preferencias de cookies',
       footerNote:
         'Su privacidad es fundamental para nosotros. Puede modificar sus preferencias de cookies en cualquier momento.',
     },

@@ -39,6 +39,7 @@ export const CookieConsentProvider: React.FC<{ children: ReactNode }> = ({
   const [consent, setConsentState] =
     useState<ConsentPreferences>(DEFAULT_CONSENT);
   const [hasMadeChoice, setHasMadeChoice] = useState<boolean>(false); // Track if user has made explicit choice
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // Load consent from localStorage on mount
   useEffect(() => {
@@ -59,12 +60,15 @@ export const CookieConsentProvider: React.FC<{ children: ReactNode }> = ({
         );
       }
     }
+    setIsHydrated(true);
   }, []);
 
   // Save consent to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('cookieConsent', JSON.stringify(consent));
-  }, [consent]);
+    if (isHydrated && hasMadeChoice) {
+      localStorage.setItem('cookieConsent', JSON.stringify(consent));
+    }
+  }, [consent, hasMadeChoice, isHydrated]);
 
   const setConsent = (newConsent: Partial<ConsentPreferences>) => {
     setConsentState(prev => ({

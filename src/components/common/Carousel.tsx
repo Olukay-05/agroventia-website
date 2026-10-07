@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import { motion, MotionValue, PanInfo, useMotionValue, useTransform } from 'framer-motion';
 import React, { JSX } from 'react';
 
 export interface CarouselItem {
@@ -23,6 +23,7 @@ export interface CarouselProps {
   pauseOnHover?: boolean;
   loop?: boolean;
   round?: boolean;
+  slideLabel?: (index: number) => string;
 }
 
 // Updated default items to use span content similar to AboutSection
@@ -98,6 +99,63 @@ const SPRING_OPTIONS: { type: 'spring'; stiffness: number; damping: number } = {
   damping: 30,
 };
 
+interface CarouselCardProps {
+  item: CarouselItem;
+  index: number;
+  x: MotionValue<number>;
+  trackItemOffset: number;
+  itemWidth: number;
+  round: boolean;
+  transition: typeof SPRING_OPTIONS | { duration: number };
+}
+
+function CarouselCard({
+  item,
+  index,
+  x,
+  trackItemOffset,
+  itemWidth,
+  round,
+  transition,
+}: CarouselCardProps) {
+  const range = [
+    -(index + 1) * trackItemOffset,
+    -index * trackItemOffset,
+    -(index - 1) * trackItemOffset,
+  ];
+  const rotateY = useTransform(x, range, [90, 0, -90], { clamp: false });
+
+  return (
+    <motion.div
+      className={`relative shrink-0 flex flex-col ${
+        round
+          ? 'items-center justify-center text-center bg-[#fcf9f1] border-0'
+          : 'items-start justify-between bg-[#fcf9f1] border border-[#222] rounded-[12px]'
+      } overflow-hidden cursor-grab active:cursor-grabbing`}
+      style={{
+        width: itemWidth,
+        height: round ? itemWidth : '100%',
+        rotateY,
+        ...(round && { borderRadius: '50%' }),
+      }}
+      transition={transition}
+    >
+      <div className={`${round ? 'p-0 m-0' : 'mb-4 p-5'}`}>
+        <div
+          className={`p-[24px] w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${item.spanContent.textSize} font-bold ${item.spanContent.textColor}`}
+          style={{ backgroundColor: item.spanContent.bgColor }}
+        >
+          {item.spanContent.text}
+        </div>
+      </div>
+      <div className="p-5">
+        <div className="mb-1 font-black text-lg text-[#016630]">{item.title}</div>
+        <p className="text-sm text-[#281909]">{item.description}</p>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Carousel({
   items = DEFAULT_ITEMS,
   baseWidth = 300,
@@ -106,6 +164,7 @@ export default function Carousel({
   pauseOnHover = false,
   loop = false,
   round = false,
+  slideLabel = index => `Go to slide ${index + 1}`,
 }: CarouselProps): JSX.Element {
   const containerPadding = 16;
   const itemWidth = baseWidth - containerPadding * 2;
@@ -229,61 +288,26 @@ export default function Carousel({
         transition={effectiveTransition}
         onAnimationComplete={handleAnimationComplete}
       >
-        {carouselItems.map((item, index) => {
-          const range = [
-            -(index + 1) * trackItemOffset,
-            -index * trackItemOffset,
-            -(index - 1) * trackItemOffset,
-          ];
-          const outputRange = [90, 0, -90];
-          const rotateY = useTransform(x, range, outputRange, { clamp: false }); // eslint-disable-line react-hooks/rules-of-hooks
-          return (
-            <motion.div
-              key={index}
-              className={`relative shrink-0 flex flex-col ${
-                round
-                  ? 'items-center justify-center text-center bg-[#fcf9f1] border-0' // Changed from #060010 to #fcf9f1
-                  : 'items-start justify-between bg-[#fcf9f1] border border-[#222] rounded-[12px]' // Changed from #222 to #fcf9f1
-              } overflow-hidden cursor-grab active:cursor-grabbing`}
-              style={{
-                width: itemWidth,
-                height: round ? itemWidth : '100%',
-                rotateY: rotateY,
-                ...(round && { borderRadius: '50%' }),
-              }}
-              transition={effectiveTransition}
-            >
-              <div className={`${round ? 'p-0 m-0' : 'mb-4 p-5'}`}>
-                {/* Using the same span component structure as in AboutSection */}
-                <div
-                  className={`p-[24px] w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${item.spanContent.textSize} font-bold ${item.spanContent.textColor}`}
-                  style={{ backgroundColor: item.spanContent.bgColor }}
-                >
-                  {item.spanContent.text}
-                </div>
-              </div>
-              <div className="p-5">
-                <div className="mb-1 font-black text-lg text-[#016630]">
-                  {' '}
-                  {/* Changed text color to match brand */}
-                  {item.title}
-                </div>
-                <p className="text-sm text-[#281909]">
-                  {' '}
-                  {/* Changed text color to match brand */}
-                  {item.description}
-                </p>
-              </div>
-            </motion.div>
-          );
-        })}
+        {carouselItems.map((item, index) => (
+          <CarouselCard
+            key={`${item.id}-${index}`}
+            item={item}
+            index={index}
+            x={x}
+            trackItemOffset={trackItemOffset}
+            itemWidth={itemWidth}
+            round={round}
+            transition={effectiveTransition}
+          />
+        ))}
       </motion.div>
       <div
         className={`flex w-full justify-center ${round ? 'absolute z-20 bottom-12 left-1/2 -translate-x-1/2' : ''}`}
       >
         <div className="mt-4 flex w-[150px] justify-between px-8">
           {items.map((_, index) => (
-            <motion.div
+            <motion.button
+              type="button"
               key={index}
               className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
                 currentIndex % items.length === index
@@ -298,6 +322,8 @@ export default function Carousel({
                 scale: currentIndex % items.length === index ? 1.2 : 1,
               }}
               onClick={() => setCurrentIndex(index)}
+              aria-label={slideLabel(index)}
+              aria-current={currentIndex % items.length === index ? 'true' : undefined}
               transition={{ duration: 0.15 }}
             />
           ))}

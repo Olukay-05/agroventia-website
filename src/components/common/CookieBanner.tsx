@@ -13,7 +13,12 @@ const CookieBanner: React.FC = () => {
   const { consent, setConsent, hasMadeChoice } = useCookieConsent();
   const { locale } = useLocale();
   const [isVisible, setIsVisible] = useState(false);
+  const [draftConsent, setDraftConsent] = useState(consent);
   const labels = getLegalUiLabels(locale);
+
+  useEffect(() => {
+    setDraftConsent(consent);
+  }, [consent]);
 
   // Check if we should show the banner
   useEffect(() => {
@@ -53,6 +58,11 @@ const CookieBanner: React.FC = () => {
   };
 
   const handleAcceptSelection = () => {
+    setConsent({
+      analytics: draftConsent.analytics,
+      marketing: draftConsent.marketing,
+      functional: draftConsent.functional,
+    });
     setIsVisible(false);
   };
 
@@ -107,8 +117,8 @@ const CookieBanner: React.FC = () => {
                 <input
                   type="checkbox"
                   id="analytics"
-                  checked={consent.analytics}
-                  onChange={e => setConsent({ analytics: e.target.checked })}
+                  checked={draftConsent.analytics}
+                  onChange={e => setDraftConsent(prev => ({ ...prev, analytics: e.target.checked }))}
                   className="mr-2"
                 />
                 <label htmlFor="analytics" className="text-sm">
@@ -120,8 +130,8 @@ const CookieBanner: React.FC = () => {
                 <input
                   type="checkbox"
                   id="marketing"
-                  checked={consent.marketing}
-                  onChange={e => setConsent({ marketing: e.target.checked })}
+                  checked={draftConsent.marketing}
+                  onChange={e => setDraftConsent(prev => ({ ...prev, marketing: e.target.checked }))}
                   className="mr-2"
                 />
                 <label htmlFor="marketing" className="text-sm">
@@ -133,8 +143,8 @@ const CookieBanner: React.FC = () => {
                 <input
                   type="checkbox"
                   id="functional"
-                  checked={consent.functional}
-                  onChange={e => setConsent({ functional: e.target.checked })}
+                  checked={draftConsent.functional}
+                  onChange={e => setDraftConsent(prev => ({ ...prev, functional: e.target.checked }))}
                   className="mr-2"
                 />
                 <label htmlFor="functional" className="text-sm">
@@ -170,7 +180,7 @@ const CookieBanner: React.FC = () => {
               variant="ghost"
               size="icon"
               className="ml-2 md:ml-0 text-[#FDF8F0] hover:bg-[#225217]"
-              aria-label="Close"
+              aria-label={b.close}
             >
               <X className="h-5 w-5" />
             </Button>

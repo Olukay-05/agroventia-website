@@ -666,11 +666,11 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         </CardContent>
                       </div>
 
-                      <CardFooter className="pt-2 pb-5 px-5 flex items-center gap-2.5">
+                      <CardFooter className="pt-2 pb-5 px-5 flex flex-wrap items-stretch gap-2.5">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="flex-1 btn-agro-outline text-xs h-9 font-semibold cursor-pointer"
+                          className="flex-[1_1_10rem] min-w-0 btn-agro-outline text-xs h-auto min-h-9 py-2 whitespace-normal text-center leading-tight font-semibold cursor-pointer"
                           onClick={e => {
                             e.stopPropagation();
                             handleCardClick(product);
@@ -680,7 +680,7 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
                         </Button>
                         <Button
                           size="sm"
-                          className="flex-1 btn-agro-primary text-xs h-9 font-semibold cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
+                          className="flex-[1_1_10rem] min-w-0 btn-agro-primary text-xs h-auto min-h-9 py-2 whitespace-normal text-center leading-tight font-semibold cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
                           onClick={e => {
                             e.stopPropagation();
                             handleRequestQuote(product.title || '', product._id);

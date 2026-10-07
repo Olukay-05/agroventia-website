@@ -18,6 +18,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLocale } from '@/contexts/LocaleContext';
 import { QuoteRequestProvider, useQuoteRequest } from '@/contexts/QuoteRequestContext';
+import { useProductBySlug, useProductCatalogContent } from '@/hooks/useContent';
+import { normalizeCategorySlug } from '@/lib/product-filters';
 import { trackButtonClick, trackProductQuoteRequest } from '@/lib/analytics';
 import type { ProductCatalogItem } from '@/types/wix';
 
@@ -27,14 +29,37 @@ interface ProductDetailClientProps {
 }
 
 function ProductDetailContent({
-  product,
-  relatedProducts,
+  product: initialProduct,
+  relatedProducts: initialRelatedProducts,
 }: ProductDetailClientProps) {
   const { locale } = useLocale();
   const { setRequestedProduct, prefetchProductForQuote } = useQuoteRequest();
+  const productKey = initialProduct.slug || initialProduct._id;
+  const { data: localizedProduct, isLoading: isProductLoading } = useProductBySlug(productKey);
+  const { data: localizedCatalog } = useProductCatalogContent({ all: true });
 
   const isFrench = locale?.startsWith('fr');
   const isSpanish = locale?.startsWith('es') || locale === 'esp';
+  const product = localizedProduct || (locale === 'en' ? initialProduct : null);
+  const relatedProducts = localizedCatalog
+    ? localizedCatalog
+        .filter(item => item._id !== product?._id && item.slug !== productKey)
+        .slice(0, 3)
+    : locale === 'en'
+      ? initialRelatedProducts
+      : [];
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-[#FDF8F0] dark:bg-agro-neutral-950 flex flex-col">
+        <Header />
+        <main className="flex-grow pt-32 text-center text-agro-primary-950 dark:text-agro-neutral-50">
+          <p>{isFrench ? 'Chargement du produit localisé…' : isSpanish ? 'Cargando el producto localizado…' : isProductLoading ? 'Loading product…' : 'Product unavailable.'}</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const labels = {
     home: isFrench ? 'Accueil' : isSpanish ? 'Inicio' : 'Home',
@@ -75,9 +100,32 @@ function ProductDetailContent({
         ? 'Ver detalles'
         : 'View Details',
     originLabel: isFrench ? 'Origine certifiée' : isSpanish ? 'Origen certificado' : 'Certified Origin',
+    directOrigin: isFrench ? 'Origine coopérative directe' : isSpanish ? 'Origen cooperativo directo' : 'Direct Cooperative Origin',
+    categoryLabel: isFrench ? 'Catégorie' : isSpanish ? 'Categoría' : 'Category',
+    sourcingContext: isFrench ? "Contexte du corridor d'approvisionnement" : isSpanish ? 'Contexto del corredor de abastecimiento' : 'Sourcing Corridor Context',
+    canadaContext: isFrench
+      ? 'Récolté dans les Prairies canadiennes fertiles selon des normes rigoureuses de pureté, d’humidité et de poids spécifique.'
+      : isSpanish
+        ? 'Cosechado en las fértiles praderas canadienses bajo rigurosas normas de pureza, humedad y peso específico.'
+        : 'Harvested across the fertile Canadian Prairies under rigorous purity, moisture, and test-weight standards.',
+    africaContext: isFrench
+      ? "Regroupé auprès de coopératives régionales vérifiées en Afrique de l’Ouest avec traçabilité phytosanitaire pour l’exportation."
+      : isSpanish
+        ? 'Agregado mediante cooperativas regionales verificadas de África Occidental con trazabilidad fitosanitaria para exportación.'
+        : 'Aggregated through vetted regional cooperatives in West Africa with phytosanitary traceability for export.',
+    harvestWindow: isFrench ? 'Période de récolte' : isSpanish ? 'Período de cosecha' : 'Harvest Window',
+    exportReadiness: isFrench ? "Préparation à l’exportation" : isSpanish ? 'Preparación para exportación' : 'Export Readiness',
+    canadaHarvest: isFrench ? 'Août à octobre' : isSpanish ? 'Agosto a octubre' : 'Aug - Oct',
+    africaHarvest: isFrench ? 'Toute l’année / décembre à mars' : isSpanish ? 'Todo el año / diciembre a marzo' : 'Year-Round / Dec - Mar',
+    bulkShipping: isFrench ? 'Vrac ou conteneurisé' : isSpanish ? 'A granel o en contenedores' : 'Bulk Vessel / Containerized',
+    parametersFallback: isFrench
+      ? 'Les paramètres représentatifs de cette commodité sont adaptés aux contrats des acheteurs.'
+      : isSpanish
+        ? 'Los parámetros representativos de este producto se adaptan a los contratos de los compradores.'
+        : 'Representative parameters for this commodity are customized to buyer contracts.',
   };
 
-  const title = product.title || product.productName || 'Agricultural Commodity';
+  const title = product.title || product.productName || (isFrench ? 'Commodité agricole' : isSpanish ? 'Producto agrícola' : 'Agricultural Commodity');
   const parametersText =
     product.typicalQualityParameters || product.qualityStandards || '';
   const image =
@@ -109,14 +157,14 @@ function ProductDetailContent({
                 {labels.home}
               </Link>
               <ChevronRight size={14} />
-              <Link href="/products" className="hover:text-agro-primary-800 transition-colors">
+              <Link href={`/products?lang=${encodeURIComponent(locale)}`} className="hover:text-agro-primary-800 transition-colors">
                 {labels.catalog}
               </Link>
               {product.category && (
                 <>
                   <ChevronRight size={14} />
                   <Link
-                    href={`/products?category=${encodeURIComponent(product.category)}`}
+                    href={`/products?category=${encodeURIComponent(normalizeCategorySlug(product.category))}&lang=${encodeURIComponent(locale)}`}
                     className="hover:text-agro-primary-800 transition-colors hidden sm:inline"
                   >
                     {product.category}
@@ -130,7 +178,7 @@ function ProductDetailContent({
             </nav>
 
             <Link
-              href="/products"
+              href={`/products?lang=${encodeURIComponent(locale)}`}
               className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-agro-primary-700 dark:text-agro-primary-300 hover:text-agro-primary-900 transition-colors"
             >
               <ArrowLeft size={14} />
@@ -172,12 +220,12 @@ function ProductDetailContent({
                     <span className="font-semibold text-agro-primary-900 dark:text-agro-neutral-100">
                       {labels.originLabel}:
                     </span>
-                    <span className="font-medium">{product.sourcingOrigin || 'Direct Cooperative Origin'}</span>
+                    <span className="font-medium">{product.sourcingOrigin || labels.directOrigin}</span>
                   </div>
                   {product.category && (
                     <div className="flex items-center justify-between border-t border-dashed border-agro-primary-100 dark:border-agro-primary-900/50 pt-2">
                       <span className="font-semibold text-agro-primary-900 dark:text-agro-neutral-100">
-                        Category:
+                        {labels.categoryLabel}:
                       </span>
                       <span className="font-medium">{product.category}</span>
                     </div>
@@ -189,22 +237,22 @@ function ProductDetailContent({
                   <div className="flex items-center gap-2">
                     <Globe className="h-5 w-5 text-agro-primary-700 dark:text-agro-primary-400" />
                     <h3 className="text-sm font-bold uppercase tracking-wider text-agro-primary-950 dark:text-agro-primary-100">
-                      Sourcing Corridor Context
+                      {labels.sourcingContext}
                     </h3>
                   </div>
                   <p className="text-xs text-gray-600 dark:text-agro-neutral-300 leading-relaxed">
                     {product.sourcingOrigin?.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/)
-                      ? 'Harvested across the fertile Canadian Prairies under optimal continental conditions. Rigorous Canadian Grain Commission (CGC) inspection standards ensure industry-leading purity, moisture consistency, and test weight.'
-                      : 'Aggregated directly through vetted regional cooperatives in West Africa. Sun-dried under natural equatorial solar conditions with comprehensive phytosanitary tracing for international export.'}
+                      ? labels.canadaContext
+                      : labels.africaContext}
                   </p>
                   <div className="grid grid-cols-2 gap-2 pt-2 border-t border-agro-primary-200/40 dark:border-agro-primary-800/40 text-[11px] text-gray-600 dark:text-agro-neutral-300">
                     <div>
-                      <span className="block font-semibold text-agro-primary-900 dark:text-agro-neutral-200">Harvest Window:</span>
-                      <span>{product.sourcingOrigin?.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? 'Aug - Oct' : 'Year-Round / Dec - Mar'}</span>
+                      <span className="block font-semibold text-agro-primary-900 dark:text-agro-neutral-200">{labels.harvestWindow}:</span>
+                      <span>{product.sourcingOrigin?.toLowerCase().match(/canada|prairie|saskatchewan|alberta|manitoba|ontario/) ? labels.canadaHarvest : labels.africaHarvest}</span>
                     </div>
                     <div>
-                      <span className="block font-semibold text-agro-primary-900 dark:text-agro-neutral-200">Export Readiness:</span>
-                      <span>Bulk Vessel / Containerized</span>
+                      <span className="block font-semibold text-agro-primary-900 dark:text-agro-neutral-200">{labels.exportReadiness}:</span>
+                      <span>{labels.bulkShipping}</span>
                     </div>
                   </div>
                 </div>
@@ -247,7 +295,7 @@ function ProductDetailContent({
                     />
                   ) : (
                     <p className="text-sm text-gray-500 dark:text-agro-neutral-400 italic">
-                      Representative parameters for this commodity are customized to buyer contracts.
+                      {labels.parametersFallback}
                     </p>
                   )}
 
@@ -283,7 +331,7 @@ function ProductDetailContent({
                     {labels.requestQuote}
                     <ArrowRight size={18} />
                   </Button>
-                  <Link href="/products" className="sm:w-auto">
+                  <Link href={`/products?lang=${encodeURIComponent(locale)}`} className="sm:w-auto">
                     <Button
                       size="lg"
                       variant="outline"
@@ -313,7 +361,7 @@ function ProductDetailContent({
                     return (
                       <Link
                         key={rel._id}
-                        href={`/products/${rel.slug || rel._id}`}
+                        href={`/products/${rel.slug || rel._id}?lang=${encodeURIComponent(locale)}`}
                         className="group"
                       >
                         <Card className="h-full flex flex-col justify-between overflow-hidden rounded-2xl border border-agro-primary-200/60 dark:border-agro-primary-800/40 bg-white/90 dark:bg-agro-neutral-900/90 backdrop-blur-md group-hover:shadow-xl group-hover:border-agro-primary-400 group-hover:-translate-y-1 transition-all duration-300">

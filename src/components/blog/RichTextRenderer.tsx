@@ -124,7 +124,7 @@ const portableTextComponents: PortableTextComponents = {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imgUrl}
-            alt={value.alt || 'Blog illustration'}
+            alt={value.alt || ''}
             className="w-full object-cover max-h-[500px]"
           />
           {value.caption && (

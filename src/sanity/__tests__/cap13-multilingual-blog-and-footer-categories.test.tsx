@@ -5,15 +5,24 @@ import { LocaleProvider } from '@/contexts/LocaleContext';
 import { CookieConsentProvider } from '@/contexts/CookieConsentContext';
 import BlogListingClient from '@/app/blog/BlogListingClient';
 import BlogPostClient from '@/app/blog/[slug]/BlogPostClient';
+import ProductDetailClient from '@/app/products/[slug]/ProductDetailClient';
 import Footer from '@/components/sections/Footer';
 import CookieBanner from '@/components/common/CookieBanner';
-import { getMockBlogPosts, getMockBlogPostBySlug } from '@/lib/api/mock-data';
+import {
+  getMockBlogPosts,
+  getMockBlogPostBySlug,
+  getMockProductCatalogContent,
+  getMockCarouselImages,
+} from '@/lib/api/mock-data';
 import { getBlogUiLabels, BLOG_UI } from '@/lib/blog-i18n';
 import { getFooterUiLabels, FOOTER_UI } from '@/lib/footer-i18n';
 import { getLegalUiLabels, formatLegalDate, LEGAL_UI } from '@/lib/legal-i18n';
 import { normalizeCategorySlug } from '@/lib/product-filters';
+import { BLOG_POSTS_QUERY, BLOG_POST_BY_SLUG_QUERY } from '@/lib/api/sanity-client';
+import { blogPost } from '@/sanity/schemas/documents/blogPost';
 import {
   LOCALIZED_SCHEMA_TYPES,
+  TRANSLATABLE_FIELDS_BY_TYPE,
   DocumentActionProps,
 } from '@/sanity/actions/autoTranslateAction';
 
@@ -75,7 +84,10 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
 
     it('renders Canadian French blog listing with full UI and article localization', async () => {
       const posts = await getMockBlogPosts('fr');
-      renderWithProviders(<BlogListingClient initialPosts={posts} />, 'fr');
+      renderWithProviders(
+        <BlogListingClient initialPosts={posts} initialLocale="fr" />,
+        'fr'
+      );
 
       expect(screen.getByText('Notre Blogue')).toBeInTheDocument();
       expect(
@@ -92,7 +104,10 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
 
     it('renders International Spanish blog listing with full UI and article localization', async () => {
       const posts = await getMockBlogPosts('esp');
-      renderWithProviders(<BlogListingClient initialPosts={posts} />, 'esp');
+      renderWithProviders(
+        <BlogListingClient initialPosts={posts} initialLocale="esp" />,
+        'esp'
+      );
 
       expect(screen.getByText('Nuestro Blog')).toBeInTheDocument();
       expect(
@@ -129,6 +144,7 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
           initialPost={post}
           initialRelatedPosts={allPosts.slice(1)}
           slug="bridging-industries-with-premium-produce"
+          initialLocale="en"
         />,
         'en'
       );
@@ -154,6 +170,7 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
           initialPost={post}
           initialRelatedPosts={allPosts.slice(1)}
           slug="bridging-industries-with-premium-produce"
+          initialLocale="fr"
         />,
         'fr'
       );
@@ -179,6 +196,7 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
           initialPost={post}
           initialRelatedPosts={allPosts.slice(1)}
           slug="bridging-industries-with-premium-produce"
+          initialLocale="esp"
         />,
         'esp'
       );
@@ -211,7 +229,7 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
       expectedCategories.forEach(({ label, slug }) => {
         const link = screen.getByRole('link', { name: new RegExp(label, 'i') });
         expect(link).toBeInTheDocument();
-        expect(link).toHaveAttribute('href', `/products?category=${slug}`);
+        expect(link).toHaveAttribute('href', `/products?category=${slug}&lang=en`);
       });
     });
 
@@ -235,7 +253,7 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
       frenchCategories.forEach(({ label, slug }) => {
         const link = screen.getByRole('link', { name: new RegExp(label, 'i') });
         expect(link).toBeInTheDocument();
-        expect(link).toHaveAttribute('href', `/products?category=${slug}`);
+        expect(link).toHaveAttribute('href', `/products?category=${slug}&lang=fr`);
       });
 
       // Quick links localized in French
@@ -265,7 +283,7 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
       spanishCategories.forEach(({ label, slug }) => {
         const link = screen.getByRole('link', { name: new RegExp(label, 'i') });
         expect(link).toBeInTheDocument();
-        expect(link).toHaveAttribute('href', `/products?category=${slug}`);
+        expect(link).toHaveAttribute('href', `/products?category=${slug}&lang=esp`);
       });
 
       // Quick links localized in Spanish
@@ -284,6 +302,14 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
 
       expect(sessionStorage.getItem('selectedProductCategory')).toBe(
         'pulses-and-legumes'
+      );
+    });
+
+    it('maps localized category labels to stable canonical slugs', () => {
+      expect(normalizeCategorySlug('Légumineuses')).toBe('pulses-and-legumes');
+      expect(normalizeCategorySlug('Legumbres')).toBe('pulses-and-legumes');
+      expect(normalizeCategorySlug('Épices et plantes médicinales')).toBe(
+        'spices-and-botanicals'
       );
     });
   });
@@ -329,7 +355,24 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
 
       expect(screen.getByText('Tout accepter')).toBeInTheDocument();
       expect(screen.getByText('Tout refuser')).toBeInTheDocument();
-      expect(screen.getByText('Accepter la sélection')).toBeInTheDocument();
+      expect(screen.getByText('Enregistrer les préférences')).toBeInTheDocument();
+    });
+
+    it('persists cookie choices only after Save Preferences is activated', async () => {
+      renderWithProviders(<CookieBanner />, 'en');
+
+      await waitFor(() => {
+        expect(screen.getByText('Cookie Consent')).toBeInTheDocument();
+      }, { timeout: 2500 });
+
+      expect(localStorage.getItem('cookieConsent')).toBeNull();
+      fireEvent.click(screen.getByLabelText('Analytics'));
+      expect(localStorage.getItem('cookieConsent')).toBeNull();
+      fireEvent.click(screen.getByRole('button', { name: 'Save Preferences' }));
+
+      await waitFor(() => {
+        expect(JSON.parse(localStorage.getItem('cookieConsent') || '{}').analytics).toBe(true);
+      });
     });
   });
 
@@ -339,6 +382,70 @@ describe('CAP-13: Multilingual Parity, Blog System Localization & Global Footer 
       expect(LOCALIZED_SCHEMA_TYPES.has('product')).toBe(true);
       expect(LOCALIZED_SCHEMA_TYPES.has('legalPage')).toBe(true);
       expect(LOCALIZED_SCHEMA_TYPES.has('heroSection')).toBe(true);
+      expect(TRANSLATABLE_FIELDS_BY_TYPE.carouselSlide).toEqual(
+        expect.arrayContaining(['title', 'tagline', 'description'])
+      );
+      expect(TRANSLATABLE_FIELDS_BY_TYPE.carouselSlide).not.toEqual(
+        expect.arrayContaining(['subtitle', 'ctaText'])
+      );
+      expect(TRANSLATABLE_FIELDS_BY_TYPE.product).toContain('packagingLogistics');
+    });
+  });
+
+  describe('Scenario 6: Localized product detail data flow', () => {
+    it('replaces English server data with French product content', async () => {
+      const englishProducts = await getMockProductCatalogContent('en', true);
+      const frenchProducts = await getMockProductCatalogContent('fr', true);
+      const englishProduct = englishProducts[0];
+      const frenchProduct = frenchProducts.find(item => item.slug === englishProduct.slug)!;
+
+      renderWithProviders(
+        <ProductDetailClient product={englishProduct} relatedProducts={[]} />,
+        'fr'
+      );
+
+      await waitFor(() => {
+        expect(
+          screen.getAllByText(frenchProduct.title || frenchProduct.productName || '')
+            .length
+        ).toBeGreaterThan(0);
+      });
+      expect(screen.queryByText(englishProduct.title || englishProduct.productName || '')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Scenario 7: Hero carousel multilingual parity', () => {
+    it('provides French and Spanish title, tagline, and description content', async () => {
+      const [englishSlides, frenchSlides, spanishSlides] = await Promise.all([
+        getMockCarouselImages('en'),
+        getMockCarouselImages('fr'),
+        getMockCarouselImages('esp'),
+      ]);
+
+      expect(frenchSlides).toHaveLength(englishSlides.length);
+      expect(spanishSlides).toHaveLength(englishSlides.length);
+      frenchSlides.forEach((slide, index) => {
+        expect(slide.title).toBeTruthy();
+        expect(slide.tagline).toBeTruthy();
+        expect(slide.description).toBeTruthy();
+        expect(slide.title).not.toBe(englishSlides[index].title);
+      });
+      spanishSlides.forEach((slide, index) => {
+        expect(slide.title).toBeTruthy();
+        expect(slide.tagline).toBeTruthy();
+        expect(slide.description).toBeTruthy();
+        expect(slide.title).not.toBe(englishSlides[index].title);
+      });
+    });
+  });
+
+  describe('Scenario 8: Localized blog SEO contract', () => {
+    it('stores and projects localized SEO fields', () => {
+      const fields = (blogPost as any).fields as Array<{ name: string; type: string }>;
+      expect(fields.find(field => field.name === 'seoTitle')?.type).toBe('localeString');
+      expect(fields.find(field => field.name === 'seoDescription')?.type).toBe('localeText');
+      expect(BLOG_POSTS_QUERY).toContain('seoTitle[$locale]');
+      expect(BLOG_POST_BY_SLUG_QUERY).toContain('seoDescription[$locale]');
     });
   });
 });

@@ -8,16 +8,17 @@ const GoogleAnalyticsScript = () => {
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const { consent } = useCookieConsent();
 
+  const applyConsent = () => {
+    if (gaMeasurementId && typeof window !== 'undefined' && window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: consent.analytics ? 'granted' : 'denied',
+      });
+    }
+  };
+
   // Update Google Analytics consent based on user preferences
   useEffect(() => {
-    if (gaMeasurementId && typeof window !== 'undefined' && window.gtag) {
-      // Map cookie consent to Google Analytics consent
-      const consentState = {
-        analytics_storage: consent.analytics ? 'granted' : 'denied',
-      };
-
-      window.gtag('consent', 'update', consentState);
-    }
+    applyConsent();
   }, [consent.analytics, gaMeasurementId]);
 
   if (!gaMeasurementId) {
@@ -29,6 +30,7 @@ const GoogleAnalyticsScript = () => {
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+        onLoad={applyConsent}
       />
       <Script
         id="gtag-init"
@@ -38,12 +40,12 @@ const GoogleAnalyticsScript = () => {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${gaMeasurementId}', {
-              page_path: window.location.pathname,
-            });
             // Default to denied consent
             gtag('consent', 'default', {
               analytics_storage: 'denied'
+            });
+            gtag('config', '${gaMeasurementId}', {
+              page_path: window.location.pathname,
             });
           `,
         }}

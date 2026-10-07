@@ -31,25 +31,41 @@ interface BlogPostClientProps {
   initialPost: BlogPost;
   initialRelatedPosts?: BlogPost[];
   slug: string;
+  initialLocale?: string;
 }
 
 export default function BlogPostClient({
   initialPost,
   initialRelatedPosts = [],
   slug,
+  initialLocale = 'en',
 }: BlogPostClientProps) {
   const { locale } = useLocale();
-  const { data: postData } = useBlogPostBySlug(slug);
+  const { data: postData, isLoading: isPostLoading, error: postError } = useBlogPostBySlug(slug);
   const { data: allPosts } = useBlogPosts();
   const [copied, setCopied] = useState(false);
 
   const labels = getBlogUiLabels(locale);
-  const post = postData || initialPost;
+  const post = postData || (locale === initialLocale ? initialPost : null);
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-[#f8f4e9] flex flex-col">
+        <Header />
+        <main className="flex-grow pt-32 text-center text-agro-neutral-700">
+          <p role={postError ? 'alert' : 'status'}>
+            {postError ? labels.unavailable : isPostLoading ? labels.loading : labels.unavailable}
+          </p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   // Derive related posts (filtered against active post ID)
   const relatedPosts = (allPosts && allPosts.length > 0)
     ? allPosts.filter(p => p._id !== post._id).slice(0, 3)
-    : initialRelatedPosts;
+    : locale === initialLocale ? initialRelatedPosts : [];
 
   const resolveTitle = (title: any) => {
     if (!title) return '';
@@ -134,9 +150,9 @@ export default function BlogPostClient({
 
           <div className="container-premium max-w-4xl mx-auto relative z-10 px-4 md:px-0">
             {/* Semantic Navigation / Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="mb-8 md:mb-12">
+            <nav aria-label={labels.breadcrumbLabel} className="mb-8 md:mb-12">
               <Link
-                href="/blog"
+                href={`/blog?lang=${encodeURIComponent(locale)}`}
                 className="inline-flex text-[#f8f4e9] items-center text-sm font-semibold text-agro-primary-300 hover:text-white transition-colors duration-300 group focus:outline-none focus:ring-2 focus:ring-agro-primary-400 rounded-md px-2 py-1 -ml-2"
               >
                 <ArrowLeft className="mr-2 text-[#f8f4e9] h-4 w-4 group-hover:-translate-x-1 transition-transform ease-out" />
@@ -170,7 +186,7 @@ export default function BlogPostClient({
 
                 <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-agro-neutral-600" />
 
-                <div className="flex items-center gap-2.5" title="Published date">
+                <div className="flex items-center gap-2.5" title={labels.publishedDateLabel}>
                   <Calendar size={18} className="text-[#FDF8F0]" />
                   <span className="font-medium tracking-normal text-[#FDF8F0]">
                     {formatDate(post.publishedDate, locale)}
@@ -179,7 +195,7 @@ export default function BlogPostClient({
 
                 <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-agro-neutral-600" />
 
-                <div className="flex items-center gap-2.5" title="Estimated reading time">
+                <div className="flex items-center gap-2.5" title={labels.estimatedReadingTimeLabel}>
                   <Clock size={18} className="text-[#FDF8F0]" />
                   <span className="font-medium tracking-normal text-[#FDF8F0]">
                     {labels.readTime(5)}

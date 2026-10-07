@@ -12,6 +12,7 @@ interface ProductPageProps {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{ lang?: string }>;
 }
 
 export async function generateStaticParams() {
@@ -25,9 +26,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = await getProductBySlug(slug, 'en');
+  const { lang = 'en' } = await searchParams;
+  const product = await getProductBySlug(slug, lang);
 
   if (!product) {
     return {
@@ -48,7 +51,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${title} | AgroVentia Inc.`,
       description,
-      url: `${BASE_URL}/products/${slug}`,
+      url: `${BASE_URL}/products/${slug}?lang=${encodeURIComponent(lang)}`,
       images: [
         {
           url: image,
@@ -65,16 +68,17 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params, searchParams }: ProductPageProps) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug, 'en');
+  const { lang = 'en' } = await searchParams;
+  const product = await getProductBySlug(slug, lang);
 
   if (!product) {
     notFound();
   }
 
   // Fetch all commodities to compute related products
-  const allProducts = await getProductCatalogContent('en', { all: true });
+  const allProducts = await getProductCatalogContent(lang, { all: true });
   const relatedProducts = allProducts
     .filter(p => p._id !== product._id && p.slug !== slug)
     .filter(p => {

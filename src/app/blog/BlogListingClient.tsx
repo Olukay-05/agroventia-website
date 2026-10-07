@@ -18,14 +18,15 @@ import { extractLocalizedText } from '@/lib/api/sanity-client';
 
 interface BlogListingClientProps {
   initialPosts?: BlogPost[];
+  initialLocale?: string;
 }
 
-export default function BlogListingClient({ initialPosts = [] }: BlogListingClientProps) {
+export default function BlogListingClient({ initialPosts = [], initialLocale = 'en' }: BlogListingClientProps) {
   const { locale, isLoading: isLocaleLoading } = useLocale();
-  const { data: postsData, isLoading: isPostsLoading } = useBlogPosts();
+  const { data: postsData, isLoading: isPostsLoading, error } = useBlogPosts();
 
   const labels = getBlogUiLabels(locale);
-  const posts = postsData || (locale === 'en' ? initialPosts : (initialPosts.length > 0 ? initialPosts : []));
+  const posts = postsData || (locale === initialLocale ? initialPosts : []);
   const isLoading = (isPostsLoading || isLocaleLoading) && (!posts || posts.length === 0);
 
   const resolveTitle = (title: any) => {
@@ -104,11 +105,18 @@ export default function BlogListingClient({ initialPosts = [] }: BlogListingClie
         <SectionContainer className="py-16 md:py-24 relative">
           <div className="container-premium">
             {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12 animate-pulse">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="h-96 bg-white/70 rounded-3xl overflow-hidden shadow-md border border-agro-neutral-100" />
-                ))}
-              </div>
+              <>
+                <p className="sr-only" role="status">{labels.loading}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12 animate-pulse">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="h-96 bg-white/70 rounded-3xl overflow-hidden shadow-md border border-agro-neutral-100" />
+                  ))}
+                </div>
+              </>
+            ) : error ? (
+              <p className="text-center py-16 text-agro-neutral-700" role="alert">
+                {labels.unavailable}
+              </p>
             ) : posts.length === 0 ? (
               <div className="text-center py-16">
                 <h3 className="text-2xl font-bold text-[#281909] mb-3">
@@ -122,7 +130,7 @@ export default function BlogListingClient({ initialPosts = [] }: BlogListingClie
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12">
                 {posts.map(post => (
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`/blog/${post.slug}?lang=${encodeURIComponent(locale)}`}
                     key={post._id}
                     className="group block h-full focus:outline-none focus:ring-2 focus:ring-agro-primary-500 focus:ring-offset-4 rounded-3xl"
                   >

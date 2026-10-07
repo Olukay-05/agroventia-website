@@ -31,16 +31,17 @@ export const LOCALIZED_SCHEMA_TYPES = new Set([
 ]);
 
 // Map of schema type to fields that should be translated
-const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
+export const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
   heroSection: ['title', 'subtitle', 'description', 'ctaPrimary', 'ctaSecondary'],
   aboutSection: ['sectionTitle', 'mission', 'vision', 'story', 'whyChooseTitle'],
   servicesSection: ['sectionTitle', 'subtitle', 'description'],
   productsSection: ['sectionTitle', 'subtitle', 'description', 'categoriesTitle', 'categoriesSubtitle'],
   contactInfo: [
-    'title',
-    'subtitle',
-    'address',
-    'responsePromise',
+    'sectionTitle',
+    'sectionDescription',
+    'businessAddress',
+    'businessHours',
+    'responseTime',
     'companyTagline',
     'companyBio',
     'followUsTitle',
@@ -55,9 +56,10 @@ const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
     'productDescription',
     'sourcingOrigin',
     'typicalQualityParameters',
+    'packagingLogistics',
   ],
   coreValue: ['title', 'description'],
-  carouselSlide: ['title', 'subtitle', 'description', 'ctaText'],
+  carouselSlide: ['title', 'tagline', 'description'],
   category: ['title', 'description'],
   blogPost: ['title', 'excerpt', 'content', 'seoTitle', 'seoDescription'],
   author: ['name', 'bio'],

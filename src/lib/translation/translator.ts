@@ -49,27 +49,24 @@ export async function translateText(
   // 2. Check Deterministic Agribusiness Dictionary first for exact benchmark hits
   const dictionaryMatch = lookupFallbackDictionary(cleanText);
 
+  if (dictionaryMatch) {
+    const canonicalResult = {
+      fr: sanitizeNoDashes(dictionaryMatch.fr),
+      esp: sanitizeNoDashes(dictionaryMatch.esp),
+      cached: false,
+    };
+    setCachedTranslation(cleanText, canonicalResult, context);
+    return canonicalResult;
+  }
+
   // 3. Resolve LLM Provider Model
   const resolvedModel = getTranslationModel();
 
   // If no LLM credentials are configured (e.g. CI / offline / test mode), use dictionary match
   if (!resolvedModel) {
-    if (dictionaryMatch) {
-      const sanitized = {
-        fr: sanitizeNoDashes(dictionaryMatch.fr),
-        esp: sanitizeNoDashes(dictionaryMatch.esp),
-        cached: false,
-      };
-      setCachedTranslation(cleanText, sanitized, context);
-      return sanitized;
-    }
-
-    // Generic heuristic fallback for unlisted strings in offline mode
-    const fallbackFr = sanitizeNoDashes(cleanText);
-    const fallbackEsp = sanitizeNoDashes(cleanText);
-    const result = { fr: fallbackFr, esp: fallbackEsp, cached: false };
-    setCachedTranslation(cleanText, result, context);
-    return result;
+    throw new Error(
+      'No translation provider is configured and the source text is not in the deterministic glossary.'
+    );
   }
 
   // 4. Remote LLM Execution via Vercel AI SDK
@@ -113,24 +110,9 @@ export async function translateText(
       }
     }
 
-    // 6. Graceful degradation to deterministic dictionary if all remote providers fail
-    if (dictionaryMatch) {
-      const fallbackResult = {
-        fr: sanitizeNoDashes(dictionaryMatch.fr),
-        esp: sanitizeNoDashes(dictionaryMatch.esp),
-        cached: false,
-      };
-      setCachedTranslation(cleanText, fallbackResult, context);
-      return fallbackResult;
-    }
-
-    // Ultimate fallback returning sanitized original with non-dash punctuation
-    const emergencyResult = {
-      fr: sanitizeNoDashes(cleanText),
-      esp: sanitizeNoDashes(cleanText),
-      cached: false,
-    };
-    return emergencyResult;
+    throw new Error(
+      `All configured translation providers failed for ${context || 'unscoped content'}.`
+    );
   }
 }
 

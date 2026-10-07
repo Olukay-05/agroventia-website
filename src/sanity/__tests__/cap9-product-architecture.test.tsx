@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, within } from '@testing-library/react';
+import { render, screen, fireEvent, within, act } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LocaleProvider } from '@/contexts/LocaleContext';
 import { QuoteRequestProvider } from '@/contexts/QuoteRequestContext';
@@ -17,6 +17,7 @@ import {
   getMockProductCatalogContent,
   getAllMockProductCatalogContent,
 } from '@/lib/api/mock-data';
+import type { Locale } from '@/lib/locale';
 import type { ProductCatalogItem } from '@/types/wix';
 
 // Mock Leaflet and map components
@@ -40,7 +41,7 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
 
   const renderWithProviders = (
     ui: React.ReactElement,
-    initialLocale: string = 'en'
+    initialLocale: Locale = 'en'
   ) => {
     queryClient = new QueryClient({
       defaultOptions: {
@@ -73,6 +74,10 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
       displayLogistics: false,
       packagingLogistics: 'Bulk vessel loads, 50kg PP bags.',
       isFeatured: true,
+      image1: '/products/durum-wheat.png',
+      _owner: 'sanity',
+      _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+      _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
     };
 
     it('renders "Typical Quality Parameters" in English and ZERO occurrences of "Quality Standards"', () => {
@@ -215,9 +220,14 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
         title: 'Milling Wheat',
         slug: 'milling-wheat',
         description: 'Premium CWRS milling wheat.',
+        category: 'Grains & Cereals',
         displayLogistics: false,
         packagingLogistics: '50kg polypropylene bags, bulk 20ft container.',
         typicalQualityParameters: '<p>Protein: Min 13.5%</p>',
+        image1: '/products/milling-wheat.png',
+        _owner: 'sanity',
+        _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+        _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
       };
 
       renderWithProviders(
@@ -244,10 +254,15 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
         title: 'Dried Split Ginger',
         slug: 'dried-split-ginger',
         description: 'Sun-dried split ginger rhizomes.',
+        category: 'Spices & Aromatics',
         displayLogistics: true,
         packagingLogistics:
           'Packed in 40kg or 50kg clean woven PP bags. Container capacity: 14 to 15 metric tons per 20ft FCL.',
         typicalQualityParameters: '<p>Moisture: Max 9.0%</p>',
+        image1: '/products/dried-split-ginger.png',
+        _owner: 'sanity',
+        _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+        _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
       };
 
       renderWithProviders(
@@ -299,19 +314,25 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
       ).toBeInTheDocument();
 
       // Filter by Canadian corridor
-      fireEvent.click(canadaBtn);
+      await act(async () => {
+        fireEvent.click(canadaBtn);
+      });
       expect(
         await screen.findByText(/Showing 33 of 46 commodities/i)
       ).toBeInTheDocument();
 
       // Filter by African corridor
-      fireEvent.click(africaBtn);
+      await act(async () => {
+        fireEvent.click(africaBtn);
+      });
       expect(
         await screen.findByText(/Showing 13 of 46 commodities/i)
       ).toBeInTheDocument();
 
       // Reset to all corridors
-      fireEvent.click(allCorridorsBtn);
+      await act(async () => {
+        fireEvent.click(allCorridorsBtn);
+      });
       expect(
         await screen.findByText(/Showing 46 of 46 commodities/i)
       ).toBeInTheDocument();
@@ -320,7 +341,9 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
       const searchInput = screen.getByPlaceholderText(
         /Search commodities by name, origin, or keyword.../i
       );
-      fireEvent.change(searchInput, { target: { value: 'Ginger' } });
+      await act(async () => {
+        fireEvent.change(searchInput, { target: { value: 'Ginger' } });
+      });
 
       // Should filter down to ginger commodities
       expect(
@@ -341,11 +364,15 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
         sourcingOrigin: commodity.en.origin,
         category: commodity.en.category,
         image: commodity.image,
+        image1: commodity.image,
         typicalQualityParameters: commodity.en.typicalQualityParameters,
         displayLogistics: true,
         packagingLogistics:
           commodity.en.packagingLogistics || 'Bulk vessel loads, 50kg PP bags.',
         isFeatured: commodity.isFeatured,
+        _owner: 'sanity',
+        _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+        _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
       };
 
       const related: ProductCatalogItem[] = [
@@ -354,8 +381,13 @@ describe('CAP-9: Product Architecture Restructuring & Typical Quality Parameters
           title: 'Durum Wheat',
           slug: 'durum-wheat',
           description: 'Durum wheat description',
+          category: 'Grains & Cereals',
           sourcingOrigin: 'Saskatchewan, Canada',
           image: '/products/durum-wheat.png',
+          image1: '/products/durum-wheat.png',
+          _owner: 'sanity',
+          _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+          _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
         },
       ];
 

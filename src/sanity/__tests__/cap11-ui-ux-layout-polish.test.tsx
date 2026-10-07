@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LocaleProvider } from '@/contexts/LocaleContext';
 import { QuoteRequestProvider } from '@/contexts/QuoteRequestContext';
@@ -12,6 +12,7 @@ import {
   FLAGSHIP_FEATURED_SLUGS,
 } from '@/lib/api/products-portfolio';
 import { getAllMockProductCatalogContent } from '@/lib/api/mock-data';
+import type { Locale } from '@/lib/locale';
 import type { ProductCatalogItem } from '@/types/wix';
 
 // Mock Leaflet and map components
@@ -34,7 +35,7 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
 
   const renderWithProviders = (
     ui: React.ReactElement,
-    initialLocale: string = 'en'
+    initialLocale: Locale = 'en'
   ) => {
     queryClient = new QueryClient({
       defaultOptions: {
@@ -127,6 +128,40 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
         screen.getByText(/Explorer le catalogue complet \(43\+ commodités\) →/i)
       ).toBeInTheDocument();
     });
+
+    it.each([
+      ['fr', 'fr-CA', 'Détails et spécifications', 'Demander un devis'],
+      ['esp', 'esp', 'Detalles y especificaciones', 'Solicitar cotización'],
+    ])(
+      'lets %s product-card actions wrap instead of clipping',
+      async (dataLocale, activeLocale, detailsLabel, quoteLabel) => {
+        const allProducts = await getAllMockProductCatalogContent(
+          dataLocale as 'fr' | 'esp'
+        );
+
+        renderWithProviders(
+          <ProductsSection
+            data={allProducts}
+            isLoading={false}
+            featuredOnly={true}
+          />,
+          activeLocale as Locale
+        );
+
+        const detailsButton = screen.getAllByRole('button', {
+          name: detailsLabel,
+        })[0];
+        const quoteButton = screen.getAllByRole('button', {
+          name: new RegExp(quoteLabel, 'i'),
+        })[0];
+
+        [detailsButton, quoteButton].forEach(button => {
+          expect(button.className).toContain('whitespace-normal');
+          expect(button.className).toContain('min-h-9');
+          expect(button.className).toContain('flex-[1_1_10rem]');
+        });
+      }
+    );
   });
 
   describe('Scenario 2: Dedicated /products Catalog Toolbar & Active Filter Chips', () => {
@@ -154,7 +189,9 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
       expect(grainsPill).toBeInTheDocument();
 
       // Click category pill
-      fireEvent.click(grainsPill);
+      await act(async () => {
+        fireEvent.click(grainsPill);
+      });
 
       // 3. Active filter chips rendered with remove button
       expect(screen.getByText(/Category: Grains & Cereals/i)).toBeInTheDocument();
@@ -163,7 +200,9 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
       // 4. One-click "Clear All Filters" button
       const clearAllBtn = screen.getByRole('button', { name: /Clear All Filters/i });
       expect(clearAllBtn).toBeInTheDocument();
-      fireEvent.click(clearAllBtn);
+      await act(async () => {
+        fireEvent.click(clearAllBtn);
+      });
 
       // Filters reset back to full catalog
       expect(
@@ -177,7 +216,9 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
       const searchInput = screen.getByPlaceholderText(
         /Search commodities by name, origin, or keyword.../i
       );
-      fireEvent.change(searchInput, { target: { value: 'NonExistentCommodityXYZ' } });
+      await act(async () => {
+        fireEvent.change(searchInput, { target: { value: 'NonExistentCommodityXYZ' } });
+      });
 
       // Empty state vector graphic and message
       expect(await screen.findByText('No Commodities Found')).toBeInTheDocument();
@@ -187,7 +228,9 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
 
       // Reset button resets query
       const resetBtns = screen.getAllByRole('button', { name: /Reset Filters/i });
-      fireEvent.click(resetBtns[0]);
+      await act(async () => {
+        fireEvent.click(resetBtns[0]);
+      });
 
       expect(
         await screen.findByText(/Showing 46 of 46 commodities/i)
@@ -208,6 +251,11 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
       displayLogistics: true,
       packagingLogistics: 'Packed in 25kg or 50kg PP bags.',
       isFeatured: true,
+      image: '/products/red-lentils.png',
+      image1: '/products/red-lentils.png',
+      _owner: 'sanity',
+      _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+      _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
     };
 
     it('renders 2-column desktop split, pure white image canvas, and sticky action bar', () => {
@@ -269,10 +317,14 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
         sourcingOrigin: commodity.en.origin,
         category: commodity.en.category,
         image: commodity.image,
+        image1: commodity.image,
         typicalQualityParameters: commodity.en.typicalQualityParameters,
         displayLogistics: true,
         packagingLogistics: commodity.en.packagingLogistics || '50kg PP bags.',
         isFeatured: true,
+        _owner: 'sanity',
+        _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+        _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
       };
 
       const related: ProductCatalogItem[] = [
@@ -283,7 +335,11 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
           category: 'Pulses & Legumes',
           sourcingOrigin: 'Saskatchewan, Canada',
           image: '/products/green-lentils.png',
+          image1: '/products/green-lentils.png',
           description: 'Uniform large calibrated green lentils.',
+          _owner: 'sanity',
+          _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+          _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
         },
         {
           _id: 'rel-yellow-peas',
@@ -292,7 +348,11 @@ describe('CAP-11: UI/UX Layout Finishing, Design Polish & Component Modernizatio
           category: 'Pulses & Legumes',
           sourcingOrigin: 'Alberta, Canada',
           image: '/products/yellow-peas.png',
+          image1: '/products/yellow-peas.png',
           description: 'Grade 1 yellow peas for milling and fractionation.',
+          _owner: 'sanity',
+          _createdDate: { $date: '2025-08-22T15:00:00.000Z' },
+          _updatedDate: { $date: '2026-10-06T20:00:00.000Z' },
         },
       ];
 
