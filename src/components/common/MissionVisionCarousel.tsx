@@ -8,11 +8,15 @@ import type { AutoplayType } from 'embla-carousel-autoplay';
 interface MissionVisionCarouselProps {
   mission: string;
   vision: string;
+  missionLabel: string;
+  visionLabel: string;
 }
 
 const MissionVisionCarousel: React.FC<MissionVisionCarouselProps> = ({
   mission,
   vision,
+  missionLabel,
+  visionLabel,
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -39,7 +43,7 @@ const MissionVisionCarousel: React.FC<MissionVisionCarouselProps> = ({
         <div className="flex flex-col h-full">
           <div className="flex-[0_0_100%] flex items-center justify-center p-6 w-full">
             <div className="flex flex-col items-center justify-between gap-2">
-              <h4 className="font-bold">Our Mission</h4>
+              <h4 className="font-bold">{missionLabel}</h4>
               <div
                 className="text-[#281909] text-center leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: mission }}
@@ -48,7 +52,7 @@ const MissionVisionCarousel: React.FC<MissionVisionCarouselProps> = ({
           </div>
           <div className="flex-[0_0_100%] flex items-center justify-center p-6 w-full">
             <div className="flex flex-col items-center justify-between gap-2">
-              <h4 className="font-bold">Our Vision</h4>
+              <h4 className="font-bold">{visionLabel}</h4>
               <div
                 className="text-[#281909] text-center leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: vision }}

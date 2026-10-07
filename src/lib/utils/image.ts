@@ -1,10 +1,30 @@
 // lib/utils/image.ts
+import {
+  buildSanityImageUrl,
+  urlForImage,
+  isSanityImageSource,
+  getSanityImageDimensions,
+  type SanityImageSource,
+} from '@/lib/api/sanity-image';
+
+export {
+  buildSanityImageUrl,
+  urlForImage,
+  isSanityImageSource,
+  getSanityImageDimensions,
+  type SanityImageSource,
+};
+
 export interface WixImageUrlResult {
   primary: string;
   alternatives: string[];
   original: string;
 }
 
+/**
+ * @deprecated Deprecated as part of Wix to Sanity Headless CMS migration (Story 4).
+ * Use `buildSanityImageUrl` from `@/lib/api/sanity-image` for modern Sanity asset pipeline.
+ */
 export function convertWixImageUrl(wixUrl: string): WixImageUrlResult | null {
   if (typeof wixUrl !== 'string') return null;
 
@@ -83,7 +103,10 @@ export function convertWixImageUrl(wixUrl: string): WixImageUrlResult | null {
   return null;
 }
 
-// Legacy function for backwards compatibility
+/**
+ * Legacy function for backwards compatibility
+ * @deprecated Use `buildSanityImageUrl` from `@/lib/api/sanity-image` instead.
+ */
 export function convertWixImageUrlLegacy(wixImageUrl: string): string {
   const result = convertWixImageUrl(wixImageUrl);
   return result?.primary || '';
@@ -113,17 +136,21 @@ export function isImageField(fieldName: string, value: unknown): boolean {
   if (typeof value === 'string') {
     return hasImageInName || isImageUrl(value);
   } else if (typeof value === 'object' && value !== null) {
-    // Check for Wix media object structure
-    return hasWixMediaStructure(value) || hasImageInName;
+    // Check for Sanity image or Wix media object structure
+    return (
+      isSanityImageSource(value) ||
+      hasWixMediaStructure(value) ||
+      hasImageInName
+    );
   }
 
   return false;
 }
 
-function isImageUrl(url: string): boolean {
+export function isImageUrl(url: string): boolean {
   if (typeof url !== 'string') return false;
 
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.avif'];
   const lowerUrl = url.toLowerCase();
 
   // Check for Wix internal URLs
@@ -133,14 +160,18 @@ function isImageUrl(url: string): boolean {
   if (imageExtensions.some(ext => lowerUrl.includes(ext))) return true;
 
   // Check for known image hosts
-  const imageHosts = ['wixstatic.com', 'unsplash.com', 'images.unsplash.com'];
+  const imageHosts = [
+    'cdn.sanity.io',
+    'wixstatic.com',
+    'unsplash.com',
+    'images.unsplash.com',
+  ];
   return imageHosts.some(host => lowerUrl.includes(host));
 }
 
 function hasWixMediaStructure(obj: unknown): boolean {
   if (!obj || typeof obj !== 'object') return false;
 
-  // Type assertion for object with string keys
   const objRecord = obj as Record<string, unknown>;
   const wixMediaProps = [
     'src',
@@ -165,6 +196,9 @@ export function getImageUrl(
   if (!imageUrl) return fallback;
 
   try {
+    if (isSanityImageSource(imageUrl)) {
+      return buildSanityImageUrl(imageUrl) || fallback;
+    }
     const result = convertWixImageUrl(imageUrl);
     return result?.primary || fallback;
   } catch (error) {

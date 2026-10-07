@@ -36,6 +36,12 @@ export function LocaleProvider({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // If initialLocale was explicitly provided and valid, prioritize it
+    if (initialLocale && isSupportedLocale(initialLocale)) {
+      setIsLoading(false);
+      return;
+    }
+
     // Check for saved locale in localStorage or URL
     const urlLocale = getLocaleFromUrl();
 
@@ -53,7 +59,7 @@ export function LocaleProvider({
     }
 
     setIsLoading(false);
-  }, []);
+  }, [initialLocale]);
 
   const setLocale = (newLocale: Locale) => {
     if (isSupportedLocale(newLocale)) {

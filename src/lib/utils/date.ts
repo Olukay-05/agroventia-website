@@ -1,4 +1,7 @@
-export function formatDate(dateVal: Date | string | { $date: string } | undefined | null): string {
+export function formatDate(
+    dateVal: Date | string | { $date: string } | undefined | null,
+    locale?: string
+): string {
     if (!dateVal) return '';
 
     let dateObj: Date;
@@ -22,7 +25,13 @@ export function formatDate(dateVal: Date | string | { $date: string } | undefine
             return '';
         }
 
-        return dateObj.toLocaleDateString('en-US', {
+        const dateLocale = locale?.startsWith('fr')
+            ? 'fr-CA'
+            : locale?.startsWith('es') || locale === 'esp'
+              ? 'es-ES'
+              : 'en-US';
+
+        return dateObj.toLocaleDateString(dateLocale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
