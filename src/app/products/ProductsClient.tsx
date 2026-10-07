@@ -66,38 +66,22 @@ function CatalogContent() {
   const isFrench = locale?.startsWith('fr');
   const isSpanish = locale?.startsWith('es') || locale === 'esp';
 
-  // Canonical fallback categories if product list is loading or categories are empty
-  const CANONICAL_CATEGORIES = useMemo(
-    () => [
-      'Grains & Cereals',
-      'Pulses & Legumes',
-      'Oilseeds, Nuts & Seeds',
-      'Spices & Botanicals',
-      'Horticultural & Ingredients',
-    ],
-    []
-  );
-
-  // Extract unique categories from raw products with robust canonical fallback
+  // Extract unique categories from raw products
   const availableCategories = useMemo(() => {
+    if (!rawProducts) return [];
     const set = new Set<string>();
-    if (rawProducts && rawProducts.length > 0) {
-      rawProducts.forEach(p => {
-        if (p.category && p.category.trim()) {
-          set.add(p.category.trim());
-        }
-      });
-    }
-    if (set.size === 0) {
-      return CANONICAL_CATEGORIES;
-    }
+    rawProducts.forEach(p => {
+      if (p.category && p.category.trim()) {
+        set.add(p.category.trim());
+      }
+    });
     return Array.from(set).sort((a, b) => a.localeCompare(b));
-  }, [rawProducts, CANONICAL_CATEGORIES]);
+  }, [rawProducts]);
 
   // Parse initial state from URL query parameters on initial render
   const initialFilterParams = useMemo(() => {
-    return parseFilterStateFromSearchParams(searchParams, CANONICAL_CATEGORIES);
-  }, [searchParams, CANONICAL_CATEGORIES]);
+    return parseFilterStateFromSearchParams(searchParams, []);
+  }, []);
 
   // State
   const [selectedCorridor, setSelectedCorridor] = useState<'all' | 'canada' | 'africa'>(
@@ -441,62 +425,44 @@ function CatalogContent() {
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('all')}
-                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 border ${
+                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 ${
                       selectedCorridor === 'all'
-                        ? 'bg-agro-primary-700 text-white border-agro-primary-700 shadow-md'
-                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border-agro-primary-200/60 dark:border-agro-primary-800/60 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
+                        ? 'bg-agro-primary-700 text-white shadow-md'
+                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
                     }`}
                   >
                     <span>{labels.allCorridors}</span>
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                        selectedCorridor === 'all'
-                          ? 'bg-white/20 text-white'
-                          : 'bg-agro-primary-200/70 dark:bg-agro-neutral-700 text-agro-primary-900 dark:text-agro-neutral-200'
-                      }`}
-                    >
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 dark:bg-black/20">
                       {corridorCounts.all}
                     </span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('canada')}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer border ${
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                       selectedCorridor === 'canada'
-                        ? 'bg-agro-primary-700 text-white border-agro-primary-700 shadow-md'
-                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border-agro-primary-200/60 dark:border-agro-primary-800/60 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
+                        ? 'bg-agro-primary-700 text-white shadow-md'
+                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
                     }`}
                   >
                     <span aria-hidden="true">🍁</span>
                     <span>{labels.corridorCanada}</span>
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                        selectedCorridor === 'canada'
-                          ? 'bg-white/20 text-white'
-                          : 'bg-agro-primary-200/70 dark:bg-agro-neutral-700 text-agro-primary-900 dark:text-agro-neutral-200'
-                      }`}
-                    >
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 dark:bg-black/20">
                       {corridorCounts.canada}
                     </span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('africa')}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer border ${
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                       selectedCorridor === 'africa'
-                        ? 'bg-agro-primary-700 text-white border-agro-primary-700 shadow-md'
-                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 border-agro-primary-200/60 dark:border-agro-primary-800/60 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
+                        ? 'bg-agro-primary-700 text-white shadow-md'
+                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
                     }`}
                   >
                     <span aria-hidden="true">🌍</span>
                     <span>{labels.corridorAfrica}</span>
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                        selectedCorridor === 'africa'
-                          ? 'bg-white/20 text-white'
-                          : 'bg-agro-primary-200/70 dark:bg-agro-neutral-700 text-agro-primary-900 dark:text-agro-neutral-200'
-                      }`}
-                    >
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 dark:bg-black/20">
                       {corridorCounts.africa}
                     </span>
                   </button>
@@ -523,10 +489,10 @@ function CatalogContent() {
                   <button
                     type="button"
                     onClick={() => setSelectedCategory('all')}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer border ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                       selectedCategory === 'all'
-                        ? 'bg-agro-primary-800 text-white border-agro-primary-800 shadow-sm'
-                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border-agro-primary-200/60 dark:border-agro-primary-800/60'
+                        ? 'bg-agro-primary-800 text-white shadow-sm'
+                        : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
                     }`}
                   >
                     {labels.allCategories}
@@ -538,10 +504,10 @@ function CatalogContent() {
                         key={cat}
                         type="button"
                         onClick={() => setSelectedCategory(isSelected ? 'all' : cat)}
-                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer border ${
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-agro-primary-800 text-white border-agro-primary-800 shadow-sm'
-                            : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border-agro-primary-200/60 dark:border-agro-primary-800/60'
+                            ? 'bg-agro-primary-800 text-white shadow-sm'
+                            : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
                         }`}
                       >
                         {formatCategoryLabel(cat, availableCategories)}
