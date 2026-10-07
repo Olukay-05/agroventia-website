@@ -417,7 +417,7 @@ function CatalogContent() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight font-serif mb-4 text-[#FDF8F0]">
               {labels.pageTitle}
             </h1>
-            <p className="text-lead max-w-3xl text-agro-neutral-200">
+            <p className="text-lead max-w-3xl text-[#FDF8F0]">
               {labels.pageSubtitle}
             </p>
           </div>
