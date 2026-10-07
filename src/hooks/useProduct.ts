@@ -90,10 +90,16 @@ export const prefetchProduct = async (
           _createdDate: product._createdDate,
           _updatedDate: product._updatedDate,
           isActive: product.isActive,
-          title: product.name || 'Agricultural Product',
+          title:
+            product.name ||
+            (product as { title?: string }).title ||
+            'Agricultural Product',
           description: product.description,
           category: product.category,
-          image1: product.images?.[0] || '',
+          image1:
+            (product as { images?: string[] }).images?.[0] ||
+            (product as { image1?: string }).image1 ||
+            '',
         };
 
         return transformedProduct;
@@ -150,10 +156,14 @@ export const prefetchProductList = async (
             _createdDate: product._createdDate,
             _updatedDate: product._updatedDate,
             isActive: product.isActive,
-            title: product.name || 'Agricultural Product',
+            title:
+              product.name ||
+              (product as { title?: string }).title ||
+              (product as { productName?: string }).productName ||
+              'Agricultural Product',
             description: product.description,
             category: product.category,
-            image1: product.images?.[0] || '',
+            image1: (product as { images?: string[] }).images?.[0] || '',
           };
         });
 
@@ -218,7 +228,7 @@ export const useProduct = (productId: string | null) => {
           title: product.name || 'Agricultural Product',
           description: product.description,
           category: product.category,
-          image1: product.images?.[0] || '',
+          image1: (product as { images?: string[] }).images?.[0] || '',
         };
 
         return transformedProduct;
@@ -280,7 +290,7 @@ export const useProducts = (
             title: product.name || 'Agricultural Product',
             description: product.description,
             category: product.category,
-            image1: product.images?.[0] || '',
+            image1: (product as { images?: string[] }).images?.[0] || '',
           };
         });
 
@@ -348,7 +358,7 @@ export const useInfiniteProducts = (limit: number = 12, category?: string) => {
             title: product.name || 'Agricultural Product',
             description: product.description,
             category: product.category,
-            image1: product.images?.[0] || '',
+            image1: (product as { images?: string[] }).images?.[0] || '',
           };
         });
 
@@ -461,8 +471,8 @@ export const useProductSearch = (query: string) => {
             title: product.name || 'Agricultural Product',
             description: product.description,
             category: product.category,
-            image1: product.images?.[0] || '',
-          };
+            image1: (product as { images?: string[] }).images?.[0] || '',
+          } as ProductContentType;
         });
       } catch (error: unknown) {
         console.error(`Error searching products for query "${query}":`, error);

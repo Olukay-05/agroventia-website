@@ -12,8 +12,12 @@ import {
   WixCarouselItem,
 } from '@/services/carousel.service';
 import { HeroContent } from '@/types/wix';
+import { useHeroContent, useCarouselImages } from '@/hooks/useContent';
 import useScrollToSection from '@/hooks/useScrollToSection';
 import { trackButtonClick } from '@/lib/analytics';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+import Fade from 'embla-carousel-fade';
 
 interface HeroSectionProps {
   data?: HeroContent;
@@ -30,8 +34,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   collectionsData,
   isLoading,
 }) => {
-  // For backward compatibility, we'll still use the hook if no data is provided
-  const { data: heroContentData, isLoading: hookIsLoading } = useHeroContent();
+  // Hooks for fetching hero singleton and carousel slides from Sanity
+  const {
+    data: heroContentData,
+    isLoading: hookIsLoading,
+    error: heroContentError,
+  } = useHeroContent();
+  const {
+    data: sanityCarouselSlides,
+    isLoading: isCarouselSlidesLoading,
+  } = useCarouselImages();
   const heroContent = data || heroContentData?.[0];
   const { scrollToSection } = useScrollToSection();
 
@@ -39,19 +51,52 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const effectiveIsLoading =
     isLoading !== undefined ? isLoading : hookIsLoading;
 
+  // Determine display mode: 'carousel' (default) vs 'static' singleton banner
+  const isCarouselMode = (heroContent?.displayMode ?? 'carousel') === 'carousel';
+
   const heroRef = useRef<HTMLElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   // State for background image carousel
   const [carouselItems, setCarouselItems] = useState<CarouselItem[]>([]);
-  const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [carouselLoading, setCarouselLoading] = useState(true);
   const [carouselError, setCarouselError] = useState<string | null>(null);
   const [contentLoaded, setContentLoaded] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Fetch carousel data from CarouselImageDisplay collection
+  // Set up Embla Carousel
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: 'center',
+    },
+    [Fade(), Autoplay({ delay: 7000, stopOnInteraction: false })]
+  );
+
+  // Fetch carousel data from Sanity carouselSlide collection or fallback
   useEffect(() => {
-    // If collectionsData is provided, use it instead of fetching
+    // If not in carousel mode, no need to process or wait for carousel data
+    if (!isCarouselMode) {
+      setCarouselLoading(false);
+      return;
+    }
+
+    // 1. Prioritize live Sanity Carousel Slides
+    if (sanityCarouselSlides && sanityCarouselSlides.length > 0) {
+      const items: CarouselItem[] = sanityCarouselSlides.map(slide => ({
+        imageUrl: slide.image,
+        title: slide.title || '',
+        description: slide.description || slide.imageDescription || '',
+        tagline: slide.tagline || '',
+        displayOrder: slide.displayOrder,
+      }));
+      setCarouselItems(items);
+      setCarouselLoading(false);
+      return;
+    }
+
+    // 2. If collectionsData is provided, use it as fallback once Sanity loading completes
     if (
+      !isCarouselSlidesLoading &&
       collectionsData &&
       collectionsData.carouselImages &&
       collectionsData.carouselImages.items
@@ -78,7 +123,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
         if (items.length > 0) {
           setCarouselItems(items);
-          setCurrentItemIndex(0);
         }
         setCarouselLoading(false);
         return;
@@ -96,11 +140,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
         if (items.length > 0) {
           setCarouselItems(items);
-          // Set to first item when data is loaded
-          setCurrentItemIndex(0);
         } else {
           // If no carousel data, fall back to original implementation
-          console.warn('No carousel data found, using fallback');
+          console.debug('No carousel data found, using fallback');
         }
       } catch (error) {
         console.error('Error fetching carousel data:', error);
@@ -115,27 +157,33 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       }
     };
 
-    // Fetch carousel data
-    fetchCarouselData();
-  }, [collectionsData]);
-
-  // Set up interval for carousel rotation
-  useEffect(() => {
-    if (carouselItems.length <= 1) {
-      return;
+    if (!isCarouselSlidesLoading && (!sanityCarouselSlides || sanityCarouselSlides.length === 0)) {
+      fetchCarouselData();
     }
+  }, [collectionsData, isCarouselMode, sanityCarouselSlides, isCarouselSlidesLoading]);
 
-    const interval = setInterval(() => {
-      setCurrentItemIndex(prevIndex => {
-        const newIndex = (prevIndex + 1) % carouselItems.length;
-        return newIndex;
-      });
-    }, 7000); // Change image every 7 seconds (matching user preference)
+  // Handle carousel selection changes
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on('select', onSelect);
+    onSelect(); // Set initial selection
 
     return () => {
-      clearInterval(interval);
+      emblaApi.off('select', onSelect);
     };
-  }, [carouselItems.length]);
+  }, [emblaApi]);
+
+  // Re-initialize Embla when carousel slides change
+  useEffect(() => {
+    if (emblaApi && carouselItems.length > 0) {
+      emblaApi.reInit();
+    }
+  }, [emblaApi, carouselItems]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -150,9 +198,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Effective carousel loading only blocks skeleton when carousel mode is active
+  const effectiveCarouselLoading = isCarouselMode
+    ? (carouselLoading || isCarouselSlidesLoading)
+    : false;
+
   // Handle content loading state
   useEffect(() => {
-    if (!effectiveIsLoading && !carouselLoading) {
+    if (!effectiveIsLoading && !effectiveCarouselLoading) {
       // Add a small delay to ensure content is rendered before showing
       const timer = setTimeout(() => {
         setContentLoaded(true);
@@ -161,19 +214,28 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     } else {
       setContentLoaded(false);
     }
-  }, [effectiveIsLoading, carouselLoading]);
+  }, [effectiveIsLoading, effectiveCarouselLoading]);
 
-  // Get current carousel item
-  const currentItem = carouselItems[currentItemIndex] || null;
-
-  // Show skeleton only during initial data loading or carousel loading
-  if (effectiveIsLoading || carouselLoading) {
+  // Show skeleton only during initial data loading or active carousel loading
+  if (effectiveIsLoading || effectiveCarouselLoading) {
     return <BlurredHeroSkeleton />;
   }
 
-  if (carouselError) {
-    console.error('Carousel error:', carouselError);
+  // If we have an error with hero content and no fallback data, show a minimal version
+  if (heroContentError && !heroContent) {
+    console.warn(
+      'Hero content error, using minimal fallback:',
+      heroContentError.message
+    );
+    // Continue with minimal content
   }
+
+  if (carouselError) {
+    console.debug('Carousel error (non-critical):', carouselError);
+  }
+
+  // Get the currently selected carousel item
+  const selectedCarouselItem = carouselItems[selectedIndex];
 
   return (
     <section
@@ -181,34 +243,33 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Background Image Carousel with Parallax */}
+      {/* Background: Image Carousel with Parallax OR Static Singleton Background */}
       <div
         ref={backgroundRef}
         className="absolute inset-0 w-full h-[120%] -top-[10%] overflow-hidden"
       >
-        {carouselItems.length > 0 ? (
-          <div className="responsive-image w-full h-full">
-            {carouselItems.map((item, index) => (
-              <div
-                key={index}
-                className={cn(
-                  'absolute inset-0 w-full h-full transition-opacity duration-2000 ease-in-out',
-                  index === currentItemIndex
-                    ? 'opacity-100 z-0'
-                    : 'opacity-0 z-0'
-                )}
-              >
-                <WixImage
-                  src={item.imageUrl}
-                  alt={`Carousel background ${index + 1}`}
-                  fill={true}
-                  className="w-full h-full"
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-            ))}
+        {isCarouselMode && carouselItems.length > 0 ? (
+          <div className="w-full h-full" ref={emblaRef}>
+            <div className="flex h-full">
+              {carouselItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex-[0_0_100%] min-w-0 relative w-full h-full"
+                >
+                  <WixImage
+                    src={item.imageUrl}
+                    alt={`Carousel background ${index + 1}`}
+                    fill={true}
+                    className="w-full h-full"
+                    style={{ objectFit: 'cover' }}
+                    loading={index === 0 ? 'eager' : 'lazy'} // Load first image eagerly, others lazily
+                    placeholderColor="bg-gradient-to-br from-green-600/20 via-emerald-700/20 to-teal-800/20"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        ) : // Fallback to original background image or gradient
+        ) : // Fallback to singleton background image or gradient
         heroContent?.backgroundImage &&
           heroContent.backgroundImage.trim() !== '' ? (
           <div className="responsive-image w-full h-full">
@@ -218,6 +279,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               fill={true}
               className="w-full h-full"
               style={{ objectFit: 'cover' }}
+              loading="eager"
+              placeholderColor="bg-gradient-to-br from-green-600/20 via-emerald-700/20 to-teal-800/20"
             />
           </div>
         ) : (
@@ -226,54 +289,82 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30" />
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/30"
+        style={
+          heroContent?.overlayOpacity !== undefined
+            ? { opacity: heroContent.overlayOpacity / 100 }
+            : undefined
+        }
+      />
 
       {/* Content */}
       <div className="relative z-10 container-premium text-center text-white">
         <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 px-4 sm:px-0">
           {/* Main Heading */}
           <div className="space-y-3 md:space-y-4 scroll-reveal">
-            <h1
-              className={cn(
-                'heading-hero px-2 transition-opacity duration-1000 ease-in-out',
-                contentLoaded ? 'opacity-100' : 'opacity-0'
-              )}
-            >
-              {currentItem?.title ||
-                heroContent?.title ||
-                'Premium Agricultural Imports from West Africa'}
-            </h1>
-            <p
-              className={cn(
-                'text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200 max-w-3xl mx-auto px-2 transition-opacity duration-1000 ease-in-out',
-                contentLoaded ? 'opacity-100' : 'opacity-0'
-              )}
-            >
-              {currentItem?.tagline ||
-                currentItem?.description ||
-                heroContent?.subtitle ||
-                'Connecting Global Markets with Quality Agricultural Products'}
-            </p>
+            {(isCarouselMode && selectedCarouselItem?.title
+              ? selectedCarouselItem.title
+              : heroContent?.title) && (
+              <h1
+                className={cn(
+                  'heading-hero px-2 transition-opacity duration-1000 ease-in-out',
+                  contentLoaded ? 'opacity-100' : 'opacity-0'
+                )}
+              >
+                {isCarouselMode && selectedCarouselItem?.title
+                  ? selectedCarouselItem.title
+                  : heroContent?.title}
+              </h1>
+            )}
+            {(isCarouselMode
+              ? selectedCarouselItem?.tagline ||
+                selectedCarouselItem?.description
+              : heroContent?.subtitle) && (
+              <p
+                className={cn(
+                  'text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200 max-w-3xl mx-auto px-2 transition-opacity duration-1000 ease-in-out',
+                  contentLoaded ? 'opacity-100' : 'opacity-0'
+                )}
+              >
+                {isCarouselMode
+                  ? selectedCarouselItem?.tagline ||
+                    selectedCarouselItem?.description
+                  : heroContent?.subtitle}
+              </p>
+            )}
+            {!isCarouselMode && heroContent?.description && (
+              <p
+                className={cn(
+                  'text-base md:text-lg text-gray-300 max-w-2xl mx-auto px-2 transition-opacity duration-1000 ease-in-out',
+                  contentLoaded ? 'opacity-100' : 'opacity-0'
+                )}
+              >
+                {heroContent.description}
+              </p>
+            )}
           </div>
 
           {/* Call to Action Buttons */}
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 scroll-reveal px-4">
-            <Button
-              size="lg"
-              className={cn(
-                'btn-agro-primary cursor-pointer text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group transition-opacity duration-1000 ease-in-out',
-                contentLoaded ? 'opacity-100' : 'opacity-0'
-              )}
-              onClick={() => {
-                scrollToSection('products');
-                trackButtonClick('hero_cta_explore_products');
-              }}
-            >
-              {heroContent?.ctaPrimary || 'Explore Products'}
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            {(heroContent?.ctaSecondary || (data && data.ctaSecondary)) && (
+            {heroContent?.ctaPrimary && (
+              <Button
+                size="lg"
+                className={cn(
+                  'btn-agro-primary cursor-pointer text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto sm:min-w-[200px] group transition-opacity duration-1000 ease-in-out',
+                  contentLoaded ? 'opacity-100' : 'opacity-0'
+                )}
+                onClick={() => {
+                  scrollToSection('products');
+                  trackButtonClick('hero_cta_explore_products');
+                }}
+              >
+                {heroContent.ctaPrimary}
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            )}
+            {heroContent?.ctaSecondary && (
               <Button
                 variant="glass"
                 size="lg"
@@ -286,9 +377,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   trackButtonClick('hero_cta_contact_us');
                 }}
               >
-                {heroContent?.ctaSecondary ||
-                  data?.ctaSecondary ||
-                  'Contact Us'}
+                {heroContent.ctaSecondary}
                 <Play className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             )}
@@ -298,8 +387,5 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     </section>
   );
 };
-
-// We still need to import the hook for backward compatibility
-import { useHeroContent } from '@/hooks/useWixContent';
 
 export default HeroSection;

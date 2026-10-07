@@ -5,19 +5,18 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import type { AutoplayType } from 'embla-carousel-autoplay';
 
-// Simple classnames function since we can't import from utils
-const cn = (...classes: (string | undefined | null | false)[]): string => {
-  return classes.filter(Boolean).join(' ');
-};
-
 interface MissionVisionCarouselProps {
   mission: string;
   vision: string;
+  missionLabel: string;
+  visionLabel: string;
 }
 
 const MissionVisionCarousel: React.FC<MissionVisionCarouselProps> = ({
   mission,
   vision,
+  missionLabel,
+  visionLabel,
 }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -40,19 +39,25 @@ const MissionVisionCarousel: React.FC<MissionVisionCarouselProps> = ({
 
   return (
     <div className="relative max-w-3xl mx-auto">
-      <div className="overflow-hidden h-[100px]" ref={emblaRef}>
+      <div className="overflow-hidden h-52 lg:h-28" ref={emblaRef}>
         <div className="flex flex-col h-full">
           <div className="flex-[0_0_100%] flex items-center justify-center p-6 w-full">
-            <div
-              className="text-[#281909] text-center leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: mission }}
-            />
+            <div className="flex flex-col items-center justify-between gap-2">
+              <h4 className="font-bold">{missionLabel}</h4>
+              <div
+                className="text-[#281909] text-center leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: mission }}
+              />
+            </div>
           </div>
           <div className="flex-[0_0_100%] flex items-center justify-center p-6 w-full">
-            <div
-              className="text-[#281909] text-center leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: vision }}
-            />
+            <div className="flex flex-col items-center justify-between gap-2">
+              <h4 className="font-bold">{visionLabel}</h4>
+              <div
+                className="text-[#281909] text-center leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: vision }}
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -43,10 +43,18 @@ export function LanguageSelector({
   const languageOptions = [
     { value: 'en', label: 'English' },
     { value: 'fr-CA', label: 'Français (Canada)' },
+    { value: 'esp', label: 'Español' },
   ];
 
+  // Normalize locale for display in select (handles 'fr', 'fr-CA', 'es', 'esp')
+  const normalizedLocale = locale.startsWith('fr')
+    ? 'fr-CA'
+    : locale.startsWith('es') || locale === 'esp'
+      ? 'esp'
+      : 'en';
+
   return (
-    <Select value={locale} onValueChange={handleLocaleChange}>
+    <Select value={normalizedLocale} onValueChange={handleLocaleChange}>
       <SelectTrigger
         className={`h-[42px] rounded-full border-2 border-[#281909] bg-[#FDF8F0] text-[#281909] font-semibold text-[16px] leading-[1] tracking-[0.2px] hover:bg-[#225217] hover:text-[#FDF8F0] hover:border-[#225217] transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
           className || 'w-[180px]'

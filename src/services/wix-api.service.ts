@@ -34,6 +34,7 @@ export interface WixQueryOptions {
   filter?: Record<string, unknown>;
   limit?: number;
   returnTotalCount?: boolean;
+  locale?: string;
 }
 
 export interface WixInsertOptions<T> {
@@ -161,6 +162,7 @@ export class WixApiService {
         filter = {},
         limit = 100,
         returnTotalCount = true,
+        locale,
       } = options;
 
       const requestBody = {
@@ -171,6 +173,12 @@ export class WixApiService {
           limit,
         },
         ...(Object.keys(filter).length > 0 && { filter }),
+        // Check if locale is provided and not default
+        ...(locale && locale !== 'en' && {
+          appOptions: {
+            locale
+          }
+        }),
       };
 
       try {
@@ -213,8 +221,7 @@ export class WixApiService {
       } catch (error) {
         console.error(`Error fetching ${collectionName}:`, error);
         throw new Error(
-          `Failed to fetch ${collectionName}: ${
-            error instanceof Error ? error.message : 'Unknown error'
+          `Failed to fetch ${collectionName}: ${error instanceof Error ? error.message : 'Unknown error'
           }`
         );
       }
@@ -384,8 +391,7 @@ export class WixApiService {
       } catch (error) {
         console.error(`Error inserting item into ${collectionName}:`, error);
         throw new Error(
-          `Failed to insert item into ${collectionName}: ${
-            error instanceof Error ? error.message : 'Unknown error'
+          `Failed to insert item into ${collectionName}: ${error instanceof Error ? error.message : 'Unknown error'
           }`
         );
       }

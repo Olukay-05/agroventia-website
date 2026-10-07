@@ -1,99 +1,15 @@
-'use client';
+import React from 'react';
+import { Metadata } from 'next';
+import HomeClient from './HomeClient';
 
-import React, { useEffect, useState } from 'react';
-import Header from '@/components/sections/Header';
-import Footer from '@/components/sections/Footer';
-import HeroSection from '@/components/sections/HeroSection';
-import AboutSection from '@/components/sections/AboutSection';
-import ServicesSection from '@/components/sections/ServicesSection';
-import ProductsSection from '@/components/sections/ProductsSection';
-import ContactSection from '@/components/sections/ContactSection';
-import { useAllCollections } from '@/hooks/useAllCollections';
-import { extractHomepageData } from '@/lib/utils/extractHomepageData';
-import useScrollReveal from '@/hooks/useScrollReveal';
-import { QuoteRequestProvider } from '@/contexts/QuoteRequestContext';
-import SeoHead from '@/components/common/SeoHead';
+export const metadata: Metadata = {
+  title: 'AgroVentia | Global Agricultural Sourcing & Trade',
+  description:
+    'Connecting agricultural producers with global markets through reliable sourcing, market access and trade solutions across Canada, Africa and international markets.',
+  keywords:
+    'global agricultural sourcing, agricultural trade, agricultural exports, agricultural imports, Canadian agricultural products, Canadian agricultural exporters, African agricultural products, agricultural market access, agricultural commodity sourcing, global food supply, agricultural producers, international agricultural buyers, bulk agricultural products, grains and pulses, oilseeds, cocoa, hibiscus, ginger, wheat, legumes, lentils, sesame Non-durum Wheat, Durum Wheat, Feed Barley, Malting Barley, Malt, Raw Oats, Processed Oats, Oat Flakes, Oat Flour, Red Lentils, Green Lentils, Yellow Peas, Green Peas, Chickpeas, Dry Beans, Kidney Beans, Navy Beans, Pulse Flour, Pea Protein, Lentil Ingredients, Canola Seed, Crude Canola Oil, Refined Canola Oil, Canola Meal, Conventional Soybeans, Food-Grade Soybeans, Identity-Preserved Soybeans, Flaxseed, Linseed, Yellow Mustard Seed, Brown Mustard Seed, Oriental Mustard Seed, Canary Seed, Wheat Gluten, Specialty Plant Proteins, Frozen French Fries, Processed Potatoes, Seed Potatoes, Blueberries, Cranberries, Maple Syrup, Maple Sugar, Dried Hibiscus Flowers, Ginger, Cocoa Beans, Cocoa Products, Kola Nut, Shea Nuts, Shea Butter, Mustard Flour, Prepared Mustard, Dried Spices, Botanical Ingredients, Pulse-Based Feed Ingredients, Pet Food, Livestock Feed Preparations',
+};
 
 export default function HomePage() {
-  const { data, isLoading, error } = useAllCollections();
-
-  // Initialize scroll reveal animations
-  useScrollReveal();
-
-  // Don't show loading state for too long - fallback to mock data
-  const [showFallback, setShowFallback] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isLoading) {
-        setShowFallback(true);
-      }
-    }, 8000); // Show fallback after 8 seconds
-
-    return () => clearTimeout(timer);
-  }, [isLoading]);
-
-  // Ensure we always have consistent data structures
-  const safeData = data || null;
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-red-50 flex items-center justify-center p-4">
-        <div className="text-center max-w-md mx-auto">
-          <SeoHead
-            title="AgroVentia Inc. - Error Loading Page"
-            description="There was an error loading the AgroVentia Inc. homepage. Please try again."
-            noIndex={true}
-          />
-          <h2 className="text-xl md:text-2xl font-bold text-red-700 mb-4">
-            Error Loading Data
-          </h2>
-          <p className="text-red-600 mb-4 text-sm md:text-base">
-            {error instanceof Error ? error.message : 'Unknown error occurred'}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-red-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-lg hover:bg-red-700 text-sm md:text-base transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Use data if available, otherwise use mock data (especially if loading is taking too long)
-  const shouldUseData = safeData && !showFallback;
-  const effectiveLoading = isLoading && !showFallback;
-
-  // Extract data using the centralized utility function
-  const { heroData, aboutData, servicesData, productsData, contactData } =
-    extractHomepageData(safeData, shouldUseData);
-
-  return (
-    <div className="min-h-screen">
-      <SeoHead
-        title="AgroVentia Inc. - Premium Agricultural Imports from West Africa"
-        description="Connecting global markets with quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources."
-        keywords="agricultural exports, African produce sourcing, premium agro products, kolanut, ginger, hibiscus, cocoa, West Africa, agricultural imports, ethically sourced"
-      />
-      <Header />
-
-      <main>
-        <QuoteRequestProvider>
-          <HeroSection
-            data={heroData}
-            collectionsData={safeData}
-            isLoading={effectiveLoading}
-          />
-          <AboutSection data={aboutData} isLoading={effectiveLoading} />
-          <ServicesSection data={servicesData} isLoading={effectiveLoading} />
-          <ProductsSection data={productsData} isLoading={effectiveLoading} />
-          <ContactSection data={contactData} isLoading={effectiveLoading} />
-        </QuoteRequestProvider>
-      </main>
-
-      <Footer />
-    </div>
-  );
+  return <HomeClient />;
 }

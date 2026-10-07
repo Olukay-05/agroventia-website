@@ -126,7 +126,7 @@ export class WixDataService {
   /**
    * Fetch Carousel Image Display content
    */
-  async fetchCarouselImageDisplay(): Promise<
+  async fetchCarouselImageDisplay(locale?: string): Promise<
     TransformedResponse<CarouselImageDisplay>
   > {
     // Check if configuration is available
@@ -160,16 +160,18 @@ export class WixDataService {
     }
 
     return wixApiService.queryCollection<CarouselImageDisplay>(
-      CollectionNames.CAROUSEL_IMAGE_DISPLAY
+      CollectionNames.CAROUSEL_IMAGE_DISPLAY,
+      { locale }
     );
   }
 
   /**
    * Fetch About Content with Core Values - EXACT same logic as Node.js
    */
-  async fetchAboutContent(): Promise<TransformedResponse<AboutContent>> {
+  async fetchAboutContent(locale?: string): Promise<TransformedResponse<AboutContent>> {
     const aboutResponse = await wixApiService.queryCollection<AboutContent>(
-      CollectionNames.ABOUT_CONTENT
+      CollectionNames.ABOUT_CONTENT,
+      { locale }
     );
 
     // If we have about content, fetch related core values
@@ -191,6 +193,7 @@ export class WixDataService {
                 },
               },
               includeReferencedItems: ['*'],
+              locale,
             }
           );
 
@@ -212,7 +215,7 @@ export class WixDataService {
   /**
    * Fetch Product Categories with ALL Products Embedded - EXACT same logic as Node.js
    */
-  async fetchProductCategories(): Promise<
+  async fetchProductCategories(locale?: string): Promise<
     TransformedResponse<ProductCategory>
   > {
     console.log(
@@ -222,7 +225,8 @@ export class WixDataService {
     // First fetch the product categories
     const categoriesResponse =
       await wixApiService.queryCollection<ProductCategory>(
-        CollectionNames.IMPORT1
+        CollectionNames.IMPORT1,
+        { locale }
       );
 
     try {
@@ -235,6 +239,7 @@ export class WixDataService {
           {
             includeReferencedItems: ['*'],
             limit: 100,
+            locale,
           }
         );
 
@@ -294,10 +299,8 @@ export class WixDataService {
             (categoryData as Partial<ProductCategory>)[referencedDataField] =
               referencedProducts as never;
             console.log(
-              `Added ${
-                referencedProducts.length
-              } referenced products to ${refField}_data for catalog item ${
-                i + 1
+              `Added ${referencedProducts.length
+              } referenced products to ${refField}_data for catalog item ${i + 1
               }`
             );
           }
@@ -341,31 +344,35 @@ export class WixDataService {
   /**
    * Fetch all other collections - simple queries
    */
-  async fetchHeroContent() {
+  async fetchHeroContent(locale?: string) {
     return wixApiService.queryCollection<HeroContent>(
-      CollectionNames.HERO_CONTENT
+      CollectionNames.HERO_CONTENT,
+      { locale }
     );
   }
 
-  async fetchServicesContent() {
+  async fetchServicesContent(locale?: string) {
     return wixApiService.queryCollection<ServiceContent>(
-      CollectionNames.SERVICES_CONTENT
+      CollectionNames.SERVICES_CONTENT,
+      { locale }
     );
   }
 
-  async fetchProductsContent() {
+  async fetchProductsContent(locale?: string) {
     // Use Import2 as the main products collection
     return wixApiService.queryCollection<ProductContent>(
-      CollectionNames.IMPORT2
+      CollectionNames.IMPORT2,
+      { locale }
     );
   }
 
-  async fetchProductsFromImport2(limit?: number, offset?: number) {
+  async fetchProductsFromImport2(limit?: number, offset?: number, locale?: string) {
     console.log('Fetching products from Import2 collection...');
 
     const options: WixQueryOptions = {
       includeReferencedItems: ['*'],
       limit: limit || 100,
+      locale,
     };
 
     // If offset is provided, we need to handle pagination
@@ -388,9 +395,10 @@ export class WixDataService {
   /**
    * Fetch Contact Content
    */
-  async fetchContactContent(): Promise<TransformedResponse<ContactContent>> {
+  async fetchContactContent(locale?: string): Promise<TransformedResponse<ContactContent>> {
     return wixApiService.queryCollection<ContactContent>(
-      CollectionNames.CONTACT_CONTENT
+      CollectionNames.CONTACT_CONTENT,
+      { locale }
     );
   }
 

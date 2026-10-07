@@ -1,108 +1,63 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import Link from 'next/link';
 import { MapPin, Phone, Mail, ArrowUp } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import FooterSocialLinks from './FooterSocialLinks';
-import FooterLinkSection from './FooterLinkSection';
+import FooterLinkSection, { FooterLinkItem } from './FooterLinkSection';
 import Image from 'next/image';
 import { LanguageSelector } from '@/components/common/LanguageSelector';
 import {
-  ContactContent,
-  ProductContent,
-  ServiceContent,
-} from '@/services/wix-data.service';
+  useContactContent,
+  useProductCatalogContent,
+  useCoreValues,
+} from '@/hooks/useContent';
+import { useLocale } from '@/contexts/LocaleContext';
+import { getFooterUiLabels } from '@/lib/footer-i18n';
+import { normalizeCategorySlug } from '@/lib/product-filters';
 
 const Footer: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(
     new Date().getFullYear()
   );
 
-  // Ensure consistent year between server and client
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
 
-  const [contactData, setContactData] = useState<ContactContent | null>(null);
-  const [servicesData, setServicesData] = useState<ServiceContent[]>([]);
-  const [productsData, setProductsData] = useState<ProductContent[]>([]);
+  const { locale } = useLocale();
+  const uiLabels = getFooterUiLabels(locale);
 
-  // Fetch contact data from Wix CMS
-  useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        // Fetch all collections in parallel
-        const [contactResponse, servicesResponse, productsResponse] =
-          await Promise.all([
-            fetch('/api/collections/ContactContent'),
-            fetch('/api/collections/ServicesContent'),
-            fetch('/api/collections/Import2'), // Using Import2 for products
-          ]);
+  const { data: contactList } = useContactContent();
+  const { data: productCatalog } = useProductCatalogContent();
+  const { data: coreValuesList } = useCoreValues();
 
-        // Process contact data
-        if (contactResponse.ok) {
-          const contactData = await contactResponse.json();
-          if (contactData.items && contactData.items.length > 0) {
-            setContactData(contactData.items[0].data);
-          }
-        }
-
-        // Process services data
-        if (servicesResponse.ok) {
-          const servicesData = await servicesResponse.json();
-          if (servicesData.items && servicesData.items.length > 0) {
-            setServicesData(
-              servicesData.items.map(
-                (item: { data: ServiceContent }) => item.data
-              )
-            );
-          }
-        }
-
-        // Process products data (for categories)
-        if (productsResponse.ok) {
-          const productsData = await productsResponse.json();
-          if (productsData.items && productsData.items.length > 0) {
-            setProductsData(
-              productsData.items.map(
-                (item: { data: ProductContent }) => item.data
-              )
-            );
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching footer data:', error);
-      }
-    };
-
-    fetchAllData();
-  }, []);
-
-  // Default fallback data
-  const defaultContactData = {
-    address: '403 - 65 Mutual Street, Toronto, M5B 0E5',
-    phone: '+1 (403) 477-6059',
-    email: 'info@agroventia.ca',
-    workingHours:
-      'Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed',
-  };
-
-  // Use fetched data or fallback to defaults
-  const contactInfo = contactData
-    ? {
-        address: contactData.businessAddress || defaultContactData.address,
-        phone: contactData.businessPhone || defaultContactData.phone,
-        email: contactData.businessEmail || defaultContactData.email,
-        workingHours:
-          contactData.businessHours || defaultContactData.workingHours,
-      }
-    : defaultContactData;
+  const contactData = contactList?.[0] || null;
+  const router = useRouter();
 
   const handleNavClick = (href: string) => {
+    if (href.startsWith('/#')) {
+      const hash = href.replace('/', '');
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      router.push(href);
+      return;
+    }
+    if (href.startsWith('/')) {
+      router.push(href);
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      router.push(`/${href}`);
     }
   };
 
@@ -110,78 +65,60 @@ const Footer: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navigationLinks = [
-    { label: 'Home', href: '#hero' },
-    { label: 'About', href: '#about' },
-    { label: 'Process', href: '#services' },
-    { label: 'Products', href: '#products' },
-    { label: 'Contact', href: '#contact' },
+  const navigationLinks: FooterLinkItem[] = [
+    { label: uiLabels.nav.home, href: '/' },
+    { label: uiLabels.nav.products, href: '/products' },
+    { label: uiLabels.nav.about, href: '/#about' },
+    { label: uiLabels.nav.blog, href: '/blog' },
+    { label: uiLabels.nav.contact, href: '/#contact' },
   ];
 
-  const serviceLinks =
-    servicesData.length > 0
-      ? servicesData
-          .slice(0, 5)
-          .map(service => service.title || 'Agricultural Service')
-      : [
-          'Sourcing with Integrity',
-          'Rigorous Quality Checks',
-          'Seamless Logistics',
-          'On-Time Delivery',
-          'Long-Term Partnerships',
-        ];
+  const productCategories: FooterLinkItem[] = useMemo(() => {
+    const categoryHref = (slug: string) =>
+      `/products?category=${encodeURIComponent(slug)}&lang=${encodeURIComponent(locale)}`;
 
-  const productCategories =
-    productsData.length > 0
-      ? [
-          ...new Set(
-            productsData.map(
-              product =>
-                product.category ||
-                (product as unknown as { productCategory?: string })
-                  .productCategory ||
-                'Agricultural Products'
-            )
-          ),
-        ].slice(0, 5)
-      : [
-          'Farm Equipment',
-          'Crop Protection',
-          'Fertilizers & Nutrients',
-          'Seeds & Planting',
-          'Irrigation Systems',
-        ];
+    // Canonical categories guarantee 5 items are always displayed and localized
+    const canonicalList: FooterLinkItem[] = uiLabels.categories.map(c => ({
+      label: c.label,
+      slug: c.slug,
+      href: categoryHref(c.slug),
+    }));
 
-  const handleServiceClick = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    link: string | { label: string; href?: string }
-  ) => {
-    // Handle service link click - could navigate to service page
-  };
+    if (productCatalog && productCatalog.length > 0) {
+      const existingSlugs = new Set(canonicalList.map(c => c.slug));
+      productCatalog.forEach(product => {
+        if (product.category) {
+          const slug = normalizeCategorySlug(product.category);
+          if (slug && !existingSlugs.has(slug)) {
+            existingSlugs.add(slug);
+            canonicalList.push({
+              label: product.category,
+              slug,
+              href: categoryHref(slug),
+            });
+          }
+        }
+      });
+    }
+
+    return canonicalList;
+  }, [uiLabels, productCatalog, locale]);
 
   const handleProductClick = (
-    link: string | { label: string; href?: string }
+    link: string | FooterLinkItem
   ) => {
-    const categoryName = typeof link === 'string' ? link : link.label;
+    const slug = typeof link === 'object' && link.slug
+      ? link.slug
+      : normalizeCategorySlug(typeof link === 'string' ? link : link.label);
 
-    // Set the category filter in sessionStorage
-    sessionStorage.setItem(
-      'selectedProductCategory',
-      categoryName.toLowerCase()
-    );
-
-    // Navigate to the products section
-    const element = document.getElementById('products');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-
-      // Dispatch a custom event to notify the ProductsSection to update its filter
-      window.dispatchEvent(
-        new CustomEvent('productCategorySelected', {
-          detail: { category: categoryName.toLowerCase() },
-        })
-      );
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('selectedProductCategory', slug);
     }
+
+    // Always use a deterministic catalog URL so the same category works from every route.
+    router.push(
+      `/products?category=${encodeURIComponent(slug)}&lang=${encodeURIComponent(locale)}`
+    );
   };
 
   return (
@@ -205,7 +142,6 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Content */}
-      {/* <div className="container-premium py-16 relative z-10"> */}
       <div className="container-premium py-16 relative z-10">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Company Info */}
@@ -214,7 +150,7 @@ const Footer: React.FC = () => {
               <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden">
                 <Image
                   src="/agroventia-logo%201.svg"
-                  alt="AgroVentia Logo"
+                  alt="AgroVentia Inc. Logo"
                   width={48}
                   height={48}
                   className="w-full h-full object-contain"
@@ -225,51 +161,57 @@ const Footer: React.FC = () => {
                   AgroVentia Inc.
                 </h3>
                 <p className="text-sm text-[#F6F2E7] font-medium">
-                  Agricultural Solutions
+                  {contactData?.companyTagline || uiLabels.companyTagline}
                 </p>
               </div>
             </div>
 
             <p className="text-[#F6F2E7] leading-relaxed">
-              Trusted agricultural export partner delivering premium products to
-              global markets with consistency, transparency, and on-time
-              delivery.
+              {contactData?.companyBio || uiLabels.companyBio}
             </p>
 
             <div className="space-y-4">
-              <div className="flex items-start space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
-                <MapPin
-                  size={16}
-                  className="text-[#FDF8F0] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-200"
-                />
-                <span>{contactInfo.address}</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
-                <Phone
-                  size={16}
-                  className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-                />
-                <span>{contactInfo.phone}</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
-                <Mail
-                  size={16}
-                  className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-                />
-                <span>{contactInfo.email}</span>
-              </div>
+              {contactData?.businessAddress && (
+                <div className="flex items-start space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
+                  <MapPin
+                    size={16}
+                    className="text-[#FDF8F0] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-200"
+                  />
+                  <span>{contactData.businessAddress}</span>
+                </div>
+              )}
+              {contactData?.businessPhone && (
+                <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
+                  <Phone
+                    size={16}
+                    className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+                  />
+                  <span>{contactData.businessPhone}</span>
+                </div>
+              )}
+              {contactData?.businessEmail && (
+                <div className="flex items-center space-x-3 text-sm text-[#F6F2E7] group hover:text-[#FDF8F0] transition-colors duration-200">
+                  <Mail
+                    size={16}
+                    className="text-[#FDF8F0] flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
+                  />
+                  <span>{contactData.businessEmail}</span>
+                </div>
+              )}
             </div>
 
             {/* Social Links */}
             <div className="pt-4">
-              <p className="text-sm text-[#F6F2E7] mb-3">Follow Us</p>
-              <FooterSocialLinks phoneNumber={contactInfo.phone} />
+              <p className="text-sm text-[#F6F2E7] mb-3">
+                {contactData?.followUsTitle || uiLabels.followUsTitle}
+              </p>
+              <FooterSocialLinks phoneNumber={contactData?.businessPhone || undefined} />
             </div>
           </div>
 
           {/* Quick Links */}
           <FooterLinkSection
-            title="Quick Links"
+            title={contactData?.quickLinksTitle || uiLabels.quickLinksTitle}
             links={navigationLinks}
             onLinkClick={link => {
               if (typeof link === 'object' && link.href) {
@@ -278,25 +220,32 @@ const Footer: React.FC = () => {
             }}
           />
 
-          {/* Services */}
-          <FooterLinkSection
-            title="Our Process"
-            links={serviceLinks}
-            onLinkClick={handleServiceClick}
-          />
+          {/* Core Values */}
+          {coreValuesList && coreValuesList.length > 0 && (
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-[#FDF8F0]">
+                {contactData?.coreValuesTitle || uiLabels.coreValuesTitle}
+              </h3>
+              <ul className="space-y-2">
+                {coreValuesList.map(cv => (
+                  <li
+                    key={cv._id}
+                    className="flex items-center space-x-2 text-sm text-[#F6F2E7]"
+                  >
+                    <span>{cv.title}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          {/* Products */}
+          {/* Commodity Categories */}
           <FooterLinkSection
-            title="Product Categories"
+            title={contactData?.productCategoriesTitle || uiLabels.productCategoriesTitle}
             links={productCategories}
             onLinkClick={handleProductClick}
           />
         </div>
-
-        {/* Newsletter Signup */}
-        {/* <div className="mt-16">
-          <FooterNewsletter />
-        </div> */}
       </div>
 
       <Separator className="bg-gradient-to-r from-transparent via-[#F6F2E7]/50 to-transparent" />
@@ -305,26 +254,40 @@ const Footer: React.FC = () => {
       <div className="container-premium py-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-[#F6F2E7]">
-            <p>&copy; {currentYear} AgroVentia Inc. All rights reserved.</p>
+            <p>&copy; {currentYear} {contactData?.copyrightNotice || uiLabels.copyrightNotice}</p>
             <div className="flex gap-6">
-              <button
-                onClick={() => (window.location.href = '/privacy-policy')}
-                className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
-              >
-                Privacy Policy
-              </button>
-              <button
-                onClick={() => (window.location.href = '/terms-of-service')}
-                className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
-              >
-                Terms of Service
-              </button>
-              <button
-                onClick={() => (window.location.href = '/cookie-policy')}
-                className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
-              >
-                Cookie Policy
-              </button>
+              {contactData?.legalLinks && contactData.legalLinks.length > 0 ? (
+                contactData.legalLinks.map((link, idx) => (
+                  <Link
+                    key={link._key || idx}
+                    href={link.url}
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    {link.label}
+                  </Link>
+                ))
+              ) : (
+                <>
+                  <Link
+                    href="/privacy-policy"
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    {uiLabels.legal.privacy}
+                  </Link>
+                  <Link
+                    href="/terms-of-service"
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    {uiLabels.legal.terms}
+                  </Link>
+                  <Link
+                    href="/cookie-policy"
+                    className="hover:text-[#FDF8F0] transition-colors duration-200 hover:underline underline-offset-4"
+                  >
+                    {uiLabels.legal.cookies}
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -350,7 +313,7 @@ const Footer: React.FC = () => {
                 size={16}
                 className="text-[#281909] group-hover:text-[#FDF8F0] transition-colors duration-200 mr-1"
               />
-              Back to Top
+              {contactData?.backToTopText || uiLabels.backToTopText}
             </Button>
           </div>
         </div>

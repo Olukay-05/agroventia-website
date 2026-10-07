@@ -9,7 +9,7 @@ export default function FooterPreview() {
       {/* Mock content to show footer in context */}
       <div className="container-premium py-20">
         <div className="text-center space-y-6">
-          <h1 className="heading-section">AgroVentia Footer Preview</h1>
+          <h1 className="heading-section">AgroVentia Inc. Footer Preview</h1>
           <p className="text-lead max-w-2xl mx-auto">
             This preview showcases the improved footer component with better
             brand colors, enhanced contrast for readability, and interactive
@@ -37,8 +37,9 @@ export default function FooterPreview() {
             <div className="card-feature">
               <h3 className="heading-card">Brand Colors</h3>
               <p className="text-body">
-                Utilizes the AgroVentia brand color palette with gradients and
-                proper color hierarchy for visual appeal and brand consistency.
+                Utilizes the AgroVentia Inc. brand color palette with gradients
+                and proper color hierarchy for visual appeal and brand
+                consistency.
               </p>
             </div>
           </div>

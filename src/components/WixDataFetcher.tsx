@@ -169,7 +169,8 @@ export default function WixDataFetcher() {
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <h2 className="text-4xl font-bold mb-4">
-                  {data.hero.items[0].data.title || 'Welcome to AgroVentia'}
+                  {data.hero.items[0].data.title ||
+                    'Welcome to AgroVentia Inc.'}
                 </h2>
                 <p className="text-xl mb-4 opacity-90">
                   {data.hero.items[0].data.subtitle ||

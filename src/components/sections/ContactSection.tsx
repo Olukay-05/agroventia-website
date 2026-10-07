@@ -17,11 +17,103 @@ import {
   ToastDescription,
 } from '@/components/ui/toast';
 import { trackFormSubmit, trackProductQuoteRequest } from '@/lib/analytics';
+import { useLocale } from '@/contexts/LocaleContext';
+
+const CONTACT_UI: Record<string, {
+  contactInfo: string;
+  address: string;
+  phone: string;
+  email: string;
+  hours: string;
+  sendMessage: string;
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  phoneNum: string;
+  enquiryType: string;
+  generalEnquiry: string;
+  requestQuote: string;
+  message: string;
+  placeholderFirst: string;
+  placeholderLast: string;
+  placeholderMsg: string;
+  submitSend: string;
+  submitQuote: string;
+  submitting: string;
+}> = {
+  en: {
+    contactInfo: 'Contact Information',
+    address: 'Address',
+    phone: 'Phone',
+    email: 'Email',
+    hours: 'Business Hours',
+    sendMessage: 'Send us a Message',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    emailAddress: 'Email Address',
+    phoneNum: 'Phone Number',
+    enquiryType: 'Enquiry Type',
+    generalEnquiry: 'General Enquiry',
+    requestQuote: 'Request a Quote',
+    message: 'Message',
+    placeholderFirst: 'Your first name',
+    placeholderLast: 'Your last name',
+    placeholderMsg: 'Tell us more about your requirements...',
+    submitSend: 'Send Message',
+    submitQuote: 'Request Quote',
+    submitting: 'Sending...',
+  },
+  fr: {
+    contactInfo: 'Coordonnées',
+    address: 'Adresse',
+    phone: 'Téléphone',
+    email: 'Courriel',
+    hours: "Heures d'ouverture",
+    sendMessage: 'Envoyez-nous un message',
+    firstName: 'Prénom',
+    lastName: 'Nom',
+    emailAddress: 'Adresse courriel',
+    phoneNum: 'Numéro de téléphone',
+    enquiryType: 'Type de demande',
+    generalEnquiry: 'Demande générale',
+    requestQuote: 'Demande de devis',
+    message: 'Message',
+    placeholderFirst: 'Votre prénom',
+    placeholderLast: 'Votre nom',
+    placeholderMsg: 'Précisez vos besoins en produits ou vos volumes...',
+    submitSend: 'Envoyer le message',
+    submitQuote: 'Demander un devis',
+    submitting: 'Envoi en cours...',
+  },
+  esp: {
+    contactInfo: 'Información de Contacto',
+    address: 'Dirección',
+    phone: 'Teléfono',
+    email: 'Correo electrónico',
+    hours: 'Horario de atención',
+    sendMessage: 'Envíenos un Mensaje',
+    firstName: 'Nombre',
+    lastName: 'Apellido',
+    emailAddress: 'Correo electrónico',
+    phoneNum: 'Teléfono',
+    enquiryType: 'Tipo de consulta',
+    generalEnquiry: 'Consulta General',
+    requestQuote: 'Solicitar Cotización',
+    message: 'Mensaje',
+    placeholderFirst: 'Su nombre',
+    placeholderLast: 'Su apellido',
+    placeholderMsg: 'Describa sus especificaciones de producto o volúmenes requeridos...',
+    submitSend: 'Enviar Mensaje',
+    submitQuote: 'Solicitar Cotización',
+    submitting: 'Enviando...',
+  },
+};
 
 interface ContactSectionProps {
   data?: ContactContent;
   isLoading: boolean;
 }
+
 
 interface ContactFormData {
   firstName: string;
@@ -68,6 +160,14 @@ const COUNTRY_CODES = [
 ];
 
 const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
+  const { locale } = useLocale();
+  const langKey = locale.startsWith('fr')
+    ? 'fr'
+    : locale.startsWith('es') || locale === 'esp'
+      ? 'esp'
+      : 'en';
+  const ui = CONTACT_UI[langKey] || CONTACT_UI.en;
+
   const { requestedProduct, requestedProductId } = useQuoteRequest();
 
   // If we have a requested product ID, we can fetch detailed product information
@@ -98,7 +198,8 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
   useEffect(() => {
     if (requestedProduct) {
       // Use detailed product information if available, otherwise fallback to basic product name
-      const productName = productDetails?.title || requestedProduct;
+      const productName =
+        productDetails?.title || requestedProduct || 'Agricultural Product';
 
       setFormData(prev => ({
         ...prev,
@@ -118,31 +219,15 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
     }
   }, []);
 
-  // Map Wix CMS data to the contact info structure
-  const contactInfo = data
-    ? {
-        title: data.sectionTitle || 'Get In Touch',
-        description:
-          data.sectionDescription ||
-          '<p>Contact us for agricultural solutions and partnership opportunities.</p>',
-        address:
-          data.businessAddress || '403 - 65 Mutual Street, Toronto, M5B 0E5',
-        phone: data.businessPhone || '+1 (403) 477-6059',
-        email: data.businessEmail || 'info@agroventia.ca',
-        hours:
-          data.businessHours ||
-          'Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed',
-      }
-    : {
-        title: 'Get In Touch',
-        description:
-          '<p>Contact us for agricultural solutions and partnership opportunities.</p>',
-        address: '403 - 65 Mutual Street, Toronto, M5B 0E5',
-        phone: '+1 (403) 477-6059',
-        email: 'info@agroventia.ca',
-        hours:
-          'Monday - Friday: 8:00 AM - 6:00 PM EST Saturday: 9:00 AM - 2:00 PM EST Sunday: Closed',
-      };
+  // Map CMS data to the contact info structure - zero hardcoded fallback marketing copy
+  const contactInfo = {
+    title: data?.sectionTitle || '',
+    description: data?.sectionDescription || '',
+    address: data?.businessAddress || '',
+    phone: data?.businessPhone || '',
+    email: data?.businessEmail || '',
+    hours: data?.businessHours || '',
+  };
 
   // Function to sanitize and render HTML content from Wix CMS
   const renderWixHtmlContent = (htmlContent: string) => {
@@ -218,14 +303,14 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
             ? 'Request a Quote'
             : 'General Enquiry',
         message: formData.message,
-        to_email: data?.businessEmail || 'info@agroventia.ca', // Send to business email
+        to_email: data?.businessEmail || process.env.NEXT_PUBLIC_CONTACT_EMAIL || '', // Send to business email
       };
 
       // const templateParams = {
       //   from_name: `${formData.firstName} ${formData.lastName}`,
       //   from_email: formData.email,
       //   from_phone: `${formData.phoneCountryCode} ${formData.phone}`,
-      //   to_name: 'AgroVentia Team',
+      //   to_name: 'AgroVentia Inc. Team',
       //   subject:
       //     formData.enquiryType === 'quote'
       //       ? `Product Quote Request from ${formData.firstName} ${formData.lastName}`
@@ -398,116 +483,135 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 scroll-reveal">
-          <h2 className="heading-section">{contactInfo.title}</h2>
-          <div className="text-lead max-w-3xl mx-auto">
-            {contactInfo.description.startsWith('<') ? (
-              <div
-                dangerouslySetInnerHTML={renderWixHtmlContent(
-                  contactInfo.description
-                )}
-              />
-            ) : (
-              <p>{contactInfo.description}</p>
-            )}
-          </div>
+          {contactInfo.title && (
+            <h2 className="heading-section">{contactInfo.title}</h2>
+          )}
+          {contactInfo.description && (
+            <div className="text-lead max-w-3xl mx-auto">
+              {contactInfo.description.startsWith('<') ? (
+                <div
+                  dangerouslySetInnerHTML={renderWixHtmlContent(
+                    contactInfo.description
+                  )}
+                />
+              ) : (
+                <p>{contactInfo.description}</p>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-6 md:space-y-8 scroll-reveal">
-            <div className="glass-card p-6 md:p-8">
-              <h3 className="heading-subsection mb-4 md:mb-6">
-                Contact Information
-              </h3>
+            {(contactInfo.address ||
+              contactInfo.phone ||
+              contactInfo.email ||
+              contactInfo.hours) && (
+              <div className="glass-card p-6 md:p-8">
+                <h3 className="heading-subsection mb-4 md:mb-6">
+                  {ui.contactInfo}
+                </h3>
 
-              <div className="space-y-4 md:space-y-6">
-                <div className="flex items-start space-x-3 md:space-x-4">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin
-                      size={18}
-                      className="text-green-600 md:w-5 md:h-5"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
-                      Address
-                    </h4>
-                    <p className="text-gray-600 text-sm md:text-base">
-                      {contactInfo.address}
-                    </p>
-                  </div>
-                </div>
+                <div className="space-y-4 md:space-y-6">
+                  {contactInfo.address && (
+                    <div className="flex items-start space-x-3 md:space-x-4">
+                      <div className="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <MapPin
+                          size={18}
+                          className="text-green-600 md:w-5 md:h-5"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
+                          {ui.address}
+                        </h4>
+                        <p className="text-gray-600 text-sm md:text-base">
+                          {contactInfo.address}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
-                <div className="flex items-start space-x-3 md:space-x-4">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone size={18} className="text-blue-600 md:w-5 md:h-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
-                      Phone
-                    </h4>
-                    <p className="text-gray-600 text-sm md:text-base">
-                      {contactInfo.phone}
-                    </p>
-                  </div>
-                </div>
+                  {contactInfo.phone && (
+                    <div className="flex items-start space-x-3 md:space-x-4">
+                      <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Phone size={18} className="text-blue-600 md:w-5 md:h-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
+                          {ui.phone}
+                        </h4>
+                        <p className="text-gray-600 text-sm md:text-base">
+                          {contactInfo.phone}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
-                <div className="flex items-start space-x-3 md:space-x-4">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail size={18} className="text-purple-600 md:w-5 md:h-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
-                      Email
-                    </h4>
-                    <p className="text-gray-600 text-sm md:text-base break-all">
-                      {contactInfo.email}
-                    </p>
-                  </div>
-                </div>
+                  {contactInfo.email && (
+                    <div className="flex items-start space-x-3 md:space-x-4">
+                      <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Mail size={18} className="text-purple-600 md:w-5 md:h-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
+                          {ui.email}
+                        </h4>
+                        <p className="text-gray-600 text-sm md:text-base break-all">
+                          {contactInfo.email}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
-                <div className="flex items-start space-x-3 md:space-x-4">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock size={18} className="text-amber-600 md:w-5 md:h-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
-                      Business Hours
-                    </h4>
-                    <p className="text-gray-600 text-sm md:text-base">
-                      {contactInfo.hours}
-                    </p>
-                  </div>
+                  {contactInfo.hours && (
+                    <div className="flex items-start space-x-3 md:space-x-4">
+                      <div className="w-10 h-10 md:w-12 md:h-12 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Clock size={18} className="text-amber-600 md:w-5 md:h-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
+                          {ui.hours}
+                        </h4>
+                        <p className="text-gray-600 text-sm md:text-base">
+                          {contactInfo.hours}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Map Placeholder */}
-            <div className="rounded-xl overflow-hidden">
-              <MapComponent
-                address={contactInfo.address}
-                position={
-                  data?.latitude && data?.longitude
-                    ? [data.latitude, data.longitude]
-                    : undefined
-                }
-                className="h-48 md:h-64"
-              />
-            </div>
+            {contactInfo.address && (
+              <div className="rounded-xl overflow-hidden">
+                <MapComponent
+                  address={contactInfo.address}
+                  position={
+                    data?.latitude && data?.longitude
+                      ? [data.latitude, data.longitude]
+                      : undefined
+                  }
+                  className="h-48 md:h-64"
+                />
+              </div>
+            )}
           </div>
 
           {/* Contact Form */}
           <div className="scroll-reveal">
             <div className="glass-card p-6 md:p-8">
               <h3 className="heading-subsection mb-4 md:mb-6">
-                Send us a Message
+                {ui.sendMessage}
               </h3>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="responsive-grid md-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName" className="text-sm md:text-base">
-                      First Name *
+                      {ui.firstName} *
                     </Label>
                     <Input
                       id="firstName"
@@ -517,7 +621,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
                         handleInputChange('firstName', e.target.value)
                       }
                       className={`text-sm md:text-base ${errors.firstName ? 'border-red-500' : ''}`}
-                      placeholder="Your first name"
+                      placeholder={ui.placeholderFirst}
                     />
                     {errors.firstName && (
                       <p className="text-red-500 text-xs md:text-sm">
@@ -528,7 +632,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
 
                   <div className="space-y-2">
                     <Label htmlFor="lastName" className="text-sm md:text-base">
-                      Last Name *
+                      {ui.lastName} *
                     </Label>
                     <Input
                       id="lastName"
@@ -538,7 +642,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
                         handleInputChange('lastName', e.target.value)
                       }
                       className={`text-sm md:text-base ${errors.lastName ? 'border-red-500' : ''}`}
-                      placeholder="Your last name"
+                      placeholder={ui.placeholderLast}
                     />
                     {errors.lastName && (
                       <p className="text-red-500 text-xs md:text-sm">
@@ -550,7 +654,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
 
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm md:text-base">
-                    Email Address *
+                    {ui.emailAddress} *
                   </Label>
                   <Input
                     id="email"
@@ -569,7 +673,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
 
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="text-sm md:text-base">
-                    Phone Number *
+                    {ui.phoneNum} *
                   </Label>
                   <div className="flex">
                     {/* Country Code Selector */}
@@ -636,7 +740,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
 
                 <div className="space-y-2">
                   <Label htmlFor="enquiryType" className="text-sm md:text-base">
-                    Enquiry Type *
+                    {ui.enquiryType} *
                   </Label>
                   <select
                     id="enquiryType"
@@ -649,19 +753,19 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
                     }
                     className={`block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${errors.enquiryType ? 'border-red-500' : ''}`}
                   >
-                    <option value="general">General Enquiry</option>
-                    <option value="quote">Request a Quote</option>
+                    <option value="general">{ui.generalEnquiry}</option>
+                    <option value="quote">{ui.requestQuote}</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Message *</Label>
+                  <Label htmlFor="message">{ui.message} *</Label>
                   <Textarea
                     id="message"
                     value={formData.message}
                     onChange={e => handleInputChange('message', e.target.value)}
                     className={`min-h-[120px] ${errors.message ? 'border-red-500' : ''}`}
-                    placeholder="Tell us more about your requirements..."
+                    placeholder={ui.placeholderMsg}
                   />
                   {errors.message && (
                     <p className="text-red-500 text-sm">{errors.message}</p>
@@ -675,13 +779,13 @@ const ContactSection: React.FC<ContactSectionProps> = ({ data, isLoading }) => {
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
-                    <>Sending...</>
+                    <>{ui.submitting}</>
                   ) : (
                     <>
                       <Send size={20} className="mr-2" />
                       {formData.enquiryType === 'quote'
-                        ? 'Request Quote'
-                        : 'Send Message'}
+                        ? ui.submitQuote
+                        : ui.submitSend}
                     </>
                   )}
                 </Button>

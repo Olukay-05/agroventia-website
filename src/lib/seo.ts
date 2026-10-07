@@ -5,17 +5,17 @@ import { ProductContent } from '@/types/wix';
 // SEO constants
 export const DEFAULT_SITE_NAME = 'AgroVentia Inc.';
 export const DEFAULT_TITLE =
-  'AgroVentia Inc. - Premium Agricultural Imports from Africa';
+  'AgroVentia | Global Agricultural Sourcing & Trade';
 export const DEFAULT_DESCRIPTION =
-  'Connecting global markets with quality agricultural products including kolanut, ginger, hibiscus, cocoa, and more from trusted West African sources.';
+  'Connecting agricultural producers with global markets through reliable sourcing, market access and trade solutions across Canada, Africa and international markets.';
 export const DEFAULT_KEYWORDS =
-  'agricultural exports, African produce sourcing, premium agro products, kolanut, ginger, hibiscus, cocoa, West Africa, agricultural imports, ethically sourced';
+  'global agricultural sourcing, agricultural trade, agricultural exports, agricultural imports, Canadian agricultural products, Canadian agricultural exporters, African agricultural products, agricultural market access, agricultural commodity sourcing, global food supply, agricultural producers, international agricultural buyers, bulk agricultural products, grains and pulses, oilseeds, cocoa, hibiscus, ginger, wheat, legumes, lentils, sesame Non-durum Wheat, Durum Wheat, Feed Barley, Malting Barley, Malt, Raw Oats, Processed Oats, Oat Flakes, Oat Flour, Red Lentils, Green Lentils, Yellow Peas, Green Peas, Chickpeas, Dry Beans, Kidney Beans, Navy Beans, Pulse Flour, Pea Protein, Lentil Ingredients, Canola Seed, Crude Canola Oil, Refined Canola Oil, Canola Meal, Conventional Soybeans, Food-Grade Soybeans, Identity-Preserved Soybeans, Flaxseed, Linseed, Yellow Mustard Seed, Brown Mustard Seed, Oriental Mustard Seed, Canary Seed, Wheat Gluten, Specialty Plant Proteins, Frozen French Fries, Processed Potatoes, Seed Potatoes, Blueberries, Cranberries, Maple Syrup, Maple Sugar, Dried Hibiscus Flowers, Ginger, Cocoa Beans, Cocoa Products, Kola Nut, Shea Nuts, Shea Butter, Mustard Flour, Prepared Mustard, Dried Spices, Botanical Ingredients, Pulse-Based Feed Ingredients, Pet Food, Livestock Feed Preparations';
 export const DEFAULT_AUTHOR = 'AgroVentia Inc.';
 export const DEFAULT_CREATOR = 'AgroVentia Inc.';
 
 // Base URL - should be set in environment variables
 export const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://agroventia.ca';
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://agroventia.ca';
 
 // Social media handles
 export const SOCIAL_HANDLES = {
@@ -32,7 +32,7 @@ export const ORGANIZATION_SCHEMA = {
   logo: `${BASE_URL}/agroventia-logo.jpg`,
   sameAs: [
     `https://www.linkedin.com/company/${SOCIAL_HANDLES.linkedin}`,
-    // Note: WhatsApp is a communication platform, not typically included in sameAs
+    // Note: WhatsApp is a communication// placeholderm, not typically included in sameAs
   ],
   address: {
     '@type': 'PostalAddress',
@@ -73,9 +73,9 @@ export interface SeoMetadata {
   canonical?: string;
   ogImage?: string;
   ogType?:
-    | 'website' // For main pages, product categories, general information
-    | 'article' // For blog posts, news, educational content about agricultural products
-    | 'profile'; // For team members, partner profiles
+  | 'website' // For main pages, product categories, general information
+  | 'article' // For blog posts, news, educational content about agricultural products
+  | 'profile'; // For team members, partner profiles
   ogUrl?: string;
   twitterCard?: 'summary_large_image' | 'summary' | 'player' | 'app';
   twitterSite?: string;
@@ -153,10 +153,7 @@ export function generateProductSchema(
 }
 
 // Generate hreflang tags for multilingual support
-export function generateHreflangLinks(
-  pathname: string,
-  currentLocale?: string
-) {
+export function generateHreflangLinks(pathname: string) {
   const locales: { [key: string]: string } = {
     en: 'en-CA',
     'fr-CA': 'fr-CA',
@@ -193,13 +190,13 @@ export interface SitemapEntry {
   loc: string;
   lastmod?: string;
   changefreq?:
-    | 'always'
-    | 'hourly'
-    | 'daily'
-    | 'weekly'
-    | 'monthly'
-    | 'yearly'
-    | 'never';
+  | 'always'
+  | 'hourly'
+  | 'daily'
+  | 'weekly'
+  | 'monthly'
+  | 'yearly'
+  | 'never';
   priority?: number;
 }
 

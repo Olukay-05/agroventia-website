@@ -28,31 +28,36 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '12', 10);
+    const lang = searchParams.get('lang') || 'en';
     const offset = (page - 1) * limit;
 
     // Simple mapping without enum to avoid type issues
     let data;
 
+    // Extract basic language code (e.g., 'fr' from 'fr-CA') if needed, 
+    // but Wix usually handles full locale codes or needs specific ones. 
+    // Let's pass the full lang string and let the service handle it.
+
     switch (collection) {
       case 'HeroContent':
-        data = await wixDataService.fetchHeroContent();
+        data = await wixDataService.fetchHeroContent(lang);
         break;
       case 'AboutContent':
-        data = await wixDataService.fetchAboutContent();
+        data = await wixDataService.fetchAboutContent(lang);
         break;
       case 'ServicesContent':
       case 'ServiceSection': // Added alias for ServiceSection
-        data = await wixDataService.fetchServicesContent();
+        data = await wixDataService.fetchServicesContent(lang);
         break;
       case 'ProductsContent':
-        data = await wixDataService.fetchProductsContent();
+        data = await wixDataService.fetchProductsContent(lang);
         break;
       case 'Import1':
-        data = await wixDataService.fetchProductCategories();
+        data = await wixDataService.fetchProductCategories(lang);
         break;
       case 'Import2':
         // For Import2 (products), we can implement pagination
-        data = await wixDataService.fetchProductsFromImport2();
+        data = await wixDataService.fetchProductsFromImport2(limit, offset, lang);
         // Apply pagination on the server side
         if (data.items) {
           const paginatedItems = data.items.slice(offset, offset + limit);
@@ -61,10 +66,10 @@ export async function GET(
         }
         break;
       case 'ContactContent':
-        data = await wixDataService.fetchContactContent();
+        data = await wixDataService.fetchContactContent(lang);
         break;
       case 'CarouselImageDisplay':
-        data = await wixDataService.fetchCarouselImageDisplay();
+        data = await wixDataService.fetchCarouselImageDisplay(lang);
         break;
       default:
         return NextResponse.json(
