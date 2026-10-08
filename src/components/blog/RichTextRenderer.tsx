@@ -379,7 +379,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({
     typeof content === 'object' &&
     !Array.isArray(content) &&
     !content.nodes &&
-    !content._type
+    (!content._type || content._type === 'localeBlogBody' || content._type === 'localeText' || Boolean(content.en || content.fr || content.esp || content.es))
   ) {
     const loc = (locale || 'en').toLowerCase().trim();
     const isFr = loc.startsWith('fr');

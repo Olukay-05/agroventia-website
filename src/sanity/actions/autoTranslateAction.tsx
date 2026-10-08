@@ -63,7 +63,7 @@ export const TRANSLATABLE_FIELDS_BY_TYPE: Record<string, string[]> = {
   category: ['title', 'description'],
   blogPost: ['title', 'excerpt', 'content', 'seoTitle', 'seoDescription'],
   author: ['name', 'bio'],
-  legalPage: ['title', 'introduction', 'seoTitle', 'seoDescription'],
+  legalPage: ['title', 'introduction', 'body', 'seoTitle', 'seoDescription'],
 };
 
 export const AutoTranslateAction: DocumentActionComponent = (

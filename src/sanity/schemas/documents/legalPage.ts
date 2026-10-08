@@ -39,6 +39,12 @@ export const legalPage = defineType({
       description: 'Introductory paragraph displayed beneath the title',
     }),
     defineField({
+      name: 'body',
+      title: 'Full Policy Content (Markdown)',
+      type: 'localeBlogBody',
+      description: 'Optional unified Markdown document editor. If populated, renders as a continuous document with formatting, headings, and lists.',
+    }),
+    defineField({
       name: 'sections',
       title: 'Policy Sections',
       type: 'array',

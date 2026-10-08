@@ -223,9 +223,9 @@ export default function BlogPostClient({
 
         {/* Main Content Section */}
         <SectionContainer className="pb-16 md:pb-24 pt-4 md:pt-8 bg-[#f8f4e9]">
-          <div className="container-premium max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="container-premium max-w-5xl mx-auto px-4 sm:px-6">
             <article
-              className="prose prose-lg md:prose-xl prose-stone max-w-prose mx-auto
+              className="prose prose-lg md:prose-xl prose-stone max-w-prose lg:max-w-5xl mx-auto
                             prose-headings:font-heading prose-headings:text-[#281909] prose-headings:font-bold prose-headings:scroll-mt-24
                             prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 cursor-auto
                             prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4

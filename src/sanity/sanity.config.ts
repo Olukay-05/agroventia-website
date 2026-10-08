@@ -4,6 +4,7 @@ import { visionTool } from '@sanity/vision';
 import { apiVersion, dataset, projectId } from './env';
 import { schemaTypes, singletonTypes } from './schemas';
 import { structure } from './structure';
+import { markdownSchema } from 'sanity-plugin-markdown';
 import {
   AutoTranslateAction,
   LOCALIZED_SCHEMA_TYPES,
@@ -22,6 +23,7 @@ export default defineConfig({
     visionTool({
       defaultApiVersion: apiVersion,
     }),
+    markdownSchema(),
   ],
   schema: {
     types: schemaTypes,
@@ -34,9 +36,9 @@ export default defineConfig({
     actions: (input, context) => {
       const filtered = singletonTypes.has(context.schemaType)
         ? input.filter(
-            ({ action }) =>
-              action && ['publish', 'discardChanges', 'restore'].includes(action)
-          )
+          ({ action }) =>
+            action && ['publish', 'discardChanges', 'restore'].includes(action)
+        )
         : input;
 
       if (LOCALIZED_SCHEMA_TYPES.has(context.schemaType)) {

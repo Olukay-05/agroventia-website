@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { LocaleProvider } from '@/contexts/LocaleContext';
+import { LocaleProvider, type Locale } from '@/contexts/LocaleContext';
 import { QuoteRequestProvider } from '@/contexts/QuoteRequestContext';
 import AboutSection from '@/components/sections/AboutSection';
 import ProductsSection from '@/components/sections/ProductsSection';
@@ -25,6 +25,18 @@ import {
   transformContactContent,
 } from '@/lib/api/sanity-client';
 
+jest.mock('@/sanity/client', () => ({
+  client: { fetch: jest.fn() },
+  urlFor: jest.fn(() => ({
+    url: () => 'https://cdn.sanity.io/images/mock/test/image.jpg',
+  })),
+}));
+
+jest.mock('@/components/blog/RichTextRenderer', () => ({
+  __esModule: true,
+  default: ({ content }: { content: string }) => <div>{content}</div>,
+}));
+
 // Mock Next.js navigation
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -46,11 +58,8 @@ jest.mock('next/link', () => {
 
 // Mock Next.js Image
 jest.mock('next/image', () => {
-  return ({ src, alt, ...rest }: any) => (
-    <img src={src} alt={alt} {...rest} />
-  );
+  return ({ src, alt, ...rest }: any) => <img src={src} alt={alt} {...rest} />;
 });
-
 
 // Mock DotGrid
 jest.mock('@/components/ui/DotGrid', () => {
@@ -111,10 +120,13 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
     });
   });
 
-  const renderWithProviders = (ui: React.ReactElement) => {
+  const renderWithProviders = (
+    ui: React.ReactElement,
+    initialLocale?: Locale
+  ) => {
     return render(
       <QueryClientProvider client={queryClient}>
-        <LocaleProvider>
+        <LocaleProvider initialLocale={initialLocale}>
           <CookieConsentProvider>
             <QuoteRequestProvider>{ui}</QuoteRequestProvider>
           </CookieConsentProvider>
@@ -155,11 +167,27 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
     it('transforms raw Sanity products section payload properly', () => {
       const raw = {
         _id: 'prodSection-123',
-        sectionTitle: { en: 'Our Products', fr: 'Nos Produits', esp: 'Nuestros Productos' },
+        sectionTitle: {
+          en: 'Our Products',
+          fr: 'Nos Produits',
+          esp: 'Nuestros Productos',
+        },
         ctaBanner: {
-          heading: { en: 'Top Quality', fr: 'Qualite Superieure', esp: 'Maxima Calidad' },
-          description: { en: 'Trusted trade.', fr: 'Commerce de confiance.', esp: 'Comercio confiable.' },
-          primaryButtonText: { en: 'Catalog', fr: 'Catalogue', esp: 'Catalogo' },
+          heading: {
+            en: 'Top Quality',
+            fr: 'Qualite Superieure',
+            esp: 'Maxima Calidad',
+          },
+          description: {
+            en: 'Trusted trade.',
+            fr: 'Commerce de confiance.',
+            esp: 'Comercio confiable.',
+          },
+          primaryButtonText: {
+            en: 'Catalog',
+            fr: 'Catalogue',
+            esp: 'Catalogo',
+          },
           secondaryButtonText: { en: 'Call', fr: 'Appel', esp: 'Llamar' },
           isActive: true,
         },
@@ -202,13 +230,21 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
     it('transforms raw Sanity about section with highlights array', () => {
       const raw = {
         _id: 'about-1',
-        whyChooseTitle: { en: 'Why AgroVentia?', fr: 'Pourquoi AgroVentia?', esp: 'Por que AgroVentia?' },
+        whyChooseTitle: {
+          en: 'Why AgroVentia?',
+          fr: 'Pourquoi AgroVentia?',
+          esp: 'Por que AgroVentia?',
+        },
         highlights: [
           {
             _key: 'h1',
             metric: '10+',
             title: { en: 'Products', fr: 'Produits', esp: 'Productos' },
-            description: { en: 'Diverse range', fr: 'Gamme diversifiee', esp: 'Gama diversa' },
+            description: {
+              en: 'Diverse range',
+              fr: 'Gamme diversifiee',
+              esp: 'Gama diversa',
+            },
             colorVariant: 'primary',
             isActive: true,
           },
@@ -252,9 +288,17 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
     it('transforms raw Sanity contact info with footer branding & legal links', () => {
       const raw = {
         _id: 'contact-1',
-        companyTagline: { en: 'Solutions', fr: 'Solutions Agricoles', esp: 'Soluciones' },
+        companyTagline: {
+          en: 'Solutions',
+          fr: 'Solutions Agricoles',
+          esp: 'Soluciones',
+        },
         legalLinks: [
-          { _key: 'l1', url: '/privacy-policy', label: { en: 'Privacy', fr: 'Confidentialite', esp: 'Privacidad' } },
+          {
+            _key: 'l1',
+            url: '/privacy-policy',
+            label: { en: 'Privacy', fr: 'Confidentialite', esp: 'Privacidad' },
+          },
         ],
       };
 
@@ -265,7 +309,11 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
   });
 
   describe('Legal Policy Pages by Slug (privacy-policy, terms-of-service, cookie-policy)', () => {
-    const slugs = ['privacy-policy', 'terms-of-service', 'cookie-policy'] as const;
+    const slugs = [
+      'privacy-policy',
+      'terms-of-service',
+      'cookie-policy',
+    ] as const;
     const locales = ['en', 'fr', 'esp'] as const;
 
     slugs.forEach(slug => {
@@ -295,12 +343,20 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
       const raw = {
         _id: 'legal-1',
         slug: { current: 'privacy-policy' },
-        title: { en: 'Privacy Policy', fr: 'Politique de Confidentialite', esp: 'Politica de Privacidad' },
+        title: {
+          en: 'Privacy Policy',
+          fr: 'Politique de Confidentialite',
+          esp: 'Politica de Privacidad',
+        },
         sections: [
           {
             _key: 'sec-1',
             sectionId: 'intro',
-            heading: { en: 'Introduction', fr: 'Introduction', esp: 'Introduccion' },
+            heading: {
+              en: 'Introduction',
+              fr: 'Introduction',
+              esp: 'Introduccion',
+            },
             content: { en: 'Body en', fr: 'Corps fr', esp: 'Cuerpo esp' },
           },
         ],
@@ -314,16 +370,208 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
   });
 
   describe('UI Component Dynamic Rendering', () => {
-    it('renders AboutSection with dynamic whyChooseTitle and highlight cards', async () => {
+    it('renders the complete CMS-driven About content, including Core Value descriptions', async () => {
       const [aboutData] = await getMockAboutContent('en');
       renderWithProviders(<AboutSection data={aboutData} isLoading={false} />);
 
-      const headings = screen.getAllByText(aboutData.whyChooseTitle!);
-      expect(headings.length).toBeGreaterThan(0);
+      expect(
+        screen.getByRole('heading', { name: aboutData.sectionTitle })
+      ).toBeInTheDocument();
+      expect(screen.getByText(aboutData.mission)).toBeInTheDocument();
+      expect(screen.getByText(aboutData.vision)).toBeInTheDocument();
+      expect(screen.getByText(aboutData.story)).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: aboutData.whyChooseTitle! })
+      ).toBeInTheDocument();
+
       aboutData.highlights?.forEach(hl => {
-        const titles = screen.getAllByText(hl.title);
-        expect(titles.length).toBeGreaterThan(0);
+        expect(
+          screen.getByRole('heading', { name: hl.title })
+        ).toBeInTheDocument();
+        expect(screen.getByText(hl.description)).toBeInTheDocument();
       });
+
+      aboutData.coreValues.forEach(value => {
+        expect(
+          screen.getByRole('heading', { name: value.title })
+        ).toBeInTheDocument();
+        expect(screen.getByText(value.description)).toBeInTheDocument();
+      });
+    });
+
+    it('omits empty optional About blocks without fallback marketing copy or controls', () => {
+      renderWithProviders(
+        <AboutSection
+          data={{
+            sectionTitle: 'Partial About',
+            coreValues: [],
+            highlights: [],
+          }}
+          isLoading={false}
+        />
+      );
+
+      expect(
+        screen.getByRole('heading', { name: 'Partial About' })
+      ).toBeInTheDocument();
+      expect(screen.queryByText('Premium Products')).not.toBeInTheDocument();
+      expect(screen.queryByRole('button')).not.toBeInTheDocument();
+      expect(screen.queryByRole('list')).not.toBeInTheDocument();
+    });
+
+    it('uses the full row when only one top panel has content', () => {
+      const storyRender = renderWithProviders(
+        <AboutSection data={{ story: 'Story only' }} isLoading={false} />
+      );
+
+      const storyGrid = screen.getByText('Story only').closest('article')
+        ?.parentElement;
+      expect(storyGrid).not.toHaveClass('lg:grid-cols-2');
+
+      storyRender.unmount();
+
+      renderWithProviders(
+        <AboutSection
+          data={{
+            highlights: [
+              {
+                metric: '1',
+                title: 'Highlight only',
+                description: 'Single panel content',
+              },
+            ],
+          }}
+          isLoading={false}
+        />
+      );
+
+      const highlightGrid = screen
+        .getByRole('heading', { name: 'Highlight only' })
+        .closest('section')?.parentElement;
+      expect(highlightGrid).not.toHaveClass('lg:grid-cols-2');
+    });
+
+    it('starts rendered heading hierarchy at h2 when the section title is absent', () => {
+      renderWithProviders(
+        <AboutSection
+          data={{
+            story: 'Untitled story',
+            highlights: [
+              {
+                metric: '1',
+                title: 'Untitled highlight',
+                description: 'Highlight details',
+              },
+            ],
+            coreValues: [
+              {
+                _id: 'untitled-value',
+                _owner: 'sanity',
+                reference: 'untitled',
+                title: 'Untitled value',
+                description: 'Value details',
+              },
+            ],
+          }}
+          isLoading={false}
+        />
+      );
+
+      expect(
+        screen.getByRole('heading', { level: 2, name: 'Our Story' })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: 'Why Choose AgroVentia Inc.?',
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { level: 2, name: 'Core Values' })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { level: 3, name: 'Untitled highlight' })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { level: 3, name: 'Untitled value' })
+      ).toBeInTheDocument();
+    });
+
+    it('renders an About skeleton without stale CMS content while loading', () => {
+      const { container } = renderWithProviders(
+        <AboutSection
+          data={{ sectionTitle: 'Stale About', story: 'Stale story' }}
+          isLoading
+        />
+      );
+
+      expect(
+        container.querySelector('#about .animate-pulse')
+      ).toBeInTheDocument();
+      expect(screen.queryByText('Stale About')).not.toBeInTheDocument();
+      expect(screen.queryByText('Stale story')).not.toBeInTheDocument();
+    });
+
+    it('preserves long localized About copy without truncation or overflow controls', () => {
+      const longStory = `Une histoire localisee ${'tres detaillee '.repeat(80).trim()}`;
+      const longDescription = `Une valeur ${'pleinement expliquee '.repeat(30).trim()}`;
+      const longMetric = '100 pour cent certifie';
+
+      renderWithProviders(
+        <AboutSection
+          data={{
+            sectionTitle: 'A propos',
+            mission: 'Mission localisee',
+            vision: 'Vision localisee',
+            story: longStory,
+            whyChooseTitle: 'Pourquoi nous choisir',
+            highlights: [
+              {
+                metric: longMetric,
+                title: 'Fiabilite',
+                description: longDescription,
+              },
+            ],
+            coreValues: [
+              {
+                _id: 'long-value',
+                _owner: 'sanity',
+                reference: 'long-copy',
+                title: 'Transparence durable',
+                description: longDescription,
+              },
+            ],
+          }}
+          isLoading={false}
+        />,
+        'fr'
+      );
+
+      const story = screen.getByText(longStory);
+      const descriptions = screen.getAllByText(longDescription);
+
+      expect(story).toBeInTheDocument();
+      expect(story).toHaveClass('break-words');
+      expect(story).not.toHaveClass('overflow-hidden', 'max-h-40');
+      expect(descriptions).toHaveLength(2);
+      expect(screen.getByText(longMetric)).toHaveClass(
+        'max-w-28',
+        'break-words',
+        'px-3',
+        'py-2'
+      );
+      descriptions.forEach(description => {
+        expect(description).toHaveClass('break-words');
+      });
+      expect(screen.getByText('Notre mission')).toBeInTheDocument();
+      expect(screen.getByText('Notre vision')).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Notre histoire' })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('heading', { name: 'Nos valeurs fondamentales' })
+      ).toBeInTheDocument();
+      expect(screen.queryByRole('button')).not.toBeInTheDocument();
     });
 
     it('renders ProductsSection with dynamic CTA banner heading and action buttons', async () => {
@@ -347,10 +595,14 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
       renderWithProviders(<Footer />);
 
       if (contactData.companyTagline) {
-        expect(await screen.findByText(contactData.companyTagline)).toBeInTheDocument();
+        expect(
+          await screen.findByText(contactData.companyTagline)
+        ).toBeInTheDocument();
       }
       if (contactData.companyBio) {
-        expect(await screen.findByText(contactData.companyBio)).toBeInTheDocument();
+        expect(
+          await screen.findByText(contactData.companyBio)
+        ).toBeInTheDocument();
       }
       for (const link of contactData.legalLinks || []) {
         const els = await screen.findAllByText(link.label);
@@ -375,7 +627,9 @@ describe('CAP-8: Dynamic UI Chrome, Footer CMS Management & Legal Pages', () => 
       const titles = await screen.findAllByText('Cookie Policy');
       expect(titles.length).toBeGreaterThan(0);
       await waitFor(() => {
-        expect(screen.getByText('Your Current Cookie Preferences')).toBeInTheDocument();
+        expect(
+          screen.getByText('Your Current Cookie Preferences')
+        ).toBeInTheDocument();
       });
       expect(screen.getByText('Accept All')).toBeInTheDocument();
       expect(screen.getByText('Reject All')).toBeInTheDocument();

@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useLegalPage } from '@/hooks/useContent';
 import { useLocale } from '@/contexts/LocaleContext';
 import { getLegalUiLabels, formatLegalDate } from '@/lib/legal-i18n';
+import RichTextRenderer from '@/components/blog/RichTextRenderer';
 
 const PrivacyPolicyPage = () => {
   const { locale } = useLocale();
@@ -38,7 +39,17 @@ const PrivacyPolicyPage = () => {
                   {formatLegalDate(pageData?.lastUpdated, locale)}
                 </p>
 
-                {pageData?.sections && pageData.sections.length > 0 ? (
+                {pageData?.body ? (
+                  <div className="space-y-6">
+                    {pageData.introduction && (
+                      <div
+                        className="text-[#281909]/80 leading-relaxed space-y-4 mb-6"
+                        dangerouslySetInnerHTML={{ __html: pageData.introduction }}
+                      />
+                    )}
+                    <RichTextRenderer content={pageData.body} locale={locale} />
+                  </div>
+                ) : pageData?.sections && pageData.sections.length > 0 ? (
                   <>
                     {pageData.introduction && (
                       <div
@@ -51,10 +62,7 @@ const PrivacyPolicyPage = () => {
                         <h2 className="text-2xl font-bold text-[#225217] mt-8 mb-4">
                           {section.heading}
                         </h2>
-                        <div
-                          className="text-[#281909]/80 leading-relaxed space-y-4"
-                          dangerouslySetInnerHTML={{ __html: section.content }}
-                        />
+                        <RichTextRenderer content={section.content} locale={locale} />
                       </div>
                     ))}
                   </>

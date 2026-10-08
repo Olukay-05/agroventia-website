@@ -25,3 +25,32 @@ export const localeText = defineType({
     }),
   ],
 });
+
+
+export const localeBlogBody = defineType({
+  name: 'localeBlogBody',
+  title: 'Localized Blog Body',
+  type: 'object',
+  options: {
+    collapsible: true,
+    collapsed: false,
+  },
+  fields: [
+    defineField({
+      name: 'en',
+      title: 'English (Markdown supported)',
+      type: 'markdown',
+      description: 'Supports Markdown: # Heading, **bold**, *italic*, [link](url), - lists',
+    }),
+    defineField({
+      name: 'fr',
+      title: 'French',
+      type: 'markdown',
+    }),
+    defineField({
+      name: 'esp',
+      title: 'Spanish',
+      type: 'markdown',
+    }),
+  ],
+});

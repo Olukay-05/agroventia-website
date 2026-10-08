@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>About AgroVentia Inc. - Premium Agricultural Trade</title>
+    <!-- Google Fonts: Merriweather for serif headings -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700&amp;display=swap" rel="stylesheet">
+    <!-- Tailwind CSS v3 with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script data-purpose="tailwind-config">
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'brand-cream-bg': '#F8F4E9',
+                'brand-surface': '#FDF8F0',
+                'brand-green': '#225217',
+                'brand-green-light': '#E3F1DE',
+                'brand-brown': '#281909',
+                'brand-gold-light': '#FCECD4',
+                'brand-gold-text': '#845314',
+                'brand-terracotta-light': '#F6DFCE',
+                'brand-terracotta-text': '#8F3F13',
+              },
+              fontFamily: {
+                serif: ['Merriweather', 'Georgia', 'serif'],
+                sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+              },
+              boxShadow: {
+                'card-subtle': '0 2px 8px -2px rgba(40, 25, 9, 0.04), 0 8px 24px -4px rgba(40, 25, 9, 0.06)',
+                'panel-shadow': '0 4px 20px -2px rgba(40, 25, 9, 0.05), 0 12px 32px -4px rgba(40, 25, 9, 0.08)',
+              }
+            }
+          }
+        };
+      </script>
+    <!-- Custom CSS for the Geometric Pattern Background -->
+    <style data-purpose="background-pattern">
+        /* Subtle geometric dot & triangle grid pattern matching AgroVentia identity */
+        .bg-agro-pattern {
+          background-color: #F8F4E9;
+          background-image: radial-gradient(circle at 1px 1px, rgba(40, 25, 9, 0.16) 1.2px, transparent 1.2px),
+                            radial-gradient(circle at 29px 29px, rgba(34, 82, 23, 0.12) 1px, transparent 1px);
+          background-size: 56px 56px;
+        }
+      </style>
+    <!-- Typography styles -->
+    <style data-purpose="typography">
+        .font-brand-heading {
+          font-family: 'Merriweather', Georgia, serif;
+        }
+      </style>
+    </head>
+    <body class="bg-agro-pattern text-brand-brown font-sans antialiased min-h-screen selection:bg-brand-green selection:text-white">
+    <!-- BEGIN: SiteNavigation -->
+    <header class="w-full pt-6 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" data-purpose="site-header">
+    <nav aria-label="Main Navigation" class="flex items-center justify-between">
+    <!-- Centered pill nav with brand avatar -->
+    <div class="flex items-center gap-3 mx-auto md:mx-0">
+    <!-- Logo Emblem -->
+    <a aria-label="AgroVentia Home" class="flex items-center justify-center w-11 h-11 rounded-full bg-brand-surface border border-brand-brown/15 shadow-sm hover:border-brand-green transition-colors" href="#home">
+    <svg class="w-6 h-6 text-brand-brown" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 32 32">
+    <!-- Stylized Wheat / Leaf & Horizon Logo Icon -->
+    <path d="M16 4C16 11 11 16 7 17C12 18 16 23 16 30" stroke-linecap="round"></path>
+    <path d="M16 4C16 11 21 16 25 17C20 18 16 23 16 30" stroke-linecap="round"></path>
+    <path d="M10 24C13 22 19 22 22 24" stroke-linecap="round"></path>
+    </svg>
+    </a>
+    <!-- Navigation Pill -->
+    <div class="inline-flex items-center bg-brand-surface border border-brand-brown/15 rounded-full p-1 shadow-sm font-sans text-xs sm:text-sm font-semibold tracking-wider">
+    <a class="px-3 sm:px-4 py-1.5 rounded-full text-brand-brown/70 hover:text-brand-brown transition-colors" href="#home">HOME</a>
+    <a class="px-3 sm:px-4 py-1.5 rounded-full text-brand-brown/70 hover:text-brand-brown transition-colors" href="#products">PRODUCTS</a>
+    <a class="px-3 sm:px-4 py-1.5 rounded-full bg-brand-brown text-[#FDF8F0] shadow-sm" href="#about">ABOUT</a>
+    <a class="px-3 sm:px-4 py-1.5 rounded-full text-brand-brown/70 hover:text-brand-brown transition-colors" href="#blog">BLOG</a>
+    <a class="px-3 sm:px-4 py-1.5 rounded-full text-brand-brown/70 hover:text-brand-brown transition-colors" href="#contact">CONTACT</a>
+    </div>
+    </div>
+    <!-- Language Switcher Pill (Desktop) -->
+    <div class="hidden md:flex items-center">
+    <button class="inline-flex items-center gap-2 px-4 py-2 bg-brand-surface border border-brand-brown/15 rounded-full text-xs font-semibold text-brand-brown tracking-wide hover:border-brand-brown/30 shadow-sm transition" type="button">
+    <span class="">English</span>
+    <svg class="w-3.5 h-3.5 text-brand-brown/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+    </svg>
+    </button>
+    </div>
+    </nav>
+    </header>
+    <!-- END: SiteNavigation -->
+    <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16" id="about">
+    <!-- BEGIN: AboutHeroHeader -->
+    <header class="text-center max-w-3xl mx-auto mb-16 md:mb-20" data-purpose="about-header">
+    <h1 class="font-brand-heading text-4xl sm:text-5xl md:text-6xl font-bold text-brand-brown tracking-tight mb-7">
+            About AgroVentia Inc.
+          </h1>
+    <!-- Eyebrow & Mission statement -->
+    <div class="space-y-2"><div class="space-y-2">
+    <span class="inline-block text-xs uppercase tracking-widest font-bold text-brand-brown/70">Our Mission</span>
+    <p class="font-sans text-base sm:text-lg md:text-xl text-brand-brown/85 font-medium leading-relaxed max-w-2xl mx-auto">To make agricultural trade more accessible and commercially effective by connecting qualified supply with genuine market demand.</p>
+    </div>
+    <div class="space-y-2 pt-6">
+    <span class="inline-block text-xs uppercase tracking-widest font-bold text-brand-brown/70">Our Vision</span>
+    <p class="font-sans text-base sm:text-lg md:text-xl text-brand-brown/85 font-medium leading-relaxed max-w-2xl mx-auto">To become a trusted international trading counterparty for agricultural producers, processors and buyers seeking reliable access to new markets and supply opportunities.</p>
+    </div></div>
+    </header>
+    <!-- END: AboutHeroHeader -->
+    <!-- BEGIN: BalancedTwoColumnTopRow -->
+    <!-- Desktop: Vertically centered items, eliminating empty space -->
+    <section aria-labelledby="our-story-heading" class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 mb-16 md:mb-20 items-stretch" data-purpose="story-and-metrics-row">
+    <!-- Left Column: Our Story -->
+    <article class="lg:col-span-6 bg-brand-surface rounded-[12px] p-6 sm:p-8 md:p-9 border border-[rgba(40,25,9,0.08)] shadow-panel-shadow flex flex-col justify-center space-y-6">
+    <h2 class="font-brand-heading text-3xl sm:text-4xl font-bold text-brand-brown tracking-tight" id="our-story-heading">
+              Our Story
+            </h2>
+    <p class="font-sans text-base sm:text-lg leading-relaxed text-brand-brown/85">AgroVentia Inc. is a Canadian agricultural trading company built to connect reliable agricultural supply with genuine international demand. From our base in Canada and our developing sourcing relationships across West Africa, we identify and develop commercially viable trade opportunities between producers, processors and buyers. Our business operates in both directions. We develop West African agricultural and botanical supply for international markets while originating Canadian agricultural commodities for qualified buyers abroad. Transactions may begin with a buyer requirement or with competitive supply identified at origin. Our focus is practical: understand the commercial requirement, identify suitable counterparties, align specifications and terms, and coordinate the transaction through to shipment.</p>
+    </article>
+    <!-- Right Column: "Why Choose AgroVentia Inc.?" Card -->
+    <div aria-labelledby="why-choose-heading" class="lg:col-span-6 bg-brand-surface rounded-[12px] p-6 sm:p-8 md:p-9 border border-[rgba(40,25,9,0.08)] shadow-panel-shadow flex flex-col justify-between" data-purpose="why-choose-card">
+    <h2 class="font-brand-heading text-2xl sm:text-3xl font-bold text-brand-brown tracking-tight mb-8" id="why-choose-heading">
+    Why Choose AgroVentia Inc.?
+    </h2>
+    <ul class="space-y-6" role="list">
+    <li class="flex items-start gap-4">
+    <span class="flex-shrink-0 w-12 h-12 rounded-full bg-brand-green-light text-brand-green flex items-center justify-center font-bold text-sm tracking-tight border border-brand-green/20">
+    10+
+    </span>
+    <div class="space-y-0.5">
+    <h3 class="font-sans font-bold text-base text-brand-brown">
+    Premium Quality Products
+    </h3>
+    <p class="font-sans text-sm text-brand-brown/75 leading-normal">
+    Comprehensive range of top-tier agricultural commodities.
+    </p>
+    </div>
+    </li>
+    <li class="flex items-start gap-4">
+    <span class="flex-shrink-0 w-12 h-12 rounded-full bg-brand-gold-light text-brand-gold-text flex items-center justify-center font-bold text-sm tracking-tight border border-brand-gold-text/20">
+    20+
+    </span>
+    <div class="space-y-0.5">
+    <h3 class="font-sans font-bold text-base text-brand-brown">
+    Global Markets Served
+    </h3>
+    <p class="font-sans text-sm text-brand-brown/75 leading-normal">
+    Connecting African producers to buyers across North America, Europe, and beyond.
+    </p>
+    </div>
+    </li>
+    <li class="flex items-start gap-4">
+    <span class="flex-shrink-0 w-12 h-12 rounded-full bg-brand-terracotta-light text-brand-terracotta-text flex items-center justify-center font-bold text-xs tracking-tight border border-brand-terracotta-text/20">
+    100%
+    </span>
+    <div class="space-y-0.5">
+    <h3 class="font-sans font-bold text-base text-brand-brown">
+    Quality Guaranteed
+    </h3>
+    <p class="font-sans text-sm text-brand-brown/75 leading-normal">
+    Every shipment undergoes rigorous inspection for freshness, purity, and compliance.
+    </p>
+    </div>
+    </li>
+    <li class="flex items-start gap-4">
+    <span class="flex-shrink-0 w-12 h-12 rounded-full bg-brand-green-light text-brand-green flex items-center justify-center font-bold text-sm tracking-tight border border-brand-green/20">
+    10+
+    </span>
+    <div class="space-y-0.5">
+    <h3 class="font-sans font-bold text-base text-brand-brown">
+    Years Industry Experience
+    </h3>
+    <p class="font-sans text-sm text-brand-brown/75 leading-normal">
+    Over a decade of building resilient agricultural supply networks across Africa.
+    </p>
+    </div>
+    </li>
+    <li class="flex items-start gap-4">
+    <span class="flex-shrink-0 w-12 h-12 rounded-full bg-brand-green-light text-brand-green flex items-center justify-center font-bold text-xs tracking-tight border border-brand-green/20">
+    100%
+    </span>
+    <div class="space-y-0.5">
+    <h3 class="font-sans font-bold text-base text-brand-brown">
+    Reliable Logistics
+    </h3>
+    <p class="font-sans text-sm text-brand-brown/75 leading-normal">
+    End-to-end supply chain management ensuring on-time delivery and peace of mind.
+    </p>
+    </div>
+    </li>
+    </ul>
+    </div>
+    </section>
+    <!-- END: BalancedTwoColumnTopRow -->
+    <!-- BEGIN: FullWidthCoreValuesBand -->
+    <!-- Directly below top row with 64px-80px vertical spacing -->
+    <section aria-labelledby="core-values-heading" class="pt-4 pb-8" data-purpose="core-values-section">
+    <div class="text-center mb-10">
+    <h2 class="font-brand-heading text-3xl sm:text-4xl font-bold text-brand-brown tracking-tight" id="core-values-heading">
+    Core Values
+    </h2>
+    </div>
+    <ul class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch" role="list">
+    <li class="bg-brand-surface rounded-[12px] p-5 lg:p-6 border border-[rgba(40,25,9,0.08)] flex items-start gap-4 shadow-none">
+    <div aria-hidden="true" class="w-6 h-6 flex-shrink-0 pt-0.5">
+    <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+    <circle class="stroke-brand-green/25" cx="12" cy="12" fill="none" r="10" stroke-width="2"></circle>
+    <path d="M8 12.5l2.5 2.5 5.5-5.5"></path>
+    </svg>
+    </div>
+    <div class="flex-1 min-w-0 space-y-2">
+    <h3 class="font-brand-heading text-[19px] font-bold text-brand-brown leading-snug">
+    Specification Discipline
+    </h3>
+    <p class="font-sans text-base text-brand-brown/80 leading-relaxed">
+    Products and opportunities are evaluated against defined buyer, market and commercial requirements.
+    </p>
+    </div>
+    </li>
+    <li class="bg-brand-surface rounded-[12px] p-5 lg:p-6 border border-[rgba(40,25,9,0.08)] flex items-start gap-4 shadow-none">
+    <div aria-hidden="true" class="w-6 h-6 flex-shrink-0 pt-0.5">
+    <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+    <circle class="stroke-brand-green/25" cx="12" cy="12" fill="none" r="10" stroke-width="2"></circle>
+    <path d="M8 12.5l2.5 2.5 5.5-5.5"></path>
+    </svg>
+    </div>
+    <div class="flex-1 min-w-0 space-y-2">
+    <h3 class="font-brand-heading text-[19px] font-bold text-brand-brown leading-snug">
+    Responsible Sourcing
+    </h3>
+    <p class="font-sans text-base text-brand-brown/80 leading-relaxed">
+    We seek credible counterparties and transparent sourcing relationships across the markets in which we operate.
+    </p>
+    </div>
+    </li>
+    <li class="bg-brand-surface rounded-[12px] p-5 lg:p-6 border border-[rgba(40,25,9,0.08)] flex items-start gap-4 shadow-none">
+    <div aria-hidden="true" class="w-6 h-6 flex-shrink-0 pt-0.5">
+    <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+    <circle class="stroke-brand-green/25" cx="12" cy="12" fill="none" r="10" stroke-width="2"></circle>
+    <path d="M8 12.5l2.5 2.5 5.5-5.5"></path>
+    </svg>
+    </div>
+    <div class="flex-1 min-w-0 space-y-2">
+    <h3 class="font-brand-heading text-[19px] font-bold text-brand-brown leading-snug">
+    Transparency
+    </h3>
+    <p class="font-sans text-base text-brand-brown/80 leading-relaxed">
+    Clear communication around origin, specifications, availability, commercial terms and transaction requirements.
+    </p>
+    </div>
+    </li>
+    <li class="bg-brand-surface rounded-[12px] p-5 lg:p-6 border border-[rgba(40,25,9,0.08)] flex items-start gap-4 shadow-none">
+    <div aria-hidden="true" class="w-6 h-6 flex-shrink-0 pt-0.5">
+    <svg class="w-6 h-6 text-brand-green" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewBox="0 0 24 24">
+    <circle class="stroke-brand-green/25" cx="12" cy="12" fill="none" r="10" stroke-width="2"></circle>
+    <path d="M8 12.5l2.5 2.5 5.5-5.5"></path>
+    </svg>
+    </div>
+    <div class="flex-1 min-w-0 space-y-2">
+    <h3 class="font-brand-heading text-[19px] font-bold text-brand-brown leading-snug">
+    Reliability
+    </h3>
+    <p class="font-sans text-base text-brand-brown/80 leading-relaxed">
+    Opportunities are evaluated for specification, volume, pricing, counterparty fit and execution requirements before commitment.
+    </p>
+    </div>
+    </li>
+    </ul>
+    </section>
+    <!-- END: FullWidthCoreValuesBand -->
+    </main>
+    <!-- BEGIN: SiteFooter -->
+    <footer class="w-full border-t border-brand-brown/10 py-8 px-4 text-center text-xs text-brand-brown/60" data-purpose="site-footer">
+    <p class="">© AgroVentia Inc. Connecting Canadian and West African agricultural trade with integrity.</p>
+    </footer>
+    <!-- END: SiteFooter -->
+    
+    
+    </body></html>
