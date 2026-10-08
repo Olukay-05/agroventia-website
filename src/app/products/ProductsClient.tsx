@@ -437,11 +437,10 @@ function CatalogContent() {
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('all')}
-                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 ${
-                      selectedCorridor === 'all'
+                    className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 ${selectedCorridor === 'all'
                         ? 'bg-agro-primary-700 text-white shadow-md'
                         : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
-                    }`}
+                      }`}
                   >
                     <span>{labels.allCorridors}</span>
                     <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-white/20 dark:bg-black/20">
@@ -451,11 +450,10 @@ function CatalogContent() {
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('canada')}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                      selectedCorridor === 'canada'
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${selectedCorridor === 'canada'
                         ? 'bg-agro-primary-700 text-white shadow-md'
                         : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
-                    }`}
+                      }`}
                   >
                     <span aria-hidden="true">🍁</span>
                     <span>{labels.corridorCanada}</span>
@@ -466,11 +464,10 @@ function CatalogContent() {
                   <button
                     type="button"
                     onClick={() => setSelectedCorridor('africa')}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                      selectedCorridor === 'africa'
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${selectedCorridor === 'africa'
                         ? 'bg-agro-primary-700 text-white shadow-md'
                         : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700'
-                    }`}
+                      }`}
                   >
                     <span aria-hidden="true">🌍</span>
                     <span>{labels.corridorAfrica}</span>
@@ -501,11 +498,10 @@ function CatalogContent() {
                   <button
                     type="button"
                     onClick={() => setSelectedCategory('all')}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                      selectedCategory === 'all'
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${selectedCategory === 'all'
                         ? 'bg-agro-primary-800 text-white shadow-sm'
                         : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
-                    }`}
+                      }`}
                   >
                     {labels.allCategories}
                   </button>
@@ -516,11 +512,10 @@ function CatalogContent() {
                         key={cat}
                         type="button"
                         onClick={() => setSelectedCategory(isSelected ? 'all' : cat)}
-                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                          isSelected
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${isSelected
                             ? 'bg-agro-primary-800 text-white shadow-sm'
                             : 'bg-agro-primary-50 dark:bg-agro-neutral-800 text-agro-primary-900 dark:text-agro-neutral-200 hover:bg-agro-primary-100 dark:hover:bg-agro-neutral-700 border border-agro-primary-200/50 dark:border-agro-primary-800/50'
-                        }`}
+                          }`}
                       >
                         {formatCategoryLabel(cat, availableCategories)}
                       </button>
@@ -539,7 +534,7 @@ function CatalogContent() {
                     placeholder={labels.searchPlaceholder}
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-9 py-2.5 w-full btn-agro-outline bg-white dark:bg-agro-neutral-850"
+                    className="pl-10 pr-9 py-2.5 w-full bg-white dark:bg-agro-neutral-850"
                   />
                   {searchQuery && (
                     <button

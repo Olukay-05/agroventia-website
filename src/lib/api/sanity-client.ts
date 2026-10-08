@@ -284,6 +284,7 @@ export const LEGAL_PAGE_BY_SLUG_QUERY = `*[_type == "legalPage" && slug.current 
   "slug": slug.current,
   lastUpdated,
   "introduction": coalesce(introduction[$locale], introduction.en, ""),
+  body,
   "sections": sections[] | order(sortOrder asc){
     _key,
     sectionId,
@@ -624,6 +625,34 @@ export function transformContactContent(raw: any, locale: string = 'en'): Contac
 }
 
 export function transformLegalPageContent(raw: any, locale: string = 'en'): LegalPageContent {
+  const normLocale = normalizeLocale(locale);
+  const altLocale = normLocale === 'fr' ? 'fr-CA' : normLocale === 'esp' ? 'es' : 'en-CA';
+
+  // Resolve continuous Markdown body if provided
+  let body = raw.body;
+  if (
+    body &&
+    typeof body === 'object' &&
+    !Array.isArray(body) &&
+    !body.nodes &&
+    (!body._type || body._type === 'localeBlogBody' || body._type === 'localeText' || Boolean(body.en || body.fr || body.esp || body.es))
+  ) {
+    const pickNonEmpty = (val: any) => {
+      if (!val) return null;
+      if (typeof val === 'string' && val.trim().length === 0) return null;
+      return val;
+    };
+
+    body =
+      pickNonEmpty(body[normLocale]) ??
+      pickNonEmpty(body[altLocale]) ??
+      pickNonEmpty(body.en) ??
+      pickNonEmpty(body.fr) ??
+      pickNonEmpty(body.esp) ??
+      pickNonEmpty(body.es) ??
+      body;
+  }
+
   const sections: PolicySectionItem[] = Array.isArray(raw.sections)
     ? raw.sections.map((sec: any) => ({
         _key: sec._key,
@@ -644,6 +673,7 @@ export function transformLegalPageContent(raw: any, locale: string = 'en'): Lega
     slug: typeof raw.slug === 'string' ? raw.slug : (raw.slug?.current || ''),
     lastUpdated: raw.lastUpdated || '',
     introduction: typeof raw.introduction === 'string' ? raw.introduction : extractLocalizedText(raw.introduction, locale),
+    body,
     sections,
     seoTitle: typeof raw.seoTitle === 'string' ? raw.seoTitle : extractLocalizedText(raw.seoTitle, locale),
     seoDescription: typeof raw.seoDescription === 'string' ? raw.seoDescription : extractLocalizedText(raw.seoDescription, locale),
@@ -711,7 +741,7 @@ export function transformBlogPost(raw: any, locale: string = 'en'): BlogPost {
     typeof content === 'object' &&
     !Array.isArray(content) &&
     !content.nodes &&
-    !content._type
+    (!content._type || content._type === 'localeBlogBody' || content._type === 'localeText' || Boolean(content.en || content.fr || content.esp || content.es))
   ) {
     const pickNonEmpty = (val: any) => {
       if (!val) return null;

@@ -172,6 +172,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   // Get the currently selected carousel item
   const selectedCarouselItem = carouselItems[selectedIndex];
 
+
   return (
     <section
       id="hero"
@@ -205,22 +206,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
           </div>
         ) : // Fallback to singleton background image or gradient
-        heroContent?.backgroundImage &&
-          heroContent.backgroundImage.trim() !== '' ? (
-          <div className="responsive-image w-full h-full">
-            <SanityImage
-              src={heroContent.backgroundImage || ''}
-              alt="Agricultural landscape background"
-              fill={true}
-              className="w-full h-full"
-              style={{ objectFit: 'cover' }}
-              loading="eager"
-              placeholderColor="bg-gradient-to-br from-green-600/20 via-emerald-700/20 to-teal-800/20"
-            />
-          </div>
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-green-600 via-green-700 to-green-800" />
-        )}
+          heroContent?.backgroundImage &&
+            heroContent.backgroundImage.trim() !== '' ? (
+            <div className="responsive-image w-full h-full">
+              <SanityImage
+                src={heroContent.backgroundImage || ''}
+                alt="Agricultural landscape background"
+                fill={true}
+                className="w-full h-full"
+                style={{ objectFit: 'cover' }}
+                loading="eager"
+                placeholderColor="bg-gradient-to-br from-green-600/20 via-emerald-700/20 to-teal-800/20"
+              />
+            </div>
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-green-600 via-green-700 to-green-800" />
+          )}
       </div>
 
       {/* Overlay */}
@@ -241,33 +242,33 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             {(isCarouselMode && selectedCarouselItem?.title
               ? selectedCarouselItem.title
               : heroContent?.title) && (
-              <h1
-                className={cn(
-                  'heading-hero px-2 transition-opacity duration-1000 ease-in-out',
-                  contentLoaded ? 'opacity-100' : 'opacity-0'
-                )}
-              >
-                {isCarouselMode && selectedCarouselItem?.title
-                  ? selectedCarouselItem.title
-                  : heroContent?.title}
-              </h1>
-            )}
+                <h1
+                  className={cn(
+                    'heading-hero px-2 transition-opacity duration-1000 ease-in-out',
+                    contentLoaded ? 'opacity-100' : 'opacity-0'
+                  )}
+                >
+                  {isCarouselMode && selectedCarouselItem?.title
+                    ? selectedCarouselItem.title
+                    : heroContent?.title}
+                </h1>
+              )}
             {(isCarouselMode
               ? selectedCarouselItem?.tagline ||
-                selectedCarouselItem?.description
+              selectedCarouselItem?.description
               : heroContent?.subtitle) && (
-              <p
-                className={cn(
-                  'text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200 max-w-3xl mx-auto px-2 transition-opacity duration-1000 ease-in-out',
-                  contentLoaded ? 'opacity-100' : 'opacity-0'
-                )}
-              >
-                {isCarouselMode
-                  ? selectedCarouselItem?.tagline ||
+                <p
+                  className={cn(
+                    'text-lg sm:text-xl md:text-2xl font-light leading-relaxed text-gray-200 max-w-3xl mx-auto px-2 transition-opacity duration-1000 ease-in-out',
+                    contentLoaded ? 'opacity-100' : 'opacity-0'
+                  )}
+                >
+                  {isCarouselMode
+                    ? selectedCarouselItem?.tagline ||
                     selectedCarouselItem?.description
-                  : heroContent?.subtitle}
-              </p>
-            )}
+                    : heroContent?.subtitle}
+                </p>
+              )}
             {!isCarouselMode && heroContent?.description && (
               <p
                 className={cn(

@@ -121,6 +121,7 @@ export interface LegalPageContent extends ContentBase {
   slug: string;
   lastUpdated: string;
   introduction?: string;
+  body?: any;
   sections: PolicySectionItem[];
   seoTitle?: string;
   seoDescription?: string;

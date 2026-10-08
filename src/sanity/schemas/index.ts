@@ -1,6 +1,6 @@
 // Objects
 import { localeString } from './objects/localeString';
-import { localeText } from './objects/localeText';
+import { localeText, localeBlogBody } from './objects/localeText';
 
 // Singletons
 import { heroSection } from './singletons/heroSection';
@@ -22,7 +22,7 @@ export const schemaTypes = [
   // Objects
   localeString,
   localeText,
-
+  localeBlogBody,
   // Singletons
   heroSection,
   aboutSection,

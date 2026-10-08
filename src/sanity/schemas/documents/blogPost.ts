@@ -29,7 +29,7 @@ export const blogPost = defineType({
     defineField({
       name: 'content',
       title: 'Content / Body',
-      type: 'localeText',
+      type: 'localeBlogBody',
     }),
     defineField({
       name: 'coverImage',

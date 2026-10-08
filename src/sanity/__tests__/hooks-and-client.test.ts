@@ -104,13 +104,27 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
 
     it('ensures GROQ queries include coalesce with dynamic locale and en fallback', () => {
       expect(HERO_QUERY).toContain('coalesce(title[$locale], title.en, "")');
-      expect(HERO_QUERY).toContain('coalesce(subtitle[$locale], subtitle.en, "")');
-      expect(ABOUT_QUERY).toContain('coalesce(sectionTitle[$locale], sectionTitle.en, "")');
-      expect(SERVICES_QUERY).toContain('coalesce(sectionTitle[$locale], sectionTitle.en, "")');
-      expect(PRODUCTS_QUERY).toContain('coalesce(productName[$locale], productName.en, "")');
-      expect(CONTACT_QUERY).toContain('coalesce(sectionTitle[$locale], sectionTitle.en, "")');
-      expect(CORE_VALUES_QUERY).toContain('coalesce(title[$locale], title.en, "")');
-      expect(CAROUSEL_IMAGES_QUERY).toContain('coalesce(title[$locale], title.en, "")');
+      expect(HERO_QUERY).toContain(
+        'coalesce(subtitle[$locale], subtitle.en, "")'
+      );
+      expect(ABOUT_QUERY).toContain(
+        'coalesce(sectionTitle[$locale], sectionTitle.en, "")'
+      );
+      expect(SERVICES_QUERY).toContain(
+        'coalesce(sectionTitle[$locale], sectionTitle.en, "")'
+      );
+      expect(PRODUCTS_QUERY).toContain(
+        'coalesce(productName[$locale], productName.en, "")'
+      );
+      expect(CONTACT_QUERY).toContain(
+        'coalesce(sectionTitle[$locale], sectionTitle.en, "")'
+      );
+      expect(CORE_VALUES_QUERY).toContain(
+        'coalesce(title[$locale], title.en, "")'
+      );
+      expect(CAROUSEL_IMAGES_QUERY).toContain(
+        'coalesce(title[$locale], title.en, "")'
+      );
     });
 
     it('passes $locale parameter when querying Sanity client', async () => {
@@ -151,8 +165,12 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       expect(transformed._owner).toBe('sanity');
       expect(transformed._createdDate).toBeDefined();
       expect(transformed._updatedDate).toBeDefined();
-      expect((transformed._createdDate as { $date: string })?.$date).toBe('2026-10-04T12:00:00Z');
-      expect((transformed._updatedDate as { $date: string })?.$date).toBe('2026-10-04T12:00:00Z');
+      expect((transformed._createdDate as { $date: string })?.$date).toBe(
+        '2026-10-04T12:00:00Z'
+      );
+      expect((transformed._updatedDate as { $date: string })?.$date).toBe(
+        '2026-10-04T12:00:00Z'
+      );
       expect(transformed.isActive).toBe(true);
       expect(transformed.title).toBe('Hero Title');
       expect(transformed.subtitle).toBe('Hero Subtitle');
@@ -164,7 +182,10 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       expect(transformed.overlayOpacity).toBe(40);
       expect(transformed.displayMode).toBe('carousel');
 
-      const staticHero = transformHeroContent({ ...raw, displayMode: 'static' }, 'en');
+      const staticHero = transformHeroContent(
+        { ...raw, displayMode: 'static' },
+        'en'
+      );
       expect(staticHero.displayMode).toBe('static');
     });
 
@@ -196,6 +217,7 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       expect(transformed.mission).toBe('Our Mission');
       expect(transformed.coreValues).toHaveLength(1);
       expect(transformed.coreValues[0].title).toBe('Quality First');
+      expect(transformed.coreValues[0].description).toBe('Top standards');
       expect(transformed.coreValues[0].reference).toBe('quality');
     });
 
@@ -216,7 +238,9 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
 
       expect(transformed.sectionTitle).toBe('Our Process');
       expect(transformed.importServices).toBe('Import detail');
-      expect(transformed.servicesImage).toBe('https://cdn.sanity.io/services.jpg');
+      expect(transformed.servicesImage).toBe(
+        'https://cdn.sanity.io/services.jpg'
+      );
     });
 
     it('transforms raw product payload into ProductContent and ProductCatalogItem interface', () => {
@@ -266,7 +290,9 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       expect(transformed.sectionTitle).toBe('Contact Us');
       expect(transformed.businessEmail).toBe('info@agroventia.ca');
       expect(transformed.responseTime).toBe('Within 24 hours');
-      expect(transformed.contactImage).toBe('https://cdn.sanity.io/contact.jpg');
+      expect(transformed.contactImage).toBe(
+        'https://cdn.sanity.io/contact.jpg'
+      );
     });
 
     it('transforms coreValue and carouselSlide collection items', () => {
@@ -380,7 +406,9 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
         { wrapper: createWrapper('en') }
       );
 
-      await waitFor(() => expect(result.current.heroQuery.isSuccess).toBe(true));
+      await waitFor(() =>
+        expect(result.current.heroQuery.isSuccess).toBe(true)
+      );
       expect(result.current.heroQuery.data?.[0].title).toBe('English Title');
 
       act(() => {
@@ -388,7 +416,9 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       });
 
       await waitFor(() =>
-        expect(result.current.heroQuery.data?.[0].title).toBe('Título en Español')
+        expect(result.current.heroQuery.data?.[0].title).toBe(
+          'Título en Español'
+        )
       );
     });
   });
@@ -437,7 +467,9 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
 
     it('provides complete mock fallback across all 8 collections and blog in English', async () => {
       const hero = await getMockHeroContent('en');
-      expect(hero[0].title).toBe('Premium Agricultural Imports from West Africa');
+      expect(hero[0].title).toBe(
+        'Premium Agricultural Imports from West Africa'
+      );
       expect(hero[0].ctaPrimary).toBe('Explore Products');
 
       const about = await getMockAboutContent('en');
@@ -468,19 +500,26 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
 
       const blogPosts = await getMockBlogPosts('en');
       expect(blogPosts.length).toBeGreaterThanOrEqual(1);
-      expect(blogPosts[0].slug).toBe('bridging-industries-with-premium-produce');
+      expect(blogPosts[0].slug).toBe(
+        'bridging-industries-with-premium-produce'
+      );
 
-      const singlePost = await getMockBlogPostBySlug('bridging-industries-with-premium-produce', 'en');
-      expect(singlePost?.title).toBe('Bridging Industries with Premium Produce');
+      const singlePost = await getMockBlogPostBySlug(
+        'bridging-industries-with-premium-produce',
+        'en'
+      );
+      expect(singlePost?.title).toBe(
+        'Bridging Industries with Premium Produce'
+      );
     });
 
     it('provides complete mock fallback across all collections and blog in French', async () => {
       const hero = await getMockHeroContent('fr');
-      expect(hero[0].title).toContain('Afrique de l\'Ouest');
+      expect(hero[0].title).toContain("Afrique de l'Ouest");
       expect(hero[0].ctaPrimary).toBe('Explorer les Produits');
 
       const about = await getMockAboutContent('fr');
-      expect(about[0].sectionTitle).toBe('À Propos d\'AgroVentia Inc.');
+      expect(about[0].sectionTitle).toBe("À Propos d'AgroVentia Inc.");
 
       const services = await getMockServicesContent('fr');
       expect(services[0].sectionTitle).toBe('Nos Services');
@@ -503,7 +542,10 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       const blogPosts = await getMockBlogPosts('fr');
       expect(blogPosts[0].title).toContain('Faire le pont');
 
-      const singlePost = await getMockBlogPostBySlug('bridging-industries-with-premium-produce', 'fr');
+      const singlePost = await getMockBlogPostBySlug(
+        'bridging-industries-with-premium-produce',
+        'fr'
+      );
       expect(singlePost?.title).toContain('Faire le pont');
     });
 
@@ -536,7 +578,10 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
       const blogPosts = await getMockBlogPosts('esp');
       expect(blogPosts[0].title).toContain('Uniendo industrias');
 
-      const singlePost = await getMockBlogPostBySlug('bridging-industries-with-premium-produce', 'esp');
+      const singlePost = await getMockBlogPostBySlug(
+        'bridging-industries-with-premium-produce',
+        'esp'
+      );
       expect(singlePost?.title).toContain('Uniendo industrias');
     });
 
@@ -572,18 +617,40 @@ describe('Story 3: Sanity Client and React Query Hooks Adapter', () => {
     });
 
     it('surfaces errors via sanity-client methods when client fetch fails in live mode', async () => {
-      mockClientFetch.mockRejectedValue(new Error('Sanity API offline or unauthorized'));
+      mockClientFetch.mockRejectedValue(
+        new Error('Sanity API offline or unauthorized')
+      );
 
-      await expect(getHeroContent('en')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getAboutContent('fr')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getServicesContent('esp')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getProductsContent('en')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getProductCatalogContent('en')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getContactContent('esp')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getCoreValues('en')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getCarouselImages('fr')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getBlogPosts('en')).rejects.toThrow('Sanity API offline or unauthorized');
-      await expect(getBlogPostBySlug('bridging-industries-with-premium-produce', 'en')).rejects.toThrow('Sanity API offline or unauthorized');
+      await expect(getHeroContent('en')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getAboutContent('fr')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getServicesContent('esp')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getProductsContent('en')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getProductCatalogContent('en')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getContactContent('esp')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getCoreValues('en')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getCarouselImages('fr')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(getBlogPosts('en')).rejects.toThrow(
+        'Sanity API offline or unauthorized'
+      );
+      await expect(
+        getBlogPostBySlug('bridging-industries-with-premium-produce', 'en')
+      ).rejects.toThrow('Sanity API offline or unauthorized');
     });
   });
 });
