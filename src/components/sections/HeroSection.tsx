@@ -196,6 +196,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     src={item.imageUrl}
                     alt={`Carousel background ${index + 1}`}
                     fill={true}
+                    sizes="100vw"
+                    quality={90}
                     className="w-full h-full"
                     style={{ objectFit: 'cover' }}
                     loading={index === 0 ? 'eager' : 'lazy'} // Load first image eagerly, others lazily
@@ -213,6 +215,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 src={heroContent.backgroundImage || ''}
                 alt="Agricultural landscape background"
                 fill={true}
+                sizes="100vw"
+                quality={90}
                 className="w-full h-full"
                 style={{ objectFit: 'cover' }}
                 loading="eager"
